@@ -4,14 +4,14 @@ public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
 	public final int SAMPLERATE = 44100;
-	public final int DATA_LENGTH = 4096;
+	public final int DATA_LENGTH = 2048;
 	public final double PI = Math.PI;
 	public final double PI2 = PI * 2;
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
 	private int mFreqBasePoint = 18000;
-	private int mFreqSpan = 100;
+	private int mFreqSpan = 172/2;
 	private short[] mZeroSource = new short[DATA_LENGTH];
 
 	public EuFreqGenerator() { }
@@ -31,7 +31,7 @@ public class EuFreqGenerator {
         for(int i = 0 ; i < DATA_LENGTH; i++)
         {
         	time = i / rate;
-        	double_source[i] = Math.sin(PI2 * (double)freq * time);
+        	double_source[i] = Math.cos(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);
         }
         
@@ -46,7 +46,7 @@ public class EuFreqGenerator {
         for(int i = 0 ; i < DATA_LENGTH; i++)
         {
         	time = i / rate;
-        	double_source[i] = Math.sin(PI2 * (double)freq * time);
+        	double_source[i] = Math.cos(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);
         }
     }
@@ -109,6 +109,20 @@ public class EuFreqGenerator {
     		dest[i] = src[i];
     	for(int i = SRC_LENGTH; i < TOTAL_LENGTH; i++)
     		dest[i] = objective[i - SRC_LENGTH];
+    	
+    	return dest;
+    }
+    
+    public short[] euLinkRawData(short[]... sources)
+    {
+    	short[] dest = new short[sources.length * DATA_LENGTH];
+    	for(int i = 0; i < sources.length; i++)
+    	{
+    		for(int j = 0; j < sources[i].length; j++)
+    		{
+    			dest[j + i * DATA_LENGTH] = sources[i][j];
+    		}
+    	}
     	
     	return dest;
     }

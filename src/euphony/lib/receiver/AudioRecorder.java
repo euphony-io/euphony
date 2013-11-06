@@ -11,6 +11,7 @@ public class AudioRecorder {
 
 	private AudioRecord audioRecord;
 	private boolean running;
+	private boolean swtWindowing; //TEST WINDOWING
 
 	/**
 	 * Constructor.
@@ -27,6 +28,7 @@ public class AudioRecorder {
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
 				sampleRate, AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				AudioFormat.ENCODING_PCM_16BIT, bufferSize);
+		swtWindowing = false;
 
 		Log.d("CommaTuner", "Buffer Size: " + bufferSize);
 	}
@@ -41,13 +43,19 @@ public class AudioRecorder {
 	 * @return The number of bytes that were read.
 	 */
 	public int read(ByteBuffer buffer, int bufferSize) {
-		
-		int samplesRead = audioRecord.read(buffer, bufferSize);
-	//	euWindows euWindow = new euWindows(euWindows.BLACKMAN,buffer,bufferSize);
-	//	euWindow.Processor();
+		int samplesRead;
+		samplesRead = audioRecord.read(buffer, bufferSize);
 		return samplesRead;
 	}
-	
+	public int read(ByteBuffer buffer, int bufferSize, int windowNum) {
+		int samplesRead;
+		samplesRead = audioRecord.read(buffer, bufferSize);
+		if(swtWindowing^=true){			
+			EuWindows euWindow = new EuWindows(windowNum,buffer,bufferSize);
+			euWindow.Processor();
+		}
+		return samplesRead;
+	}	
 	
 	/*public int read(ByteBuffer buffer, int bufferSize) {
 		int samplesRead = audioRecord.read(buffer, bufferSize);

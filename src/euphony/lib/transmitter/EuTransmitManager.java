@@ -36,6 +36,16 @@ public class EuTransmitManager {
 		mAudioTrack.play();
 	}
 	
+	public void Stop()
+	{
+		mAudioTrack.pause();
+	}
+	
+	public void setSoftVolume(float ratio)
+	{
+		for(int i = 0; i < mOutStream.length; i++)
+			mOutStream[i] *= ratio;
+	}
 
 	private void setSystemVolumeMax()
 	{
