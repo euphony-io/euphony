@@ -7,38 +7,17 @@ import java.nio.ShortBuffer;
 
 import android.util.Log;
 
-/**
- * A class for spectral analysis using native KissFFT
- * 
- * @author mzechner
- * 
- */
-public class KissFFT {
-	
-	
+public class KissFFT {	
 	
 	static{
 		System.loadLibrary("kissff"); // kiss_fft.c
 		System.loadLibrary("kissfftr"); // kiss_fftr.c
 		System.loadLibrary("kissfft"); // KissFFT.cpp
-		//System.load("")
 	}
-	
 	
         /** the pointer to the kiss fft object **/
         private final long handle;
-
-        /**
-         * Creates a new fft instance that can analyse numSamples samples. timeSize
-         * must be a power of two.
-         * 
-         * @param numSamples
-         *            the number of samples to be analysed.
-         */
-        
-       
-        
-        
+ 
         public KissFFT(int numSamples) {
                 handle = create(numSamples);
                 Log.i("var", " "+handle);
@@ -104,6 +83,17 @@ public class KissFFT {
                 spectrum(samples.asShortBuffer(), spectrum);
         }
 
+        private native void spectrum_for_phase(long handle, ShortBuffer samples, FloatBuffer specturm);
+        
+        public void spectrum_for_phase(ShortBuffer samples, FloatBuffer spectrum)
+        {
+        	spectrum_for_phase(handle, samples, spectrum);
+        }
+        
+        public void spectrum_for_phase(ByteBuffer samples, FloatBuffer spectrum)
+        {
+        	spectrum_for_phase(samples.asShortBuffer(), spectrum);
+        }
         /**
          * Releases all resources of this object
          */

@@ -51,6 +51,32 @@ JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_destroy(JNIEnv *, jobje
 
 /*
  * Class:     euphony_lib_receiver_KissFFT
+ * Method:    spectrum_for_phase
+ * Signature: (JLjava/nio/ShortBuffer;Ljava/nio/FloatBuffer;)V
+ */
+JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum_1for_1phase
+  (JNIEnv *env, jobject, jlong handle, jobject source, jobject target)
+{
+	KissFFT* fft = (KissFFT*)handle;
+	kiss_fft_scalar* samples = (kiss_fft_scalar*)env->GetDirectBufferAddress( source );
+	float* spectrum = (float*)env->GetDirectBufferAddress( target );
+
+	kiss_fftr( fft->config, samples, fft->spectrum );
+
+	int len = fft->numSamples / 2 + 1;
+	int start = len * (17500.0 / 22050.0);
+
+	for( int i = start; i < len; i++ )
+	{
+        float re = scale(fft->spectrum[i].r) * fft->numSamples;
+        float im = scale(fft->spectrum[i].i) * fft->numSamples;
+
+        spectrum[i] = atan2(im,re) * 180 / 3.141592;
+	}
+}
+
+/*
+ * Class:     euphony_lib_receiver_KissFFT
  * Method:    spectrum
  * Signature: (JLjava/nio/ShortBuffer;Ljava/nio/FloatBuffer;)V
  */
@@ -66,7 +92,8 @@ JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum(JNIEnv *env, j
 
         int len = fft->numSamples / 2 + 1;  // <=---  <--- fatal signal 11 (SIGSEV) at 0x00000408
        // int len = 6; // <-- for debugging
-        for( int i = 0; i < len; i++ )
+        int start = len * (17500.0 / 22050.0);
+        for( int i = start; i < len; i++ )
         {
                 float re = scale(fft->spectrum[i].r) * fft->numSamples;
                 float im = scale(fft->spectrum[i].i) * fft->numSamples;

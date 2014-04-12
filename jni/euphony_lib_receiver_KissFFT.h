@@ -33,6 +33,14 @@ JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum
 
 /*
  * Class:     euphony_lib_receiver_KissFFT
+ * Method:    spectrum_for_phase
+ * Signature: (JLjava/nio/ShortBuffer;Ljava/nio/FloatBuffer;)V
+ */
+JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum_1for_1phase
+  (JNIEnv *, jobject, jlong, jobject, jobject);
+
+/*
+ * Class:     euphony_lib_receiver_KissFFT
  * Method:    getRealPart
  * Signature: (JLjava/nio/ShortBuffer;)V
  */

@@ -1,17 +1,19 @@
 package euphony.lib.transmitter;
 
+import euphony.lib.util.COMMON;
+
 public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
-	public final int SAMPLERATE = 44100;
-	public final int DATA_LENGTH = 2048;
+	public final int SAMPLERATE = COMMON.SAMPLERATE;//44100;
+	public final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
 	public final double PI = Math.PI;
 	public final double PI2 = PI * 2;
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
-	private int mFreqBasePoint = 18000;
-	private int mFreqSpan = 172/2;
+	private int mFreqBasePoint = COMMON.START_FREQ;
+	private int mFreqSpan = COMMON.FREQ_SPAN;	//86
 	private short[] mZeroSource = new short[DATA_LENGTH];
 
 	public EuFreqGenerator() { }
@@ -22,17 +24,18 @@ public class EuFreqGenerator {
 		mFreqBasePoint = freqStartPoint;
 	}
 	
-	public short[] euMakeFrequency(int freq)
+	public short[] euMakeStaticFrequency(int freq, int degree)
     {
     	double[] double_source = new double[DATA_LENGTH];
     	short[] source = new short[DATA_LENGTH];
         float rate = SAMPLERATE;
-        double time;
-        for(int i = 0 ; i < DATA_LENGTH; i++)
+        double time, phase;
+        
+        for(int i = 0; i < DATA_LENGTH; i++)
         {
         	time = i / rate;
-        	double_source[i] = Math.cos(PI2 * (double)freq * time);
-        	source[i] = (short)(32767 * double_source[i]);
+        	double_source[i] = Math.sin(PI2 * (double)freq * time);
+        	source[i] = (short)(32767 * double_source[i]);        	
         }
         
         return source;
@@ -40,15 +43,7 @@ public class EuFreqGenerator {
     
     public void euMakeFrequency(short[] source, int freq)
     {
-    	double[] double_source = new double[DATA_LENGTH];
-        float rate = SAMPLERATE;
-        double time;
-        for(int i = 0 ; i < DATA_LENGTH; i++)
-        {
-        	time = i / rate;
-        	double_source[i] = Math.cos(PI2 * (double)freq * time);
-        	source[i] = (short)(32767 * double_source[i]);
-        }
+    	source = euMakeStaticFrequency(freq, 0);
     }
     
 	//updated
@@ -116,12 +111,24 @@ public class EuFreqGenerator {
     public short[] euLinkRawData(short[]... sources)
     {
     	short[] dest = new short[sources.length * DATA_LENGTH];
+    	
+    	for(int i = 0; i < sources.length; i++)
+    		for(int j = 0; j < sources[i].length; j++)
+    			dest[j + i * DATA_LENGTH] = sources[i][j];
+    	
+    	return dest;
+    }
+    
+    public short[] euLinkRawData(boolean isCrossfaded, short[]... sources)
+    {
+    	short[] dest = new short[sources.length * DATA_LENGTH];
     	for(int i = 0; i < sources.length; i++)
     	{
+    		if(isCrossfaded)
+    			sources[i] = euApplyCrossFade(sources[i]);
+    		
     		for(int j = 0; j < sources[i].length; j++)
-    		{
-    			dest[j + i * DATA_LENGTH] = sources[i][j];
-    		}
+    				dest[j + i * DATA_LENGTH] = sources[i][j];		    				
     	}
     	
     	return dest;

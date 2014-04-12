@@ -3,6 +3,36 @@ package euphony.lib.util;
 import android.util.Log;
 
 public class PacketErrorDetector {
+
+
+	private boolean mEvenParity = false;
+	
+
+	/*****************************************************
+	 *  This function sets EvenParity Bit's Value with parameter (force to set)
+	 *   
+	 * parameter : 
+	 * 		int nParityValue - 0 : Data Bit Value 1's number  is EVEN
+	 * 						   1 : Data Bit Value 1's number  is ODD
+	 * 			
+	 * 			
+	 * return : none
+	 *****************************************************/
+	public void euSetEvenParityState(boolean nParityState){
+		mEvenParity = nParityState;
+	}
+
+	/*****************************************************
+	 * This function returns EvenParity Bit's Value.
+	 *  parameter : none
+	 *  return type : int
+	 *  					   0 : Data Bit Value 1's number  is EVEN
+	 * 						   1 : Data Bit Value 1's number  is ODD
+	 *****************************************************/
+	public boolean euGetEvenParityState(){
+		return mEvenParity;
+	}
+	
 	/***************************************************** 
 	 * This function checks ParityBit(Even) and judges payload data is reliable
 	 *  
@@ -26,6 +56,33 @@ public class PacketErrorDetector {
 		}
 	}
 
+	/***************************************************** 
+	    * This function makes ParellelParityBit(int[] payLoad) (word : 4bit)
+	    *  
+	    *  parameter : 
+	    *        int[] payLoad         - Payload Data    
+	    *  return type : int
+	    *            the EvenParity data to transmit
+	    *****************************************************/
+	   public static int makeParellelParity(int[] payLoad){
+	      int evenParity1 = 0;
+	      int evenParity2 = 0;
+	      int evenParity3 = 0;
+	      int evenParity4 = 0;
+	      int evenParity;
+	      
+	      for(int i = 0 ; i < payLoad.length ; i++){         
+	         evenParity1 += ((0x8 & payLoad[i]) >> 3);   
+	         evenParity2 += ((0x4 & payLoad[i]) >> 2);
+	         evenParity3 += ((0x2 & payLoad[i]) >> 1);
+	         evenParity4 += (0x1 & payLoad[i]);
+	      }
+	     
+	      Log.i("UHEHE", evenParity1 + " " + evenParity2 + " " + evenParity3 + " " + evenParity4);
+	      evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);   
+	      
+	      return evenParity;
+	   }
 
 	/***************************************************** 
 	 * This function verify Checksum bit (word : 4bit)

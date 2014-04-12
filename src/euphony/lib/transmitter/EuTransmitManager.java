@@ -4,10 +4,12 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.util.Log;
+import android.widget.Toast;
 
 public class EuTransmitManager {
 	Context mContext;
-	AudioTrack mAudioTrack;
+	AudioTrack mAudioTrack = null;
 	EuCodeMaker mCodeMaker = new EuCodeMaker();
 	EuDataEncoder mDataEncoder;
 	
@@ -19,26 +21,37 @@ public class EuTransmitManager {
 		mContext = _context;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void euInitTransmit(String data)
 	{
 		mOutStream = mCodeMaker.euAssembleData(data);
-		
-		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
-		mAudioTrack.setStereoVolume(AudioTrack.getMaxVolume(), AudioTrack.getMaxVolume());
-		
-		setSystemVolumeMax();
+		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
+	}
+	
+	public void euInitTransmit(String data, int count)
+	{
+		mOutStream = mCodeMaker.euAssembleData(data, count);
+		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
 	}
 	
 	public void process()
 	{
-		mAudioTrack.write(mOutStream, 0, mOutStream.length);
-		mAudioTrack.play();
+		if(mAudioTrack != null){
+			try{
+			mAudioTrack.write(mOutStream, 0, mOutStream.length);
+			mAudioTrack.play();
+			}
+			catch(IllegalStateException e)
+			{
+				Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+				Log.i("PROCESS", e.getMessage());
+			}
+		}
 	}
 	
 	public void Stop()
 	{
-		mAudioTrack.pause();
+		if(mAudioTrack != null)
+			mAudioTrack.pause();
 	}
 	
 	public void setSoftVolume(float ratio)

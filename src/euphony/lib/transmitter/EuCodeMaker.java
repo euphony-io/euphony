@@ -1,5 +1,6 @@
 package euphony.lib.transmitter;
 
+import android.util.Log;
 import euphony.lib.util.PacketErrorDetector;
 
 public class EuCodeMaker extends EuFreqGenerator {
@@ -22,8 +23,13 @@ public class EuCodeMaker extends EuFreqGenerator {
 	}
 	
 	public short[] euAssembleData(String data)
+	{
+		return euAssembleData(data, 1);
+	}
+	
+	public short[] euAssembleData(String data, int count)
     {
-    	short[] assembledData = euApplyCrossFade(euMakeFrequency(START_BIT));
+    	short[] assembledData = euApplyCrossFade(euMakeStaticFrequency(START_BIT, 0));
     	int[] payload = new int[data.length() + 1];
     	
     	switch(mChannelMode)
@@ -37,7 +43,7 @@ public class EuCodeMaker extends EuFreqGenerator {
         			assembledData = euAppendRawData(assembledData, getZeroSource());
         			break;
         		case '1':
-        			assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeFrequency(getFreqBasePoint())));
+        			assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint(),0)));
         			break;
         		}
         	}
@@ -51,7 +57,7 @@ public class EuCodeMaker extends EuFreqGenerator {
     			case '0':
     				break;
     			case '1':
-    				assembledData = euMixingRawData(assembledData, euApplyCrossFade(euMakeFrequency(getFreqBasePoint() + getFreqSpan()*(i+1))));
+    				assembledData = euMixingRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan()*(i+1), 0)));
     				break;
     			}
     		}
@@ -72,7 +78,7 @@ public class EuCodeMaker extends EuFreqGenerator {
     			case '7': 
     			case '8': 
     			case '9': 
-    				assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeFrequency(getFreqBasePoint() + getFreqSpan() * (ch - '0'))));
+    				assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * (ch - '0'), 0)));
     				break;
     			case 'a': 
     			case 'b': 
@@ -80,7 +86,7 @@ public class EuCodeMaker extends EuFreqGenerator {
     			case 'd': 
     			case 'e': 
     			case 'f': 
-    				assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeFrequency(getFreqBasePoint() + getFreqSpan() * (ch - 'a' + 10))));
+    				assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * (ch - 'a' + 10), 0)));
     				break;
     			}
     		}
@@ -105,10 +111,18 @@ public class EuCodeMaker extends EuFreqGenerator {
     		}
     	}
     	int checksum = PacketErrorDetector.makeCheckSum(payload);
+    	int parity = PacketErrorDetector.makeParellelParity(payload);
     	
-    	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeFrequency(getFreqBasePoint() + getFreqSpan() * checksum)));
-    	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeFrequency(START_BIT)));
-    	return euApplyCrossFade(assembledData);
+    	Log.i("UHEHE", "CHECKSUM : " + checksum + " PARITY : " + parity);
+    	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * checksum, 0)));
+    	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * parity, 0)));
+    	
+    	short[] result = assembledData;
+		for(int i = 1; i < count; i++)
+			result = euAppendRawData(result, assembledData);
+    	
+    	result = euAppendRawData(result, euApplyCrossFade(euMakeStaticFrequency(START_BIT, 0)));
+    	return result;
     }
 	
 }

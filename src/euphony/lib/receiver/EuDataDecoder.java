@@ -5,7 +5,7 @@ import euphony.lib.util.EuCodec;
 
 public class EuDataDecoder extends EuCodec {
 	private String mOriginalSource;
-	
+
 	public EuDataDecoder(String _source)
 	{
 		mOriginalSource = _source;
@@ -35,5 +35,13 @@ public class EuDataDecoder extends EuCodec {
 			retValue += (char)(_intArray[i]*16 + _intArray[i+1]);
 		
 		return retValue;
+	}
+	
+	public String getOriginalSource() {
+		return mOriginalSource;
+	}
+
+	public void setOriginalSource(String mOriginalSource) {
+		this.mOriginalSource = mOriginalSource;
 	}
 }

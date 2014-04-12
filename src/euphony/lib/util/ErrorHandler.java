@@ -9,8 +9,7 @@ public class ErrorHandler {
 	public final boolean NONE  = false;
 	public final boolean EXIST = true;
 	
-	private boolean mChannelState ;
-	private boolean mEvenParity ;
+	private boolean mChannelState;
 	private int mNoiseRefrence=30;
 	private boolean mboiseState;
 	
@@ -26,7 +25,6 @@ public class ErrorHandler {
 	 *****************************************************/
 	public ErrorHandler(int nNoiseRef){
 		mChannelState = BUSY;
-		mEvenParity = false;
 		mboiseState = EXIST;
 		mNoiseRefrence = nNoiseRef;
 	}
@@ -53,30 +51,6 @@ public class ErrorHandler {
 		return mChannelState;
 	}
 
-	/*****************************************************
-	 *  This function sets EvenParity Bit's Value with parameter (force to set)
-	 *   
-	 * parameter : 
-	 * 		int nParityValue - 0 : Data Bit Value 1's number  is EVEN
-	 * 						   1 : Data Bit Value 1's number  is ODD
-	 * 			
-	 * 			
-	 * return : none
-	 *****************************************************/
-	public void euSetEvenParityState(boolean nParityState){
-		mEvenParity = nParityState;
-	}
-
-	/*****************************************************
-	 * This function returns EvenParity Bit's Value.
-	 *  parameter : none
-	 *  return type : int
-	 *  					   0 : Data Bit Value 1's number  is EVEN
-	 * 						   1 : Data Bit Value 1's number  is ODD
-	 *****************************************************/
-	public boolean euGetEvenParityState(){
-		return mEvenParity;
-	}
 
 	/***************************************************** 
 	 * This function scans Start Channel line is busy or not

@@ -1,12 +1,18 @@
 package euphony.lib.util;
 
-public final class COMMON {
-	public final int SAMPLERATE = 44100;
-	public final int fftsize = 1024;
-	public final int MAXREFERENCE = 4000;
-	public final int MINREFERENCE = 50;
-	public final double MAXFREQUENCY = 22050.0;
-	public final int DEFAULT_REF = 500;
-	public final int START_FREQ = 18000;
-	public final int RXCHANEL = 16;
+public class COMMON {
+	// RX & TX COMMON VARIABLES
+	public final static int SAMPLERATE = 44100;
+	public final static int FFT_SIZE = 512;
+	
+	public final static double MAX_FREQ = 22050.0;
+	public final static int START_FREQ = 18000;
+	public final static int CHANNEL = 16;
+	public final static int FREQ_SPAN = SAMPLERATE / FFT_SIZE;	// Frequency Interval
+	
+	// RX
+	public final static int MAX_REF = 4000;
+	public final static int MIN_REF = 50;
+
+	public final static int DEFAULT_REF = 500;	// BASE Reference value
 }

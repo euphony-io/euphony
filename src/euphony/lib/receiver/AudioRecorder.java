@@ -29,8 +29,6 @@ public class AudioRecorder {
 				sampleRate, AudioFormat.CHANNEL_CONFIGURATION_MONO,
 				AudioFormat.ENCODING_PCM_16BIT, bufferSize);
 		swtWindowing = false;
-
-		Log.d("CommaTuner", "Buffer Size: " + bufferSize);
 	}
 
 	/**
@@ -56,20 +54,6 @@ public class AudioRecorder {
 		}
 		return samplesRead;
 	}	
-	
-	/*public int read(ByteBuffer buffer, int bufferSize) {
-		int samplesRead = audioRecord.read(buffer, bufferSize);
-		Log.i("buffer", "bytebuffer = "+buffer);
-
-		byte[] rawdata = buffer.array();
-		for(int i = 0; i < rawdata.length; i++)
-			rawdata[i] = (byte) ((rawdata[i]) * ( 0.5 * (1-Math.cos( (2 * Math.PI * i) /    (512 - 1))))) ;	
-
-		buffer = ByteBuffer.wrap(rawdata);
-
-		return samplesRead;
-	}*/
-
 
 	/**
 	 * Starts recording audio. Must be called before the first call to 'read'.
@@ -96,7 +80,7 @@ public class AudioRecorder {
 	 */
 	public void destroy() {
 		stop();
-		audioRecord.release();
+		//audioRecord.release();
 	}
 
 }
