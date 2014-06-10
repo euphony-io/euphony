@@ -7,7 +7,7 @@ import android.media.AudioTrack;
 import android.util.Log;
 import android.widget.Toast;
 
-public class EuTransmitManager {
+public class EuTxManager {
 	Context mContext;
 	AudioTrack mAudioTrack = null;
 	EuCodeMaker mCodeMaker = new EuCodeMaker();
@@ -16,7 +16,7 @@ public class EuTransmitManager {
 	Boolean isStarted = false;
 	short[] mOutStream;
 	
-	public EuTransmitManager(Context _context)
+	public EuTxManager(Context _context)
 	{
 		mContext = _context;
 	}

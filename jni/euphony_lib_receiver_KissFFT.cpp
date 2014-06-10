@@ -27,7 +27,7 @@ JNIEXPORT jlong JNICALL Java_euphony_lib_receiver_KissFFT_create (JNIEnv *, jobj
 {
     KissFFT* fft = new KissFFT();
 
-    fft->config = kiss_fftr_alloc(numSamples,0,NULL,NULL);
+   fft->config = kiss_fftr_alloc(numSamples,0,NULL,NULL);
    fft->spectrum = (kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx) * (int)numSamples);
 
    //__android_log_print(ANDROID_LOG_INFO,"----","r: %f i : %f",fft->spectrum->r, fft->spectrum->i);
@@ -64,7 +64,7 @@ JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum_1for_1phase
 	kiss_fftr( fft->config, samples, fft->spectrum );
 
 	int len = fft->numSamples / 2 + 1;
-	int start = len * (17500.0 / 22050.0);
+	int start = len * (16500.0 / 22050.0);
 
 	for( int i = start; i < len; i++ )
 	{
@@ -92,7 +92,7 @@ JNIEXPORT void JNICALL Java_euphony_lib_receiver_KissFFT_spectrum(JNIEnv *env, j
 
         int len = fft->numSamples / 2 + 1;  // <=---  <--- fatal signal 11 (SIGSEV) at 0x00000408
        // int len = 6; // <-- for debugging
-        int start = len * (17500.0 / 22050.0);
+        int start = len * (16500.0 / 22050.0);
         for( int i = start; i < len; i++ )
         {
                 float re = scale(fft->spectrum[i].r) * fft->numSamples;

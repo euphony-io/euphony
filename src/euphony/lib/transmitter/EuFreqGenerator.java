@@ -6,14 +6,14 @@ public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
 	public final int SAMPLERATE = COMMON.SAMPLERATE;//44100;
-	public final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
+	public final int DATA_LENGTH = COMMON.DATA_LENGTH;//2048;
 	public final double PI = Math.PI;
 	public final double PI2 = PI * 2;
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
 	private int mFreqBasePoint = COMMON.START_FREQ;
-	private int mFreqSpan = COMMON.FREQ_SPAN;	//86
+	private int mFreqSpan = COMMON.CHANNEL_SPAN;	//86
 	private short[] mZeroSource = new short[DATA_LENGTH];
 
 	public EuFreqGenerator() { }
@@ -28,12 +28,12 @@ public class EuFreqGenerator {
     {
     	double[] double_source = new double[DATA_LENGTH];
     	short[] source = new short[DATA_LENGTH];
-        float rate = SAMPLERATE;
+        double rate = SAMPLERATE;
         double time, phase;
         
         for(int i = 0; i < DATA_LENGTH; i++)
         {
-        	time = i / rate;
+        	time = (double)i / rate;
         	double_source[i] = Math.sin(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);        	
         }
@@ -47,38 +47,15 @@ public class EuFreqGenerator {
     }
     
 	//updated
-    private short[] euMakeFrequencyWithCrossFade(int freq)
+    public short[] euMakeFrequencyWithCrossFade(int freq)
     {
-    	double fade_window;
-    	int fade_section = DATA_LENGTH / 16;
-    	double[] double_source = new double[DATA_LENGTH];
-    	short[] source = new short[DATA_LENGTH];
-        float rate = SAMPLERATE;
-        double time;
-        
-        //APPLYING CROSS FADE!
-        for(int i = 0 ; i < fade_section; i++)
-        {
-        	time = (double)i / (double)rate;
-        	fade_window = (double)i / (double)fade_section;
-        	double_source[i] = Math.sin(PI2 * (double)freq * time);
-        	source[i] = (short)(double_source[i] * 32767 * fade_window);
-        	source[DATA_LENGTH - 1 - i] = (short)(double_source[i] * 32767 * fade_window);
-        }
-        for(int i = fade_section; i < DATA_LENGTH - fade_section; i++)
-        {
-        	time = (double)i / (double)rate;
-        	double_source[i] = Math.sin(PI2 * (double)freq * time);
-        	source[i] = (short)(32767 * double_source[i]);
-        }
-        
-        return source;
+    	return euApplyCrossFade(euMakeStaticFrequency(freq, 0));
     }
     
     public short[] euApplyCrossFade(short[] source)
     {
     	double mini_window;
-    	int fade_section = DATA_LENGTH / 8;
+    	int fade_section = COMMON.FADE_RANGE;
     	for(int i = 0; i < fade_section; i++)
     	{
     		mini_window = (double)i / (double)fade_section;

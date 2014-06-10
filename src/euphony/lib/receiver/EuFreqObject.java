@@ -21,11 +21,12 @@ public class EuFreqObject {
 	public final int START_FREQ = COMMON.START_FREQ; //18000
 	public final int RXCHANNEL = COMMON.CHANNEL;// 16
 	private final int STARTCHANNEL = 1;	
-	private int mFreqSpan = COMMON.FREQ_SPAN; // 86
+	private int mFreqSpan = COMMON.CHANNEL_SPAN; // 86
 	public int START_BIT = START_FREQ - mFreqSpan;
 	
 	public Boolean mStartSwt = false;
 	public Boolean isCompleted = false;
+	private Boolean isRecording = false;
 
 	private ByteBuffer samples = allocateByteBuffer(fftsize);
 	private FloatBuffer spectrum = allocateFloatBuffer(fftsize/2+1);
@@ -49,20 +50,26 @@ public class EuFreqObject {
 
 	private ArrayList<Integer> mChannelArrayList = new ArrayList<Integer>();
 
-	private AudioRecorder recorder = new AudioRecorder(SAMPLERATE, fftsize * 2);
+	private AudioRecorder recorder;
 	private KissFFT FFT = new KissFFT(fftsize);
 
 	public EuFreqObject()
 	{
+		recorder = new AudioRecorder(SAMPLERATE, fftsize * 2);
 		//INIT DYNAMIC REFERENCE ARRAY..
 		for (int i = 0; i < RXCHANNEL + STARTCHANNEL; i++)
 			mDynamicRefArray[i] = DEFAULT_REF;
+		
+		isRecording = false;
 	}
 
 
 	public void StartFFT()
 	{
-		recorder.start();
+		if(!isRecording){
+			recorder.start();
+			isRecording = true;
+		}
 		recorder.read(samples, fftsize);
 		FFT.spectrum(samples, spectrum);
 		//FFT.spectrum_for_phase(samples, spectrum_p);
@@ -72,7 +79,10 @@ public class EuFreqObject {
 
 	public void StartFFT(int windowsNum)
 	{
-		recorder.start();
+		if(!isRecording){
+			recorder.start();
+			isRecording = true;
+		}
 		recorder.read(samples, fftsize, windowsNum);
 		FFT.spectrum(samples, spectrum);
 	}
@@ -81,6 +91,7 @@ public class EuFreqObject {
 	{
 		FFT.dispose();
 		recorder.stop();
+		isRecording = false;
 	}
 
 	public int euDetectFreq(int fFrequency){
@@ -97,8 +108,12 @@ public class EuFreqObject {
 		//f3 = spectrum_p.get(freqIndex);
 		//r1 = real.get(freqIndex);
 		//i1 = image.get(freqIndex);
-		
-		//Log.i("REALIMAGE", "MAG_SPECTRUM " + f2 + " PHASE_SPECTRUM " + f3);
+		/*
+		String s = "";
+		for(int i = freqIndex - 1; i <= freqIndex + 1; i++)
+			s += " " + spectrum.get(i);
+		Log.i("HELLO FREQ", freqIndex + "::" + s);
+		*/
 		//f3 = spectrum.get(freqIndex+1);
 
 		//if( fmax < f2 )	fmax = f2;
