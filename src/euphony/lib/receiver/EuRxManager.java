@@ -168,18 +168,16 @@ public class EuRxManager {
 						}
 					specificFreq = i;
 					
-					Log.i("START", "STARTED, " + specificFreq);
-					
 					//there is no af area..
 					if(startcnt++ > 1000){
 						_active = false;
+						startswt = true;
 						Log.i("START", "FAILED to find any position");
-						return;
 					}
 				}
 				
-				int signal, max_signal = 0;
-				int noSignalCnt=0, processingCnt = 0;
+				int signal, max_signal = 0, avr_signal = 0;
+				int noSignalCnt=0, processingCnt = 0, maxCnt=0;
 				do{
 					StartFFT();
 					signal = euDetectFreq(specificFreq);
@@ -189,16 +187,21 @@ public class EuRxManager {
 					else{
 						noSignalCnt = 0;
 						
-						if(max_signal < signal)
+						if(max_signal < signal){
+							maxCnt++;
 							max_signal = signal;
-						
-						if(processingCnt++ > 10){
+							avr_signal += max_signal;
+						}
+						if(++processingCnt > 50){
+							avr_signal /= maxCnt;
 							Message msg = mPsHandler.obtainMessage();
 							msg.what = PS_DECODE;
-							msg.obj = max_signal;
+							msg.obj = avr_signal;
 							mPsHandler.sendMessage(msg);
 							processingCnt = 0;
 							max_signal = 0;
+							avr_signal = 0;
+							maxCnt = 0;
 						}
 					}
 				}while(noSignalCnt < 50 && _active);
