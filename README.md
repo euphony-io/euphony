@@ -3,7 +3,8 @@ Euphony
 <p>
 <img src = 'http://designe.asia/wp-content/uploads/2014/04/Euphony_header.png' width='50%'/></p>
 Acoustic Data Telecommunication Library. This is for Android version.<br/>
-Euphony provides a handiness library designed to communicate with other devices(android and web) using mic and recorder.
+Euphony provides a handiness library designed to communicate with other devices(android and web) using mic and recorder.<br/><br/>
+Official Facebook Page : [http://www.facebook.com/euphonyproject] (http://www.facebook.com/euphonyproject)
 
 ## Euphony is very easy to use
 
