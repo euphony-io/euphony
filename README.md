@@ -1,6 +1,6 @@
-Euphony
-========
 ![euphony_logo](assets/euphony_logo.png)
+========
+
 Acoustic Data Telecommunication Library. This is for Android version.  
 Euphony provides a handiness library designed to communicate with other devices(android and web) using mic and recorder.  
 
