@@ -14,11 +14,19 @@ public class EuRxManager {
 	
 	private static final int RX_DECODE = 1;
 	private static final int PS_DECODE = 2;
+
+	private boolean mHex = false;
+	EuRxManager() { }
+	EuRxManager(boolean hex) { mHex = hex; }
 	
-	public void Listen()
+	public void listen()
 	{
+		listen(mHex);
+	}
+
+	public void listen(boolean hex) {
 		_active = true;
-		mRxRunner = new RxRunner();
+		mRxRunner = new RxRunner(hex);
 		mRxThread = new Thread(mRxRunner, "RX");
 		mRxThread.start();
 	}
@@ -33,50 +41,43 @@ public class EuRxManager {
 	
 	public void finishToFind()
 	{
-		if(mPsThread != null || mPsRunner != null){
+		if(mPsThread != null) {
 			_active = false;
-			while(true)
-			{
-				try
-				{
+			while (true) {
+				try {
 					mPsThread.join();
 					break;
-				} 
-				catch(InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 					Log.i("FINISH", e.getMessage());
 				}
-			}	
-			
-			mPsRunner.DestroyFFT();
-		
-			mPsThread = null;
-			mPsRunner = null;
+			}
 		}
+
+		if(mPsRunner != null)
+			mPsRunner.DestroyFFT();
+
+		mPsThread = null;
+		mPsRunner = null;
 	}
 	
-	public void Finish()
+	public void finish()
 	{
-		if(mRxThread != null || mRxRunner != null){
+		if(mRxThread != null) {
 			_active = false;
-			while(true)
-			{
-				try
-				{
+			while (true) {
+				try {
 					mRxThread.join();
 					break;
-				} 
-				catch(InterruptedException e)
-				{
+				} catch (InterruptedException e) {
 					Log.i("FINISH", e.getMessage());
 				}
-			}	
-			
+			}
+		}
+		if(mRxRunner != null)
 			mRxRunner.DestroyFFT();
 		
-			mRxThread = null;
-			mRxRunner = null;
-		}
+		mRxThread = null;
+		mRxRunner = null;
 	}
 
 	private AcousticSensor mAcousticSensor;
@@ -98,7 +99,7 @@ public class EuRxManager {
 			default:
 				break;
 			}
-		};
+		}
 	};
 	
 	private PositionDetector mPositionDetector;
@@ -122,7 +123,11 @@ public class EuRxManager {
 	};
 	
 	private class RxRunner extends EuFreqObject implements Runnable{
-
+		boolean mHex = false;
+		RxRunner() { }
+		RxRunner(boolean hex) {
+			mHex = hex;
+		}
 		@Override
 		public void run() 
 		{
@@ -137,9 +142,8 @@ public class EuRxManager {
 				if(isCompleted){		
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_DECODE;
-					msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
-					receiveStr = "";
-					isCompleted = false;					
+					msg.obj = (mHex) ? getReceivedData() : EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
+					isCompleted = false;
 					mHandler.sendMessage(msg);
 					mRxRunner.DestroyFFT();
 					return;

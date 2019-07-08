@@ -31,12 +31,13 @@ mTxManager.process();
 in Receiver
 ```java
 EuRxManager mRxManager = new EuRxManager();
-mRxManager.Listen();  //Listening Start
+mRxManager.listen();  //Listening Start
+// if you want to finish listening, call the finish();
+// mRxManager.finish();
 mRxManager.setAcousticSensor(new AcousticSensor() {
 @override
     public void notify(String letters) {
         //when data is received
-        mRxManager.Finish();  //Listening End
     }
 });
 ```

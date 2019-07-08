@@ -10,11 +10,15 @@ public class EuTxManager {
 	private AudioTrack mAudioTrack = null;
 	private EuCodeMaker mCodeMaker = new EuCodeMaker();
 	private EuDataEncoder mDataEncoder = new EuDataEncoder();
-	
-	private Boolean isStarted = false;
+
+	private boolean mHex = false;
 	private short[] mOutStream;
 	
 	public EuTxManager() { }
+
+	public EuTxManager(boolean hex) {
+		mHex = hex;
+	}
 
 	public void euInitTransmit(String data)
 	{
@@ -23,7 +27,7 @@ public class EuTxManager {
 	
 	public void euInitTransmit(String data, int count)
 	{
-		mOutStream = mCodeMaker.euAssembleData(mDataEncoder.encodeStaticHexCharSource(data), count);
+		mOutStream = mCodeMaker.euAssembleData((mHex) ? data : mDataEncoder.encodeStaticHexCharSource(data), count);
 		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
 	}
 	
@@ -31,8 +35,8 @@ public class EuTxManager {
 	{
 		if(mAudioTrack != null){
 			try{
-			mAudioTrack.write(mOutStream, 0, mOutStream.length);
-			mAudioTrack.play();
+				mAudioTrack.write(mOutStream, 0, mOutStream.length);
+				mAudioTrack.play();
 			}
 			catch(IllegalStateException e)
 			{
@@ -41,7 +45,7 @@ public class EuTxManager {
 		}
 	}
 	
-	public void Stop()
+	public void stop()
 	{
 		if(mAudioTrack != null)
 			mAudioTrack.pause();
