@@ -1,0 +1,64 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'euphony'
+    publishedGroupId = 'euphony.lib'
+    libraryName = 'euphony'
+    artifact = 'euphony'
+    libraryDescription = 'Acoustic Data Telecommunication Library'
+    siteUrl = 'https://dev.jbear.co/euphony'
+    gitUrl = 'https://github.com/designe/euphony'
+    libraryVersion = '0.7'
+    developerId = 'designe'
+    developerName = 'Ji-woong Choi'
+    developerEmail = 'designe@outlook.com'
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion(26)
+}
+
+dependencies {
+}
+// add it to the bottom of the file
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
+apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "29.0.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 26
+
+        ndk {
+            moduleName "kissff"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
