@@ -10,10 +10,8 @@ Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.
 
 in Transmitter
 ```java
-mContext = MainActivity.this;
-EuTxManager mTxManager = new EuTxManager(mContext);
+EuTxManager mTxManager = new EuTxManager();
 mTxManager.euInitTransmit("Hello, Euphony", 5); // To generate acoustic data "Hello, Euphony" for 5 times.
-mTxManager.setSoftVolume(95.0); //To set software volume
 mTxManager.process();
 ```
 
@@ -21,11 +19,11 @@ in Receiver
 ```java
 EuRxManager mRxManager = new EuRxManager();
 mRxManager.Listen();  //Listening Start
-mRxManager.Finish();  //Listening End
 mRxManager.setAcousticSensor(new AcousticSensor() {
 @override
     public void notify(String letters) {
         //when data is received
+        mRxManager.Finish();  //Listening End
     }
 });
 ```
@@ -40,4 +38,4 @@ Web version is also available now. but only transmitter version. [Web version.] 
 Changes are improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
 
 ## License
-Euphony is licensed under the [MIT license.] (https://github.com/designe/Euphony/blob/master/LICENSE.txt)
+Euphony is licensed under the [Apache 2.0 license.] (https://github.com/designe/Euphony/blob/master/LICENSE.txt)
