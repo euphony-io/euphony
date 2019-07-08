@@ -23,7 +23,7 @@ ext {
     libraryDescription = 'Acoustic Data Telecommunication Library'
     siteUrl = 'https://dev.jbear.co/euphony'
     gitUrl = 'https://github.com/designe/euphony'
-    libraryVersion = '0.7'
+    libraryVersion = '0.7.1'
     developerId = 'designe'
     developerName = 'Ji-woong Choi'
     developerEmail = 'designe@outlook.com'

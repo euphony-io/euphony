@@ -6,6 +6,19 @@ Euphony provides a handiness library designed to communicate with other devices(
 
 Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.facebook.com/euphonyproject)
 
+## Prerequisite
+1) build.gradle in app module
+```
+dependencies {
+    implementation 'euphony.lib:euphony:0.7.1'
+}
+```
+
+2) AndroidManifest.xml
+```
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+```
+
 ## Euphony is very easy to use
 
 in Transmitter
