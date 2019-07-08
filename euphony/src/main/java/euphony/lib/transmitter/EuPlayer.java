@@ -7,9 +7,9 @@ import android.media.AudioTrack;
 
 public class EuPlayer {
 	
-	short[] mSource;
-	AudioTrack mAudioTrack = null;
-	public final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
+	private short[] mSource;
+	private AudioTrack mAudioTrack = null;
+	private final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
 	private short[] mZeroSource = new short[DATA_LENGTH];
 	
 	public EuPlayer() { }
@@ -22,7 +22,7 @@ public class EuPlayer {
 	public void setSource(short[] src)
 	{
 		mSource = src;
-		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT, src.length*2, AudioTrack.MODE_STATIC);
+		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, src.length*2, AudioTrack.MODE_STATIC);
 	}
 	
 	public void Play()

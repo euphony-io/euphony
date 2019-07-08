@@ -5,31 +5,25 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
-import android.widget.Toast;
 
 public class EuTxManager {
-	Context mContext;
-	AudioTrack mAudioTrack = null;
-	EuCodeMaker mCodeMaker = new EuCodeMaker();
-	EuDataEncoder mDataEncoder;
+	private AudioTrack mAudioTrack = null;
+	private EuCodeMaker mCodeMaker = new EuCodeMaker();
+	private EuDataEncoder mDataEncoder = new EuDataEncoder();
 	
-	Boolean isStarted = false;
-	short[] mOutStream;
+	private Boolean isStarted = false;
+	private short[] mOutStream;
 	
-	public EuTxManager(Context _context)
-	{
-		mContext = _context;
-	}
-	
+	public EuTxManager() { }
+
 	public void euInitTransmit(String data)
 	{
-		mOutStream = mCodeMaker.euAssembleData(data);
-		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
+		euInitTransmit(data, 1);
 	}
 	
 	public void euInitTransmit(String data, int count)
 	{
-		mOutStream = mCodeMaker.euAssembleData(data, count);
+		mOutStream = mCodeMaker.euAssembleData(mDataEncoder.encodeStaticHexCharSource(data), count);
 		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
 	}
 	
@@ -42,7 +36,6 @@ public class EuTxManager {
 			}
 			catch(IllegalStateException e)
 			{
-				Toast.makeText(mContext, e.getMessage(), Toast.LENGTH_SHORT).show();
 				Log.i("PROCESS", e.getMessage());
 			}
 		}
@@ -60,13 +53,15 @@ public class EuTxManager {
 			mOutStream[i] *= ratio;
 	}
 
-	private void setSystemVolumeMax()
+	public void setSystemVolumeMax(Context _context)
 	{
-		AudioManager am = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-		
-		am.setStreamVolume(
-			AudioManager.STREAM_MUSIC,
-			am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-			0);
+		AudioManager am = (AudioManager) _context.getSystemService(Context.AUDIO_SERVICE);
+
+		if (am != null) {
+            am.setStreamVolume(
+                    AudioManager.STREAM_MUSIC,
+                    am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
+                    0);
+        }
 	}	 
 }

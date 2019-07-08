@@ -9,7 +9,8 @@ import euphony.lib.util.EuCodec;
 
 public class EuDataEncoder extends EuCodec {
 	private String mOriginalSource;
-	
+
+	EuDataEncoder () { }
 	public EuDataEncoder(String _source)
 	{
 		mOriginalSource = _source;
@@ -22,14 +23,15 @@ public class EuDataEncoder extends EuCodec {
 	
 	public String encodeStaticHexCharSource(String _source)
 	{
-		String retValue = "";
+	    StringBuilder strBuilder = new StringBuilder();
+
 		for(int i = 0; i < _source.length(); i++)
 		{
 			int data = _source.charAt(i);
-			retValue += Integer.toHexString(data);
+			strBuilder.append(Integer.toHexString(data));
 		}
 		
-		return retValue;		
+		return strBuilder.toString();
 	}
 	
 	public static byte[] base40StaticEncode(String _source)
