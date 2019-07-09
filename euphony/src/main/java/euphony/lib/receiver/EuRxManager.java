@@ -16,8 +16,8 @@ public class EuRxManager {
 	private static final int PS_DECODE = 2;
 
 	private boolean mHex = false;
-	EuRxManager() { }
-	EuRxManager(boolean hex) { mHex = hex; }
+	public EuRxManager() { }
+	public EuRxManager(boolean hex) { mHex = hex; }
 	
 	public void listen()
 	{

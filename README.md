@@ -10,7 +10,7 @@ Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.
 1) build.gradle in app module
 ```
 dependencies {
-    implementation 'euphony.lib:euphony:0.7.1.1'
+    implementation 'euphony.lib:euphony:0.7.1.2'
 }
 ```
 
