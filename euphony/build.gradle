@@ -23,7 +23,7 @@ ext {
     libraryDescription = 'Acoustic Data Telecommunication Library'
     siteUrl = 'https://dev.jbear.co/euphony'
     gitUrl = 'https://github.com/designe/euphony'
-    libraryVersion = '0.7.1.2'
+    libraryVersion = '0.7.1.4'
     developerId = 'designe'
     developerName = 'Ji-woong Choi'
     developerEmail = 'designe@outlook.com'
@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 // add it to the bottom of the file
 apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
@@ -59,6 +60,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
         }
     }
 }

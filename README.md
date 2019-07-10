@@ -10,7 +10,7 @@ Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.
 1) build.gradle in app module
 ```
 dependencies {
-    implementation 'euphony.lib:euphony:0.7.1.2'
+    implementation 'euphony.lib:euphony:0.7.1.4'
 }
 ```
 
@@ -35,7 +35,7 @@ mRxManager.listen();  //Listening Start
 // if you want to finish listening, call the finish();
 // mRxManager.finish();
 mRxManager.setAcousticSensor(new AcousticSensor() {
-@override
+@Override
     public void notify(String letters) {
         //when data is received
     }
