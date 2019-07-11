@@ -10,7 +10,7 @@ Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.
 1) build.gradle in app module
 ```
 dependencies {
-    implementation 'euphony.lib:euphony:0.7.1.4'
+    implementation 'euphony.lib:euphony:0.7.1.5'
 }
 ```
 
@@ -24,8 +24,8 @@ dependencies {
 in Transmitter
 ```java
 EuTxManager mTxManager = new EuTxManager();
-mTxManager.euInitTransmit("Hello, Euphony", 5); // To generate acoustic data "Hello, Euphony" for 5 times.
-mTxManager.process();
+mTxManager.euInitTransmit("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
+mTxManager.process(-1); // generate sound infinite.
 ```
 
 in Receiver

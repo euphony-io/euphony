@@ -22,12 +22,8 @@ public class EuCodeMaker extends EuFreqGenerator {
 		mChannelMode = channelMode;
 	}
 	
+
 	public short[] euAssembleData(String data)
-	{
-		return euAssembleData(data, 1);
-	}
-	
-	public short[] euAssembleData(String data, int count)
     {
     	short[] assembledData = euApplyCrossFade(euMakeStaticFrequency(START_BIT, 0));
     	int[] payload = new int[data.length() + 1];
@@ -116,13 +112,10 @@ public class EuCodeMaker extends EuFreqGenerator {
     	Log.i("UHEHE", "CHECKSUM : " + checksum + " PARITY : " + parity);
     	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * checksum, 0)));
     	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(getFreqBasePoint() + getFreqSpan() * parity, 0)));
-    	
-    	short[] result = assembledData;
-		for(int i = 1; i < count; i++)
-			result = euAppendRawData(result, assembledData);
-    	
-    	result = euAppendRawData(result, euApplyCrossFade(euMakeStaticFrequency(START_BIT, 0)));
-    	return result;
+
+    	assembledData = euAppendRawData(assembledData, euApplyCrossFade(euMakeStaticFrequency(START_BIT, 0)));
+
+		return assembledData;
     }
 	
 }

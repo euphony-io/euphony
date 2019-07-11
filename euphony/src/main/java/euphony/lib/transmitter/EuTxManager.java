@@ -22,17 +22,22 @@ public class EuTxManager {
 
 	public void euInitTransmit(String data)
 	{
-		euInitTransmit(data, 1);
+		mOutStream = mCodeMaker.euAssembleData((mHex) ? data : mDataEncoder.encodeStaticHexCharSource(data));
 	}
-	
-	public void euInitTransmit(String data, int count)
+
+	public void process() { process(1); }
+
+	public void process(int count)
 	{
-		mOutStream = mCodeMaker.euAssembleData((mHex) ? data : mDataEncoder.encodeStaticHexCharSource(data), count);
-		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
-	}
-	
-	public void process()
-	{
+		if(count > 0)
+			mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
+		else {
+			mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length * 2, AudioTrack.MODE_STATIC);
+			count = -1;
+		}
+
+		mAudioTrack.setLoopPoints(0, mOutStream.length, count);
+
 		if(mAudioTrack != null){
 			try{
 				mAudioTrack.write(mOutStream, 0, mOutStream.length);

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">euphony-speaker</string>
+    <string-array name="count_array">
+        <item>Forever</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+</resources>

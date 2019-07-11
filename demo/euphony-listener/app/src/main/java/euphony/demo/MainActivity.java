@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void notify(String letters) {
                 listenView.setText(letters);
+                listenBtn.setText("Listen");
+                mode = false;
             }
         });
 
