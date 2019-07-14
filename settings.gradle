@@ -1,1 +1,4 @@
 include ':euphony'
+
+// select main language : java, kotlin
+gradle.ext.language = "java" // or kotlin

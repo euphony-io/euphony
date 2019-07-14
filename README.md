@@ -52,4 +52,4 @@ Web version is also available now. but only transmitter version. [Web version.] 
 Changes are improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
 
 ## License
-Euphony is licensed under the [Apache 2.0 license.] (https://github.com/designe/Euphony/blob/master/LICENSE.txt)
+Euphony is licensed under the Apache 2.0 license. (https://github.com/designe/Euphony/blob/master/LICENSE)
