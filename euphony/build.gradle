@@ -1,4 +1,8 @@
 apply plugin: 'com.android.library'
+if(gradle.language.equals("kotlin")) {
+    apply plugin: 'kotlin-android-extensions'
+    apply plugin: 'kotlin-android'
+}
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
@@ -38,21 +42,27 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 // add it to the bottom of the file
 apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
 apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
 
 android {
-    compileSdkVersion 26
     buildToolsVersion "29.0.0"
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 26
+        targetSdkVersion 29
 
         ndk {
             moduleName "kissff"
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/' + gradle.language]
         }
     }
 
@@ -67,4 +77,7 @@ android {
             path file('src/main/jni/Android.mk')
         }
     }
+}
+repositories {
+    mavenCentral()
 }
