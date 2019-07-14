@@ -24,12 +24,12 @@ public class EuWindows {
 
 
 
-	public EuWindows(int mWindowNumber, ByteBuffer buffer, int bufferSize)
+	public EuWindows(short mWindowNumber, ByteBuffer buffer, int bufferSize)
 	{
 		mBuffer	=	buffer;
 		mBufferSize	=	bufferSize;
 		mRawData = buffer.array();
-		
+		mWindowNumber = mWindowNumber;
 	}
 
 	void Processor()

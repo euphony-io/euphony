@@ -18,11 +18,9 @@ public class AudioRecorder {
 	 * 
 	 * @param sampleRate
 	 *            The sample rate (e.g. 44100 Hz).
-	 * @param bufferSize
-	 *            The size of the recording buffer in bytes.
 	 */
-	public AudioRecorder(int sampleRate, int bufferSize) {
-		bufferSize = AudioRecord.getMinBufferSize(sampleRate,
+	public AudioRecorder(int sampleRate) {
+		int bufferSize = AudioRecord.getMinBufferSize(sampleRate,
 				AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT);
 		
 		audioRecord = new AudioRecord(MediaRecorder.AudioSource.MIC,
@@ -41,11 +39,10 @@ public class AudioRecorder {
 	 * @return The number of bytes that were read.
 	 */
 	public int read(ByteBuffer buffer, int bufferSize) {
-		int samplesRead;
-		samplesRead = audioRecord.read(buffer, bufferSize);
+		int samplesRead = audioRecord.read(buffer, bufferSize);
 		return samplesRead;
 	}
-	public int read(ByteBuffer buffer, int bufferSize, int windowNum) {
+	public int read(ByteBuffer buffer, int bufferSize, short windowNum) {
 		int samplesRead;
 		samplesRead = audioRecord.read(buffer, bufferSize);
 		if(swtWindowing^=true){			

@@ -55,7 +55,7 @@ public class EuFreqObject {
 
 	public EuFreqObject()
 	{
-		recorder = new AudioRecorder(SAMPLERATE, fftsize * 2);
+		recorder = new AudioRecorder(SAMPLERATE);
 		//INIT DYNAMIC REFERENCE ARRAY..
 		for (int i = 0; i < RXCHANNEL + STARTCHANNEL; i++)
 			mDynamicRefArray[i] = DEFAULT_REF;
@@ -77,7 +77,7 @@ public class EuFreqObject {
 		//FFT.getImagPart(image);
 	}
 
-	public void StartFFT(int windowsNum)
+	public void StartFFT(short windowsNum)
 	{
 		if(!isRecording){
 			recorder.start();
@@ -366,7 +366,6 @@ public class EuFreqObject {
 				break;
 			case 1:
 				dynRef = (curFreq + dynRef)/3;
-				preservedRef = dynRef;
 				dynRefCnt++;
 				break;
 			case 2:
