@@ -10,8 +10,8 @@
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-     <script src="{{ "assets/js/euphony.js" }}"></script>
-     <script src="{{ "assets/js/main.js" }}"></script>
+     <script src="{{ "/assets/js/euphony.js?v=" | append: site.github.build.build_revision | relative_url }}"></script>
+     <script src="{{ "/assets/js/main.js?v=" | append : site.github.build.build_revision | relative_url }}"></script>
   </head>
   <body>
     <div class="wrapper">
