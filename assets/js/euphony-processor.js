@@ -33,4 +33,4 @@ class EuphonyProcessor extends AudioWorkletProcessor {
   }
 }
 
-registerProcessor('gain-processor', GainProcessor);
+registerProcessor('euphony-processor', EuphonyProcessor);
