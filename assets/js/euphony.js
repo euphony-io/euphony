@@ -75,22 +75,26 @@ window.Euphony = (function() {
         },
         
         play: function() {
-            /*
+            var source = T.CONTEXT.createBufferSource();
+            source.buffer = T.CONTEXT.createBuffer(2, T.SAMPLERATE*2, T.SAMPLERATE);
             T.scriptProcessor = T.CONTEXT.createScriptProcessor(T.FFTSIZE, 0, 2);
             T.scriptProcessor.loop = true;
             T.scriptProcessor.onaudioprocess = this.dataProcess;
+
+            source.connect(T.scriptProcessor);
             T.scriptProcessor.connect(T.CONTEXT.destination);
-            */
-            let ctx = new OfflineAudioContext(1, 1, T.SAMPLERATE);
+            source.start();
+            /* scriptProcessor is deprecated. so change it.
+            let ctx = new OfflineAudioContext(2, 1, T.SAMPLERATE);
             let audioWorklet = ctx.audioWorklet;
             console.log(audioWorklet);
             audioWorklet.addModule('/euphony/assets/js/euphony-processor.js').then(() => {
-                let oscillator = new OscillatorNode(context);
-                let gainWorkletNode = new AudioWorkletNode(context, 'euphony-processor');
+                let oscillator = new OscillatorNode(ctx);
+                let euphonyWorkletNode = new AudioWorkletNode(ctx, 'euphony-processor');
 
-                oscillator.connect(gainWorkletNode).connect(context.destination);
+                oscillator.connect(euphonyWorkletNode).connect(ctx.destination);
                 oscillator.start();
-            });
+            });*/
         },
         
         stop: function() {
@@ -107,11 +111,13 @@ window.Euphony = (function() {
         crossfadeStaticBuffer: function(buffer) {
             var mini_window,
                 fade_section = T.BUFFERSIZE / 8;
-                
+
             for (var i = 0; i < fade_section; i++) {
                 mini_window = i / fade_section;
+                console.log(buffer[i]);
                 buffer[i] *= mini_window;
-                buffer[this.BUFFERSIZE - 1 - i] *= mini_window;
+                console.log(mini_window, i, buffer[i]);
+                buffer[T.BUFFERSIZE - 1 - i] *= mini_window;
             }
             return buffer;
         },
