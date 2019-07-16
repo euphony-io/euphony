@@ -1,0 +1,6 @@
+[submodule "assets/js"]
+	path = assets/js
+	url = https://github.com/designe/euphony.js
+[submodule "assets/js/euphony"]
+	path = assets/js/euphony
+	url = https://github.com/designe/euphony.js
