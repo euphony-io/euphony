@@ -84,7 +84,7 @@ window.Euphony = (function() {
             let ctx = new OfflineAudioContext(1, 1, T.SAMPLERATE);
             let audioWorklet = ctx.audioWorklet;
             console.log(audioWorklet);
-            audioWorklet.addModule('euphony-processor.js').then(() => {
+            audioWorklet.addModule('/euphony/assets/js/euphony-processor.js').then(() => {
                 let oscillator = new OscillatorNode(context);
                 let gainWorkletNode = new AudioWorkletNode(context, 'euphony-processor');
 
