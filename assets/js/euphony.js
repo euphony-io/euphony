@@ -48,11 +48,11 @@ window.Euphony = (function() {
                     case '3': case '4': case '5':
                     case '6': case '7': case '8':
                     case '9':
-                        T.CODE[i + 1] = T.outBuffer[code.charAt(i) - '0'];
+                    T.CODE[i + 1] = T.outBuffer[code.charCodeAt(i) - '0'.charCodeAt()];
                     break;
                     case 'a': case 'b': case 'f':
                     case 'c': case 'd': case 'e':
-                        T.CODE[i + 1] = T.outBuffer[code.charAt(i) - 'a' + 10];
+                    T.CODE[i + 1] = T.outBuffer[code.charCodeAt(i) - 'a'.charCodeAt() + 10];
                     break;    
                 }
                 console.log(code.charAt(i));
@@ -114,9 +114,7 @@ window.Euphony = (function() {
 
             for (var i = 0; i < fade_section; i++) {
                 mini_window = i / fade_section;
-                console.log(buffer[i]);
                 buffer[i] *= mini_window;
-                console.log(mini_window, i, buffer[i]);
                 buffer[T.BUFFERSIZE - 1 - i] *= mini_window;
             }
             return buffer;
@@ -151,11 +149,11 @@ window.Euphony = (function() {
                     case '3': case '4': case '5':
                     case '6': case '7': case '8':
                     case '9':
-                    sum += code.charAt(i) - '0';
+                    sum += code.charCodeAt(i) - '0'.charCodeAt();
                     break;
                     case 'a': case 'b': case 'c':
                     case 'd': case 'e': case 'f':
-                    sum += code.charAt(i) - 'a' + 10;
+                    sum += code.charCodeAt(i) - 'a'.charCodeAt() + 10;
                     break;
                 }
             }
@@ -178,11 +176,11 @@ window.Euphony = (function() {
                 case '3': case '4': case '5':
                 case '6': case '7': case '8':
                 case '9':
-                    snippet = code.charAt(i) - '0';
+                    snippet = code.charCodeAt(i) - '0'.charCodeAt();
                     break;
                 case 'a': case 'b': case 'c':
                 case 'd': case 'e': case 'f':
-                    snippet = code.charAt(i) - 'a' + 10;
+                    snippet = code.charCodeAt(i) - 'a'.charCodeAt() + 10;
                     break;
                 }
 		parity1 += ((0x8 & snippet) >> 3);
