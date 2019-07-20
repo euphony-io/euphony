@@ -27,7 +27,7 @@ ext {
     libraryDescription = 'Acoustic Data Telecommunication Library'
     siteUrl = 'https://dev.jbear.co/euphony'
     gitUrl = 'https://github.com/designe/euphony'
-    libraryVersion = '0.7.1.5'
+    libraryVersion = '0.7.1.6'
     developerId = 'designe'
     developerName = 'Ji-woong Choi'
     developerEmail = 'designe@outlook.com'
@@ -44,12 +44,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-// add it to the bottom of the file
-// apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-// apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+
+if(gradle.startParameter.getTaskNames().size() > 2) {
+    // add it to the bottom of the file
+    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
+    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+}
 
 android {
-    buildToolsVersion "26.0.0"
 
     defaultConfig {
         minSdkVersion 10

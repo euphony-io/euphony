@@ -1,6 +1,6 @@
 ![euphony_logo](assets/euphony_logo.png)
 ========
-![travis_ci](https://travis-ci.org/designe/euphony.svg?branch=master)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) ![travis_ci](https://travis-ci.org/designe/euphony.svg?branch=master) [ ![Download](https://api.bintray.com/packages/jbear/maven/euphony/images/download.svg?version=0.7.1.6) ](https://bintray.com/jbear/maven/euphony/0.7.1.6/link)
 
 Acoustic Data Telecommunication Library. This is for Android version.  
 Euphony provides a handiness library designed to communicate with other devices(android and web) using mic and recorder.  
@@ -11,7 +11,7 @@ Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.
 1) build.gradle in app module
 ```
 dependencies {
-    implementation 'euphony.lib:euphony:0.7.1.5'
+    implementation 'euphony.lib:euphony:0.7.1.6'
 }
 ```
 
