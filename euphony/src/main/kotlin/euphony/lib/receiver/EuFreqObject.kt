@@ -146,10 +146,10 @@ open class EuFreqObject {
         /*for(int i = 0; i < RXCHANNEL + STARTCHANNEL ; i++)
 		{
 			if(i != RXCHANNEL)
-				currentFreq = (int) this.euDetectFreq(START_FREQ + mFreqSpan*i);
+				currentFreq = (int) this.detectFreq(START_FREQ + mFreqSpan*i);
 			else
-				currentFreq = (int) this.euDetectFreq(START_BIT);
-			mDynamicRefArray[i] = euGetDynamicReference(currentFreq, i);
+				currentFreq = (int) this.detectFreq(START_BIT);
+			mDynamicRefArray[i] = getDynamicReference(currentFreq, i);
 
 			if(currentFreq>=mSampleTemp && currentFreq >=mDynamicRefArray[i]){
 				mSampleTemp = currentFreq;

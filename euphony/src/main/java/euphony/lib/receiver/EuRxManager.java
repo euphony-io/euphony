@@ -54,7 +54,7 @@ public class EuRxManager {
 		}
 
 		if(mPsRunner != null)
-			mPsRunner.DestroyFFT();
+			mPsRunner.destroyFFT();
 
 		mPsThread = null;
 		mPsRunner = null;
@@ -74,7 +74,7 @@ public class EuRxManager {
 			}
 		}
 		if(mRxRunner != null)
-			mRxRunner.DestroyFFT();
+			mRxRunner.destroyFFT();
 		
 		mRxThread = null;
 		mRxRunner = null;
@@ -133,19 +133,19 @@ public class EuRxManager {
 		{
 			while (_active) 
 			{
-				StartFFT();		
-				if(mStartSwt)
-					euCatchSingleData();
+				processFFT();
+				if(this.getStarted())
+					catchSingleData();
 				else
-					mStartSwt = euCheckStartPoint();
+					this.setStarted(checkStartPoint());
 				
-				if(isCompleted){		
+				if(this.getCompleted()){
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_DECODE;
 					msg.obj = (mHex) ? getReceivedData() : EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
-					isCompleted = false;
+					this.setCompleted(false);
 					mHandler.sendMessage(msg);
-					mRxRunner.DestroyFFT();
+					mRxRunner.destroyFFT();
 					return;
 				}
 			}		
@@ -163,10 +163,10 @@ public class EuRxManager {
 			while(_active) {
 				//To find the frequency point
 				while(!startswt) {
-					StartFFT();
+					processFFT();
 					int i;
 					for(i = 21000; i >= 16500; i-=COMMON.CHANNEL_SPAN)
-						if(100 < euDetectFreq(i)){
+						if(100 < detectFreq(i)){
 							startswt = true;
 							break;
 						}
@@ -183,8 +183,8 @@ public class EuRxManager {
 				int signal, max_signal = 0, avr_signal = 0;
 				int noSignalCnt=0, processingCnt = 0, maxCnt=0;
 				do{
-					StartFFT();
-					signal = euDetectFreq(specificFreq);
+					processFFT();
+					signal = detectFreq(specificFreq);
 					
 					if(signal < 20)
 						noSignalCnt++;

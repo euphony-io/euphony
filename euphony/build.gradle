@@ -45,8 +45,8 @@ dependencies {
     if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 // add it to the bottom of the file
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+// apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
+// apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
 
 android {
     buildToolsVersion "26.0.0"

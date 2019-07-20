@@ -111,11 +111,22 @@ public class PacketErrorDetector {
 			return false;
 	}
 
+	/*****************************************************
+	 * This function makes Checksum bit(word : 4bit)
+	 *  parameter : int PayloadSum			- Payload Data
+	 *  return type : int
+	 *   	 the Checksum data to transmit
+	 *****************************************************/
+	public static int makeCheckSum(int payloadSum){
+		// remove carry
+		payloadSum &= 0xF;
+		// get 2's Complement and make checksum 4bit word
+		return (~payloadSum + 1) & 0xF;
+	}
+
 	/***************************************************** 
 	 * This function makes Checksum bit(word : 4bit)
 	 *  parameter : int[] Payload			- Payload Data
-	 *  			int nSizeOfPayload,  	- Payload Data's quantity
-	 *  			int nCheckSum			- Checksum bit's value
 	 *  return type : int
 	 *   	 the Checksum data to transmit
 	 *****************************************************/

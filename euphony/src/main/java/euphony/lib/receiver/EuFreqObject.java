@@ -22,10 +22,31 @@ public class EuFreqObject {
 	public final int RXCHANNEL = COMMON.CHANNEL;// 16
 	private final int STARTCHANNEL = 1;	
 	private int mFreqSpan = COMMON.CHANNEL_SPAN; // 86
-	public int START_BIT = START_FREQ - mFreqSpan;
-	
-	public Boolean mStartSwt = false;
-	public Boolean isCompleted = false;
+	public final int START_BIT = START_FREQ - mFreqSpan;
+	public final int START_BIT_IDX = RXCHANNEL;
+	public int[] DATA_FREQ = new int[RXCHANNEL];
+	public int[] DATA_FREQ_INDEX_FOR_FFT = new int[RXCHANNEL + 1];
+
+	private Boolean isStarted = false;
+	private Boolean isCompleted = false;
+
+	public Boolean getStarted() {
+		return isStarted;
+	}
+
+	public void setStarted(Boolean started) {
+		isStarted = started;
+	}
+
+	public Boolean getCompleted() {
+		return isCompleted;
+	}
+
+	public void setCompleted(Boolean completed) {
+		isCompleted = completed;
+	}
+
+
 	private Boolean isRecording = false;
 
 	private ByteBuffer samples = allocateByteBuffer(fftsize);
@@ -57,14 +78,20 @@ public class EuFreqObject {
 	{
 		recorder = new AudioRecorder(SAMPLERATE);
 		//INIT DYNAMIC REFERENCE ARRAY..
-		for (int i = 0; i < RXCHANNEL + STARTCHANNEL; i++)
+		for (int i = 0; i < RXCHANNEL; i++) {
+			DATA_FREQ[i] = START_FREQ + mFreqSpan * i;
+			DATA_FREQ_INDEX_FOR_FFT[i] = ((int)((DATA_FREQ[i] / MAXFREQUENCY) * fftsize / 2)) + 1;
 			mDynamicRefArray[i] = DEFAULT_REF;
+		}
+		DATA_FREQ_INDEX_FOR_FFT[RXCHANNEL] = ((int)((START_BIT / MAXFREQUENCY) * fftsize / 2)) + 1;
+		mDynamicRefArray[RXCHANNEL] = DEFAULT_REF;
+
 		
 		isRecording = false;
 	}
 
 
-	public void StartFFT()
+	public void processFFT()
 	{
 		if(!isRecording){
 			recorder.start();
@@ -77,7 +104,7 @@ public class EuFreqObject {
 		//FFT.getImagPart(image);
 	}
 
-	public void StartFFT(short windowsNum)
+	public void processFFT(short windowsNum)
 	{
 		if(!isRecording){
 			recorder.start();
@@ -87,14 +114,14 @@ public class EuFreqObject {
 		FFT.spectrum(samples, spectrum);
 	}
 
-	public void DestroyFFT()
+	public void destroyFFT()
 	{
 		FFT.dispose();
 		recorder.stop();
 		isRecording = false;
 	}
 
-	public int euDetectFreq(int fFrequency){
+	public int detectFreq(int fFrequency){
 
 		double fFreqRatio;
 		int freqIndex;
@@ -122,49 +149,44 @@ public class EuFreqObject {
 		return (int)(fmax*100000);
 	}
 
+	public int detectFreqByIdx(int idx) {
+		float fmax = spectrum.get(DATA_FREQ_INDEX_FOR_FFT[idx]);
+		return (int) (fmax * 100000);
+	}
+
+	public int detectFreqByIdx(int idx, int offset_idx) {
+		float fmax = spectrum.get(DATA_FREQ_INDEX_FOR_FFT[idx] + offset_idx);
+		return (int) (fmax * 100000);
+	}
+
 	private int mMaxIndex = -1;		
 	private int mSampleIndex = 0;
 	private int mSampleTemp = 0;
 	private int mChannelTemp = 0;
 	public int cntCheck = 0;
 
-	public void euCatchSingleData() 
+	public void catchSingleData()
 	{
 		int currentFreq = 0;
 		// UPDATED ON 1/2/2014
 		// START BIT's Frequency Detection
-		mSampleTemp = (int) this.euDetectFreq(START_BIT);
+		mSampleTemp = detectFreqByIdx(START_BIT_IDX);
 		mMaxIndex = RXCHANNEL;
 		// START BIT's Dynamic Reference Catch
-		mDynamicRefArray[RXCHANNEL] = euGetDynamicReference(mSampleTemp, RXCHANNEL);
+		mDynamicRefArray[RXCHANNEL] = getDynamicReference(mSampleTemp, RXCHANNEL);
 
 		// Rest of frequency processing
 		for(int i = 0; i < RXCHANNEL; i++)
 		{
-			currentFreq = (int) this.euDetectFreq(START_FREQ + mFreqSpan * i);
-			mDynamicRefArray[i] = euGetDynamicReference(currentFreq, i);			
+			currentFreq = detectFreqByIdx(i);
+			mDynamicRefArray[i] = getDynamicReference(currentFreq, i);
 			
 			if(currentFreq >= mSampleTemp && currentFreq >= mDynamicRefArray[i]){
 				mSampleTemp = currentFreq;
 				mMaxIndex = i;
 			}
 		}
-		
-		// BEFORE VERSION
-		/*for(int i = 0; i < RXCHANNEL + STARTCHANNEL ; i++)
-		{ 
-			if(i != RXCHANNEL)
-				currentFreq = (int) this.euDetectFreq(START_FREQ + mFreqSpan*i);
-			else
-				currentFreq = (int) this.euDetectFreq(START_BIT);
-			mDynamicRefArray[i] = euGetDynamicReference(currentFreq, i);			
-			
-			if(currentFreq>=mSampleTemp && currentFreq >=mDynamicRefArray[i]){
-				mSampleTemp = currentFreq;
-				mMaxIndex = i;
-			}
-		}*/
-		
+
 		if(mMaxIndex != -1){
 			mFreqArray[mMaxIndex]++;
 		}
@@ -202,7 +224,7 @@ public class EuFreqObject {
 						}
 						
 						if(PacketErrorDetector.makeCheckSum(a) == mChannelArrayList.get(mChannelArrayList.size()-2) && (PacketErrorDetector.makeParellelParity(a) == mChannelArrayList.get(mChannelArrayList.size()-1))) {
-							mStartSwt = false;			
+							isStarted = false;
 							isCompleted = true;
 							receiveStr = EuDataDecoder.decodeStaticHexCharSource(a);
 						}
@@ -212,14 +234,14 @@ public class EuFreqObject {
 				else{
 					mChannelArrayList.add(mMaxIndex);
 				}
-				Log.v("DATA","DATAIndex : "+ mMaxIndex +"  mCheckedByte :" + mSampleIndex +"  tempxcnt :" + mChannelTemp +"   Data :"+ (int) this.euDetectFreq(START_FREQ + mFreqSpan*(mMaxIndex)));
+				Log.v("DATA","DATAIndex : "+ mMaxIndex +"  mCheckedByte :" + mSampleIndex +"  tempxcnt :" + mChannelTemp +"   Data :"+ (int) this.detectFreqByIdx(mMaxIndex));
 				Log.v("DaTA","0:"+mFreqArray[0]+" 1:"+mFreqArray[1]+" 2:"+mFreqArray[2]+" 3:"+mFreqArray[3]+" 4:"+mFreqArray[4]+" 5:"+mFreqArray[5]+" 6:"+mFreqArray[6]+" 7:"+mFreqArray[7]+" 8:"+mFreqArray[8]
 						+" 9:"+mFreqArray[9]+" 10:"+mFreqArray[10]+" 11:"+mFreqArray[11]+" 12:"+mFreqArray[12]+" 13:"+mFreqArray[13]+" 14:"+mFreqArray[14]+" 15:"+mFreqArray[15]+" 16:"+mFreqArray[16]);
 			}
 			else 
 			{
 				mChannelArrayList.add(-1);
-				Log.v("DATAX","DATAIndex : "+ mMaxIndex +"  mCheckedByte :" + mSampleIndex +"   Data :"+ (int) this.euDetectFreq(START_FREQ + mFreqSpan*(mMaxIndex)));
+				Log.v("DATAX","DATAIndex : "+ mMaxIndex +"  mCheckedByte :" + mSampleIndex +"   Data :"+ (int) this.detectFreqByIdx(mMaxIndex));
 				Log.v("DaTA","0:"+mFreqArray[0]+" 1:"+mFreqArray[1]+" 2:"+mFreqArray[2]+" 3:"+mFreqArray[3]+" 4:"+mFreqArray[4]+" 5:"+mFreqArray[5]+" 6:"+mFreqArray[6]+" 7:"+mFreqArray[7]+" 8:"+mFreqArray[8]
 						+" 9:"+mFreqArray[9]+" 10:"+mFreqArray[10]+" 11:"+mFreqArray[11]+" 12:"+mFreqArray[12]+" 13:"+mFreqArray[13]+" 14:"+mFreqArray[14]+" 15:"+mFreqArray[15]+" 16:"+mFreqArray[16]);
 
@@ -239,7 +261,7 @@ public class EuFreqObject {
 	private int []mArrSampleTemp = new int [RXCHANNEL + STARTCHANNEL];
 	private int []mArrChannelTemp = new int [RXCHANNEL + STARTCHANNEL];
 	public int []mArrcntCheck = new int [RXCHANNEL + STARTCHANNEL];
-	public void euCatchMultiData() 
+	public void catchMultiData()
 	{
 		for(int j = 0; j < RXCHANNEL + STARTCHANNEL ; j++)
 		{ 
@@ -253,7 +275,7 @@ public class EuFreqObject {
 		int []arrCurrentFreq = new int[RXCHANNEL + STARTCHANNEL];
 		for(int i = 0; i < RXCHANNEL + STARTCHANNEL ; i++)
 		{ 
-			arrCurrentFreq[i] = (int) this.euDetectFreq(START_FREQ + mFreqSpan*i);
+			arrCurrentFreq[i] = (int) this.detectFreq(START_FREQ + mFreqSpan*i);
 			if(arrCurrentFreq[i] >=200){
 				//mArrSampleTemp[i] = arrCurrentFreq[i];
 				mArrMaxIndex[i] = i;
@@ -286,14 +308,14 @@ public class EuFreqObject {
 	*/
 
 	public int mStartSampleCnt = 0;
-	public Boolean euCheckStartPoint()
+	public Boolean checkStartPoint()
 	   {
 	      int tempFreq = 50;
 	      int tempIndex = -1;
 	      int currentFreq = 0;
 	      for(int i = -1; i < 2; i++)
 	      {
-	         currentFreq = (int) this.euDetectFreq(START_BIT + mFreqSpan*i);
+	         currentFreq = (int) this.detectFreqByIdx(START_BIT_IDX, i);
 	         if(currentFreq > tempFreq)
 	         {
 	            tempFreq = currentFreq;
@@ -323,14 +345,14 @@ public class EuFreqObject {
 		int preservedRef = 0;
 		while(SENSOR_LIMIT_COUNT > limitCnt++)
 		{
-			this.StartFFT();
+			this.processFFT();
 
-			int curFreq = this.euDetectFreq(_freq);
+			int curFreq = this.detectFreq(_freq);
 			dynRef = euGetDynamicRef(curFreq, dynRef, preservedRef, dynRefCnt);
 
 			if(curFreq >= dynRef){
-				int prevFreq = this.euDetectFreq(_freq - mFreqSpan);
-				int nextFreq = this.euDetectFreq(_freq + mFreqSpan);
+				int prevFreq = this.detectFreq(_freq - mFreqSpan);
+				int nextFreq = this.detectFreq(_freq + mFreqSpan);
 
 				if(prevFreq > curFreq || nextFreq > curFreq)
 					continue;
@@ -388,7 +410,7 @@ public class EuFreqObject {
 		return dynRef;
 	}
 
-	public int euGetDynamicReference(int nfreq, int freqIndex)
+	public int getDynamicReference(int nfreq, int freqIndex)
 	{	
 		if( nfreq > mDynamicRefArray[freqIndex]) // DATA TRUE
 		{

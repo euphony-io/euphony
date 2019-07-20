@@ -3,7 +3,7 @@ package euphony.lib.util;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import euphony.lib.receiver.AcousticSensor;
+
 import euphony.lib.receiver.EuFreqObject;
 import euphony.lib.receiver.PositionDetector;
 import euphony.lib.transmitter.EuFreqGenerator;
@@ -98,8 +98,8 @@ public class EuAfRangeFinder {
 				}
 				int cnt = 0;
 				do {
-					mEuObject.StartFFT();
-					ref = mEuObject.euDetectFreq(current_freq);
+					mEuObject.processFFT();
+					ref = mEuObject.detectFreq(current_freq);
 				}while(ref <= 250 && cnt++ < 50);
 				
 				Log.i("RANGE", ref + " : " + current_freq);
@@ -120,7 +120,7 @@ public class EuAfRangeFinder {
 			msg.obj = current_freq;
 			mHandler.sendMessage(msg);
 			
-			mEuObject.DestroyFFT();
+			mEuObject.destroyFFT();
 		}
 	};
 
