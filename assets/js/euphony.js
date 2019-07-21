@@ -25,7 +25,7 @@ window.Euphony = (function() {
             this.outBuffer[i] = this.crossfadeStaticBuffer(this.makeStaticFrequency(this.ZEROPOINT + i * this.SPAN));               
         this.playBufferIdx = 0;
     };
-    
+
     euphony.prototype = {
         setCode: function(data) {
             let T = this;
@@ -56,27 +56,21 @@ window.Euphony = (function() {
 	    T.playBuffer[code.length+1] = T.outBuffer[T.makeChecksum(code)];
             T.playBuffer[code.length+2] = T.outBuffer[T.makeParallelParity(code)];
         },
-        
-        dataProcess: function (e) {
-            let T = this;
-            console.log(e);
-            var outputBuf = e.outputBuffer.getChannelData(0);
-            var outputBuf2 = e.outputBuffer.getChannelData(1);
-            
-            for (let i = 0; i < outputBuf.length; i++)
-                outputBuf[i] = outputBuf2[i] = T.playBuffer[T.playBufferIdx][i];
-            
-            if(T.playBuffer.length == ++T.playBufferIdx) T.playBufferIdx = 0;
-            console.log(T.playBufferIdx);
-        },
-        
         play: function() {
             let T = this;
             var source = T.context.createBufferSource();
             source.buffer = T.context.createBuffer(2, T.SAMPLERATE*2, T.SAMPLERATE);
             T.scriptProcessor = T.context.createScriptProcessor(T.FFTSIZE, 0, 2);
             T.scriptProcessor.loop = true;
-            T.scriptProcessor.onaudioprocess = T.dataProcess;
+            T.scriptProcessor.onaudioprocess = function(e) {
+                var outputBuf = e.outputBuffer.getChannelData(0);
+                var outputBuf2 = e.outputBuffer.getChannelData(1);
+
+                for (let i = 0; i < outputBuf.length; i++)
+                    outputBuf[i] = outputBuf2[i] = T.playBuffer[T.playBufferIdx][i];
+            
+                if(T.playBuffer.length == ++(T.playBufferIdx)) T.playBufferIdx = 0;
+            };
 
             source.connect(T.scriptProcessor);
             T.scriptProcessor.connect(T.context.destination);
