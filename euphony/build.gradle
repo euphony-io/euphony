@@ -5,6 +5,8 @@ if(gradle.language.equals("kotlin")) {
 }
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco-android'
 
 buildscript {
     repositories {
@@ -13,9 +15,11 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.android.tools.build:gradle:3.4.2'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
 
@@ -72,11 +76,14 @@ android {
         main {
             java.srcDirs = ['src/main/' + gradle.language]
         }
+        test {
+            java.srcDirs = ['src/test/' + gradle.language]
+        }
     }
 
     buildTypes {
         release {
-            testCoverageEnabled false
+            testCoverageEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
@@ -96,4 +103,12 @@ android {
 }
 repositories {
     mavenCentral()
+}
+
+coveralls {
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'jacocoTestReport'
 }

@@ -3,6 +3,7 @@ package euphony.demo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-
 import euphony.lib.transmitter.EuTxManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     Button mSpeakBtn;
 
     EuTxManager mTxManager = new EuTxManager();
-
+    EuDataEncoder mEuDataEncoder;
     int count = 1;
     boolean speakOn = false;
     @Override

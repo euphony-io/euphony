@@ -15,6 +15,7 @@ addons:
 #      - $(git ls-files -o | grep app/build/outputs | tr "\n" ":")
 before_install:
   - sudo apt-get install ant
+
 install:
   - echo y | sdkmanager "ndk-bundle"
   - echo y | sdkmanager "cmake;3.6.4111459"
@@ -25,4 +26,7 @@ before_script:
   - export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 
 script:
-  - ./gradlew build
+  - ./gradlew clean build
+
+after_success:
+  - ./gradlew jacocoTestReport coveralls
