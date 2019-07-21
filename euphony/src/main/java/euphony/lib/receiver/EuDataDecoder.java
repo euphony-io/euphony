@@ -22,7 +22,6 @@ public class EuDataDecoder extends EuCodec {
 		for(int i = 0; i < _source.length()-1; i+=2){
 			int data = Integer.parseInt("" + _source.charAt(i) + _source.charAt(i+1), 16);
 			retValue += (char)data;
-			Log.d("DECODED", _source + " : " + _source.charAt(i) + " " + _source.charAt(i+1) + " " + retValue);
 		}
 		
 		return retValue;
