@@ -32,15 +32,17 @@ mTxManager.process(-1); // generate sound infinite.
 in Receiver
 ```java
 EuRxManager mRxManager = new EuRxManager();
-mRxManager.listen();  //Listening Start
-// if you want to finish listening, call the finish();
-// mRxManager.finish();
 mRxManager.setAcousticSensor(new AcousticSensor() {
 @Override
     public void notify(String letters) {
         //when data is received
     }
 });
+
+mRxManager.listen();  //Listening Start
+// if you want to finish listening, call the finish();
+// mRxManager.finish();
+
 ```
 
 ## Architecture
