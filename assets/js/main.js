@@ -1,5 +1,4 @@
 var euphy = new Euphony();
-euphy.initChannel();
 var btnSwt = false;
 function generateSound() {
     if(btnSwt) {
