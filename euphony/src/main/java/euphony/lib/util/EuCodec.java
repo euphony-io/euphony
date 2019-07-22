@@ -4,15 +4,13 @@ import java.util.Arrays;
 
 public class EuCodec {
 	private static final int BASE40 = 40;
-	private StringBuilder chars = new StringBuilder(BASE40);
+	private StringBuilder Base40 = new StringBuilder(BASE40);
 	protected static byte[] base40Index = new byte[256];
 	{
-		chars.append('\0');
-		for(char ch = 'a'; ch <= 'z'; ch++) chars.append(ch);
-		for(char ch = '0'; ch <= '9'; ch++) chars.append(ch);
-		chars.append("-:.");
+		Base40.append('\0');
+		Base40.append(".:-zyxwvutsrqponmlkjihgfedcba9876543210");
 		Arrays.fill(base40Index, (byte) -1);
-		for(byte i = 0; i < chars.length(); i++)
-			base40Index[chars.charAt(i)] = i;
+		for(byte i = 0; i < Base40.length(); i++)
+			base40Index[Base40.charAt(i)] = i;
 	}
 }

@@ -10,30 +10,30 @@ import euphony.lib.util.EuCodec;
 public class EuDataEncoder extends EuCodec {
 	private String mOriginalSource;
 
-	EuDataEncoder () { }
-	public EuDataEncoder(String _source)
-	{
+	EuDataEncoder() {
+	}
+
+	public EuDataEncoder(String _source) {
 		mOriginalSource = _source;
 	}
-	
-	public String encodeHexCharSource()
-	{
+
+	public String encodeHexCharSource() {
 		return encodeStaticHexCharSource(mOriginalSource);
 	}
-	
-	public String encodeStaticHexCharSource(String _source)
-	{
-	    StringBuilder strBuilder = new StringBuilder();
 
-		for(int i = 0; i < _source.length(); i++)
-		{
+	public static String encodeStaticHexCharSource(String _source) {
+		StringBuilder strBuilder = new StringBuilder();
+
+		for (int i = 0; i < _source.length(); i++) {
 			int data = _source.charAt(i);
 			strBuilder.append(Integer.toHexString(data));
 		}
-		
+
 		return strBuilder.toString();
 	}
-	
+
+	/*
+	TODO: 40 BASE should be implemented.
 	public static byte[] base40StaticEncode(String _source)
 	{
 		try {
@@ -64,6 +64,7 @@ public class EuDataEncoder extends EuCodec {
 			throw new AssertionError(e);
 		}
 	}
+	*/
 
 	public String getOriginalSource() {
 		return mOriginalSource;
