@@ -2,5 +2,5 @@ title: euphony
 logo: /assets/euphony_logo.png
 description: official euphony library page.
 show_downloads: true
-google_analytics:
+google_analytics: UA-144213709-1
 theme: jekyll-theme-minimal
