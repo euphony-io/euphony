@@ -88,7 +88,7 @@ public class EuAfRangeFinder {
 
 			do
 			{
-				mEuPlayer.setSource(mEuFreqGenerator.euApplyCrossFade(mEuFreqGenerator.euMakeStaticFrequency(current_freq, 0)));
+				mEuPlayer.setSource(mEuFreqGenerator.applyCrossFade(mEuFreqGenerator.makeStaticFrequency(current_freq, 0)));
 				try{	mEuPlayer.Play();	}
 				catch(IllegalStateException e)
 				{	

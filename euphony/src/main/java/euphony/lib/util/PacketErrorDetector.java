@@ -56,6 +56,27 @@ public class PacketErrorDetector {
 		}
 	}
 
+	/*****************************************************
+	 * This function makes ParellelParityBit(int[] payLoad) (word : 4bit)
+	 *
+	 *  parameter :
+	 *        int[] payLoad         - Payload Data
+	 *  return type : int
+	 *            the EvenParity data to transmit
+	 *****************************************************/
+	public static int makeParellelParity(int payLoad){
+		int evenParity1 = ((0x8 & payLoad) >> 3);
+		int evenParity2 = ((0x4 & payLoad) >> 2);
+		int evenParity3 = ((0x2 & payLoad) >> 1);
+		int evenParity4 = (0x1 & payLoad);
+		int evenParity;
+
+		Log.i("UHEHE", evenParity1 + " " + evenParity2 + " " + evenParity3 + " " + evenParity4);
+		evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);
+
+		return evenParity;
+	}
+
 	/***************************************************** 
 	    * This function makes ParellelParityBit(int[] payLoad) (word : 4bit)
 	    *  

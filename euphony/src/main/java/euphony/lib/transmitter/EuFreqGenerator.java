@@ -24,7 +24,7 @@ public class EuFreqGenerator {
 		mFreqBasePoint = freqStartPoint;
 	}
 	
-	public short[] euMakeStaticFrequency(int freq, int degree)
+	public short[] makeStaticFrequency(int freq, int degree)
     {
     	double[] double_source = new double[DATA_LENGTH];
     	short[] source = new short[DATA_LENGTH];
@@ -42,16 +42,19 @@ public class EuFreqGenerator {
     
     public void euMakeFrequency(short[] source, int freq)
     {
-    	source = euMakeStaticFrequency(freq, 0);
+    	source = makeStaticFrequency(freq, 0);
     }
     
-	//updated
-    public short[] euMakeFrequencyWithCrossFade(int freq)
+    public short[] makeFrequencyWithCrossFade(int freq)
     {
-    	return euApplyCrossFade(euMakeStaticFrequency(freq, 0));
+    	return applyCrossFade(makeStaticFrequency(freq, 0));
     }
+
+	public short[] makeFrequencyWithValue(int value) {
+		return applyCrossFade(makeStaticFrequency(getFreqBasePoint() + getFreqSpan() * value, 0));
+	}
     
-    public short[] euApplyCrossFade(short[] source)
+    public short[] applyCrossFade(short[] source)
     {
     	double mini_window;
     	int fade_section = COMMON.FADE_RANGE;
@@ -65,7 +68,7 @@ public class EuFreqGenerator {
     	return source;
     }   
     
-    public short[] euAppendRawData(short[] src, short[] objective)
+    public short[] appendRawData(short[] src, short[] objective)
     {
     	int SRC_LENGTH, TOTAL_LENGTH;
     	if(src == null)
@@ -101,7 +104,7 @@ public class EuFreqGenerator {
     	for(int i = 0; i < sources.length; i++)
     	{
     		if(isCrossfaded)
-    			sources[i] = euApplyCrossFade(sources[i]);
+    			sources[i] = applyCrossFade(sources[i]);
     		
     		for(int j = 0; j < sources[i].length; j++)
     				dest[j + i * DATA_LENGTH] = sources[i][j];		    				
@@ -110,7 +113,7 @@ public class EuFreqGenerator {
     	return dest;
     }
     
-    public short[] euMixingRawData(short[]... sources)
+    public short[] mixingRawData(short[]... sources)
     {
     	short[] dest = sources[0].clone();
     	

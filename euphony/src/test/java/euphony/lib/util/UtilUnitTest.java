@@ -12,6 +12,7 @@ public class UtilUnitTest {
         assertEquals(PacketErrorDetector.makeCheckSum(source), 14);
         assertEquals(PacketErrorDetector.makeCheckSum(   234), 6);
         assertEquals(PacketErrorDetector.makeParellelParity(source), 4);
+        assertEquals(PacketErrorDetector.makeParellelParity(234), 10);
         assertEquals(PacketErrorDetector.checkEvenParity(source, 4), true);
     }
 }
