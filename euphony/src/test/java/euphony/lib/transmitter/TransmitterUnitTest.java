@@ -2,6 +2,7 @@ package euphony.lib.transmitter;
 
 import org.junit.Test;
 import euphony.lib.transmitter.EuDataEncoder;
+import euphony.lib.util.EuOption;
 
 import static org.junit.Assert.assertEquals;
 public class TransmitterUnitTest {
@@ -21,6 +22,12 @@ public class TransmitterUnitTest {
         mEuTxManager.setCode("Hello, Euphony");
         int length = 63488;
         int outStreamLength = mEuTxManager.getOutStream().length;
+        assertEquals(outStreamLength, length);
+
+        EuTxManager mEuTxManager2 = new EuTxManager(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.LIVE));
+        mEuTxManager2.setCode("Hello, Euphony");
+        length = 231424;
+        outStreamLength = mEuTxManager2.getOutStream().length;
         assertEquals(outStreamLength, length);
     }
 }
