@@ -4,10 +4,10 @@ import android.util.Log;
 
 public class ErrorHandler {
 	
-	public final boolean BUSY = true;
-	public final boolean UNBUSY = false;	
-	public final boolean NONE  = false;
-	public final boolean EXIST = true;
+	public static final boolean BUSY = true;
+	public static final boolean UNBUSY = false;
+	public static final boolean NONE  = false;
+	public static final boolean EXIST = true;
 	
 	private boolean mChannelState;
 	private int mNoiseRefrence=30;
