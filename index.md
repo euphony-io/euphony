@@ -1,7 +1,13 @@
 ## Intro
 ---
 ![travis_ci](https://travis-ci.org/designe/euphony.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master)](https://coveralls.io/github/designe/euphony?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [ ![Download](https://api.bintray.com/packages/jbear/maven/euphony/images/download.svg?version=0.7.1.6) ](https://bintray.com/jbear/maven/euphony/0.7.1.6/link)  
-Euphony is a handiness library designed to communicate with other devices using mic & recorder.
+Euphony is a handiness library designed to communicate with other devices using mic & recorder.  
+Euphony.js is based on Web Audio API. Below list is available.
+- Chrome 14 <=
+- Firefox 23 <=
+- Edge
+- Opera 15 <=
+- Safari 6 <=
 
 ## Demo 
 ---
