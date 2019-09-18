@@ -17,9 +17,13 @@ We currently support Java & Kotlin & Javascript for Android & Web :)
 ### For web browser
 #### 1) Prerequisite
 ```html
-<script type='module' src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.m.min.js'></script>
-<script nomodule src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>
+<script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>
 
+<!-- if you want to use module version of euphony, import this like below.
+<script type='module'>
+    import {Euphony} from "https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js";
+</script>
+-->
 ```
 #### 2) Generate acoustic sound!
 ```js
