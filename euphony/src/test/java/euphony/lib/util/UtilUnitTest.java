@@ -14,6 +14,14 @@ public class UtilUnitTest {
         assertEquals(PacketErrorDetector.makeParellelParity(source), 4);
         assertEquals(PacketErrorDetector.makeParellelParity(234), 10);
         assertEquals(PacketErrorDetector.checkEvenParity(source, 4), true);
+        assertEquals(PacketErrorDetector.checkEvenParity(source, 5), false);
+        assertEquals(PacketErrorDetector.verifyCheckSum(source, 14), true);
+        assertEquals(PacketErrorDetector.verifyCheckSum(source, 13), false);
+
+        PacketErrorDetector errorDetector = new PacketErrorDetector();
+        assertEquals(errorDetector.euGetEvenParityState(), false);
+        errorDetector.euSetEvenParityState(true);
+        assertEquals(errorDetector.euGetEvenParityState(), true);
     }
 
     @Test

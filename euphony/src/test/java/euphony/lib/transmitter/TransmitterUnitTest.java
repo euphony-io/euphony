@@ -23,6 +23,8 @@ public class TransmitterUnitTest {
         int length = 63488;
         int outStreamLength = mEuTxManager.getOutStream().length;
         assertEquals(outStreamLength, length);
+        mEuTxManager.process();
+        mEuTxManager.process(3);
 
         EuTxManager mEuTxManager2 = new EuTxManager(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.LIVE));
         mEuTxManager2.setCode("Hello, Euphony");
