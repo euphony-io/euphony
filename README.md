@@ -1,11 +1,16 @@
-![euphony_logo](assets/euphony_logo.png)
-========
-![travis_ci](https://travis-ci.org/designe/euphony.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master)](https://coveralls.io/github/designe/euphony?branch=master) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [ ![Download](https://api.bintray.com/packages/jbear/maven/euphony/images/download.svg?version=0.7.1.6) ](https://bintray.com/jbear/maven/euphony/0.7.1.6/link)
+<p align='center'><img src='https://github.com/designe/euphony/raw/master/assets/euphony_logo.png' width='400px' /></p>
+<hr style='border-style:inset; border-width:0.5px'/>
+<p align='center'>
+    <a href = 'https://bintray.com/jbear/maven/euphony/0.7.1.6/link'><img src='https://travis-ci.org/designe/euphony.svg?branch=master' alt='travis_ci'/></a> <a href = 'https://coveralls.io/github/designe/euphony?branch=master'><img src='https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master' alt='Coverage Status'/></a> <a href = 'https://opensource.org/licenses/Apache-2.0'><img src='https://img.shields.io/badge/License-Apache%202.0-blue.svg' alt='License'/></a>
+    <a href = 'https://bintray.com/jbear/maven/euphony/0.7.1.6/link'><img src='https://api.bintray.com/packages/jbear/maven/euphony/images/download.svg?version=0.7.1.6' alt='Download'/></a>
+</p>
 
 Acoustic Data Telecommunication Library. This is for Android version.  
 Euphony provides a handiness library designed to communicate with other devices(android and web) using mic and recorder.  
 
-Official Facebook Page : [https://www.facebook.com/euphonyproject] (https://www.facebook.com/euphonyproject)
+Official Facebook Page : https://www.facebook.com/euphonyproject  
+Official Library Site : https://dev.jbear.co/euphony
+
 
 ## Prerequisite
 1) build.gradle in app module
@@ -46,13 +51,21 @@ mRxManager.listen();  //Listening Start
 ```
 
 ## Architecture
-![euphony_architecture](assets/euphony_architecture.png)
+<p align='center'> <img src='https://github.com/designe/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
+
 
 ## Web version
 Web version is also available now. but only transmitter version. [Web version.] (https://github.com/designe/euphony.js)
 
+
+## Sample Projects
+- [Euphony Listener](https://github.com/designe/euphony-listener) : Euphony Demo to recognize sound data.
+- [Euphony Speaker](https://github.com/designe/euphony-speaker) : Euphony Demo to generate sound data.
+
+
 ## Contributing
 Changes are improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
+
 
 ## License
 Euphony is licensed under the Apache 2.0 license. (https://github.com/designe/Euphony/blob/master/LICENSE)
