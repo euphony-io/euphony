@@ -21,7 +21,7 @@ public class EuTxManager {
 	private short[] mOutStream;
 	
 	public EuTxManager() {
-		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL);
+		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK);
 	}
 
 	public EuTxManager(EuOption option) {
