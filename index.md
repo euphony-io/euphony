@@ -23,11 +23,11 @@ We currently support Java & Kotlin & Javascript for Android & Web :)
 ### For web browser
 #### 1) Prerequisite
 ```html
-<script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>
+<script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.m.min.js'></script>
 
 <!-- if you want to use module version of euphony, import this like below.
 <script type='module'>
-    import {Euphony} from "https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js";
+    import {Euphony} from "https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.m.min.js";
 </script>
 -->
 ```
