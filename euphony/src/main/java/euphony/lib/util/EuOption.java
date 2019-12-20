@@ -19,6 +19,7 @@ public class EuOption {
     private int mBufferSize;
     private int mFadeRange;
     private int mOutsetFrequency;
+    private int mControlPoint;
     private int mDataRate;
     private int mDataInterval;
 
@@ -38,9 +39,10 @@ public class EuOption {
         mFFTSize = 512;
         mBufferSize = 2048;
         mFadeRange = 128; // to apply fadein fadeout range
-        mOutsetFrequency = 18000;
+        mControlPoint = 18000;
         mDataRate = 16;
         mDataInterval = mSampleRate / mFFTSize;
+        mOutsetFrequency = mControlPoint - mDataInterval;
 
         // RX Setting
         mMaxReference = 4000;
@@ -166,4 +168,11 @@ public class EuOption {
         this.mDefaultReference = _defaultReference;
     }
 
+    public int getControlPoint() {
+        return mControlPoint;
+    }
+
+    public void setControlPoint(int _controlPoint) {
+        this.mControlPoint = _controlPoint;
+    }
 }

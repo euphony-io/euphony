@@ -50,7 +50,7 @@ public class UtilUnitTest {
         option.setCommunicationMode(EuOption.CommunicationMode.LIVE);
         assertEquals(option.getCommunicationMode(), EuOption.CommunicationMode.LIVE);
 
-        EuOption option2 = new EuOption(EuOption.EncodingType.HEX, EuOption.CommunicationMode.LIVE);
+        EuOption option2 = new EuOption(EuOption.EncodingType.HEX, EuOption.CommunicationMode.LIVE, EuOption.ModulationType.FSK);
         assertEquals(option2.getEncodingType(), EuOption.EncodingType.HEX);
         assertEquals(option2.getCommunicationMode(), EuOption.CommunicationMode.LIVE);
     }
