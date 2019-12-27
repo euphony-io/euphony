@@ -1,38 +1,41 @@
 package euphony.lib.transmitter;
 
 import euphony.lib.util.COMMON;
+import euphony.lib.util.EuOption;
 
 public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
-	public final int SAMPLERATE = COMMON.SAMPLERATE;//44100;
-	public final int DATA_LENGTH = COMMON.DATA_LENGTH;//2048;
-	public final double PI = Math.PI;
-	public final double PI2 = PI * 2;
+	private final double PI = Math.PI;
+	private final double PI2 = PI * 2;
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
 	private int mFreqBasePoint = COMMON.START_FREQ;
-	private int mFreqSpan = COMMON.CHANNEL_SPAN;	//86
-	private short[] mZeroSource = new short[DATA_LENGTH];
+	private short[] mZeroSource;
 
-	public EuFreqGenerator() { }
-	
-	public EuFreqGenerator(int freqStartPoint, int freqSpan)
-	{
-		mFreqSpan = freqSpan;
-		mFreqBasePoint = freqStartPoint;
+	private EuOption mTxOption;
+
+	public EuFreqGenerator() {
+		mTxOption = new EuOption();
+		mZeroSource = new short[mTxOption.getBufferSize()];
+	}
+
+	public EuFreqGenerator(EuOption option) {
+		mTxOption = option;
+		mZeroSource = new short[mTxOption.getBufferSize()];
 	}
 	
 	public short[] makeStaticFrequency(int freq, int degree)
     {
-    	double[] double_source = new double[DATA_LENGTH];
-    	short[] source = new short[DATA_LENGTH];
+    	int bufferSize = mTxOption.getBufferSize();
+    	double[] double_source = new double[bufferSize];
+    	short[] source = new short[bufferSize];
         double time, phase;
         
-        for(int i = 0; i < DATA_LENGTH; i++)
+        for(int i = 0; i < bufferSize; i++)
         {
-        	time = (double)i / (double)SAMPLERATE;
+        	time = (double)i / (double)mTxOption.getSampleRate();
         	double_source[i] = Math.sin(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);        	
         }
@@ -51,18 +54,19 @@ public class EuFreqGenerator {
     }
 
 	public short[] makeFrequencyWithValue(int value) {
-		return applyCrossFade(makeStaticFrequency(getFreqBasePoint() + getFreqSpan() * value, 0));
+		return applyCrossFade(makeStaticFrequency(getFreqBasePoint() + mTxOption.getDataInterval() * value, 0));
 	}
     
     public short[] applyCrossFade(short[] source)
     {
     	double mini_window;
     	int fade_section = COMMON.FADE_RANGE;
+		final int bufferSize = mTxOption.getBufferSize();
     	for(int i = 0; i < fade_section; i++)
     	{
     		mini_window = (double)i / (double)fade_section;
     		source[i] *= mini_window;
-    		source[DATA_LENGTH-1-i] *= mini_window;
+    		source[bufferSize-1-i] *= mini_window;
     	}
     	
     	return source;
@@ -89,25 +93,27 @@ public class EuFreqGenerator {
     
     public short[] euLinkRawData(short[]... sources)
     {
-    	short[] dest = new short[sources.length * DATA_LENGTH];
+		final int bufferSize = mTxOption.getBufferSize();
+    	short[] dest = new short[sources.length * bufferSize];
     	
     	for(int i = 0; i < sources.length; i++)
     		for(int j = 0; j < sources[i].length; j++)
-    			dest[j + i * DATA_LENGTH] = sources[i][j];
+    			dest[j + i * bufferSize] = sources[i][j];
     	
     	return dest;
     }
     
     public short[] euLinkRawData(boolean isCrossfaded, short[]... sources)
     {
-    	short[] dest = new short[sources.length * DATA_LENGTH];
+		final int bufferSize = mTxOption.getBufferSize();
+    	short[] dest = new short[sources.length * bufferSize];
     	for(int i = 0; i < sources.length; i++)
     	{
     		if(isCrossfaded)
     			sources[i] = applyCrossFade(sources[i]);
     		
     		for(int j = 0; j < sources[i].length; j++)
-    				dest[j + i * DATA_LENGTH] = sources[i][j];		    				
+    				dest[j + i * bufferSize] = sources[i][j];
     	}
     	
     	return dest;
@@ -145,23 +151,12 @@ public class EuFreqGenerator {
 	public short[] getZeroSource() {
 		return mZeroSource;
 	}
-	
 	public int getFreqBasePoint() {
 		return mFreqBasePoint;
 	}
-
 	public void setFreqBasePoint(int mFreqBasePoint) {
 		this.mFreqBasePoint = mFreqBasePoint;
 	}
-	
-	public int getFreqSpan() {
-		return mFreqSpan;
-	}
 
-	public void setFreqSpan(int mFreqSpan) {
-		this.mFreqSpan = mFreqSpan;
-	}
-
-    
 }
 

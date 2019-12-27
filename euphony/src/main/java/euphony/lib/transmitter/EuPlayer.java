@@ -9,11 +9,13 @@ public class EuPlayer {
 	
 	private short[] mSource;
 	private AudioTrack mAudioTrack = null;
-	private final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
-	private short[] mZeroSource = new short[DATA_LENGTH];
+	private short[] mZeroSource;
 	
-	public EuPlayer() { }
-	
+	public EuPlayer(int bufferSize)
+	{
+		mZeroSource = new short[bufferSize];
+	}
+
 	public EuPlayer(short[] src)
 	{
 		this.setSource(src);

@@ -1,6 +1,8 @@
 package euphony.lib.receiver;
 
 import euphony.lib.util.COMMON;
+import euphony.lib.util.EuOption;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -15,18 +17,18 @@ public class EuRxManager {
 	private static final int RX_DECODE = 1;
 	private static final int PS_DECODE = 2;
 
-	private boolean mHex = false;
+	private EuOption mOption;
 	public EuRxManager() { }
-	public EuRxManager(boolean hex) { mHex = hex; }
+	public EuRxManager(EuOption option) { mOption = option; }
 	
 	public void listen()
 	{
-		listen(mHex);
+		listen(mOption);
 	}
 
-	public void listen(boolean hex) {
+	public void listen(EuOption option) {
 		_active = true;
-		mRxRunner = new RxRunner(hex);
+		mRxRunner = new RxRunner(option);
 		mRxThread = new Thread(mRxRunner, "RX");
 		mRxThread.start();
 	}
@@ -125,8 +127,8 @@ public class EuRxManager {
 	private class RxRunner extends EuFreqObject implements Runnable{
 		boolean mHex = false;
 		RxRunner() { }
-		RxRunner(boolean hex) {
-			mHex = hex;
+		RxRunner(EuOption option) {
+			super(option);
 		}
 		@Override
 		public void run() 
@@ -142,7 +144,14 @@ public class EuRxManager {
 				if(this.getCompleted()){
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_DECODE;
-					msg.obj = (mHex) ? getReceivedData() : EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
+					switch(mEuphonyOption.getEncodingType()) {
+						case ASCII:
+							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
+							break;
+						case HEX:
+							msg.obj = getReceivedData();
+							break;
+					}
 					this.setCompleted(false);
 					mHandler.sendMessage(msg);
 					mRxRunner.destroyFFT();

@@ -11,7 +11,7 @@ import euphony.lib.util.EuOption;
 public class EuTxManager {
 	private AudioTrack mAudioTrack = null;
 	private EuOption mTxOption = null;
-	private EuCodeMaker mCodeMaker = new EuCodeMaker();
+	private EuCodeMaker mCodeMaker;
 	private EuDataEncoder mDataEncoder = new EuDataEncoder();
 
 	public short[] getOutStream() {
@@ -22,10 +22,12 @@ public class EuTxManager {
 	
 	public EuTxManager() {
 		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK);
+		mCodeMaker = new EuCodeMaker(EuOption.ModulationType.FSK);
 	}
 
 	public EuTxManager(EuOption option) {
 		mTxOption = option;
+		mCodeMaker = new EuCodeMaker(mTxOption.getModulationType());
 	}
 
 	/*

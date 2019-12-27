@@ -1,42 +1,34 @@
 package euphony.lib.receiver;
 
 import java.nio.ByteBuffer;
-import java.util.*;
 
 public class EuWindows {
-	private short mWindowNumber;
-	
-	//windows
-	public static final int RECTANGULAR = 0;
-	public static final int TRIANGLAR = 1;
-	public static final int HANNING = 2;
-	public static final int HAMMING =3;
-	public static final int BLACKMAN = 4;
-	public static final int KAISER =5;
-	
-	private ByteBuffer mBuffer = null;
-	private	int	mBufferSize	= 0;
+	public enum Windows {
+		RECTANGULAR, TRIANGLAR, HANNING, HAMMING, BLACKMAN, KAISER
+	}
+
+	private Windows mWindowType;
+	private ByteBuffer mBuffer;
+	private int mBufferSize;
 	private byte[] mRawData;
 	private double KaiserAlph = 32.0;        
 	private double KaiserWindowSize = 45;
 	private double HammingAlph = 54.0;   
 	private double BlackmanAlph = 0.16;
 
-
-
-	public EuWindows(short mWindowNumber, ByteBuffer buffer, int bufferSize)
+	public EuWindows(Windows type, ByteBuffer buffer, int bufferSize)
 	{
 		mBuffer	=	buffer;
 		mBufferSize	=	bufferSize;
 		mRawData = buffer.array();
-		mWindowNumber = mWindowNumber;
+		mWindowType = type;
 	}
 
 	void Processor()
 	{
 		if ((mBuffer != null)&&(mBufferSize != 0))// check buffer buffersize
 		{
-			switch (mWindowNumber)
+			switch (mWindowType)
 			{
 			case RECTANGULAR:
 				RectangularWindow();
@@ -60,7 +52,7 @@ public class EuWindows {
 		}
 	}
 	
-	void RectangularWindow()
+	private void RectangularWindow()
 	{
 		for(int i = 0; i < mRawData.length; i++)
 			mRawData[i] = (byte) ( mRawData[i] * 1.0 );
@@ -68,33 +60,33 @@ public class EuWindows {
 	
 	}
 	
-	void TrianglarWindow(){
+	private void TrianglarWindow(){
 		for(int i = 0; i < mRawData.length; i++)
 			mRawData[i] = (byte) ( ( mRawData[i] ) * (( mRawData.length / 2.0 - Math.abs( i - ( mRawData.length - 1.0 ) / 2.0 ) ) / ( mRawData.length / 2.0 ))) ;
 		mBuffer = ByteBuffer.wrap(mRawData);
 	}
 		
-	void HanningWindow()
+	private void HanningWindow()
 	{
 		for(int i = 0; i < mRawData.length; i++)
 			mRawData[i] = (byte)( ( mRawData[i] ) * ( 0.5 * ( 1 - Math.cos( ( 2 * Math.PI * i ) / ( 512 - 1 ) ) ) ) ) ;	
 		mBuffer = ByteBuffer.wrap(mRawData);
 	}
 
-	void HammingWindow(){
+	private void HammingWindow(){
 		for(int i = 0; i < mRawData.length; i++)
 			mRawData[i] = (byte)( ( mRawData[i] ) * ( HammingAlph + ( 1.0 - HammingAlph ) * Math.cos( 2.0 * Math.PI * i / mRawData.length + Math.PI ) )) ;
 		mBuffer = ByteBuffer.wrap(mRawData);    
 	}
 
-	void BlackmanWindow(){
+	private void BlackmanWindow(){
 		for(int i = 0; i < mRawData.length; i++)
 			mRawData[i] = (byte) ( ( mRawData[i] ) * (( 1.0 - BlackmanAlph ) / 2.0 - 0.5 * Math.cos( 2.0 * Math.PI * i / ( mRawData.length - 1.0 ) ) 
 			+ ( BlackmanAlph / 2.0 ) * Math.cos( 4.0 * Math.PI * i / ( mRawData.length - 1.0 ) ))) ;
 		mBuffer = ByteBuffer.wrap(mRawData);
 	}
 	
-	void KaiserWindow(){
+	private void KaiserWindow(){
 		double n = KaiserWindowSize / 2.0;
 		for(int i = 0; i < mRawData.length; i++)
 		{
@@ -137,13 +129,11 @@ public class EuWindows {
 		this.mBufferSize = mBufferSize;
 	}
 
-	public short getWindowNumber() {
-		return mWindowNumber;
+	public Windows getWindowType() {
+		return mWindowType;
 	}
 
-	public void setWindowNumber(short mWindowNumber) {
-		this.mWindowNumber = mWindowNumber;
-	}
+	public void setWindowType(Windows type) { mWindowType = type; }
 	public double getKaiserAlph() {
 		return KaiserAlph;
 	}
