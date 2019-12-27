@@ -126,13 +126,13 @@ public class EuFreqObject {
 		//FFT.getImagPart(image);
 	}
 
-	public void processFFT(short windowsNum)
+	public void processFFT(EuWindows.Windows mWindow)
 	{
 		if(!isRecording){
 			mRecorder.start();
 			isRecording = true;
 		}
-		mRecorder.read(samples, mEuphonyOption.getFFTSize(), windowsNum);
+		mRecorder.read(samples, mEuphonyOption.getFFTSize(), mWindow);
 		FFT.spectrum(samples, spectrum);
 	}
 

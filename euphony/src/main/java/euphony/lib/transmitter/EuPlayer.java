@@ -10,12 +10,12 @@ public class EuPlayer {
 	private short[] mSource;
 	private AudioTrack mAudioTrack = null;
 	private short[] mZeroSource;
-	
+
+	public EuPlayer() { }
 	public EuPlayer(int bufferSize)
 	{
 		mZeroSource = new short[bufferSize];
 	}
-
 	public EuPlayer(short[] src)
 	{
 		this.setSource(src);

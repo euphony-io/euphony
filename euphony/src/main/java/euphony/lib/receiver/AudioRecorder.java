@@ -42,11 +42,11 @@ public class AudioRecorder {
 		int samplesRead = audioRecord.read(buffer, bufferSize);
 		return samplesRead;
 	}
-	public int read(ByteBuffer buffer, int bufferSize, short windowNum) {
+	public int read(ByteBuffer buffer, int bufferSize, EuWindows.Windows mWindow) {
 		int samplesRead;
 		samplesRead = audioRecord.read(buffer, bufferSize);
 		if(swtWindowing^=true){			
-			EuWindows euWindow = new EuWindows(windowNum,buffer,bufferSize);
+			EuWindows euWindow = new EuWindows(mWindow,buffer,bufferSize);
 			euWindow.Processor();
 		}
 		return samplesRead;
