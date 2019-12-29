@@ -89,7 +89,7 @@ public class EuAfRangeFinder {
 	class GettingFQRunner extends Thread {
 
 		int ref = 0;
-		int current_freq = 21000;//(int)COMMON.MAX_FREQ - 1000;
+		int current_freq = 21000;
 		
 		@Override
 		public void run() {

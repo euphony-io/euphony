@@ -1,6 +1,5 @@
 package euphony.lib.transmitter;
 
-import euphony.lib.util.COMMON;
 import euphony.lib.util.EuOption;
 
 public class EuFreqGenerator {
@@ -59,7 +58,7 @@ public class EuFreqGenerator {
     public short[] applyCrossFade(short[] source)
     {
     	double mini_window;
-    	int fade_section = COMMON.FADE_RANGE;
+    	int fade_section = mTxOption.getFadeRange();
 		final int bufferSize = mTxOption.getBufferSize();
     	for(int i = 0; i < fade_section; i++)
     	{
