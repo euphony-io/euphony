@@ -15,18 +15,26 @@ public class EuAfRangeFinder {
 	EuPlayer mEuPlayer;
 	EuFreqObject mEuObject;
 	GettingFQRunner mFQRunner;
-	
+	EuOption mOption;
+
 	private static final int RX_FREQ = 2;
 	private static final int RX_REF = 3;
 	
 	public EuAfRangeFinder() {
+		mOption = new EuOption();
+		ClassInitializer();
+	}
+
+	public EuAfRangeFinder(EuOption option)
+	{
+		mOption = option;
 		ClassInitializer();
 	}
 	
 	private void ClassInitializer(){
-		mEuFreqGenerator = new EuFreqGenerator();
+		mEuFreqGenerator = new EuFreqGenerator(mOption);
 		mEuPlayer = new EuPlayer();
-		mEuObject = new EuFreqObject();	
+		mEuObject = new EuFreqObject(mOption);
 	}
 	
 	
@@ -103,7 +111,7 @@ public class EuAfRangeFinder {
 				}while(ref <= 250 && cnt++ < 50);
 				
 				Log.i("RANGE", ref + " : " + current_freq);
-				current_freq -= COMMON.CHANNEL_SPAN;
+				current_freq -= mOption.getDataInterval();
 				try { mEuPlayer.Stop(); }
 				catch(IllegalStateException e)
 				{	
@@ -113,7 +121,7 @@ public class EuAfRangeFinder {
 				}
 			}while(ref <= 250 && current_freq > 16500);
 			
-			current_freq += COMMON.CHANNEL_SPAN;
+			current_freq += mOption.getDataInterval();
 			
 			Message msg = mHandler.obtainMessage();
 			msg.what = RX_FREQ;

@@ -11,7 +11,6 @@ public class EuFreqGenerator {
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
-	private int mFreqBasePoint = COMMON.START_FREQ;
 	private short[] mZeroSource;
 
 	private EuOption mTxOption;
@@ -54,7 +53,7 @@ public class EuFreqGenerator {
     }
 
 	public short[] makeFrequencyWithValue(int value) {
-		return applyCrossFade(makeStaticFrequency(getFreqBasePoint() + mTxOption.getDataInterval() * value, 0));
+		return applyCrossFade(makeStaticFrequency(mTxOption.getControlPoint() + mTxOption.getDataInterval() * value, 0));
 	}
     
     public short[] applyCrossFade(short[] source)
@@ -151,12 +150,5 @@ public class EuFreqGenerator {
 	public short[] getZeroSource() {
 		return mZeroSource;
 	}
-	public int getFreqBasePoint() {
-		return mFreqBasePoint;
-	}
-	public void setFreqBasePoint(int mFreqBasePoint) {
-		this.mFreqBasePoint = mFreqBasePoint;
-	}
-
 }
 

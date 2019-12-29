@@ -7,13 +7,13 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 import android.util.Log;
-import euphony.lib.util.COMMON;
+
 import euphony.lib.util.EuOption;
 import euphony.lib.util.PacketErrorDetector;
 
 public class EuFreqObject {
 
-	protected EuOption mEuphonyOption;
+	protected EuOption mRxOption;
 	public int[] DATA_FREQ;
 	public int[] DATA_FREQ_INDEX_FOR_FFT;
 
@@ -67,13 +67,13 @@ public class EuFreqObject {
 
 	public EuFreqObject()
 	{
-		mEuphonyOption = new EuOption();
-		initEuFreqObject(mEuphonyOption);
+		mRxOption = new EuOption();
+		initEuFreqObject(mRxOption);
 	}
 
 	public EuFreqObject(EuOption mOption)
 	{
-		mEuphonyOption = mOption;
+		mRxOption = mOption;
 		initEuFreqObject(mOption);
 	}
 
@@ -119,7 +119,7 @@ public class EuFreqObject {
 			mRecorder.start();
 			isRecording = true;
 		}
-		mRecorder.read(samples, mEuphonyOption.getFFTSize());
+		mRecorder.read(samples, mRxOption.getFFTSize());
 		FFT.spectrum(samples, spectrum);
 		//FFT.spectrum_for_phase(samples, spectrum_p);
 		//FFT.getRealPart(real);
@@ -132,7 +132,7 @@ public class EuFreqObject {
 			mRecorder.start();
 			isRecording = true;
 		}
-		mRecorder.read(samples, mEuphonyOption.getFFTSize(), mWindow);
+		mRecorder.read(samples, mRxOption.getFFTSize(), mWindow);
 		FFT.spectrum(samples, spectrum);
 	}
 
@@ -150,7 +150,7 @@ public class EuFreqObject {
 		float fmax;
 
 		fFreqRatio = fFrequency / 22050.0;
-		freqIndex = ( (int) (fFreqRatio * mEuphonyOption.getFFTSize() / 2) ) + 1;
+		freqIndex = ( (int) (fFreqRatio * mRxOption.getFFTSize() / 2) ) + 1;
 
 		//f1 = spectrum.get(freqIndex-1);
 		fmax = spectrum.get(freqIndex);
@@ -190,7 +190,7 @@ public class EuFreqObject {
 	public void catchSingleData()
 	{
 		int currentFreq;
-		int dataRate = mEuphonyOption.getDataRate();
+		int dataRate = mRxOption.getDataRate();
 		// UPDATED ON 1/2/2014
 		// START BIT's Frequency Detection
 		mSampleTemp = detectFreqByIdx(dataRate);
@@ -281,7 +281,7 @@ public class EuFreqObject {
 	}
 	public void catchMultiData()
 	{
-		for(int j = 0; j <= mEuphonyOption.getDataRate(); j++)
+		for(int j = 0; j <= mRxOption.getDataRate(); j++)
 		{ 
 			mArrMaxIndex[j] = -1;
 			mArrSampleIndex[j] = 0;
@@ -290,10 +290,10 @@ public class EuFreqObject {
 			mArrcntCheck[j] = 0;
 			mFreqArray[j] = 0;
 		}
-		int []arrCurrentFreq = new int[mEuphonyOption.getDataRate() + 1];
-		for(int i = 0; i <= mEuphonyOption.getDataRate() ; i++)
+		int []arrCurrentFreq = new int[mRxOption.getDataRate() + 1];
+		for(int i = 0; i <= mRxOption.getDataRate() ; i++)
 		{ 
-			arrCurrentFreq[i] = this.detectFreq(mEuphonyOption.getControlPoint() + mEuphonyOption.getDataInterval()*i);
+			arrCurrentFreq[i] = this.detectFreq(mRxOption.getControlPoint() + mRxOption.getDataInterval()*i);
 			if(arrCurrentFreq[i] >=200){
 				mArrMaxIndex[i] = i;
 			}
@@ -322,7 +322,7 @@ public class EuFreqObject {
 	      int currentFreq;
 	      for(int i = -1; i < 2; i++)
 	      {
-	         currentFreq = (int) this.detectFreqByIdx(mEuphonyOption.getDataRate(), i);
+	         currentFreq = (int) this.detectFreqByIdx(mRxOption.getDataRate(), i);
 	         if(currentFreq > tempFreq)
 	         {
 	            tempFreq = currentFreq;
@@ -358,8 +358,8 @@ public class EuFreqObject {
 			dynRef = euGetDynamicRef(curFreq, dynRef, preservedRef, dynRefCnt);
 
 			if(curFreq >= dynRef){
-				int prevFreq = this.detectFreq(_freq - mEuphonyOption.getDataInterval());
-				int nextFreq = this.detectFreq(_freq + mEuphonyOption.getDataInterval());
+				int prevFreq = this.detectFreq(_freq - mRxOption.getDataInterval());
+				int nextFreq = this.detectFreq(_freq + mRxOption.getDataInterval());
 
 				if(prevFreq > curFreq || nextFreq > curFreq)
 					continue;
@@ -409,10 +409,10 @@ public class EuFreqObject {
 		}
 
 		// MAXIMUM and MIMINUM DATA CATCHING
-		if(dynRef > mEuphonyOption.getMaxReference())
-			dynRef = mEuphonyOption.getMaxReference();
-		if(dynRef < mEuphonyOption.getMinReference())
-			dynRef = mEuphonyOption.getMinReference();
+		if(dynRef > mRxOption.getMaxReference())
+			dynRef = mRxOption.getMaxReference();
+		if(dynRef < mRxOption.getMinReference())
+			dynRef = mRxOption.getMinReference();
 
 		return dynRef;
 	}
@@ -444,10 +444,10 @@ public class EuFreqObject {
 		}
 
 		// MAXIMUM and MIMINUM DATA CATCHING
-		if(mDynamicRefArray[freqIndex] > mEuphonyOption.getMaxReference())
-			mDynamicRefArray[freqIndex] = mEuphonyOption.getMaxReference();
-		if(mDynamicRefArray[freqIndex] < mEuphonyOption.getMinReference())
-			mDynamicRefArray[freqIndex] = mEuphonyOption.getMinReference();
+		if(mDynamicRefArray[freqIndex] > mRxOption.getMaxReference())
+			mDynamicRefArray[freqIndex] = mRxOption.getMaxReference();
+		if(mDynamicRefArray[freqIndex] < mRxOption.getMinReference())
+			mDynamicRefArray[freqIndex] = mRxOption.getMinReference();
 
 		return mDynamicRefArray[freqIndex];
 	}
@@ -469,4 +469,11 @@ public class EuFreqObject {
 		return buffer.asShortBuffer();
 	}
 
+	public EuOption getRxOption() {
+		return mRxOption;
+	}
+
+	public void setRxOption(EuOption option) {
+		this.mRxOption = option;
+	}
 }

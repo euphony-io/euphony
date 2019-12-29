@@ -1,6 +1,5 @@
 package euphony.lib.receiver;
 
-import euphony.lib.util.COMMON;
 import euphony.lib.util.EuOption;
 
 import android.os.Handler;
@@ -36,7 +35,7 @@ public class EuRxManager {
 	public void find() 
 	{
 		_active = true;
-		mPsRunner = new PsRunner();
+		mPsRunner = new PsRunner(mOption);
 		mPsThread = new Thread(mPsRunner, "PS");
 		mPsThread.start();
 	}
@@ -144,7 +143,7 @@ public class EuRxManager {
 				if(this.getCompleted()){
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_DECODE;
-					switch(mEuphonyOption.getEncodingType()) {
+					switch(mRxOption.getEncodingType()) {
 						case ASCII:
 							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
 							break;
@@ -163,6 +162,10 @@ public class EuRxManager {
 	
 	private class PsRunner extends EuFreqObject implements Runnable {
 
+		PsRunner(EuOption option) {
+			super(option);
+		}
+
 		@Override
 		public void run() {
 			boolean startswt = false;
@@ -174,7 +177,7 @@ public class EuRxManager {
 				while(!startswt) {
 					processFFT();
 					int i;
-					for(i = 21000; i >= 16500; i-=COMMON.CHANNEL_SPAN)
+					for(i = 21000; i >= 16500; i-= mRxOption.getDataInterval())
 						if(100 < detectFreq(i)){
 							startswt = true;
 							break;
