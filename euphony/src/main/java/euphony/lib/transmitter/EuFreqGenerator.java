@@ -7,39 +7,77 @@ public class EuFreqGenerator {
 	// FIXED ACOUSTIC DATA
 	private final double PI = Math.PI;
 	private final double PI2 = PI * 2;
+
+	public enum CrossfadeType {
+		FRONT, END, BOTH
+	}
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
 	private short[] mZeroSource;
+	private int mBufferSize;
+	private int mSampleRate;
+
+	private int mCpIndex;
+	private double mCpLastTheta;
 
 	private EuOption mTxOption;
 
 	public EuFreqGenerator() {
 		mTxOption = new EuOption();
-		mZeroSource = new short[mTxOption.getBufferSize()];
+		initialize();
 	}
 
 	public EuFreqGenerator(EuOption option) {
 		mTxOption = option;
-		mZeroSource = new short[mTxOption.getBufferSize()];
+		initialize();
+	}
+
+	private void initialize() {
+		mBufferSize = mTxOption.getBufferSize();
+		mSampleRate = mTxOption.getSampleRate();
+		mZeroSource = new short[mBufferSize];
+
+		mCpIndex = 0;
+		mCpLastTheta = 0;
 	}
 	
 	public short[] makeStaticFrequency(int freq, int degree)
     {
-    	int bufferSize = mTxOption.getBufferSize();
-    	double[] double_source = new double[bufferSize];
-    	short[] source = new short[bufferSize];
+    	double[] double_source = new double[mBufferSize];
+    	short[] source = new short[mBufferSize];
         double time, phase;
         
-        for(int i = 0; i < bufferSize; i++)
+        for(int i = 0; i < mBufferSize; i++)
         {
-        	time = (double)i / (double)mTxOption.getSampleRate();
+        	time = (double)i / (double)mSampleRate;
         	double_source[i] = Math.sin(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);        	
         }
         
         return source;
     }
+
+    public short[] makeFrequencyWithCP(int freq) {
+		double[] double_source = new double[mBufferSize];
+		short[] source = new short[mBufferSize];
+
+		double x = PI2 * freq;
+		double thetaDiff = x * (mCpIndex / mSampleRate) - mCpLastTheta;
+
+		int bufferIdx = 0;
+		double theta = 0;
+		int i = mCpIndex;
+		for(; i < mCpIndex + mBufferSize; i++) {
+			theta = x * i / mSampleRate - thetaDiff;
+			source[bufferIdx++] = (short)Math.sin(theta);
+		}
+
+		mCpIndex = i;
+		mCpLastTheta = x * mCpIndex / mSampleRate - thetaDiff;
+
+		return source;
+	}
     
     public void euMakeFrequency(short[] source, int freq)
     {
@@ -48,23 +86,32 @@ public class EuFreqGenerator {
     
     public short[] makeFrequencyWithCrossFade(int freq)
     {
-    	return applyCrossFade(makeStaticFrequency(freq, 0));
+    	return applyCrossFade(makeStaticFrequency(freq, 0), CrossfadeType.BOTH);
     }
 
 	public short[] makeFrequencyWithValue(int value) {
-		return applyCrossFade(makeStaticFrequency(mTxOption.getControlPoint() + mTxOption.getDataInterval() * value, 0));
+		return applyCrossFade(makeStaticFrequency(mTxOption.getControlPoint() + mTxOption.getDataInterval() * value, 0), CrossfadeType.BOTH);
 	}
     
-    public short[] applyCrossFade(short[] source)
+    public short[] applyCrossFade(short[] source, CrossfadeType type)
     {
     	double mini_window;
     	int fade_section = mTxOption.getFadeRange();
-		final int bufferSize = mTxOption.getBufferSize();
-    	for(int i = 0; i < fade_section; i++)
+		for(int i = 0; i < fade_section; i++)
     	{
     		mini_window = (double)i / (double)fade_section;
-    		source[i] *= mini_window;
-    		source[bufferSize-1-i] *= mini_window;
+    		switch(type) {
+				case FRONT:
+					source[i] *= mini_window;
+					break;
+				case END:
+					source[mBufferSize-1-i] *= mini_window;
+					break;
+				case BOTH:
+					source[i] *= mini_window;
+					source[mBufferSize-1-i] *= mini_window;
+					break;
+			}
     	}
     	
     	return source;
@@ -108,7 +155,7 @@ public class EuFreqGenerator {
     	for(int i = 0; i < sources.length; i++)
     	{
     		if(isCrossfaded)
-    			sources[i] = applyCrossFade(sources[i]);
+    			sources[i] = applyCrossFade(sources[i], CrossfadeType.BOTH);
     		
     		for(int j = 0; j < sources[i].length; j++)
     				dest[j + i * bufferSize] = sources[i][j];

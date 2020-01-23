@@ -12,7 +12,7 @@ public class EuTxManager {
 	private AudioTrack mAudioTrack = null;
 	private EuOption mTxOption = null;
 	private EuCodeMaker mCodeMaker;
-	private EuDataEncoder mDataEncoder = new EuDataEncoder();
+	private EuDataEncoder mDataEncoder;
 
 	public short[] getOutStream() {
 		return mOutStream;
@@ -22,12 +22,14 @@ public class EuTxManager {
 	
 	public EuTxManager() {
 		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK);
-		mCodeMaker = new EuCodeMaker(EuOption.ModulationType.FSK);
+		mCodeMaker = new EuCodeMaker(mTxOption);
+		mDataEncoder = new EuDataEncoder();
 	}
 
 	public EuTxManager(EuOption option) {
 		mTxOption = option;
-		mCodeMaker = new EuCodeMaker(mTxOption.getModulationType());
+		mCodeMaker = new EuCodeMaker(mTxOption);
+		mDataEncoder = new EuDataEncoder();
 	}
 
 	/*
