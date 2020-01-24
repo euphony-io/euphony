@@ -32,4 +32,26 @@ public class TransmitterUnitTest {
         outStreamLength = mEuTxManager2.getOutStream().length;
         assertEquals(outStreamLength, length);
     }
+
+    @Test
+    public void EuCodeMaker_iscorrect() {
+        EuOption txOption = new EuOption();
+        txOption.setModulationType(EuOption.ModulationType.CPFSK);
+
+        String code = EuDataEncoder.encodeStaticHexCharSource("hello");
+        EuCodeMaker mCodeMaker = new EuCodeMaker(txOption);
+        short[] musicSource = mCodeMaker.assembleData(code);
+        assertEquals(musicSource.length, 13*2048);
+
+        txOption.setModulationType(EuOption.ModulationType.FSK);
+        mCodeMaker.setOption(txOption);
+        musicSource = mCodeMaker.assembleData(code);
+        assertEquals(musicSource.length, 13*2048);
+
+        txOption.setModulationType(EuOption.ModulationType.ASK);
+        mCodeMaker.setOption(txOption);
+        code = EuDataEncoder.encodeStaticBinaryCharSource("hello");
+        musicSource = mCodeMaker.assembleData(code);
+        assertEquals(musicSource.length, 13*4*2048);
+    }
 }

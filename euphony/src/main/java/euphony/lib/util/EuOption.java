@@ -2,7 +2,7 @@ package euphony.lib.util;
 
 public class EuOption {
     public enum EncodingType {
-        ASCII, HEX
+        ASCII, HEX, BINARY
     }
 
     public enum CommunicationMode {
@@ -86,6 +86,9 @@ public class EuOption {
 
     public void setModulationType(ModulationType _modulationType) {
         this.mModulationType = _modulationType;
+
+        if(_modulationType == ModulationType.ASK)
+            setEncodingType(EncodingType.BINARY);
     }
 
     public int getSampleRate() {

@@ -246,7 +246,7 @@ public class EuFreqObject {
 								mReceivedData += "" + a[i];		
 						}
 						
-						if(PacketErrorDetector.makeCheckSum(a) == mChannelArrayList.get(mChannelArrayList.size()-2) && (PacketErrorDetector.makeParellelParity(a) == mChannelArrayList.get(mChannelArrayList.size()-1))) {
+						if(PacketErrorDetector.makeCheckSum(a) == mChannelArrayList.get(mChannelArrayList.size()-2) && (PacketErrorDetector.makeParallelParity(a) == mChannelArrayList.get(mChannelArrayList.size()-1))) {
 							isStarted = false;
 							isCompleted = true;
 							receiveStr = EuDataDecoder.decodeStaticHexCharSource(a);

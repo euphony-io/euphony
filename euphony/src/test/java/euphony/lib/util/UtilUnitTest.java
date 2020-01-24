@@ -1,6 +1,7 @@
 package euphony.lib.util;
 
 import org.junit.Test;
+
 import euphony.lib.transmitter.EuDataEncoder;
 
 import static org.junit.Assert.assertEquals;
@@ -9,19 +10,17 @@ public class UtilUnitTest {
     public void packet_err_detect_isCorrect()
     {
         int[] source = {0x6, 0x8, 0x6, 0x5, 0x6, 0xc, 0x6, 0xc, 0x6, 0xf};
+
         assertEquals(PacketErrorDetector.makeCheckSum(source), 14);
         assertEquals(PacketErrorDetector.makeCheckSum(   234), 6);
-        assertEquals(PacketErrorDetector.makeParellelParity(source), 4);
-        assertEquals(PacketErrorDetector.makeParellelParity(234), 10);
-        assertEquals(PacketErrorDetector.checkEvenParity(source, 4), true);
-        assertEquals(PacketErrorDetector.checkEvenParity(source, 5), false);
+        assertEquals(PacketErrorDetector.makeParallelParity(source), 4);
+        assertEquals(PacketErrorDetector.makeParallelParity(234), 10);
         assertEquals(PacketErrorDetector.verifyCheckSum(source, 14), true);
         assertEquals(PacketErrorDetector.verifyCheckSum(source, 13), false);
+        assertEquals(PacketErrorDetector.verifyEvenParity(source, 4), true);
+        assertEquals(PacketErrorDetector.verifyEvenParity(source, 5), false);
 
-        PacketErrorDetector errorDetector = new PacketErrorDetector();
-        assertEquals(errorDetector.euGetEvenParityState(), false);
-        errorDetector.euSetEvenParityState(true);
-        assertEquals(errorDetector.euGetEvenParityState(), true);
+        assertEquals(PacketErrorDetector.makeErrorDetectionCode(EuDataEncoder.encodeStaticHexCharSource("hello")), "E4");
     }
 
     @Test

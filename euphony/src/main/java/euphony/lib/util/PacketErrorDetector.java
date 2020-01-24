@@ -4,34 +4,52 @@ import android.util.Log;
 
 public class PacketErrorDetector {
 
-
-	private boolean mEvenParity = false;
-	
+	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
 	/*****************************************************
-	 *  This function sets EvenParity Bit's Value with parameter (force to set)
-	 *   
-	 * parameter : 
-	 * 		int nParityValue - 0 : Data Bit Value 1's number  is EVEN
-	 * 						   1 : Data Bit Value 1's number  is ODD
-	 * 			
-	 * 			
-	 * return : none
+	 * This function get all result of error detection algorithms
+	 *
+	 *  parameter :
+	 *  	String payload			- Payload Data
+	 *  return type : String
+	 *   	result of error detection algorithms
 	 *****************************************************/
-	public void euSetEvenParityState(boolean nParityState){
-		mEvenParity = nParityState;
+	public static String makeErrorDetectionCode(String payload)
+	{
+		int payloadSum = 0;
+		int evenParity1 = 0;
+		int evenParity2 = 0;
+		int evenParity3 = 0;
+		int evenParity4 = 0;
+		int evenParity;
+
+		for(int i = 0 ; i < payload.length(); i++){
+			char ch = payload.charAt(i);
+			int ch2i = 0;
+			switch(ch) {
+				default:
+					ch2i = ch - '0';
+					break;
+				case 'a': case 'b': case 'c':
+				case 'd': case 'e': case 'f':
+					ch2i = ch - 'a' + 10;
+					break;
+			}
+			evenParity1 += ((0x8 & ch2i) >> 3);
+			evenParity2 += ((0x4 & ch2i) >> 2);
+			evenParity3 += ((0x2 & ch2i) >> 1);
+			evenParity4 += (0x1 & ch2i);
+
+			payloadSum += ch2i;
+		}
+		payloadSum &= 0xF;
+		payloadSum = (~payloadSum + 1) & 0xF;
+		evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);
+
+		return "" + HEX_ARRAY[payloadSum] + HEX_ARRAY[evenParity];
 	}
 
-	/*****************************************************
-	 * This function returns EvenParity Bit's Value.
-	 *  parameter : none
-	 *  return type : int
-	 *  					   0 : Data Bit Value 1's number  is EVEN
-	 * 						   1 : Data Bit Value 1's number  is ODD
-	 *****************************************************/
-	public boolean euGetEvenParityState(){
-		return mEvenParity;
-	}
+
 	
 	/***************************************************** 
 	 * This function checks ParityBit(Even) and judges payload data is reliable
@@ -43,7 +61,7 @@ public class PacketErrorDetector {
 	 *   			TRUE  - Parity Check Result means data is reliable	
 	 *   			FALSE - Parity Check Result means data is unreliable
 	 *****************************************************/
-	public static boolean checkEvenParity(int[] payload,  int nParityBit){
+	public static boolean verifyEvenParity(int[] payload, int nParityBit){
 		int ntemp = 0;
 		for(int i = 0 ; i < payload.length ; i++){
 			ntemp ^= payload[i];
@@ -64,14 +82,13 @@ public class PacketErrorDetector {
 	 *  return type : int
 	 *            the EvenParity data to transmit
 	 *****************************************************/
-	public static int makeParellelParity(int payLoad){
+	public static int makeParallelParity(int payLoad){
 		int evenParity1 = ((0x8 & payLoad) >> 3);
 		int evenParity2 = ((0x4 & payLoad) >> 2);
 		int evenParity3 = ((0x2 & payLoad) >> 1);
 		int evenParity4 = (0x1 & payLoad);
 		int evenParity;
 
-		Log.i("UHEHE", evenParity1 + " " + evenParity2 + " " + evenParity3 + " " + evenParity4);
 		evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);
 
 		return evenParity;
@@ -85,7 +102,7 @@ public class PacketErrorDetector {
 	    *  return type : int
 	    *            the EvenParity data to transmit
 	    *****************************************************/
-	   public static int makeParellelParity(int[] payLoad){
+	   public static int makeParallelParity(int[] payLoad){
 	      int evenParity1 = 0;
 	      int evenParity2 = 0;
 	      int evenParity3 = 0;
@@ -98,12 +115,49 @@ public class PacketErrorDetector {
 	         evenParity3 += ((0x2 & payLoad[i]) >> 1);
 	         evenParity4 += (0x1 & payLoad[i]);
 	      }
-	     
-	      Log.i("UHEHE", evenParity1 + " " + evenParity2 + " " + evenParity3 + " " + evenParity4);
-	      evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);   
+
+	      evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);
 	      
 	      return evenParity;
 	   }
+
+	/*****************************************************
+	 * This function makes ParellelParityBit(int[] payLoad) (word : 4bit)
+	 *
+	 *  parameter :
+	 *        int[] payLoad         - Payload Data
+	 *  return type : int
+	 *            the EvenParity data to transmit
+	 *****************************************************/
+	public static int makeParallelParity(String payload){
+		int evenParity1 = 0;
+		int evenParity2 = 0;
+		int evenParity3 = 0;
+		int evenParity4 = 0;
+		int evenParity;
+
+		for(int i = 0 ; i < payload.length(); i++){
+			char ch = payload.charAt(i);
+			int ch2i = 0;
+			switch(ch) {
+				default:
+					ch2i = ch - '0';
+					break;
+				case 'a': case 'b': case 'c':
+				case 'd': case 'e': case 'f':
+					ch2i = ch - 'a' + 10;
+					break;
+			}
+			evenParity1 += ((0x8 & ch2i) >> 3);
+			evenParity2 += ((0x4 & ch2i) >> 2);
+			evenParity3 += ((0x2 & ch2i) >> 1);
+			evenParity4 += (0x1 & ch2i);
+		}
+
+		evenParity = (evenParity1&0x1)*8+(evenParity2&0x1)*4+(evenParity3&0x1)*2+(evenParity4&0x1);
+
+		return evenParity;
+	}
 
 	/***************************************************** 
 	 * This function verify Checksum bit (word : 4bit)
@@ -156,6 +210,35 @@ public class PacketErrorDetector {
 		int nCheckSum = 0; // CheckSum's Initial value is 0
 		for(int i = 0 ; i < payLoad.length ; i++){
 			nSumTemp += payLoad[i];
+		}
+		// remove carry
+		nSumTemp &= 0xF;
+		// get 2's Complement and make checksum 4bit word
+		nCheckSum = (~nSumTemp + 1) & 0xF;
+
+		return nCheckSum;
+	}
+
+	/*****************************************************
+	 * This function makes Checksum bit(word : 4bit)
+	 *  parameter : int[] Payload			- Payload Data
+	 *  return type : int
+	 *   	 the Checksum data to transmit
+	 *****************************************************/
+	public static int makeCheckSum(String payload){
+		int nSumTemp = 0;
+		int nCheckSum = 0; // CheckSum's Initial value is 0
+		for(int i = 0 ; i < payload.length(); i++){
+			char ch = payload.charAt(i);
+			switch(ch) {
+				default:
+					nSumTemp += ch - '0';
+					break;
+				case 'a': case 'b': case 'c':
+				case 'd': case 'e': case 'f':
+					nSumTemp += ch - 'a' + 10;
+					break;
+			}
 		}
 		// remove carry
 		nSumTemp &= 0xF;
