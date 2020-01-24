@@ -38,7 +38,7 @@ public class EuCodeMaker extends EuFreqGenerator {
 
 	public short[] assembleData(String data)
     {
-		short[] assembledData = {0,};
+		short[] assembledData = {};
 
     	switch(mModulation){
 			case ASK: {

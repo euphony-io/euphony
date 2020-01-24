@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class PacketErrorDetector {
 
-	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+	private static final char[] HEX_ARRAY = "0123456789abcdef".toCharArray();
 
 	/*****************************************************
 	 * This function get all result of error detection algorithms

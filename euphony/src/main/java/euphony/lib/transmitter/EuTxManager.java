@@ -55,7 +55,7 @@ public class EuTxManager {
 				beginCode = "S";
 				break;
 			case CPFSK:
-				beginCode += "Ss";
+				beginCode = "Ss";
 				break;
 		}
 
