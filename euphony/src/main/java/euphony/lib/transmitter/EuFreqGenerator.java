@@ -68,9 +68,12 @@ public class EuFreqGenerator {
 		int bufferIdx = 0;
 		double theta = 0;
 		int i = mCpIndex;
-		for(; i < mCpIndex + mBufferSize; i++) {
+		int bufferSize = mCpIndex + mBufferSize;
+		for(; i < bufferSize; i++) {
 			theta = x * i / mSampleRate - thetaDiff;
-			source[bufferIdx++] = (short)Math.sin(theta);
+			double_source[bufferIdx] = Math.sin(theta);
+			source[bufferIdx] = (short)(32767 * double_source[bufferIdx]);
+			bufferIdx++;
 		}
 
 		mCpIndex = i;
