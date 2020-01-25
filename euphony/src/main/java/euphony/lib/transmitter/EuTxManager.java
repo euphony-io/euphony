@@ -21,15 +21,17 @@ public class EuTxManager {
 	private short[] mOutStream;
 	
 	public EuTxManager() {
-		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK);
-		mCodeMaker = new EuCodeMaker(mTxOption);
+		setOption(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK));
 	}
 
 	public EuTxManager(EuOption option) {
-		mTxOption = option;
-		mCodeMaker = new EuCodeMaker(mTxOption);
+		setOption(option);
 	}
 
+	public void setOption(EuOption option) {
+        mTxOption = option;
+        mCodeMaker = new EuCodeMaker(mTxOption);
+    }
 	/*
 	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
 	 */
