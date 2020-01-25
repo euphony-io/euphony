@@ -49,6 +49,7 @@ public class EuTxManager {
 		 */
 		String beginCode = "";
 		String code = "";
+		String errorCode = "";
 		switch(mTxOption.getModulationType()) {
 			case ASK:
 			case FSK:
@@ -63,14 +64,15 @@ public class EuTxManager {
 		switch(mTxOption.getEncodingType()) {
 			case ASCII:
 			case HEX:
-				code += EuDataEncoder.encodeStaticHexCharSource(data);
+				code = EuDataEncoder.encodeStaticHexCharSource(data);
+				errorCode = PacketErrorDetector.makeErrorDetectionCode(code, EuOption.EncodingType.HEX);
 				break;
 			case BINARY:
-				code += EuDataEncoder.encodeStaticBinaryCharSource(data);
+				code = EuDataEncoder.encodeStaticBinaryCharSource(data);
+				errorCode = PacketErrorDetector.makeErrorDetectionCode(code, EuOption.EncodingType.BINARY);
 				break;
 		}
 
-		String errorCode = PacketErrorDetector.makeErrorDetectionCode(code);
 		code = beginCode + code + errorCode;
 
 		// set communication mode.

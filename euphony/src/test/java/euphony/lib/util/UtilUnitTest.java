@@ -20,7 +20,7 @@ public class UtilUnitTest {
         assertEquals(PacketErrorDetector.verifyEvenParity(source, 4), true);
         assertEquals(PacketErrorDetector.verifyEvenParity(source, 5), false);
 
-        assertEquals(PacketErrorDetector.makeErrorDetectionCode(EuDataEncoder.encodeStaticHexCharSource("hello")), "E4");
+        assertEquals(PacketErrorDetector.makeErrorDetectionCode(EuDataEncoder.encodeStaticHexCharSource("hello"), EuOption.EncodingType.HEX), "e4");
     }
 
     @Test

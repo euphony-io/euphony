@@ -24,9 +24,11 @@ public class EuDataEncoder extends EuCodec {
 	public static String encodeStaticBinaryCharSource(String _source){
 		StringBuilder strBuilder = new StringBuilder();
 
+		_source = encodeStaticHexCharSource(_source);
+
 		for (int i = 0; i < _source.length(); i++) {
-			int data = _source.charAt(i);
-			strBuilder.append(Integer.toBinaryString(data));
+			int data = Integer.parseInt(_source.charAt(i) + "", 16);
+			strBuilder.append(String.format("%04d", Integer.parseInt(Integer.toBinaryString(data))));
 		}
 
 		return strBuilder.toString();
@@ -36,7 +38,7 @@ public class EuDataEncoder extends EuCodec {
 		StringBuilder strBuilder = new StringBuilder();
 
 		for (int i = 0; i < _source.length(); i++) {
-			int data = _source.charAt(i);
+			int data =_source.charAt(i);
 			strBuilder.append(Integer.toHexString(data));
 		}
 

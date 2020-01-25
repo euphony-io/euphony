@@ -41,20 +41,17 @@ public class TransmitterUnitTest {
         String code = EuDataEncoder.encodeStaticHexCharSource("hello");
         EuCodeMaker mCodeMaker = new EuCodeMaker(txOption);
         short[] musicSource = mCodeMaker.assembleData(code);
-        assertEquals(musicSource.length, 10*2048);
+        assertEquals(musicSource.length, 5 * 2 * 2048);
 
         txOption.setModulationType(EuOption.ModulationType.FSK);
         mCodeMaker.setOption(txOption);
         musicSource = mCodeMaker.assembleData(code);
-        assertEquals(musicSource.length, 10*2048);
+        assertEquals(musicSource.length, 5 * 2 * 2048);
 
-        /*
-        TODO: ASK's error detection code should be fixed;
         txOption.setModulationType(EuOption.ModulationType.ASK);
         mCodeMaker.setOption(txOption);
         code = EuDataEncoder.encodeStaticBinaryCharSource("hello");
         musicSource = mCodeMaker.assembleData(code);
-        assertEquals(musicSource.length, 10*4*2048);
-         */
+        assertEquals(musicSource.length, 5*2*4*2048);
     }
 }
