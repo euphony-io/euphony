@@ -1,12 +1,14 @@
 package euphony.lib.transmitter;
 
+import android.util.Log;
+
 import euphony.lib.util.EuOption;
 
 public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
 	private final double PI = Math.PI;
-	private final double PI2 = PI * 2;
+	private final double PI2 = PI * 2.0;
 
 	public enum CrossfadeType {
 		FRONT, END, BOTH
@@ -16,7 +18,7 @@ public class EuFreqGenerator {
 	// DEFAULT DEFINITION 
 	private short[] mZeroSource;
 	private int mBufferSize;
-	private int mSampleRate;
+	private double mSampleRate;
 
 	private int mCpIndex;
 	private double mCpLastTheta;
@@ -50,7 +52,7 @@ public class EuFreqGenerator {
         
         for(int i = 0; i < mBufferSize; i++)
         {
-        	time = (double)i / (double)mSampleRate;
+        	time = (double) i / mSampleRate;
         	double_source[i] = Math.sin(PI2 * (double)freq * time);
         	source[i] = (short)(32767 * double_source[i]);        	
         }
@@ -59,25 +61,23 @@ public class EuFreqGenerator {
     }
 
     public short[] makeFrequencyWithCP(int freq) {
-		double[] double_source = new double[mBufferSize];
 		short[] source = new short[mBufferSize];
 
-		double x = PI2 * freq;
-		double thetaDiff = x * (mCpIndex / mSampleRate) - mCpLastTheta;
+		double x = PI2 * (double)freq;
+		double thetaDiff = x * ((double)mCpIndex / mSampleRate) - mCpLastTheta;
 
 		int bufferIdx = 0;
 		double theta = 0;
 		int i = mCpIndex;
 		int bufferSize = mCpIndex + mBufferSize;
 		for(; i < bufferSize; i++) {
-			theta = x * i / mSampleRate - thetaDiff;
-			double_source[bufferIdx] = Math.sin(theta);
-			source[bufferIdx] = (short)(32767 * double_source[bufferIdx]);
+			theta = x * ((double) i / mSampleRate) - thetaDiff;
+			source[bufferIdx] = (short)(Short.MAX_VALUE * Math.sin(theta));
 			bufferIdx++;
 		}
 
 		mCpIndex = i;
-		mCpLastTheta = x * mCpIndex / mSampleRate - thetaDiff;
+		mCpLastTheta = x * ((double)mCpIndex / mSampleRate) - thetaDiff;
 
 		return source;
 	}
@@ -108,11 +108,11 @@ public class EuFreqGenerator {
 					source[i] *= mini_window;
 					break;
 				case END:
-					source[mBufferSize-1-i] *= mini_window;
+					source[source.length - 1 - i] *= mini_window;
 					break;
 				case BOTH:
 					source[i] *= mini_window;
-					source[mBufferSize-1-i] *= mini_window;
+					source[source.length - 1 - i] *= mini_window;
 					break;
 			}
     	}
