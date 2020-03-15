@@ -21,8 +21,9 @@ public class EuFreqGenerator {
 	private double mSampleRate;
 
 	private int mCpIndex;
-	private double mCpLastTheta;
-
+	private double mCpLastTheta, mCpLastThetaNext;
+	private double mCpLastSin, mCpLastCos;
+	private int mCpLastFreq;
 	private EuOption mTxOption;
 
 	public EuFreqGenerator() {
@@ -42,6 +43,8 @@ public class EuFreqGenerator {
 
 		mCpIndex = 0;
 		mCpLastTheta = 0;
+		mCpLastSin = 0;
+		mCpLastCos = 0;
 	}
 	
 	public short[] makeStaticFrequency(int freq, int degree)
@@ -60,24 +63,80 @@ public class EuFreqGenerator {
         return source;
     }
 
+	private int findCPIndex(int freq) {
+		int idx = 0;
+		double x = PI2 * (double)freq;
+		double v = 0;
+		boolean cosChecker = false, sinChecker = false;
+
+		while(cosChecker && sinChecker) {
+			v = x * ((double)idx / mSampleRate);
+
+		}
+		return idx;
+	}
+
     public short[] makeFrequencyWithCP(int freq) {
 		short[] source = new short[mBufferSize];
 
 		double x = PI2 * (double)freq;
-		double thetaDiff = x * ((double)mCpIndex / mSampleRate) - mCpLastTheta;
+		double currentSin = Math.sin( x * ((double) (mCpIndex) / mSampleRate));
+		//double thetaDiff = x * ((double)mCpIndex / mSampleRate) - mCpLastTheta;
+		double minVal = Math.abs(Math.sin(mCpLastTheta) - currentSin);
+		int minValIdx = mCpIndex;
+        for(int i = 1; i < mSampleRate; i++) {
+            double val = Math.sin(x * ((double)i / mSampleRate));// - mCpLastTheta;
+			double cos = Math.cos(x * ((double)i / mSampleRate));// - mCpLastTheta;
+            if(minVal > Math.abs(Math.sin(mCpLastTheta) - val)){
+            	if(Math.signum(cos) == Math.signum(mCpLastTheta)) {
+					minVal = Math.abs(Math.sin(mCpLastTheta) - val);
+					minValIdx = i;
+				}
+            }
+        }
 
+        mCpIndex = minValIdx;
+		currentSin = Math.sin( x * ((double) (mCpIndex) / mSampleRate));
+		double currentSinNext = Math.sin( x * ((double) (mCpIndex + 1) / mSampleRate));
+/*
+		if(Math.abs(Math.sin(mCpLastThetaNext) - currentSinNext) >= 0.01) {
+			int tempIndex = 0;
+			double minSinIdx = mCpIndex + 1;
+			do {
+				tempIndex++;
+				currentSinNext = Math.sin(x * ((double) (tempIndex) / mSampleRate) - thetaDiff);
+
+
+			}while (Math.abs(Math.sin(mCpLastThetaNext) - currentSinNext) >= 0.01);
+			mCpIndex = tempIndex;
+		}
+*/
+		Log.i("makeFrequencyWithCP", freq + " : " + " " + mCpIndex);
+		Log.i("makeFrequencyWithCP", freq + " : " + " " + Math.sin(mCpLastTheta) + " " + currentSin + " " + (Math.sin(mCpLastTheta) - currentSin));
+		//Log.i("makeFrequencyWithCP", freq + " : " + thetaDiff + " " + Math.sin(mCpLastThetaNext)  + " " + currentSinNext + " "  + (Math.sin(mCpLastThetaNext) - currentSinNext));
+		// 18000hz / 1sec
 		int bufferIdx = 0;
 		double theta = 0;
 		int i = mCpIndex;
 		int bufferSize = mCpIndex + mBufferSize;
 		for(; i < bufferSize; i++) {
-			theta = x * ((double) i / mSampleRate) - thetaDiff;
+			theta = x * ((double) i / mSampleRate);
 			source[bufferIdx] = (short)(Short.MAX_VALUE * Math.sin(theta));
 			bufferIdx++;
 		}
 
+		/*
+		if(thetaDiff != 0) {
+			source[0] *= 0.1;
+			source[1] *= 0.5;
+		}
+
+		source[bufferIdx - 2] *= 0.5;
+		source[bufferIdx - 1] *= 0.1;
+*/
 		mCpIndex = i;
-		mCpLastTheta = x * ((double)mCpIndex / mSampleRate) - thetaDiff;
+		mCpLastTheta = x * ((double)mCpIndex / mSampleRate);
+		mCpLastThetaNext = x * ((double)(mCpIndex + 1) / mSampleRate);
 
 		return source;
 	}
