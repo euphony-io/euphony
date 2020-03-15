@@ -88,7 +88,7 @@ public class EuFreqGenerator {
             double val = Math.sin(x * ((double)i / mSampleRate));// - mCpLastTheta;
 			double cos = Math.cos(x * ((double)i / mSampleRate));// - mCpLastTheta;
             if(minVal > Math.abs(Math.sin(mCpLastTheta) - val)){
-            	if(Math.signum(cos) == Math.signum(mCpLastTheta)) {
+            	if(Math.signum(cos) == Math.signum(Math.cos(mCpLastTheta))) {
 					minVal = Math.abs(Math.sin(mCpLastTheta) - val);
 					minValIdx = i;
 				}
