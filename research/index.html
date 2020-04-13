@@ -6,9 +6,10 @@
     <style>
         body {font-family: 'Noto Sans KR', sans-serif;}
         #header { text-align:center; height:45px; line-height:45px; font-weight:bold; font-size:25px; }
-    </style>    
-    
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>
+    <script src='euphony-research.js'></script>
     </head>
     <body>
         <div id='header'>
@@ -19,11 +20,21 @@
                 Tone Generator
             </h3>
             <div id='play-btn' class='btn'>PLAY</div>
-            <div class="frequency-slider">
-                <input type="range" min="1" max="22050" value="400" class="slider" id="frequencyRange">                
+            <div id='frequency-viewer'>
+              <div class='view-panel'>
+                freuqnecy viewer-panel
+              </div>
+              <div class="frequency-slider">
+                <input type="range" min="1" max="22050" value="400" class="slider" id="frequencyRange" onchange="setFrequency(this)">
+              </div>
             </div>
-            <div class='volume-slider'>
-                <input type="range" min="0 max="100" value="50" class="vslider" id="volumeRange">
+            <div id='volume-viewer'>
+              <div class='view-panel'>
+                volume viewer-panel
+              </div>
+              <div class='volume-slider'>
+                <input type="range" min="0" max="100" value="50" class="vslider" id="volumeRange" onchange="setVolume(this)" >
+              </div>
             </div>
 
         </div>

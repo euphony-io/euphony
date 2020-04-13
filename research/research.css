@@ -1,8 +1,9 @@
 
   /* CSS for slider*/
-  .frequency-slider {
+  #frequency-viewer .frequency-slider {
     width: 920px; /* Width of the outside container */
   }
+
   
   /* The slider itself */
   .slider {
