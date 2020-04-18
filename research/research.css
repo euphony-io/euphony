@@ -1,10 +1,3 @@
-
-  /* CSS for slider*/
-  #frequency-viewer .frequency-slider {
-    width: 920px; /* Width of the outside container */
-  }
-
-  
   /* The slider itself */
   .slider {
     -webkit-appearance: none;  /* Override default CSS styles */
@@ -64,4 +57,7 @@
     border: 2px solid #ccc;
   }
 
-  #play-btn { cursor:pointer; display: inline-block; padding: .5em .75em; color: #efefef; font-size: 12px; line-height: normal; vertical-align: middle; background-color: #7285A5; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em;}
+  #tone-generator { width:1024px; margin: 0 auto; }
+  #tone-generator #frequency-viewer { }
+  #tone-generator #frequency-viewer .frequency-slider { width:1000px; margin:0 auto; }
+  #tone-generator #play-btn { cursor:pointer; display: inline-block; padding: .5em .75em; color: #efefef; font-size: 12px; line-height: normal; vertical-align: middle; background-color: #7285A5; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em;}

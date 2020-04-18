@@ -9,7 +9,6 @@ function setVolume(e) {
 }
 
 $(document).ready(function() {
-    console.log("I'm ready");
     setFrequency({ value : 400 });
     setVolume({ value : 50 });
 });
