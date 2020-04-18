@@ -25,7 +25,9 @@
                 freuqnecy viewer-panel
               </div>
               <div class="frequency-slider">
-                <input type="range" min="1" max="22050" value="400" class="slider" for='frequency' id="frequencyRange" oninput="setFrequency(this)">
+                <div class='frequency-label'>40</div>
+                <input type="range" min="40" max="22050" value="400" class="slider" for='frequency' id="frequencyRange" oninput="setFrequency(this)">
+                <div class='frequency-label'>22050</div>
               </div>
             </div>
             <div id='volume-viewer'>
@@ -33,6 +35,7 @@
                 volume viewer-panel
               </div>
               <div class='volume-slider'>
+
                 <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
               </div>
             </div>
