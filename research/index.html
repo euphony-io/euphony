@@ -8,7 +8,8 @@
         #header { text-align:center; height:45px; line-height:45px; font-weight:bold; font-size:25px; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>
+    <script src="https://raw.githubusercontent.com/designe/euphony.js/frequency-module/dist/euphony.min.js"></script>
+    <!--<script src='https://cdn.jsdelivr.net/gh/designe/euphony.js/dist/euphony.min.js'></script>-->
     <script src='euphony-research.js'></script>
     </head>
     <body>
@@ -19,24 +20,25 @@
             <h3>    
                 Tone Generator
             </h3>
-            <div id='play-btn' class='btn'>PLAY</div>
+            <div id='play-btn' class='btn' onclick='onPlayBtn()'>PLAY</div>
             <div id='frequency-viewer'>
-              <div class='view-panel'>
-                freuqnecy viewer-panel
-              </div>
+              
               <div class="frequency-slider">
                 <div class='frequency-label'>40</div>
                 <input type="range" min="40" max="22050" value="400" class="slider" for='frequency' id="frequencyRange" oninput="setFrequency(this)">
                 <div class='frequency-label'>22050</div>
               </div>
+              <div class='view-panel'>
+                freuqnecy viewer-panel
+              </div>
             </div>
             <div id='volume-viewer'>
+              
+              <div class='volume-slider'>
+                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
+              </div>
               <div class='view-panel'>
                 volume viewer-panel
-              </div>
-              <div class='volume-slider'>
-
-                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
               </div>
             </div>
 
