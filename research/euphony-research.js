@@ -11,7 +11,14 @@ function setVolume(e) {
 }
 
 function onPlayBtn() {
-    euphy.play(false);
+    if(euphy.getState() == 0){
+        euphy.play(false);
+        $("#play-btn").text("STOP");
+    }
+    else {
+        euphy.stop();
+        $("#play-btn").text("PLAY");
+    }
 }
 
 $(document).ready(function() {

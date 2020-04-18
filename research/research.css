@@ -74,4 +74,5 @@
   #tone-generator #freqeuncy-viewer .frequency-slider .frequency-label { width :30px; }
   #tone-generator #play-btn { cursor:pointer; display: inline-block; padding: .5em .75em; color: #efefef; font-size: 12px; line-height: normal; vertical-align: middle; background-color: #7285A5; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em;}
 
+  #tone-generator #volume-viewer .volume-slider {text-align:center;}
   #tone-generator #volume-viewer .view-panel { text-align:center; }
