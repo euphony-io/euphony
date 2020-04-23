@@ -67,12 +67,22 @@
   .vslider { opacity:0.7 }
   .vslider:hover { opacity:1 }
 
-  #tone-generator { width:1024px; margin: 0 auto; }
+  .sector { width:1024px; margin: 0 auto; }
+  .btn { cursor:pointer; display: inline-block; padding: .5em .75em; color: #efefef; font-size: 12px; line-height: normal; vertical-align: middle; background-color: #7285A5; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em;}
+  
   #tone-generator #frequency-viewer { }
   #tone-generator #frequency-viewer .view-panel { text-align:center; }
   #tone-generator #frequency-viewer .frequency-slider { width:1000px; margin:0 auto; display:flex; }
   #tone-generator #freqeuncy-viewer .frequency-slider .frequency-label { width :30px; }
-  #tone-generator #play-btn { cursor:pointer; display: inline-block; padding: .5em .75em; color: #efefef; font-size: 12px; line-height: normal; vertical-align: middle; background-color: #7285A5; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em;}
+ 
 
-  #tone-generator #volume-viewer .volume-slider {text-align:center;}
-  #tone-generator #volume-viewer .view-panel { text-align:center; }
+ .volume-slider {text-align:center;}
+ .view-panel { text-align:center; }
+
+ #data-generator #text-panel {width: 70%;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08); }

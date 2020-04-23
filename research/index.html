@@ -22,7 +22,7 @@
         <div id='tone-generator' class='sector'>
             <h3>    
               Tone Generator &nbsp;&nbsp; <div id='play-btn' class='btn' onclick='onPlayBtn()'>PLAY</div>
-              <div id='play-btn' class='btn' onclick='onStopBtn()'>STOP</div>
+              <div id='stop-btn' class='btn' onclick='onStopBtn()'>STOP</div>
             </h3>
             <hr/>
             
@@ -39,6 +39,24 @@
             <br/>
             <div id='volume-viewer'>
               
+              <div class='volume-slider'>
+                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
+              </div>
+              <div class='view-panel'>
+                volume viewer-panel
+              </div>
+            </div>
+
+        </div>
+        <div id='data-generator' class='sector'>
+            <h3>    
+              Data Generator &nbsp;&nbsp; <div id='generate-btn' class='btn' onclick='onGenerateBtn()'>PLAY</div>
+
+            </h3>
+            <hr/>
+            
+            <div style='text-align:center;'>
+              <input type='text' id='text-panel' value='hello, euphony'></input>
               <div class='volume-slider'>
                 <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
               </div>

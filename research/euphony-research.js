@@ -9,6 +9,7 @@ function setFrequency(e) {
 function setVolume(e) {
     console.log("setVolume : " + e.value);
     $("#volume-viewer .view-panel").text(e.value + " / 100");
+    $("#data-generator .view-panel").text(e.value + " / 100");
     euphy.setVolume(e.value);
 }
 
