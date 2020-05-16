@@ -13,6 +13,32 @@ function setVolume(e) {
     euphy.setVolume(e.value);
 }
 
+function onGenerateDataBtn() {
+    let data = $("#text-panel").val();
+    console.log(data);
+
+    switch(euphy.getState()) {
+        case 0: // STOP 2 PLAY
+            console.log("STOP 2 PLAY : " + data);
+            $("#generate-btn").text("PAUSE");
+            euphy.initBuffers();
+            euphy.setCode(data);
+            euphy.play(false);
+            break;
+        case 1: // PLAY 2 PAUSE
+            console.log("PLAY 2 PAUSE : ");
+            $("#generate-btn").text("PLAY");
+            euphy.pause();
+            break;
+        case 2: // PAUSE 2 PLAY
+            console.log("PAUSE 2 PLAY : " + data);
+            $("#generate-btn").text("PAUSE");
+            euphy.setCode(data);
+            euphy.play(false);
+            break;
+        }
+}
+
 function onPlayBtn() {
     let freq = $("#frequencyRange").val();
     console.log(euphy.getState());
