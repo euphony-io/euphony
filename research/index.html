@@ -11,8 +11,8 @@
         #header { text-align:center; height:45px; line-height:45px; font-weight:bold; font-size:25px; }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!--<script src='euphony.js/dist/euphony.dev.js'></script>-->
-    <script src='https://cdn.jsdelivr.net/gh/designe/euphony.js@master/dist/euphony.dev.js'></script>
+    <script src='euphony.js/dist/euphony.dev.js'></script>
+    <!--<script src='https://cdn.jsdelivr.net/gh/designe/euphony.js@master/dist/euphony.dev.js'></script>-->
     <script src='euphony-research.js'></script>
     </head>
     <body>
@@ -40,7 +40,7 @@
             <div id='volume-viewer'>
               
               <div class='volume-slider'>
-                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
+                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setToneVolume(this)" >
               </div>
               <div class='view-panel'>
                 volume viewer-panel
@@ -57,7 +57,7 @@
             <div style='text-align:center;'>
               <input type='text' id='text-panel' value='hello, euphony'></input>
               <div class='volume-slider'>
-                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setVolume(this)" >
+                <input type="range" min="0" max="100" value="50" class="vslider" for='volume' id="volumeRange" oninput="setDataVolume(this)" >
               </div>
               <div class='view-panel'>
                 volume viewer-panel

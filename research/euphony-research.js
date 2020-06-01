@@ -1,74 +1,82 @@
-var euphy = new Euphony();
+var euphyTone = new Euphony();
+var euphyData = new Euphony();
 
 function setFrequency(e) {
     $("#frequency-viewer .view-panel").text(e.value + " hz");
-    euphy.initBuffers();
-    euphy.setFrequency(e.value);
+    euphyTone.initBuffers();
+    euphyTone.setFrequency(e.value);
 }
 
-function setVolume(e) {
+function setToneVolume(e) {
     console.log("setVolume : " + e.value);
     $("#volume-viewer .view-panel").text(e.value + " / 100");
+    euphyTone.setVolume(e.value);
+}
+
+function setDataVolume(e) {
+    console.log("setVolume : " + e.value);
     $("#data-generator .view-panel").text(e.value + " / 100");
-    euphy.setVolume(e.value);
+    euphyData.setVolume(e.value);    
 }
 
 function onGenerateDataBtn() {
     let data = $("#text-panel").val();
     console.log(data);
 
-    switch(euphy.getState()) {
+    switch(euphyData.getState()) {
         case 0: // STOP 2 PLAY
             console.log("STOP 2 PLAY : " + data);
             $("#generate-btn").text("PAUSE");
-            euphy.initBuffers();
-            euphy.setCode(data);
-            euphy.play(false);
+            euphyData.initBuffers();
+            euphyData.setCode(data);
+            euphyData.play();
             break;
         case 1: // PLAY 2 PAUSE
             console.log("PLAY 2 PAUSE : ");
             $("#generate-btn").text("PLAY");
-            euphy.pause();
+            euphyData.pause();
             break;
         case 2: // PAUSE 2 PLAY
             console.log("PAUSE 2 PLAY : " + data);
             $("#generate-btn").text("PAUSE");
-            euphy.setCode(data);
-            euphy.play(false);
+        euphyData.initBuffers();
+        euphyData.setCode(data);
+            euphyData.play();
             break;
         }
 }
 
 function onPlayBtn() {
     let freq = $("#frequencyRange").val();
-    console.log(euphy.getState());
-    switch(euphy.getState()) {
+    console.log(euphyTone.getState());
+    switch(euphyTone.getState()) {
     case 0: // STOP 2 PLAY
         console.log("STOP 2 PLAY : " + freq);
         $("#play-btn").text("PAUSE");
-        euphy.initBuffers();
-        euphy.setFrequency(freq);
-        euphy.play(false);
+        euphyTone.initBuffers();
+        euphyTone.setFrequency(freq);
+        euphyTone.play();
         break;
     case 1: // PLAY 2 PAUSE
         console.log("PLAY 2 PAUSE : ");
         $("#play-btn").text("PLAY");
-        euphy.pause();
+        euphyTone.pause();
         break;
     case 2: // PAUSE 2 PLAY
         console.log("PAUSE 2 PLAY : " + freq);
         $("#play-btn").text("PAUSE");
-        euphy.setFrequency(freq);
-        euphy.play(false);
+        euphyTone.setFrequency(freq);
+        euphyTone.play();
         break;
     }
 }
 
 function onStopBtn() {
     $("#play-btn").text("PLAY");
-    euphy.stop();
+    euphyTone.stop();
 }
 $(document).ready(function() {
     setFrequency({ value : 400 });
-    setVolume({ value : 50 });
+    setToneVolume({ value : 50 });
+    setDataVolume({ value : 50 });
 });
