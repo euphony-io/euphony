@@ -1,0 +1,8 @@
+.panel { text-align:center; padding:30px }
+#header {font-weight:bold; }
+#shutter { height:70%; }
+#shutter #shutter-button { margin:0 auto; border-radius: 50%; width:300px; height:300px; background-color:#ccc; border:10px solid #ddd; cursor:pointer; transition: background-color 0.5s;}
+#shutter #shutter-button:hover,
+#shutter #shutter-button:active,
+#shutter #shutter-button:focus { background-color:#efefef; }
+#tailer {}
