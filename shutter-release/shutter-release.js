@@ -6,6 +6,7 @@ function shutterStart() {
 
 $(document).ready(function() {
     $("#shutter-button").bind("touchstart mousedown", function(e) {
+        e.stopPropagation();
         e.preventDefault();
         euphyShutter.initBuffers();
         euphyShutter.setFrequency(19500);
@@ -15,6 +16,7 @@ $(document).ready(function() {
     });
 
     $("#shutter-button").bind("touchend mouseup", function(e) {
+        e.stopPropagation();
         e.preventDefault();
         euphyShutter.pause();
         return false;
