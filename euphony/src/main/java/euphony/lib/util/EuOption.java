@@ -6,7 +6,7 @@ public class EuOption {
     }
 
     public enum CommunicationMode {
-        GENERAL, LIVE
+        GENERAL, LIVE, DETECT
     }
 
     public enum ModulationType {
@@ -27,6 +27,9 @@ public class EuOption {
     private int mMaxReference;
     private int mMinReference;
     private int mDefaultReference;
+
+    // Detect Mode
+    private int mDetectFrequency;
 
     // Setting Types
     private EncodingType mEncodingType;
@@ -178,4 +181,14 @@ public class EuOption {
     public void setControlPoint(int _controlPoint) {
         this.mControlPoint = _controlPoint;
     }
+
+
+    public int getDetectFrequency() {
+        return mDetectFrequency;
+    }
+
+    public void setDetectFrequency(int mDetectFrequency) {
+        this.mDetectFrequency = mDetectFrequency;
+    }
+
 }

@@ -5,6 +5,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import android.util.Log;
 
@@ -169,6 +170,10 @@ public class EuFreqObject {
 		//if( fmax < f3 )	fmax = f3;
 
 		return (int)(fmax*100000);
+	}
+
+	public float getSpectrumValue(int idx) {
+		return spectrum.get(idx);
 	}
 
 	public int detectFreqByIdx(int idx) {

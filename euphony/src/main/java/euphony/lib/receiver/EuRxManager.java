@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import java.nio.FloatBuffer;
+
 public class EuRxManager {
 	private Thread mRxThread = null;
 	private RxRunner mRxRunner = null;
@@ -17,7 +19,9 @@ public class EuRxManager {
 	private static final int PS_DECODE = 2;
 
 	private EuOption mOption;
-	public EuRxManager() { }
+	public EuRxManager() {
+		mOption = new EuOption();
+	}
 	public EuRxManager(EuOption option) { mOption = option; }
 	
 	public void listen()
@@ -38,6 +42,12 @@ public class EuRxManager {
 		mPsRunner = new PsRunner(mOption);
 		mPsThread = new Thread(mPsRunner, "PS");
 		mPsThread.start();
+	}
+
+	public void detect()
+	{
+		_active = true;
+
 	}
 	
 	public void finishToFind()
@@ -157,6 +167,41 @@ public class EuRxManager {
 					return;
 				}
 			}		
+		}
+	}
+
+	private Handler mFrequencyDetectHandler = new Handler(){
+		public void handleMessage(Message msg){
+			switch(msg.what){
+				case RX_DECODE:
+					mAcousticSensor.notify(msg.obj + "");
+					break;
+				default:
+					break;
+			}
+		}
+	};
+
+	private class DetectRunner extends EuFreqObject implements Runnable {
+
+		int mFrequency = 0;
+		private int mFreqIndex = 0;
+		DetectRunner(EuOption option, int freq) {
+			super(option);
+			mFrequency = freq;
+			mFreqIndex = ((int)((freq * option.getFFTSize()) / 2)) + 1;
+		}
+
+		@Override
+		public void run() {
+			while(_active) {
+				processFFT();
+				float amp = getSpectrumValue(mFreqIndex);
+
+				Message msg = mFrequencyDetectHandler.obtainMessage();
+				msg.obj = amp;
+				mFrequencyDetectHandler.sendMessage(msg);
+			}
 		}
 	}
 	
