@@ -9,10 +9,15 @@ import android.util.Log;
 import java.nio.FloatBuffer;
 
 public class EuRxManager {
-	private Thread mRxThread = null;
+
 	private RxRunner mRxRunner = null;
 	private PsRunner mPsRunner = null;
+	private DetectRunner mDetectRunner = null;
+
+	private Thread mRxThread = null;
 	private Thread mPsThread = null;
+	private Thread mDetectThread = null;
+
 	private boolean _active;
 	
 	private static final int RX_DECODE = 1;
@@ -45,11 +50,35 @@ public class EuRxManager {
 		mPsThread.start();
 	}
 
-	public void detect()
+	public void detectFrequency(int freq)
 	{
 		_active = true;
-
+		mDetectRunner = new DetectRunner(mOption, freq);
+		mDetectThread = new Thread(mDetectRunner, "DETECT");
+		mDetectThread.start();
 	}
+
+	public void finishToDetect()
+	{
+		if(mDetectThread != null) {
+			_active = false;
+			while (true) {
+				try {
+					mDetectThread.join();
+					break;
+				} catch (InterruptedException e) {
+					Log.i("FINISH", e.getMessage());
+				}
+			}
+		}
+
+		if(mPsRunner != null)
+			mPsRunner.destroyFFT();
+
+		mPsThread = null;
+		mPsRunner = null;
+	}
+
 	
 	public void finishToFind()
 	{
@@ -143,18 +172,17 @@ public class EuRxManager {
 		@Override
 		public void run() 
 		{
-			while (_active) 
-			{
+			while (_active) {
 				processFFT();
-				if(this.getStarted())
+				if (this.getStarted())
 					catchSingleData();
 				else
 					this.setStarted(checkStartPoint());
-				
-				if(this.getCompleted()){
+
+				if (this.getCompleted()) {
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_DECODE;
-					switch(mRxOption.getEncodingType()) {
+					switch (mRxOption.getEncodingType()) {
 						case ASCII:
 							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
 							break;
@@ -167,7 +195,7 @@ public class EuRxManager {
 					mRxRunner.destroyFFT();
 					return;
 				}
-			}		
+			}
 		}
 	}
 
@@ -209,6 +237,10 @@ public class EuRxManager {
 					Message msg = mFrequencyDetectHandler.obtainMessage();
 					msg.obj = amp;
 					mFrequencyDetectHandler.sendMessage(msg);
+				}
+
+				if(Thread.interrupted()){
+
 				}
 			}
 		}
