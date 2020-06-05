@@ -17,6 +17,7 @@ public class EuRxManager {
 	
 	private static final int RX_DECODE = 1;
 	private static final int PS_DECODE = 2;
+	private static final int RX_FREQUENCY = 3;
 
 	private EuOption mOption;
 	public EuRxManager() {
@@ -170,15 +171,20 @@ public class EuRxManager {
 		}
 	}
 
-	private Handler mFrequencyDetectHandler = new Handler(){
+	private FrequencyDetector mFrequencyDetector;
+
+
+	public FrequencyDetector getFrequencyDetector() {
+		return mFrequencyDetector;
+	}
+
+	public void setFrequencyDetector(FrequencyDetector mFrequencyDetector) {
+		this.mFrequencyDetector = mFrequencyDetector;
+	}
+
+	private Handler mFrequencyDetectHandler = new Handler() {
 		public void handleMessage(Message msg){
-			switch(msg.what){
-				case RX_DECODE:
-					mAcousticSensor.notify(msg.obj + "");
-					break;
-				default:
-					break;
-			}
+			mFrequencyDetector.detect((float)msg.obj);
 		}
 	};
 
@@ -194,13 +200,16 @@ public class EuRxManager {
 
 		@Override
 		public void run() {
+			float previousAmp = 0;
 			while(_active) {
 				processFFT();
 				float amp = getSpectrumValue(mFreqIndex);
 
-				Message msg = mFrequencyDetectHandler.obtainMessage();
-				msg.obj = amp;
-				mFrequencyDetectHandler.sendMessage(msg);
+				if(previousAmp != amp) {
+					Message msg = mFrequencyDetectHandler.obtainMessage();
+					msg.obj = amp;
+					mFrequencyDetectHandler.sendMessage(msg);
+				}
 			}
 		}
 	}
