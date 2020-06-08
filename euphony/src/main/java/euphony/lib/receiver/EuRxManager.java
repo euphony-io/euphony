@@ -20,9 +20,9 @@ public class EuRxManager {
 
 	private boolean _active;
 	
-	private static final int RX_DECODE = 1;
-	private static final int PS_DECODE = 2;
-	private static final int RX_FREQUENCY = 3;
+	private static final int RX_MODE = 1;
+	private static final int PS_MODE = 2;
+	private static final int DETECT_MODE = 3;
 
 	private EuOption mOption;
 	public EuRxManager() {
@@ -134,9 +134,16 @@ public class EuRxManager {
 	private Handler mHandler = new Handler(){		
 		public void handleMessage(Message msg){			
 			switch(msg.what){
-			case RX_DECODE:
-				mAcousticSensor.notify(msg.obj + "");
-				break;
+				case RX_MODE:
+					mAcousticSensor.notify(msg.obj + "");
+					break;
+				case PS_MODE:
+					mPositionDetector.detectSignal((Integer)msg.obj);
+					break;
+				case DETECT_MODE:
+					mFrequencyDetector.detect((float)msg.obj);
+					break;
+
 			default:
 				break;
 			}
@@ -152,16 +159,6 @@ public class EuRxManager {
 	public void setPositionDetector(PositionDetector detector) {
 		this.mPositionDetector = detector;
 	}
-	
-	private Handler mPsHandler = new Handler() {
-		public void handleMessage(Message msg) {
-			switch(msg.what){
-				case PS_DECODE:
-					mPositionDetector.detectSignal((Integer)msg.obj);
-					break;
-			}
-		} 
-	};
 	
 	private class RxRunner extends EuFreqObject implements Runnable{
 		boolean mHex = false;
@@ -181,7 +178,7 @@ public class EuRxManager {
 
 				if (this.getCompleted()) {
 					Message msg = mHandler.obtainMessage();
-					msg.what = RX_DECODE;
+					msg.what = RX_MODE;
 					switch (mRxOption.getEncodingType()) {
 						case ASCII:
 							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
@@ -201,7 +198,6 @@ public class EuRxManager {
 
 	private FrequencyDetector mFrequencyDetector;
 
-
 	public FrequencyDetector getFrequencyDetector() {
 		return mFrequencyDetector;
 	}
@@ -209,12 +205,6 @@ public class EuRxManager {
 	public void setFrequencyDetector(FrequencyDetector mFrequencyDetector) {
 		this.mFrequencyDetector = mFrequencyDetector;
 	}
-
-	private Handler mFrequencyDetectHandler = new Handler() {
-		public void handleMessage(Message msg){
-			mFrequencyDetector.detect((float)msg.obj);
-		}
-	};
 
 	private class DetectRunner extends EuFreqObject implements Runnable {
 
@@ -234,14 +224,12 @@ public class EuRxManager {
 				float amp = getSpectrumValue(mFreqIndex);
 
 				if(previousAmp != amp) {
-					Message msg = mFrequencyDetectHandler.obtainMessage();
+					Message msg = mHandler.obtainMessage();
+					msg.what = DETECT_MODE;
 					msg.obj = amp;
-					mFrequencyDetectHandler.sendMessage(msg);
+					mHandler.sendMessage(msg);
 				}
 
-				if(Thread.interrupted()){
-
-				}
 			}
 		}
 	}
@@ -296,10 +284,10 @@ public class EuRxManager {
 						}
 						if(++processingCnt > 50){
 							avr_signal /= maxCnt;
-							Message msg = mPsHandler.obtainMessage();
-							msg.what = PS_DECODE;
+							Message msg = mHandler.obtainMessage();
+							msg.what = PS_MODE;
 							msg.obj = avr_signal;
-							mPsHandler.sendMessage(msg);
+							mHandler.sendMessage(msg);
 							processingCnt = 0;
 							max_signal = 0;
 							avr_signal = 0;
@@ -308,10 +296,10 @@ public class EuRxManager {
 					}
 				}while(noSignalCnt < 50 && _active);
 				
-				Message msg = mPsHandler.obtainMessage();
-				msg.what = PS_DECODE;
+				Message msg = mHandler.obtainMessage();
+				msg.what = PS_MODE;
 				msg.obj = -1;
-				mPsHandler.sendMessage(msg);
+				mHandler.sendMessage(msg);
 				break;
 				
 			}
