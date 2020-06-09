@@ -220,7 +220,8 @@ public class EuRxManager {
 
 		public void setFrequency(int frequency) {
 			mFrequency = frequency;
-			mFreqIndex = ((int)((frequency * mOption.getFFTSize()) / 2)) + 1;
+			mFreqIndex = ((int)((frequency / 22050.0) * mOption.getFFTSize()) / 2);
+			Log.d(LOG, "Frequency = " + mFrequency + ", mFreqIndex = " + mFreqIndex);
 		}
 
 		@Override
