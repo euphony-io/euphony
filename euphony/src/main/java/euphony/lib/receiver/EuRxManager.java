@@ -39,39 +39,47 @@ public class EuRxManager {
 	}
 
 	public boolean listen(EuOption option) {
+		if(getStatus() != RxManagerStatus.RUNNING) {
+			switch (option.getCommunicationMode()) {
+				case GENERAL:
+				case LIVE:
+					mListenThread = new Thread(new RxRunner(option), "RX");
+					break;
+				case FIND:
+					mListenThread = new Thread(new PsRunner(option), "PS");
+					break;
+				case DETECT:
+					Log.d(LOG, "Detect must have specific frequency value");
+					return false;
+			}
 
-		switch(option.getCommunicationMode()) {
-			case GENERAL:
-			case LIVE:
-				mListenThread = new Thread(new RxRunner(option), "RX");
-				break;
-			case FIND:
-				mListenThread = new Thread(new PsRunner(option), "PS");
-				break;
-			case DETECT:
-				Log.d(LOG, "Detect must have specific frequency value");
-				return false;
+			mListenThread.start();
+			return true;
+		} else {
+			return false;
 		}
 
-		mListenThread.start();
-		return true;
 	}
 
 	public boolean listen(EuOption option, int freq) {
-		switch(option.getCommunicationMode()) {
-			case GENERAL:
-			case LIVE:
-			case FIND:
-				Log.d(LOG, "Please use other listen function.");
-				return false;
-			case DETECT:
-				mDetectRunner = new DetectRunner(option, freq);
-				mListenThread = new Thread(mDetectRunner, "DETECT");
-				break;
-		}
+		if(getStatus() != RxManagerStatus.RUNNING) {
+			switch (option.getCommunicationMode()) {
+				case GENERAL:
+				case LIVE:
+				case FIND:
+					Log.d(LOG, "Please use other listen function.");
+					return false;
+				case DETECT:
+					mDetectRunner = new DetectRunner(option, freq);
+					mListenThread = new Thread(mDetectRunner, "DETECT");
+					break;
+			}
 
-		mListenThread.start();
-		return true;
+			mListenThread.start();
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void finish()
