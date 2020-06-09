@@ -92,17 +92,20 @@ public class EuRxManager {
 	}
 
 	public RxManagerStatus getStatus() {
-		switch(mListenThread.getState()){
-			case RUNNABLE:
-				return RxManagerStatus.RUNNING;
-			case NEW:
-			case WAITING:
-			case TIMED_WAITING:
-			case BLOCKED:
-			case TERMINATED:
-			default:
-				return RxManagerStatus.STOP;
-		}
+		if(mListenThread != null) {
+			switch (mListenThread.getState()) {
+				case RUNNABLE:
+					return RxManagerStatus.RUNNING;
+				case NEW:
+				case WAITING:
+				case TIMED_WAITING:
+				case BLOCKED:
+				case TERMINATED:
+				default:
+					return RxManagerStatus.STOP;
+			}
+		} else
+			return RxManagerStatus.STOP;
 	}
 
 	private AcousticSensor mAcousticSensor;
