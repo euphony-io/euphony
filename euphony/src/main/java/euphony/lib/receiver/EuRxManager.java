@@ -10,16 +10,15 @@ import java.nio.FloatBuffer;
 
 public class EuRxManager {
 
-	private RxRunner mRxRunner = null;
-	private PsRunner mPsRunner = null;
+	private final String LOG = "EuRxManager";
+
+	private Thread mListenThread = null;
 	private DetectRunner mDetectRunner = null;
 
-	private Thread mRxThread = null;
-	private Thread mPsThread = null;
-	private Thread mDetectThread = null;
+	public enum RxManagerStatus {
+		RUNNING, STOP
+	}
 
-	private boolean _active;
-	
 	private static final int RX_MODE = 1;
 	private static final int PS_MODE = 2;
 	private static final int DETECT_MODE = 3;
@@ -30,95 +29,72 @@ public class EuRxManager {
 	}
 	public EuRxManager(EuOption option) { mOption = option; }
 	
-	public void listen()
+	public boolean listen()
 	{
-		listen(mOption);
+		return listen(mOption);
 	}
 
-	public void listen(EuOption option) {
-		_active = true;
-		mRxRunner = new RxRunner(option);
-		mRxThread = new Thread(mRxRunner, "RX");
-		mRxThread.start();
-	}
-	
-	public void find() 
-	{
-		_active = true;
-		mPsRunner = new PsRunner(mOption);
-		mPsThread = new Thread(mPsRunner, "PS");
-		mPsThread.start();
+	public boolean listen(int freq) {
+		return listen(mOption, freq);
 	}
 
-	public void detectFrequency(int freq)
-	{
-		_active = true;
-		mDetectRunner = new DetectRunner(mOption, freq);
-		mDetectThread = new Thread(mDetectRunner, "DETECT");
-		mDetectThread.start();
-	}
+	public boolean listen(EuOption option) {
 
-	public void finishToDetect()
-	{
-		if(mDetectThread != null) {
-			_active = false;
-			while (true) {
-				try {
-					mDetectThread.join();
-					break;
-				} catch (InterruptedException e) {
-					Log.i("FINISH", e.getMessage());
-				}
-			}
+		switch(option.getCommunicationMode()) {
+			case GENERAL:
+			case LIVE:
+				mListenThread = new Thread(new RxRunner(option), "RX");
+				break;
+			case FIND:
+				mListenThread = new Thread(new PsRunner(option), "PS");
+				break;
+			case DETECT:
+				Log.d(LOG, "Detect must have specific frequency value");
+				return false;
 		}
 
-		if(mPsRunner != null)
-			mPsRunner.destroyFFT();
-
-		mPsThread = null;
-		mPsRunner = null;
+		mListenThread.start();
+		return true;
 	}
 
-	
-	public void finishToFind()
-	{
-		if(mPsThread != null) {
-			_active = false;
-			while (true) {
-				try {
-					mPsThread.join();
-					break;
-				} catch (InterruptedException e) {
-					Log.i("FINISH", e.getMessage());
-				}
-			}
+	public boolean listen(EuOption option, int freq) {
+		switch(option.getCommunicationMode()) {
+			case GENERAL:
+			case LIVE:
+			case FIND:
+				Log.d(LOG, "Please use other listen function.");
+				return false;
+			case DETECT:
+				mDetectRunner = new DetectRunner(option, freq);
+				mListenThread = new Thread(mDetectRunner, "DETECT");
+				break;
 		}
 
-		if(mPsRunner != null)
-			mPsRunner.destroyFFT();
-
-		mPsThread = null;
-		mPsRunner = null;
+		mListenThread.start();
+		return true;
 	}
-	
+
 	public void finish()
 	{
-		if(mRxThread != null) {
-			_active = false;
-			while (true) {
-				try {
-					mRxThread.join();
-					break;
-				} catch (InterruptedException e) {
-					Log.i("FINISH", e.getMessage());
-				}
-			}
+		if(mListenThread != null) {
+			mListenThread.interrupt();
 		}
-		if(mRxRunner != null)
-			mRxRunner.destroyFFT();
 		
-		mRxThread = null;
-		mRxRunner = null;
+		mListenThread = null;
+	}
+
+	public RxManagerStatus getStatus() {
+		switch(mListenThread.getState()){
+			case RUNNABLE:
+				return RxManagerStatus.RUNNING;
+			case NEW:
+			case WAITING:
+			case TIMED_WAITING:
+			case BLOCKED:
+			case TERMINATED:
+			default:
+				return RxManagerStatus.STOP;
+		}
 	}
 
 	private AcousticSensor mAcousticSensor;
@@ -159,17 +135,23 @@ public class EuRxManager {
 	public void setPositionDetector(PositionDetector detector) {
 		this.mPositionDetector = detector;
 	}
+
+	public EuOption getOption() {
+		return mOption;
+	}
+
+	public void setOption(EuOption mOption) {
+		this.mOption = mOption;
+	}
 	
 	private class RxRunner extends EuFreqObject implements Runnable{
-		boolean mHex = false;
-		RxRunner() { }
 		RxRunner(EuOption option) {
 			super(option);
 		}
 		@Override
 		public void run() 
 		{
-			while (_active) {
+			while (!Thread.currentThread().isInterrupted()) {
 				processFFT();
 				if (this.getStarted())
 					catchSingleData();
@@ -189,10 +171,12 @@ public class EuRxManager {
 					}
 					this.setCompleted(false);
 					mHandler.sendMessage(msg);
-					mRxRunner.destroyFFT();
+					destroyFFT();
 					return;
 				}
 			}
+
+			destroyFFT();
 		}
 	}
 
@@ -206,31 +190,47 @@ public class EuRxManager {
 		this.mFrequencyDetector = mFrequencyDetector;
 	}
 
+	public void setFrequencyForDetect(int freq) {
+		if(mOption.getCommunicationMode() == EuOption.CommunicationMode.DETECT) {
+			if(mDetectRunner != null)
+				mDetectRunner.setFrequency(freq);
+		}
+	}
+
+
 	private class DetectRunner extends EuFreqObject implements Runnable {
 
 		int mFrequency = 0;
 		private int mFreqIndex = 0;
 		DetectRunner(EuOption option, int freq) {
 			super(option);
-			mFrequency = freq;
-			mFreqIndex = ((int)((freq * option.getFFTSize()) / 2)) + 1;
+			setFrequency(freq);
+		}
+
+		public void setFrequency(int frequency) {
+			mFrequency = frequency;
+			mFreqIndex = ((int)((frequency * mOption.getFFTSize()) / 2)) + 1;
 		}
 
 		@Override
 		public void run() {
 			float previousAmp = 0;
-			while(_active) {
+
+			while (!Thread.currentThread().isInterrupted()) {
 				processFFT();
 				float amp = getSpectrumValue(mFreqIndex);
 
-				if(previousAmp != amp) {
+				if (previousAmp != amp) {
 					Message msg = mHandler.obtainMessage();
 					msg.what = DETECT_MODE;
 					msg.obj = amp;
 					mHandler.sendMessage(msg);
+					previousAmp = amp;
 				}
-
 			}
+
+			destroyFFT();
+
 		}
 	}
 	
@@ -246,7 +246,7 @@ public class EuRxManager {
 			int startcnt = 0;
 			int specificFreq = 0;
 			Log.i("START", "START LISTEN");
-			while(_active) {
+			while(!Thread.currentThread().isInterrupted()){
 				//To find the frequency point
 				while(!startswt) {
 					processFFT();
@@ -260,7 +260,6 @@ public class EuRxManager {
 					
 					//there is no af area..
 					if(startcnt++ > 1000){
-						_active = false;
 						startswt = true;
 						Log.i("START", "FAILED to find any position");
 					}
@@ -294,7 +293,9 @@ public class EuRxManager {
 							maxCnt = 0;
 						}
 					}
-				}while(noSignalCnt < 50 && _active);
+				}while(noSignalCnt < 50 && startswt);
+
+				destroyFFT();
 				
 				Message msg = mHandler.obtainMessage();
 				msg.what = PS_MODE;

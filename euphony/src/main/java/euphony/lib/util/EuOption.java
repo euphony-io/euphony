@@ -6,7 +6,7 @@ public class EuOption {
     }
 
     public enum CommunicationMode {
-        GENERAL, LIVE, DETECT
+        GENERAL, LIVE, FIND, DETECT
     }
 
     public enum ModulationType {
