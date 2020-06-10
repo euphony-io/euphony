@@ -121,7 +121,7 @@ public class EuFreqObject {
 			isRecording = true;
 		}
 		mRecorder.read(samples, mRxOption.getFFTSize());
-		FFT.spectrum(samples, spectrum);
+		FFT.doSpectrums(samples, spectrum);
 		//FFT.spectrum_for_phase(samples, spectrum_p);
 		//FFT.getRealPart(real);
 		//FFT.getImagPart(image);
@@ -134,7 +134,7 @@ public class EuFreqObject {
 			isRecording = true;
 		}
 		mRecorder.read(samples, mRxOption.getFFTSize(), mWindow);
-		FFT.spectrum(samples, spectrum);
+		FFT.doSpectrums(samples, spectrum);
 	}
 
 	public void destroyFFT()

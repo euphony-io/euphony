@@ -40,6 +40,14 @@ public class KissFFT {
          */
         private native void destroy(long handle);
 
+
+        private native void doSpectrum(long handle, ShortBuffer samples, int sample_idx, long mag_result, long dbfs_result);
+
+        public void doSpectrum(ShortBuffer samples, int sample_idx, long mag_result_address, long dbfs_result_addr)
+        {
+                doSpectrum(handle, samples, sample_idx, mag_result_address, dbfs_result_addr);
+        }
+
         /**
          * Calculates the frequency spectrum of the given samples. There must be as
          * many samples as specified in the constructor of this class. Spectrum must
@@ -52,8 +60,7 @@ public class KissFFT {
          * @param spectrum
          *            the spectrum
          */
-        private native void spectrum(long handle, ShortBuffer samples,
-                        FloatBuffer spectrum);
+        private native void doSpectrums(long handle, ShortBuffer samples, FloatBuffer spectrum);
 
         /**
          * Calculates the frequency spectrum of the given samples. There must be as
@@ -65,8 +72,8 @@ public class KissFFT {
          * @param spectrum
          *            the spectrum
          */
-        public void spectrum(ShortBuffer samples, FloatBuffer spectrum) {
-                spectrum(handle, samples, spectrum);
+        public void doSpectrums(ShortBuffer samples, FloatBuffer spectrum) {
+                doSpectrums(handle, samples, spectrum);
         }
 
         /**
@@ -79,11 +86,11 @@ public class KissFFT {
          * @param spectrum
          *            the spectrum
          */
-        public void spectrum(ByteBuffer samples, FloatBuffer spectrum) {
-                spectrum(samples.asShortBuffer(), spectrum);
+        public void doSpectrums(ByteBuffer samples, FloatBuffer spectrum) {
+                doSpectrums(samples.asShortBuffer(), spectrum);
         }
 
-        private native void spectrum_for_phase(long handle, ShortBuffer samples, FloatBuffer specturm);
+        private native void spectrum_for_phase(long handle, ShortBuffer samples, FloatBuffer spectrum);
         
         public void spectrum_for_phase(ShortBuffer samples, FloatBuffer spectrum)
         {
