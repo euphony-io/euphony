@@ -3,22 +3,26 @@ if(gradle.language.equals("kotlin")) {
     apply plugin: 'kotlin-android-extensions'
     apply plugin: 'kotlin-android'
 }
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'jacoco-android'
+
+apply plugin: "com.jfrog.bintray"
+apply plugin: "com.github.kt3k.coveralls"
+apply plugin: "com.hiya.jacoco-android"
 
 buildscript {
     repositories {
         jcenter()
         google()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
+//        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
+        classpath "com.hiya:jacoco-android:0.2"
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
 }
@@ -48,9 +52,11 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
+    //androidTestImplementation 'androidx.test:runner:1.2.0'
+    //androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
 if(gradle.startParameter.getTaskNames().size() > 2) {
@@ -91,6 +97,7 @@ android {
             testCoverageEnabled true
         }
     }
+
     externalNativeBuild {
         ndkBuild {
             path file('src/main/jni/Android.mk')
