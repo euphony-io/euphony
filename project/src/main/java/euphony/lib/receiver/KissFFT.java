@@ -10,9 +10,12 @@ import android.util.Log;
 public class KissFFT {	
 	
 	static{
+	        System.loadLibrary("native-legacy");
+		/*
 		System.loadLibrary("kissff"); // kiss_fft.c
 		System.loadLibrary("kissfftr"); // kiss_fftr.c
 		System.loadLibrary("kissfft"); // KissFFT.cpp
+		 */
 	}
 	
         /** the pointer to the kiss fft object **/
@@ -119,12 +122,4 @@ public class KissFFT {
         private native void getRealPart(long handle, ShortBuffer real);
 
         private native void getImagPart(long handle, ShortBuffer imag);
-        
-        
-        
-        
-        
-        
-        
-
 }

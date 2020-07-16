@@ -3,9 +3,9 @@
 //
 
 #include "kiss_fftr.h"
-#include <malloc>
-#include <stdlib>
-#include <math>
+#include <malloc.h>
+#include <stdlib.h>
+#include <math.h>
 
 #define MAX_SHORT 32767.0f
 
