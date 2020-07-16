@@ -1,0 +1,24 @@
+{
+  "buildFiles": [
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\platforms.cmake",
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\oboe\\oboe-config.cmake",
+    "C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\prefab\\arm64-v8a\\prefab\\lib\\aarch64-linux-android\\cmake\\oboe\\oboe-config-version.cmake",
+    "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-legacy-Debug-arm64-v8a": {
+      "artifactName": "native-legacy",
+      "buildCommand": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\arm64-v8a\" native-legacy",
+      "abi": "arm64-v8a",
+      "output": "C:\\Users\\desig\\playspace\\euphony\\project\\build\\intermediates\\cmake\\debug\\obj\\arm64-v8a\\libnative-legacy.so",
+      "runtimeFiles": [
+        "C:\\Users\\desig\\.gradle\\caches\\transforms-2\\files-2.1\\a66cf5011819034f8c1d06a0ddcbb0d8\\oboe-1.4.2\\prefab\\modules\\oboe\\libs\\android.arm64-v8a\\liboboe.so"
+      ]
+    }
+  }
+}

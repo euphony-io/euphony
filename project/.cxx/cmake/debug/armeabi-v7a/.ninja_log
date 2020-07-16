@@ -1,0 +1,15 @@
+# ninja log v5
+1	191	616619248	CMakeFiles/native-legacy.dir/native-legacy.cpp.o	c43f3a02db808e21
+193	411	616619249	C:/Users/desig/playspace/euphony/project/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-legacy.so	a7f109a471895828
+2	164	616619490	CMakeFiles/native-legacy.dir/native-legacy.cpp.o	8c88cfc7204a2dc5
+2	148	616619597	C:/Users/desig/playspace/euphony/project/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-legacy.so	9ae20c7741510bc2
+0	14	0	clean	28fecc641499154a
+3	201	616620145	CMakeFiles/native-legacy.dir/native-legacy.cpp.o	8c88cfc7204a2dc5
+202	366	616620145	C:/Users/desig/playspace/euphony/project/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-legacy.so	9ae20c7741510bc2
+0	16	0	clean	28fecc641499154a
+3	209	616620256	CMakeFiles/native-legacy.dir/native-legacy.cpp.o	8c88cfc7204a2dc5
+210	382	616620257	C:/Users/desig/playspace/euphony/project/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-legacy.so	9ae20c7741510bc2
+3	438	616621381	CMakeFiles/native-legacy.dir/native-legacy.cpp.o	8c88cfc7204a2dc5
+3	228	616621550	CMakeFiles/native-legacy.dir/kiss_fftr.c.o	7d6345f8b6334ca9
+22	237	616621550	CMakeFiles/native-legacy.dir/kiss_fft.c.o	a95f14da2726b6cf
+237	372	616621550	C:/Users/desig/playspace/euphony/project/build/intermediates/cmake/debug/obj/armeabi-v7a/libnative-legacy.so	9d92486ab9d8164

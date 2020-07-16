@@ -116,10 +116,10 @@ public class KissFFT {
         }
 
         public void getImagPart(ShortBuffer imag) {
-                getImagPart(handle, imag);
+                getImagePart(handle, imag);
         }
 
         private native void getRealPart(long handle, ShortBuffer real);
 
-        private native void getImagPart(long handle, ShortBuffer imag);
+        private native void getImagePart(long handle, ShortBuffer imag);
 }

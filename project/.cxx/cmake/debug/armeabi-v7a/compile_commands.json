@@ -1,0 +1,19 @@
+[
+{
+  "directory": "C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a",
+  "command": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnative_legacy_EXPORTS -isystem C:/Users/desig/.gradle/caches/transforms-2/files-2.1/a66cf5011819034f8c1d06a0ddcbb0d8/oboe-1.4.2/prefab/modules/oboe/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\native-legacy.dir\\kiss_fft.c.o   -c C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fft.c",
+  "file": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fft.c"
+},
+
+{
+  "directory": "C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a",
+  "command": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnative_legacy_EXPORTS -isystem C:/Users/desig/.gradle/caches/transforms-2/files-2.1/a66cf5011819034f8c1d06a0ddcbb0d8/oboe-1.4.2/prefab/modules/oboe/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\native-legacy.dir\\kiss_fftr.c.o   -c C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fftr.c",
+  "file": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fftr.c"
+},
+
+{
+  "directory": "C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a",
+  "command": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot  -Dnative_legacy_EXPORTS -isystem C:/Users/desig/.gradle/caches/transforms-2/files-2.1/a66cf5011819034f8c1d06a0ddcbb0d8/oboe-1.4.2/prefab/modules/oboe/include  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -O0 -fno-limit-debug-info  -fPIC   -o CMakeFiles\\native-legacy.dir\\native-legacy.cpp.o -c C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\native-legacy.cpp",
+  "file": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\native-legacy.cpp"
+}
+]

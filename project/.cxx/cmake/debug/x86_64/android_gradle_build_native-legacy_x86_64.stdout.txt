@@ -1,0 +1,5 @@
+ninja: Entering directory `C:\Users\desig\playspace\euphony\project\.cxx\cmake\debug\x86_64'
+[1/4] Building C object CMakeFiles/native-legacy.dir/kiss_fftr.c.o
+[2/4] Building C object CMakeFiles/native-legacy.dir/kiss_fft.c.o
+[3/4] Building CXX object CMakeFiles/native-legacy.dir/native-legacy.cpp.o
+[4/4] Linking CXX shared library C:\Users\desig\playspace\euphony\project\build\intermediates\cmake\debug\obj\x86_64\libnative-legacy.so

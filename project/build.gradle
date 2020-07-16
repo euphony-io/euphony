@@ -20,7 +20,6 @@ buildscript {
     dependencies {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-//        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
         classpath "com.hiya:jacoco-android:0.2"
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
     }
@@ -51,7 +50,7 @@ dependencies {
     implementation 'com.google.oboe:oboe:1.4.2'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     //androidTestImplementation 'androidx.test:runner:1.2.0'
     //androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

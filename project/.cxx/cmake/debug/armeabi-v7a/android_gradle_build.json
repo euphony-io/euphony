@@ -1,0 +1,60 @@
+{
+  "stringTable": {
+    "0": "C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a",
+    "1": "--target=armv7-none-linux-androideabi16 --gcc-toolchain=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/Users/desig/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnative_legacy_EXPORTS -isystem C:/Users/desig/.gradle/caches/transforms-2/files-2.1/a66cf5011819034f8c1d06a0ddcbb0d8/oboe-1.4.2/prefab/modules/oboe/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -O0 -fno-limit-debug-info -fPIC"
+  },
+  "buildFiles": [
+    "C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\prefab\\armeabi-v7a\\prefab\\lib\\arm-linux-androideabi\\cmake\\oboe\\oboe-config.cmake",
+    "C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\prefab\\armeabi-v7a\\prefab\\lib\\arm-linux-androideabi\\cmake\\oboe\\oboe-config-version.cmake",
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\platforms.cmake",
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+    "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\armeabi-v7a\" clean"
+  ],
+  "buildTargetsCommand": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe  -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\armeabi-v7a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "native-legacy-Debug-armeabi-v7a": {
+      "buildCommand": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\cmake\\3.10.2.4988404\\bin\\ninja.exe -C \"C:\\Users\\desig\\playspace\\euphony\\project\\.cxx\\cmake\\debug\\armeabi-v7a\" native-legacy",
+      "buildType": "debug",
+      "toolchain": "1456206374",
+      "abi": "armeabi-v7a",
+      "artifactName": "native-legacy",
+      "files": [
+        {
+          "src": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fft.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\kiss_fftr.c",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        },
+        {
+          "src": "C:\\Users\\desig\\playspace\\euphony\\project\\src\\main\\cpp\\native-legacy.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "C:\\Users\\desig\\playspace\\euphony\\project\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libnative-legacy.so",
+      "runtimeFiles": [
+        "C:\\Users\\desig\\.gradle\\caches\\transforms-2\\files-2.1\\a66cf5011819034f8c1d06a0ddcbb0d8\\oboe-1.4.2\\prefab\\modules\\oboe\\libs\\android.armeabi-v7a\\liboboe.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "1456206374": {
+      "cCompilerExecutable": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

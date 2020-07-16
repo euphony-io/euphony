@@ -1,0 +1,4 @@
+ninja: Entering directory `C:\Users\desig\playspace\euphony\project\.cxx\cmake\debug\armeabi-v7a'
+[1/3] Building C object CMakeFiles/native-legacy.dir/kiss_fftr.c.o
+[2/3] Building C object CMakeFiles/native-legacy.dir/kiss_fft.c.o
+[3/3] Linking CXX shared library C:\Users\desig\playspace\euphony\project\build\intermediates\cmake\debug\obj\armeabi-v7a\libnative-legacy.so
