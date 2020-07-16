@@ -1,0 +1,131 @@
+{
+  "abi": "X86",
+  "abiPlatformVersion": 16,
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "cxxBuildFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\.cxx\\ndkBuild\\debug\\x86",
+  "info": {
+    "abi": "X86",
+    "bitness": 32,
+    "deprecated": false,
+    "default": true
+  },
+  "originalCxxBuildFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\.cxx\\ndkBuild\\debug\\x86",
+  "variant": {
+    "buildSystemArgumentList": [],
+    "buildTargetSet": [],
+    "cFlagsList": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "cppFlagsList": [],
+    "isDebuggableEnabled": true,
+    "module": {
+      "buildSystem": "NDK_BUILD",
+      "cmakeToolchainFile": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\build\\cmake\\android.toolchain.cmake",
+      "cxxFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\.cxx",
+      "gradleModulePathName": ":euphony",
+      "intermediatesFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\build\\intermediates",
+      "makeFile": "C:\\Users\\desig\\playspace\\euphony\\euphony\\src\\main\\jni\\Android.mk",
+      "moduleBuildFile": "C:\\Users\\desig\\playspace\\euphony\\euphony\\build.gradle",
+      "moduleRootFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony",
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkFolder": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669",
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "ndkMetaPlatforms": {
+        "min": 16,
+        "max": 29,
+        "aliases": {
+          "20": 19,
+          "25": 24,
+          "J": 16,
+          "J-MR1": 17,
+          "J-MR2": 18,
+          "K": 19,
+          "L": 21,
+          "L-MR1": 22,
+          "M": 23,
+          "N": 24,
+          "N-MR1": 24,
+          "O": 26,
+          "O-MR1": 27,
+          "P": 28,
+          "Q": 29
+        }
+      },
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultStl": "SYSTEM",
+      "ndkVersion": "21.0.6113669",
+      "project": {
+        "compilerSettingsCacheFolder": "C:\\Users\\desig\\playspace\\euphony\\.cxx",
+        "cxxFolder": "C:\\Users\\desig\\playspace\\euphony\\.cxx",
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "rootBuildGradleFolder": "C:\\Users\\desig\\playspace\\euphony",
+        "sdkFolder": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk",
+        "isPrefabEnabled": true,
+        "prefabClassPath": "C:\\Users\\desig\\.gradle\\caches\\modules-2\\files-2.1\\com.google.prefab\\cli\\1.0.0-alpha6\\f123d047c55e1ec467c2d5cdc9921fbd34a31997\\cli-1.0.0-alpha6-all.jar"
+      },
+      "splitsAbiFilterSet": [],
+      "stlSharedObjectMap": {
+        "LIBCXX_SHARED": {
+          "ARMEABI_V7A": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\arm-linux-androideabi\\libc++_shared.so",
+          "ARM64_V8A": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\aarch64-linux-android\\libc++_shared.so",
+          "X86": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\i686-linux-android\\libc++_shared.so",
+          "X86_64": "C:\\Users\\desig\\AppData\\Local\\Android\\Sdk\\ndk\\21.0.6113669\\toolchains\\llvm\\prebuilt\\windows-x86_64\\sysroot\\usr\\lib\\x86_64-linux-android\\libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "SYSTEM": {}
+      }
+    },
+    "objFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\build\\intermediates\\ndkBuild\\debug\\obj\\local",
+    "variantName": "debug",
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "prefabDirectory": "C:\\Users\\desig\\playspace\\euphony\\euphony\\.cxx\\ndkBuild\\debug\\prefab",
+    "prefabPackageDirectoryList": [
+      "C:\\Users\\desig\\.gradle\\caches\\transforms-2\\files-2.1\\a66cf5011819034f8c1d06a0ddcbb0d8\\oboe-1.4.2\\prefab"
+    ]
+  },
+  "prefabFolder": "C:\\Users\\desig\\playspace\\euphony\\euphony\\.cxx\\ndkBuild\\debug\\prefab\\x86"
+}
