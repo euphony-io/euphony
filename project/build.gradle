@@ -70,10 +70,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        /* This externalNativeBuild block is different from the one which is on the outside of defaultConfig  */
         externalNativeBuild {
             cmake {
+                cppFlags "-std=c++14"
                 arguments "-DANDROID_STL=c++_shared"
             }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
         }
     }
 
@@ -94,13 +103,6 @@ android {
         }
         debug {
             testCoverageEnabled true
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
         }
     }
 

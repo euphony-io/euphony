@@ -1,19 +1,22 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
 
-set(SOURCE_FILES
+set(LEGACY_SRC
         kiss_fft.c
         kiss_fftr.c
         native-legacy.cpp
         )
-add_library(
-        # Sets the name of the library.
-        native-legacy
-        # Sets the library as a shared library.
-        SHARED
-        # Provides a relative path to your source file(s).
-        ${SOURCE_FILES}
-)
+
+set(EUPHONY_SRC
+        kiss_fft.c
+        kiss_fftr.c
+        EuphonyRx.cpp
+        EuphonyTx.cpp
+        )
+
+# add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
+add_library( native-legacy SHARED ${LEGACY_SRC} )
+add_library( euphony SHARED ${EUPHONY_SRC} )
 
 find_library( # Sets the name of the path variable.
         log-lib
@@ -29,4 +32,5 @@ target_link_libraries(
         native-legacy
         ${log-lib}
         oboe::oboe
+        euphony
 )
