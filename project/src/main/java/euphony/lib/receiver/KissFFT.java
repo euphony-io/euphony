@@ -1,11 +1,11 @@
 package euphony.lib.receiver;
 
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
-import android.util.Log;
 
 public class KissFFT {	
 	

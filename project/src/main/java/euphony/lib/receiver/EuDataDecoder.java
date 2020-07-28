@@ -1,6 +1,5 @@
 package euphony.lib.receiver;
 
-import android.util.Log;
 import euphony.lib.util.EuCodec;
 
 public class EuDataDecoder extends EuCodec {

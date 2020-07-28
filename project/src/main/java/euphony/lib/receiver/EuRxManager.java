@@ -1,12 +1,10 @@
 package euphony.lib.receiver;
 
-import euphony.lib.util.EuOption;
-
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import java.nio.FloatBuffer;
+import euphony.lib.util.EuOption;
 
 public class EuRxManager {
 

@@ -1,11 +1,10 @@
 package euphony.lib.receiver;
 
-import java.nio.ByteBuffer;
-
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
-import android.util.Log;
+
+import java.nio.ByteBuffer;
 
 public class AudioRecorder {
 

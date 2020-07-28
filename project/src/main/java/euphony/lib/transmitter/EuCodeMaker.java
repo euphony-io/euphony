@@ -1,7 +1,5 @@
 package euphony.lib.transmitter;
 
-import android.util.Log;
-
 import euphony.lib.util.EuOption;
 import euphony.lib.util.PacketErrorDetector;
 

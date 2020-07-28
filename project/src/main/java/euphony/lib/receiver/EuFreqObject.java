@@ -1,13 +1,12 @@
 package euphony.lib.receiver;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.function.Function;
-
-import android.util.Log;
 
 import euphony.lib.util.EuOption;
 import euphony.lib.util.PacketErrorDetector;

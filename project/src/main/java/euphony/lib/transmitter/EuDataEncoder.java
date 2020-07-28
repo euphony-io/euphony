@@ -1,10 +1,5 @@
 package euphony.lib.transmitter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
-
 import euphony.lib.util.EuCodec;
 
 public class EuDataEncoder extends EuCodec {

@@ -1,7 +1,6 @@
 package euphony.lib.util;
 
 import android.util.Log;
-import android.util.Xml;
 
 public class PacketErrorDetector {
 
