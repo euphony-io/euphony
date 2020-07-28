@@ -5,6 +5,8 @@
 #ifndef EUPHONY_EUPHONYRX_H
 #define EUPHONY_EUPHONYRX_H
 
+#include <oboe/Oboe.h>
+
 class EuphonyRx {
 public:
     void init();

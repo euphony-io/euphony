@@ -29,8 +29,8 @@ find_package(
 )
 
 target_link_libraries(
-        native-legacy
-        ${log-lib}
-        oboe::oboe
         euphony
+        android
+        log
+        oboe::oboe
 )
