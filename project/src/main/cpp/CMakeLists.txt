@@ -10,8 +10,9 @@ set(LEGACY_SRC
 set(EUPHONY_SRC
         kiss_fft.c
         kiss_fftr.c
-        EuphonyRx.cpp
-        EuphonyTx.cpp
+        EuphonyRxCore.cpp
+        EuphonyTxCore.cpp
+        Log.cpp
         )
 
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
@@ -30,7 +31,6 @@ find_package(
 
 target_link_libraries(
         euphony
-        android
-        log
+        ${log-lib}
         oboe::oboe
 )
