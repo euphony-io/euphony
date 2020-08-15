@@ -1,8 +1,6 @@
 package euphony.lib.receiver;
 
-import euphony.lib.util.EuCodec;
-
-public class EuDataDecoder extends EuCodec {
+public class EuDataDecoder {
 	private String mOriginalSource;
 
 	public EuDataDecoder(String _source)

@@ -132,6 +132,7 @@ public class EuFreqObject {
 			mRecorder.start();
 			isRecording = true;
 		}
+
 		mRecorder.read(samples, mRxOption.getFFTSize(), mWindow);
 		FFT.doSpectrums(samples, spectrum);
 	}

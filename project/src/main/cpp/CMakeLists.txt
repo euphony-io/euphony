@@ -12,8 +12,14 @@ set(EUPHONY_SRC
         kiss_fftr.c
         EuphonyRxCore.cpp
         EuphonyTxCore.cpp
+        EpnySoundGenerator.cpp
+        EpnyTxEngine.cpp
         Log.cpp
         )
+
+set(SL_HEADERS ../headers)
+
+include_directories(${SL_HEADERS})
 
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library( native-legacy SHARED ${LEGACY_SRC} )

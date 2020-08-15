@@ -8,19 +8,11 @@
 #include <oboe/AudioStreamCallback.h>
 #include <memory>
 
-class EuphonyTxCore : public oboe::AudioStreamCallback {
+class EuphonyTxCore {
 public:
-    ~EuphonyTxCore() override = default;
-
-    oboe::DataCallbackResult
-    onAudioReady(oboe::AudioStream *oboeStream, void *audioData, int32_t numFrames) override;
-
-    void onErrorBeforeClose(oboe::AudioStream *stream, oboe::Result result) override;
-
-    void onErrorAfterClose(oboe::AudioStream *stream, oboe::Result result) override;
 
 private:
-    class impl; std::unique_ptr<impl> pimpl;
+    //
 };
 
 
