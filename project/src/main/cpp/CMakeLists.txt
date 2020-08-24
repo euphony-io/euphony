@@ -14,12 +14,13 @@ set(EUPHONY_SRC
         EuphonyTxCore.cpp
         EpnySoundGenerator.cpp
         EpnyTxEngine.cpp
-        Log.cpp
+        EpnyAudioStreamCallback.cpp
         )
 
+set(DEBUG_HELPER ../debug-helper)
 set(SL_HEADERS ../headers)
 
-include_directories(${SL_HEADERS})
+include_directories(${SL_HEADERS} ${DEBUG_HELPER})
 
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library( native-legacy SHARED ${LEGACY_SRC} )
