@@ -2,19 +2,27 @@
 // Created by desig on 2020-08-15.
 //
 #include <oboe/Oboe.h>
+#include <Log.h>
 #include "EpnyTxEngine.h"
 #include "EpnySoundGenerator.h"
-#include "Log.h"
-#include <DefaultAudioStreamCallback.h>
+#include "EpnyAudioStreamCallback.h"
 
 class EpnyTxEngine::impl : public IRestartable{
 public:
-
+    std::mutex mLock;
     oboe::ManagedStream mStream;
-    std::unique_ptr<DefaultAudioStreamCallback> mCallback;
+    std::unique_ptr<EpnyAudioStreamCallback> mCallback;
     std::shared_ptr<EpnySoundGenerator> mAudioSource;
-    void createCallback(std::vector<int> cpuIds) {
-        mCallback = std::make_unique<DefaultAudioStreamCallback>(*this);
+
+    impl() {
+        createCallback();
+        start();
+    }
+
+    virtual ~impl() = default;
+
+    void createCallback() {
+        mCallback = std::make_unique<EpnyAudioStreamCallback>(*this);
     }
 
     oboe::Result createPlaybackStream() {
@@ -28,11 +36,26 @@ public:
 
     }
 
-    void restart() override {
-
+    void restart() {
+        start();
     }
 
-    void start() {
+    oboe::Result reopenStream() {
+        {
+            // Stop and close in case not already closed.
+            std::lock_guard<std::mutex> lock(mLock);
+            if (mStream) {
+                mStream->stop();
+                mStream->close();
+            }
+        }
+        return start();
+    }
+
+    oboe::Result start() {
+        std::lock_guard<std::mutex> lock(mLock);
+        if(!mStream) return oboe::Result::ErrorNull;
+
         auto result = createPlaybackStream();
         if(result == oboe::Result::OK) {
             mAudioSource = std::make_shared<EpnySoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());

@@ -3,4 +3,3 @@
 //
 
 #include "EuphonyTxCore.h"
-#include "Log.h"
