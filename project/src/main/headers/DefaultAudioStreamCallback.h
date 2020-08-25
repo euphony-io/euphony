@@ -20,7 +20,7 @@
 
 #include <vector>
 #include <oboe/AudioStreamCallback.h>
-#include <logging_macros.h>
+#include <Log.h>
 
 #include "IRenderableAudio.h"
 #include "IRestartable.h"
