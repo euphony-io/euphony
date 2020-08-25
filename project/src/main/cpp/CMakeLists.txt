@@ -15,6 +15,7 @@ set(EUPHONY_SRC
         EpnySoundGenerator.cpp
         EpnyTxEngine.cpp
         EpnyAudioStreamCallback.cpp
+        native-connector.cpp
         )
 
 set(DEBUG_HELPER ../debug-helper)
