@@ -8,6 +8,13 @@
 #include <memory>
 
 class EpnyTxEngine {
+public:
+    EpnyTxEngine();
+    void tap(bool isDown);
+    void setAudioApi(oboe::AudioApi audioApi);
+    void setChannelCount(int channelCount);
+    void setDeviceId(int32_t deviceId);
+    void setBufferSizeInBursts(int32_t numBursts);
 
 private:
     //Do Not Copy EpnyTxEngine

@@ -7,10 +7,10 @@
 
 
 #include <TappableAudioSource.h>
-#include <Oscillator.h>
+#include "EpnyOscillator.h"
 
 class EpnySoundGenerator : public TappableAudioSource{
-    static constexpr size_t kSharedBufferSize = 1024;
+    static constexpr size_t kSharedBufferSize = 2048;
 public:
     EpnySoundGenerator(int32_t sampleRate, int32_t channelCount);
     ~EpnySoundGenerator() = default;
@@ -22,7 +22,7 @@ public:
     void renderAudio(float *audioData, int32_t numFrames) override;
 
 private:
-    std::unique_ptr<Oscillator[]> mOscillators;
+    std::unique_ptr<EpnyOscillator[]> mOscillators;
     std::unique_ptr<float[]> mBuffer = std::make_unique<float[]>(kSharedBufferSize);
 
 };

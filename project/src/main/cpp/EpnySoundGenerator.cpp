@@ -6,7 +6,7 @@
 
 EpnySoundGenerator::EpnySoundGenerator(int32_t sampleRate, int32_t channelCount) :
         TappableAudioSource(sampleRate, channelCount)
-        , mOscillators(std::make_unique<Oscillator[]>(channelCount)){
+        , mOscillators(std::make_unique<EpnyOscillator[]>(channelCount)){
 
     double frequency = 440.0;
     constexpr double interval = 110.0;

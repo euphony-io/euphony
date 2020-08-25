@@ -32,8 +32,8 @@ public:
                 ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
                 ->setFormat(oboe::AudioFormat::Float)
                 ->setCallback(mCallback.get())
+                ->setChannelCount(2)
                 ->openManagedStream(mStream);
-
     }
 
     void restart() {
@@ -66,3 +66,25 @@ public:
         }
     }
 };
+
+EpnyTxEngine::EpnyTxEngine() : pimpl(std::make_unique<impl>()) { }
+
+void EpnyTxEngine::tap(bool isDown) {
+    pimpl->mAudioSource->tap(isDown);
+}
+
+void EpnyTxEngine::setAudioApi(oboe::AudioApi audioApi) {
+    pimpl->
+}
+
+void EpnyTxEngine::setChannelCount(int channelCount) {
+
+}
+
+void EpnyTxEngine::setDeviceId(int32_t deviceId) {
+
+}
+
+void EpnyTxEngine::setBufferSizeInBursts(int32_t numBursts) {
+
+}
