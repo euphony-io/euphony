@@ -9,19 +9,19 @@
 
 extern "C" {
     JNIEXPORT jlong JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1createEngine(JNIEnv *env, jclass clazz) {
+    Java_euphony_lib_transmitter_EuphonyTx_native_1createEngine(JNIEnv *env, jobject thiz) {
         EpnyTxEngine * engine = new(std::nothrow) EpnyTxEngine();
         return reinterpret_cast<jlong>(engine);
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1deleteEngine(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1deleteEngine(JNIEnv *env, jobject thiz,
                                                                 jlong engine_handle) {
         delete reinterpret_cast<EpnyTxEngine *>(engine_handle);
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setToneOn(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setToneOn(JNIEnv *env, jobject thiz,
                                                              jlong engine_handle,
                                                              jboolean is_tone_on) {
         EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
@@ -33,9 +33,9 @@ extern "C" {
         engine->tap(is_tone_on);
     }
 
-    /*
+
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioApi(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioApi(JNIEnv *env, jobject thiz,
                                                                jlong engine_handle,
                                                                jint audio_api) {
         EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
@@ -44,49 +44,83 @@ extern "C" {
             return;
         }
 
-        // TODO: implement native_setAudioApi()
-    }*/
+        oboe::AudioApi api = static_cast<oboe::AudioApi>(audio_api);
+        engine->setAudioApi(api);
+    }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioDeviceId(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioDeviceId(JNIEnv *env, jobject thiz,
                                                                     jlong engine_handle,
                                                                     jint device_id) {
-        // TODO: implement native_setAudioDeviceId()
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return;
+        }
+
+        engine->setDeviceId(device_id);
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setChannelCount(JNIEnv *env, jclass clazz,
-                                                                   jlong m_engine_handle,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setChannelCount(JNIEnv *env, jobject thiz,
+                                                                   jlong engine_handle,
                                                                    jint channel_count) {
-        // TODO: implement native_setChannelCount()
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return;
+        }
+
+        engine->setChannelCount(channel_count);
+
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setBufferSizeInBursts(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setBufferSizeInBursts(JNIEnv *env, jobject thiz,
                                                                          jlong engine_handle,
                                                                          jint buffer_size_in_bursts) {
-        // TODO: implement native_setBufferSizeInBursts()
+
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return;
+        }
+
+        engine->setBufferSizeInBursts(buffer_size_in_bursts);
     }
 
-    /*
+
     JNIEXPORT jdouble JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1getCurrentOutputLatencyMillis(JNIEnv *env,
-                                                                                 jclass clazz,
+                                                                                 jobject thiz,
                                                                                  jlong engine_handle) {
-        // TODO: implement native_getCurrentOutputLatencyMillis()
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return static_cast<jdouble>(-1.0);
+        }
+
+        return static_cast<jdouble>(engine->getCurrentOutputLatencyMillis());
     }
 
     JNIEXPORT jboolean JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1isLatencyDetectionSupported(JNIEnv *env,
-                                                                               jclass clazz,
+                                                                               jobject thiz,
                                                                                jlong engine_handle) {
-        // TODO: implement native_isLatencyDetectionSupported()
-    }*/
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return JNI_FALSE;
+        }
+
+        return (engine->isLatencyDetectionSupported()) ? JNI_TRUE : JNI_FALSE;
+    }
 
     JNIEXPORT void JNICALL
-    Java_euphony_lib_transmitter_EuphonyTx_native_1setDefaultStreamValues(JNIEnv *env, jclass clazz,
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setDefaultStreamValues(JNIEnv *env, jobject thiz,
                                                                           jint sample_rate,
                                                                           jint frames_per_burst) {
-        // TODO: implement native_setDefaultStreamValues()
+        oboe::DefaultStreamValues::SampleRate = (int32_t) sample_rate;
+        oboe::DefaultStreamValues::FramesPerBurst = (int32_t) frames_per_burst;
     }
 }
