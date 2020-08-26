@@ -1,5 +1,5 @@
 //
-// Created by opener on 20. 8. 24.
+// Created by designe on 20. 8. 24.
 //
 
 #ifndef EUPHONY_EPNYAUDIOSTREAMCALLBACK_H

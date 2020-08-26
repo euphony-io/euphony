@@ -4,10 +4,6 @@
 
 #include "EpnyOscillator.h"
 
-void EpnyOscillator::setAmplitude(float amplitude) {
-    mAmplitude = amplitude;
-}
-
 void EpnyOscillator::setFrequency(double frequency) {
     mFrequency = frequency;
 }

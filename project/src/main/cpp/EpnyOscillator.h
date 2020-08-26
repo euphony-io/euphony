@@ -20,7 +20,9 @@ public:
     void setWaveOn(bool isWaveOn);
     void setSampleRate(int32_t sampleRate);
     void setFrequency(double frequency);
-    inline void setAmplitude(float amplitude);
+    inline void setAmplitude(float amplitude) {
+        mAmplitude = amplitude;
+    }
 
     // From IRenderableAudio
     void renderAudio(float *data, int32_t numFrames);
