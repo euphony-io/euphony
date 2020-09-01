@@ -9,17 +9,25 @@
 
 constexpr int32_t kBufferSizeAutomatic = 0;
 
+enum EpnyStatus {
+    RUNNING, STOP
+};
+
 class EpnyTxEngine {
 public:
     EpnyTxEngine();
     ~EpnyTxEngine();
 
     void tap(bool isDown);
+    void stop();
+    void start();
     void setAudioApi(oboe::AudioApi audioApi);
     void setChannelCount(int channelCount);
     void setDeviceId(int32_t deviceId);
     void setBufferSizeInBursts(int32_t numBursts);
+    void setPerformance(oboe::PerformanceMode mode);
     double getCurrentOutputLatencyMillis();
+    EpnyStatus getStatus();
     bool isLatencyDetectionSupported();
 
 private:

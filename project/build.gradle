@@ -62,10 +62,10 @@ if(gradle.startParameter.getTaskNames().size() > 2) {
 }
 
 android {
-    compileSdkVersion(26)
+    compileSdkVersion(29)
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 26
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -110,7 +110,7 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-    ndkVersion '21.0.6113669'
+    ndkVersion '21.3.6528147'
 }
 repositories {
     mavenCentral()

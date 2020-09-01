@@ -11,12 +11,14 @@ class EpnyTxEngine::Impl : public IRestartable{
 public:
     std::mutex mLock;
     oboe::ManagedStream mStream;
+    oboe::AudioStreamBuilder mStreamBuilder;
     std::unique_ptr<EpnyAudioStreamCallback> mCallback;
     std::shared_ptr<EpnySoundGenerator> mAudioSource;
     bool mIsLatencyDetectionSupported = false;
 
     int32_t mDeviceId = oboe::Unspecified;
     int32_t mChannelCount = oboe::Unspecified;
+    EpnyStatus mStatus = STOP;
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
 
 
@@ -32,9 +34,7 @@ public:
     }
 
     oboe::Result createPlaybackStream() {
-        oboe::AudioStreamBuilder builder;
-
-        return builder.setSharingMode(oboe::SharingMode::Exclusive)
+        return mStreamBuilder.setSharingMode(oboe::SharingMode::Exclusive)
                 ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
                 ->setFormat(oboe::AudioFormat::Float)
                 ->setCallback(mCallback.get())
@@ -42,8 +42,19 @@ public:
                 ->openManagedStream(mStream);
     }
 
+    void setPerformance(oboe::PerformanceMode mode) {
+        mStreamBuilder.setPerformanceMode(mode)->openManagedStream(mStream);
+    }
+
     void restart() {
         start();
+    }
+
+    void stop() {
+        std::lock_guard<std::mutex> lock(mLock);
+        if(mStream) {
+            mStream->stop();
+        }
     }
 
     oboe::Result reopenStream() {
@@ -67,7 +78,10 @@ public:
             mAudioSource = std::make_shared<EpnySoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
             mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mAudioSource));
             mStream->start();
+            mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
+            mStatus = RUNNING;
         } else {
+            mStatus = STOP;
             LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
         }
 
@@ -138,12 +152,24 @@ void EpnyTxEngine::tap(bool isDown) {
     pImpl->mAudioSource->tap(isDown);
 }
 
+void EpnyTxEngine::stop() {
+    pImpl->stop();
+}
+
+void EpnyTxEngine::start() {
+    pImpl->start();
+}
+
 bool EpnyTxEngine::isLatencyDetectionSupported() {
     return pImpl->isLatencyDetectionSupported();
 }
 
 void EpnyTxEngine::setAudioApi(oboe::AudioApi audioApi) {
     pImpl->mAudioApi = audioApi;
+}
+
+void EpnyTxEngine::setPerformance(oboe::PerformanceMode mode) {
+    pImpl->setPerformance(mode);
 }
 
 void EpnyTxEngine::setChannelCount(int channelCount) {
@@ -160,4 +186,8 @@ void EpnyTxEngine::setBufferSizeInBursts(int32_t numBursts) {
 
 double EpnyTxEngine::getCurrentOutputLatencyMillis() {
     return pImpl->getCurrentOutputLatencyMillis();
+}
+
+EpnyStatus EpnyTxEngine::getStatus() {
+    return pImpl->mStatus;
 }

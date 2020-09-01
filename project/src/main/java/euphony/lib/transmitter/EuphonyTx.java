@@ -8,32 +8,37 @@ import android.os.Build;
 public class EuphonyTx {
     long mEngineHandle = 0;
 
+    public enum EpnyStatus {
+        RUNNING, STOP, NO_CREATE
+    }
+
+    public enum EpnyMethod {
+        APIMode,
+        MessageMode
+    }
+
+    public enum EpnyPerformanceMode {
+        PowerSavingMode,
+        NormalMode,
+        SuperPowerMode
+    }
+
     static {
         System.loadLibrary("euphony");
     }
 
-    EuphonyTx(Context context) {
-        create(context);
-    }
-
-    EuphonyTx(int sampleRate, int framesPerBurst) {
-        create(sampleRate, framesPerBurst);
-    }
-
-    boolean create(int sampleRate, int framesPerBurst) {
-        if(mEngineHandle == 0) {
-            setDefaultStreamValues(sampleRate, framesPerBurst);
+    public EuphonyTx() {
+        if(mEngineHandle == 0)
             mEngineHandle = native_createEngine();
-        }
-
-        return (mEngineHandle != 0);
     }
 
-    boolean create(Context context) {
-        if(mEngineHandle == 0) {
-            setDefaultStreamValues(context);
+    public static EuphonyTx newInstance() {
+        return new EuphonyTx();
+    }
+
+    boolean create() {
+        if(mEngineHandle == 0)
             mEngineHandle = native_createEngine();
-        }
 
         return (mEngineHandle != 0);
     }
@@ -43,6 +48,22 @@ public class EuphonyTx {
             native_deleteEngine(mEngineHandle);
 
         mEngineHandle = 0;
+    }
+
+    void setPerformance(EpnyPerformanceMode mode, Context context) {
+        if(mEngineHandle != 0) {
+            switch(mode) {
+                case PowerSavingMode:
+                    native_setPerformance(mEngineHandle, 0);
+                    break;
+                case NormalMode:
+                    native_setPerformance(mEngineHandle, 1);
+                    break;
+                case SuperPowerMode:
+                    native_setPerformance(mEngineHandle, 2);
+                    break;
+            }
+        }
     }
 
     private void setDefaultStreamValues(Context context) {
@@ -64,38 +85,52 @@ public class EuphonyTx {
         }
     }
 
-    void setToneOn(boolean isToneOn) {
+    public void setToneOn(boolean isToneOn) {
         if(mEngineHandle != 0) native_setToneOn(mEngineHandle, isToneOn);
     }
 
-
-    void setAudioApi(int audioApi){
+    public void setAudioApi(int audioApi){
         if (mEngineHandle != 0) native_setAudioApi(mEngineHandle, audioApi);
     }
 
-    void setAudioDeviceId(int deviceId){
+    public void setAudioDeviceId(int deviceId){
         if (mEngineHandle != 0) native_setAudioDeviceId(mEngineHandle, deviceId);
     }
 
-    void setChannelCount(int channelCount) {
+    public void setChannelCount(int channelCount) {
         if (mEngineHandle != 0) native_setChannelCount(mEngineHandle, channelCount);
     }
 
-    void setBufferSizeInBursts(int bufferSizeInBursts){
+    public void setBufferSizeInBursts(int bufferSizeInBursts){
         if (mEngineHandle != 0) native_setBufferSizeInBursts(mEngineHandle, bufferSizeInBursts);
     }
 
-    double getCurrentOutputLatencyMillis(){
+    public double getCurrentOutputLatencyMillis(){
         if (mEngineHandle == 0) return 0;
         return native_getCurrentOutputLatencyMillis(mEngineHandle);
     }
 
-    boolean isLatencyDetectionSupported() {
+    public boolean isLatencyDetectionSupported() {
         return mEngineHandle != 0 && native_isLatencyDetectionSupported(mEngineHandle);
+    }
+
+    public EpnyStatus getStatus() {
+        if(mEngineHandle == 0) return EpnyStatus.NO_CREATE;
+        switch(native_getStatus(mEngineHandle)) {
+            case 0:
+                return EpnyStatus.RUNNING;
+            case 1:
+                return EpnyStatus.STOP;
+        }
+        return EpnyStatus.NO_CREATE;
     }
 
     private native long native_createEngine();
     private native void native_deleteEngine(long engineHandle);
+    private native void native_start(long engineHandle);
+    private native void native_stop(long engineHandle);
+    private native int native_getStatus(long engineHandle);
+    private native void native_setPerformance(long engineHandle, int performanceLevel);
     private native void native_setToneOn(long engineHandle, boolean isToneOn);
     private native void native_setAudioApi(long engineHandle, int audioApi);
     private native void native_setAudioDeviceId(long engineHandle, int deviceId);
