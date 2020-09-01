@@ -4,8 +4,7 @@
 
 #ifndef EUPHONY_LOG_H
 #define EUPHONY_LOG_H
-
-#include "../../../../../../Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/android/log.h"
+#include <android/log.h>
 
 #define  LOG_TAG    "NDK_TEST"
 #define  LOGUNK(...)  __android_log_print(ANDROID_LOG_UNKNOWN,LOG_TAG,__VA_ARGS__)
