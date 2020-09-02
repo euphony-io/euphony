@@ -1,5 +1,5 @@
 //
-// Created by opener on 20. 8. 25.
+// Created by designe on 20. 8. 25.
 //
 
 #ifndef EUPHONY_EPNYOSCILLATOR_H
@@ -34,6 +34,10 @@ private:
     std::atomic<double> mPhaseIncrement { 0.0 };
     double mFrequency = 0.0;
     int32_t mSampleRate = kDefaultSampleRate;
+
+    void updatePhaseIncrement() {
+        mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
+    }
 };
 
 

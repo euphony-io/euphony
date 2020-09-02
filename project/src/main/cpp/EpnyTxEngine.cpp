@@ -10,7 +10,7 @@
 class EpnyTxEngine::Impl : public IRestartable{
 public:
     std::mutex mLock;
-    oboe::ManagedStream mStream;
+    std::shared_ptr<oboe::AudioStream> mStream;
     oboe::AudioStreamBuilder mStreamBuilder;
     std::unique_ptr<EpnyAudioStreamCallback> mCallback;
     std::shared_ptr<EpnySoundGenerator> mAudioSource;
@@ -39,11 +39,12 @@ public:
                 ->setFormat(oboe::AudioFormat::Float)
                 ->setCallback(mCallback.get())
                 ->setChannelCount(2)
-                ->openManagedStream(mStream);
+                ->setDeviceId(mDeviceId)
+                ->openStream(mStream);
     }
 
     void setPerformance(oboe::PerformanceMode mode) {
-        mStreamBuilder.setPerformanceMode(mode)->openManagedStream(mStream);
+        mStreamBuilder.setPerformanceMode(mode)->openStream(mStream);
     }
 
     void restart() {
@@ -71,7 +72,6 @@ public:
 
     oboe::Result start() {
         std::lock_guard<std::mutex> lock(mLock);
-        if(!mStream) return oboe::Result::ErrorNull;
 
         auto result = createPlaybackStream();
         if(result == oboe::Result::OK) {
@@ -80,6 +80,7 @@ public:
             mStream->start();
             mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
             mStatus = RUNNING;
+            LOGD("EUPHONY / EpnyTxEngine: %s", oboe::convertToText(result));
         } else {
             mStatus = STOP;
             LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));

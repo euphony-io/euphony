@@ -3,6 +3,7 @@ package euphony.lib.transmitter;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
+import android.util.Log;
 
 
 public class EuphonyTx {
@@ -28,8 +29,11 @@ public class EuphonyTx {
     }
 
     public EuphonyTx() {
-        if(mEngineHandle == 0)
-            mEngineHandle = native_createEngine();
+        if(create() != true) {
+            Log.d("EUPHONY_ERROR","Euphony Engine Creation was failed.");
+        } else {
+            Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
+        }
     }
 
     public static EuphonyTx newInstance() {
@@ -50,7 +54,17 @@ public class EuphonyTx {
         mEngineHandle = 0;
     }
 
-    void setPerformance(EpnyPerformanceMode mode, Context context) {
+    public void start() {
+        if(mEngineHandle != 0)
+            native_start(mEngineHandle);
+    }
+
+    public void stop() {
+        if(mEngineHandle != 0)
+            native_stop(mEngineHandle);
+    }
+
+    public void setPerformance(EpnyPerformanceMode mode, Context context) {
         if(mEngineHandle != 0) {
             switch(mode) {
                 case PowerSavingMode:
