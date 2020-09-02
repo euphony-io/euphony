@@ -20,6 +20,7 @@ public:
 
     void tap(bool isDown) override;
     void renderAudio(float *audioData, int32_t numFrames) override;
+    void setFrequency(double frequency);
 
 private:
     std::unique_ptr<EpnyOscillator[]> mOscillators;

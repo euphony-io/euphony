@@ -153,6 +153,10 @@ void EpnyTxEngine::tap(bool isDown) {
     pImpl->mAudioSource->tap(isDown);
 }
 
+void EpnyTxEngine::setAudioFrequency(double freq) {
+    pImpl->mAudioSource->setFrequency(freq);
+}
+
 void EpnyTxEngine::stop() {
     pImpl->stop();
 }

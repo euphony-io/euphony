@@ -26,6 +26,7 @@ public:
     void setDeviceId(int32_t deviceId);
     void setBufferSizeInBursts(int32_t numBursts);
     void setPerformance(oboe::PerformanceMode mode);
+    void setAudioFrequency(double freq);
     double getCurrentOutputLatencyMillis();
     EpnyStatus getStatus();
     bool isLatencyDetectionSupported();

@@ -95,12 +95,25 @@ extern "C" {
                                                                     jlong engine_handle,
                                                                     jint device_id) {
         EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
-        if(engine == nullptr) {
+        if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
         }
 
         engine->setDeviceId(device_id);
+    }
+
+    JNIEXPORT void JNICALL
+    Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioFrequency(JNIEnv *env, jobject thiz,
+                                                                     jlong engine_handle,
+                                                                     jdouble frequency) {
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if (engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return;
+        }
+
+        engine->setAudioFrequency(frequency);
     }
 
     JNIEXPORT void JNICALL
