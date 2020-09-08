@@ -6,10 +6,17 @@
 
 void EpnyOscillator::setFrequency(double frequency) {
     mFrequency = frequency;
+    mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
 }
 
 void EpnyOscillator::setSampleRate(int32_t sampleRate) {
     mSampleRate = sampleRate;
+    mTimeArray.resize(sampleRate);
+    for(int i = 0; i < (int)mSampleRate; ++i) {
+        mTimeArray[i] = (double) i / (double) mSampleRate;
+    }
+
+    mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
 }
 
 void EpnyOscillator::setWaveOn(bool isWaveOn) {
@@ -18,10 +25,11 @@ void EpnyOscillator::setWaveOn(bool isWaveOn) {
 
 void EpnyOscillator::renderAudio(float *data, int32_t numFrames) {
     if(mIsWaveOn) {
-        double time = 0.0;
+        //int crossFadeRange = numFrames / 4;
         for(int i = 0; i < numFrames; ++i) {
-            time = (double)i / (double)mSampleRate;
-            data[i] = sinf(kTwoPi * mFrequency * time) * mAmplitude;
+            data[i] = (float) (sin(mPhase) * mAmplitude);
+            mPhase += mPhaseIncrement;
+            if(mPhase > kTwoPi) mPhase -= kTwoPi;
         }
 
     } else {

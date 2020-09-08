@@ -9,7 +9,7 @@ EpnySoundGenerator::EpnySoundGenerator(int32_t sampleRate, int32_t channelCount)
         , mOscillators(std::make_unique<EpnyOscillator[]>(channelCount)){
 
     double frequency = 18000.0;
-    constexpr double interval = 1000.0;
+    //constexpr double interval = 1000.0;
     constexpr float amplitude = 1.0;
 
     // Set up the oscillators
@@ -17,7 +17,7 @@ EpnySoundGenerator::EpnySoundGenerator(int32_t sampleRate, int32_t channelCount)
         mOscillators[i].setFrequency(frequency);
         mOscillators[i].setSampleRate(mSampleRate);
         mOscillators[i].setAmplitude(amplitude);
-        frequency += interval;
+      //  frequency += interval;
     }
 }
 

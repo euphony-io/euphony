@@ -9,11 +9,12 @@
 #include <atomic>
 #include <math.h>
 #include <memory>
+#include <vector>
 #include <IRenderableAudio.h>
 
 constexpr int32_t kDefaultSampleRate = 48000;
 constexpr double kPi = M_PI;
-constexpr double kTwoPi = kPi * 2;
+constexpr double kTwoPi = kPi * 2.0;
 class EpnyOscillator : public IRenderableAudio {
 public:
     ~EpnyOscillator() = default;
@@ -33,6 +34,7 @@ private:
     std::atomic<float> mAmplitude { 0 };
     std::atomic<double> mPhaseIncrement { 0.0 };
     double mFrequency = 0.0;
+    std::vector<double> mTimeArray;
     int32_t mSampleRate = kDefaultSampleRate;
 
     void updatePhaseIncrement() {
