@@ -15,6 +15,7 @@
 constexpr int32_t kDefaultSampleRate = 48000;
 constexpr double kPi = M_PI;
 constexpr double kTwoPi = kPi * 2.0;
+
 class EpnyOscillator : public IRenderableAudio {
 public:
     ~EpnyOscillator() = default;
@@ -24,7 +25,6 @@ public:
     inline void setAmplitude(float amplitude) {
         mAmplitude = amplitude;
     }
-
     // From IRenderableAudio
     void renderAudio(float *data, int32_t numFrames);
 

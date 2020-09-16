@@ -11,6 +11,7 @@ set(EUPHONY_SRC
         kiss_fft.c
         kiss_fftr.c
         EuphonyRxCore.cpp
+        EpnyFrequency.cpp
         EpnyOscillator.cpp
         EpnySoundGenerator.cpp
         EpnyTxEngine.cpp

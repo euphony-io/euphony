@@ -4,6 +4,9 @@
 
 #include "EpnyOscillator.h"
 
+/*
+ * Frequencies Methods
+ * */
 void EpnyOscillator::setFrequency(double frequency) {
     mFrequency = frequency;
     mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
@@ -11,11 +14,6 @@ void EpnyOscillator::setFrequency(double frequency) {
 
 void EpnyOscillator::setSampleRate(int32_t sampleRate) {
     mSampleRate = sampleRate;
-    mTimeArray.resize(sampleRate);
-    for(int i = 0; i < (int)mSampleRate; ++i) {
-        mTimeArray[i] = (double) i / (double) mSampleRate;
-    }
-
     mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
 }
 
