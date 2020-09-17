@@ -20,6 +20,7 @@ private:
     int mHz;
     int mSize;
     std::vector<float> mSource;
+    float mPhase = 0.0;
     std::atomic<double> mPhaseIncrement { 0.0 };
     void createFrequency(int hz, int size);
 

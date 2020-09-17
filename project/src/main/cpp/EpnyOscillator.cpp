@@ -23,14 +23,32 @@ void EpnyOscillator::setWaveOn(bool isWaveOn) {
 
 void EpnyOscillator::renderAudio(float *data, int32_t numFrames) {
     if(mIsWaveOn) {
-        //int crossFadeRange = numFrames / 4;
         for(int i = 0; i < numFrames; ++i) {
             data[i] = (float) (sin(mPhase) * mAmplitude);
             mPhase += mPhaseIncrement;
-            if(mPhase > kTwoPi) mPhase -= kTwoPi;
+            if (mPhase > kTwoPi) mPhase -= kTwoPi;
         }
-
+        if(mIsFirstWave != true) {
+            /* Crossfade in first */
+            for(int i = 0; i < numFrames; i++) {
+                data[i] *= ((float)i / (float)numFrames);
+            }
+        }
+        mIsFirstWave.store(true);
+        mIsLastWave.store(false);
     } else {
-        memset(data, 0, sizeof(float) * numFrames);
+        if(mIsLastWave != true) {
+            for(int i = 0; i < numFrames; ++i) {
+                data[i] = (float) (sin(mPhase) * mAmplitude);
+                mPhase += mPhaseIncrement;
+                if (mPhase > kTwoPi) mPhase -= kTwoPi;
+            }
+            for(int i = 0; i < numFrames; i++) {
+                data[numFrames - i] *= ((float)i /(float) numFrames);
+            }
+            mIsLastWave.store(true);
+            mIsFirstWave.store(false);
+        }
+        else memset(data, 0, sizeof(float) * numFrames);
     }
 }

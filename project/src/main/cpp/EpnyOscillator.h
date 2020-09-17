@@ -29,6 +29,8 @@ public:
     void renderAudio(float *data, int32_t numFrames);
 
 private:
+    std::atomic<bool> mIsFirstWave { false };
+    std::atomic<bool> mIsLastWave { false };
     std::atomic<bool> mIsWaveOn { false };
     float mPhase = 0.0;
     std::atomic<float> mAmplitude { 0 };
