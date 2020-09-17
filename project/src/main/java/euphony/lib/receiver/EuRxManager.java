@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import euphony.lib.util.EuOption;
 
 public class EuRxManager {
@@ -12,6 +14,7 @@ public class EuRxManager {
 
 	private Thread mListenThread = null;
 	private DetectRunner mDetectRunner = null;
+	private APICallRunner mAPICallRunner = null;
 
 	public enum RxManagerStatus {
 		RUNNING, STOP
@@ -20,6 +23,7 @@ public class EuRxManager {
 	private static final int RX_MODE = 1;
 	private static final int PS_MODE = 2;
 	private static final int DETECT_MODE = 3;
+	private static final int API_CALL_MODE = 4;
 
 	private EuOption mOption;
 	public EuRxManager() {
@@ -56,7 +60,6 @@ public class EuRxManager {
 		} else {
 			return false;
 		}
-
 	}
 
 	public boolean listen(EuOption option, int freq) {
@@ -87,6 +90,21 @@ public class EuRxManager {
 		}
 		
 		mListenThread = null;
+	}
+
+	//private APICallDetector mAPICallDetector;
+	public void setOnAPICalled(int freq, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(freq, iAPICallDetector);
+		//if(getStatus() != RxManagerStatus.RUNNING) {
+			//mAPICallDetector = iAPICallDetector;
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, api);
+			mListenThread = new Thread(mAPICallRunner, "APICalled");
+			mListenThread.start();
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+
 	}
 
 	public RxManagerStatus getStatus() {
@@ -127,6 +145,10 @@ public class EuRxManager {
 					break;
 				case DETECT_MODE:
 					mFrequencyDetector.detect((float)msg.obj);
+					break;
+				case API_CALL_MODE:
+					EpnyAPI api = (EpnyAPI)msg.obj;
+					api.getCallback().call();
 					break;
 
 			default:
@@ -206,6 +228,50 @@ public class EuRxManager {
 		}
 	}
 
+	private class APICallRunner extends EuFreqObject implements Runnable {
+
+		private ArrayList<EpnyAPI> APICallList = new ArrayList<EpnyAPI>();
+
+		APICallRunner(EuOption option, EpnyAPI api) {
+			super(option);
+			addAPI(api);
+			Log.d(LOG, "Added " + api.getId() + "(" + api.getFreqIndex() + ")");
+		}
+
+		private int calculateFreqIndex(int freq) {
+			double freqRatio = ((float)freq) / 22050.0;
+			return (int)(freqRatio * (float)mOption.getFFTSize() / 2);
+			//( (int) (fFreqRatio * mRxOption.getFFTSize() / 2) ) + 1;
+		}
+
+		public void addAPI(EpnyAPI api) {
+			api.setFreqIndex(calculateFreqIndex(api.getId()));
+			APICallList.add(api);
+		}
+
+		@Override
+		public void run() {
+			while(!Thread.currentThread().isInterrupted()) {
+				processFFT();
+
+				for(EpnyAPI api : APICallList) {
+					int amp = detectFreqByIdx(mOption.getDataRate(), 0);
+					int amp2 = detectFreqByIdx(mOption.getDataRate(), 1);
+							//detectFreq(api.getId());//(int)getSpectrumValue(api.getFreqIndex());
+
+					if(amp > 1) {
+						Message msg = mHandler.obtainMessage();
+						msg.what = API_CALL_MODE;
+						msg.obj = api;
+						mHandler.sendMessage(msg);
+					}
+					Log.d(LOG, api.getId() + "(" + api.getFreqIndex() + ")" + "'s Amplitude : " + amp + ", " + amp2);
+				}
+			}
+
+			destroyFFT();
+		}
+	}
 
 	private class DetectRunner extends EuFreqObject implements Runnable {
 
@@ -218,7 +284,7 @@ public class EuRxManager {
 
 		public void setFrequency(int frequency) {
 			mFrequency = frequency;
-			mFreqIndex = ((int)((frequency / 22050.0) * mOption.getFFTSize()) / 2);
+			mFreqIndex = ((int)((frequency / 22050.0) * mOption.getFFTSize()) / 2) + 1;
 			Log.d(LOG, "Frequency = " + mFrequency + ", mFreqIndex = " + mFreqIndex);
 		}
 
