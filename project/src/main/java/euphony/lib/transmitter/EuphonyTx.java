@@ -3,6 +3,7 @@ package euphony.lib.transmitter;
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 
 
@@ -24,13 +25,26 @@ public class EuphonyTx {
         SuperPowerMode
     }
 
+    public enum EpnyAPIDuration {
+        LENGTH_SHORT,
+        LENGTH_LONG
+    }
+
     static {
         System.loadLibrary("euphony");
     }
 
     public EuphonyTx() {
         if(create() != true) {
-            Log.d("EUPHONY_ERROR","Euphony Engine Creation was failed.");
+            Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
+        } else {
+            Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
+        }
+    }
+
+    public EuphonyTx(Context context) {
+        if(create(context) != true){
+            Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
             Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
         }
@@ -43,6 +57,15 @@ public class EuphonyTx {
     boolean create() {
         if(mEngineHandle == 0)
             mEngineHandle = native_createEngine();
+
+        return (mEngineHandle != 0);
+    }
+
+    boolean create(Context context) {
+        if(mEngineHandle == 0) {
+            setDefaultStreamValues(context);
+            mEngineHandle = native_createEngine();
+        }
 
         return (mEngineHandle != 0);
     }
@@ -84,10 +107,12 @@ public class EuphonyTx {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             AudioManager myAudioMgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             String sampleRateStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
+            Log.d("EUPHONY_MSG","This device's samplerate for output : " + sampleRateStr);
             int defaultSampleRate = Integer.parseInt(sampleRateStr);
             if(defaultSampleRate == 0) defaultSampleRate = 44100;
 
             String framesPerBurstStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
+            Log.d("EUPHONY_MSG","This device's frames per buffer for output : " + framesPerBurstStr);
             int defaultFramesPerBurst = Integer.parseInt(framesPerBurstStr);
             if(defaultFramesPerBurst == 0) defaultFramesPerBurst = 256; // Use Default
             native_setDefaultStreamValues(defaultSampleRate, defaultFramesPerBurst);
@@ -99,6 +124,18 @@ public class EuphonyTx {
         }
     }
 
+    public void callAPI(double freq, EpnyAPIDuration duration) {
+
+        if(mEngineHandle != 0) {
+            native_setToneOn( mEngineHandle,true);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    native_setToneOn(mEngineHandle, false);
+                }
+            }, (duration == EpnyAPIDuration.LENGTH_SHORT) ? 200 : 500);
+        }
+    }
     public void setToneOn(boolean isToneOn) {
         if(mEngineHandle != 0) native_setToneOn(mEngineHandle, isToneOn);
     }
