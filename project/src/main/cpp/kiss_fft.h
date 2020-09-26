@@ -40,7 +40,7 @@ extern "C" {
 #include <sys/types.h>
 #include <stdint.h>
 #include <android/log.h>
-#define kiss_fft_scalar short
+#define kiss_fft_scalar int32_t //short
 #else
 # ifndef kiss_fft_scalar
 /*  default is float */
