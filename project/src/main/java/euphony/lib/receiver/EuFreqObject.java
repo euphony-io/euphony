@@ -173,7 +173,7 @@ public class EuFreqObject {
 	}
 
 	public float getSpectrumValue(int idx) {
-		return spectrum.get(idx) * 100000;
+		return spectrum.get(idx);
 	}
 
 	public int detectFreqByIdx(int idx) {

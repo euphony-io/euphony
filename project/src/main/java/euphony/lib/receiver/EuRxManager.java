@@ -28,8 +28,15 @@ public class EuRxManager {
 	private EuOption mOption;
 	public EuRxManager() {
 		mOption = new EuOption();
+		mOption.setFFTSize(1024);
 	}
 	public EuRxManager(EuOption option) { mOption = option; }
+
+	public EuRxManager(EuOption.CommunicationMode mode) {
+		mOption = new EuOption();
+		mOption.setFFTSize(1024);
+		mOption.setCommunicationMode(mode);
+	}
 	
 	public boolean listen()
 	{
@@ -53,8 +60,18 @@ public class EuRxManager {
 				case DETECT:
 					Log.d(LOG, "Detect must have specific frequency value");
 					return false;
+				case API: {
+					if(mAPICallRunner != null) {
+						mListenThread = new Thread(mAPICallRunner, "API");
+						Log.d(LOG, "Euphony : APICallRunner's API Count : " + mAPICallRunner.getAPICount());
+						break;
+					}
+					else {
+						Log.d(LOG, "Euphony : APICallRunner is null");
+						return false;
+					}
+				}
 			}
-
 			mListenThread.start();
 			return true;
 		} else {
@@ -99,8 +116,7 @@ public class EuRxManager {
 			//mAPICallDetector = iAPICallDetector;
 		if(mAPICallRunner == null) {
 			mAPICallRunner = new APICallRunner(mOption, api);
-			mListenThread = new Thread(mAPICallRunner, "APICalled");
-			mListenThread.start();
+			//mListenThread = new Thread(mAPICallRunner, "APICalled");
 		} else {
 			mAPICallRunner.addAPI(api);
 		}
@@ -240,7 +256,7 @@ public class EuRxManager {
 
 		private int calculateFreqIndex(int freq) {
 			double freqRatio = ((float)freq) / 22050.0;
-			return (int)(freqRatio * (float)mOption.getFFTSize() / 2);
+			return (int)(freqRatio * (float)mOption.getFFTSize() / 2) + 1;
 			//( (int) (fFreqRatio * mRxOption.getFFTSize() / 2) ) + 1;
 		}
 
@@ -249,23 +265,42 @@ public class EuRxManager {
 			APICallList.add(api);
 		}
 
+		public int getAPICount() {
+			if(APICallList != null)
+				return APICallList.size();
+			else
+				return 0;
+		}
+
 		@Override
 		public void run() {
 			while(!Thread.currentThread().isInterrupted()) {
 				processFFT();
 
+				float[] amp = {0, 0, 0, 0, 0};
 				for(EpnyAPI api : APICallList) {
-					int amp = detectFreqByIdx(mOption.getDataRate(), 0);
-					int amp2 = detectFreqByIdx(mOption.getDataRate(), 1);
-							//detectFreq(api.getId());//(int)getSpectrumValue(api.getFreqIndex());
+					amp[0] = getSpectrumValue(api.getFreqIndex() - 2);
+					amp[1] = getSpectrumValue(api.getFreqIndex() - 1);
+					amp[2] = getSpectrumValue(api.getFreqIndex());
+					amp[3] = getSpectrumValue(api.getFreqIndex() + 1);
+					amp[4] = getSpectrumValue(api.getFreqIndex() + 2);
 
-					if(amp > 1) {
+					if((amp[2] - (amp[0] + amp[4])/2) > 0.0009){//if(amp[2] > 0.001) {
 						Message msg = mHandler.obtainMessage();
 						msg.what = API_CALL_MODE;
 						msg.obj = api;
 						mHandler.sendMessage(msg);
 					}
-					Log.d(LOG, api.getId() + "(" + api.getFreqIndex() + ")" + "'s Amplitude : " + amp + ", " + amp2);
+
+					Log.d(LOG, api.getId() + "(" + api.getFreqIndex() + ")" + "'s Amplitude : " + amp[2]);
+					/*
+					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude : " + amp[0]);
+					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude : " + amp[1]);
+
+					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() + 1) + ")" + "'s Amplitude : " + amp[3]);
+					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude : " + amp[4]);
+					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude Diff : " + (amp[2] - (amp[0] + amp[4])/2));
+					 */
 				}
 			}
 

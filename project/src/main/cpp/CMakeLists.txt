@@ -29,7 +29,7 @@ include_directories(${SL_HEADERS} ${DEBUG_HELPER})
 
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library( native-legacy SHARED ${LEGACY_SRC} )
-target_compile_definitions(native-legacy PUBLIC FIXED_POINT=32)
+target_compile_definitions(native-legacy PUBLIC FIXED_POINT=16)
 add_library( euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
 
 find_library( # Sets the name of the path variable.
