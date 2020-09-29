@@ -277,7 +277,7 @@ public class EuRxManager {
 
 		private int calculateFreqIndex(int freq) {
 			double freqRatio = ((float)freq) / 22050.0;
-			return (int)(freqRatio * (float)mOption.getFFTSize() / 2) + 1;
+			return (int) Math.round((freqRatio * (float)mOption.getFFTSize() / 2));
 			//( (int) (fFreqRatio * mRxOption.getFFTSize() / 2) ) + 1;
 		}
 
