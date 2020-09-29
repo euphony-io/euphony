@@ -8,6 +8,10 @@ import java.util.ArrayList;
 
 import euphony.lib.util.EuOption;
 
+import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_DOWN;
+import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_PRESSED;
+import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_UP;
+
 public class EuRxManager {
 
 	private final String LOG = "EuRxManager";
@@ -110,14 +114,31 @@ public class EuRxManager {
 		mListenThread = null;
 	}
 
-	//private APICallDetector mAPICallDetector;
-	public void setOnAPICalled(int freq, APICallDetector iAPICallDetector) {
-		EpnyAPI api = new EpnyAPI(freq, iAPICallDetector);
-		//if(getStatus() != RxManagerStatus.RUNNING) {
-			//mAPICallDetector = iAPICallDetector;
+	public void setOnWaveKeyPressed(int freq, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(freq, KEY_PRESSED, iAPICallDetector);
+
 		if(mAPICallRunner == null) {
 			mAPICallRunner = new APICallRunner(mOption, api);
-			//mListenThread = new Thread(mAPICallRunner, "APICalled");
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+	}
+
+	public void setOnWaveKeyDown(int key, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(key, KEY_DOWN, iAPICallDetector);
+
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, api);
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+	}
+
+	public void setOnWaveKeyUp(int key, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(key, KEY_UP, iAPICallDetector);
+
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, api);
 		} else {
 			mAPICallRunner.addAPI(api);
 		}
@@ -251,7 +272,7 @@ public class EuRxManager {
 		APICallRunner(EuOption option, EpnyAPI api) {
 			super(option);
 			addAPI(api);
-			Log.d(LOG, "Added " + api.getId() + "(" + api.getFreqIndex() + ")");
+			Log.d(LOG, "Added " + api.getKey() + "(" + api.getFreqIndex() + ")");
 		}
 
 		private int calculateFreqIndex(int freq) {
@@ -260,8 +281,15 @@ public class EuRxManager {
 			//( (int) (fFreqRatio * mRxOption.getFFTSize() / 2) ) + 1;
 		}
 
+		private boolean compareThreshold(float amp) {
+			if(amp > 0.0009)
+				return true;
+			else
+				return false;
+		}
+
 		public void addAPI(EpnyAPI api) {
-			api.setFreqIndex(calculateFreqIndex(api.getId()));
+			api.setFreqIndex(calculateFreqIndex(api.getKey()));
 			APICallList.add(api);
 		}
 
@@ -277,22 +305,62 @@ public class EuRxManager {
 			while(!Thread.currentThread().isInterrupted()) {
 				processFFT();
 
-				float[] amp = {0, 0, 0, 0, 0};
+				float[] amp = {0, 0, 0};
 				for(EpnyAPI api : APICallList) {
-					amp[0] = getSpectrumValue(api.getFreqIndex() - 2);
-					amp[1] = getSpectrumValue(api.getFreqIndex() - 1);
-					amp[2] = getSpectrumValue(api.getFreqIndex());
-					amp[3] = getSpectrumValue(api.getFreqIndex() + 1);
-					amp[4] = getSpectrumValue(api.getFreqIndex() + 2);
-
-					if((amp[2] - (amp[0] + amp[4])/2) > 0.0009){//if(amp[2] > 0.001) {
-						Message msg = mHandler.obtainMessage();
-						msg.what = API_CALL_MODE;
-						msg.obj = api;
-						mHandler.sendMessage(msg);
+					boolean isActable = false;
+					switch(api.getTrigger()) {
+						case KEY_DOWN: {
+							if(api.getStatus() == EpnyAPI.EpnyAPIStatus.KEY_UP){
+								isActable = true;
+							}
+						}
+						break;
+						case KEY_UP: {
+							if(api.getStatus() != EpnyAPI.EpnyAPIStatus.KEY_UP) {
+								isActable = true;
+							}
+						}
+						break;
+						case KEY_PRESSED: {
+							isActable = true;
+						}
+						break;
 					}
 
-					Log.d(LOG, api.getId() + "(" + api.getFreqIndex() + ")" + "'s Amplitude : " + amp[2]);
+					int freqIndex = api.getFreqIndex();
+					amp[0] = getSpectrumValue(freqIndex - 2);
+					amp[1] = getSpectrumValue(freqIndex);
+					amp[2] = getSpectrumValue(freqIndex + 2);
+
+					if(isActable) {
+						if(compareThreshold((amp[1] - (amp[0] + amp[2])/2))) {
+							if(api.getTrigger() == KEY_DOWN || api.getTrigger() == KEY_PRESSED) {
+								Message msg = mHandler.obtainMessage();
+								msg.what = API_CALL_MODE;
+								msg.obj = api;
+								mHandler.sendMessage(msg);
+							}
+
+							api.setStatus(EpnyAPI.EpnyAPIStatus.KEY_DOWN);
+						} else {
+							if(api.getTrigger() == KEY_UP) {
+								Message msg = mHandler.obtainMessage();
+								msg.what = API_CALL_MODE;
+								msg.obj = api;
+								mHandler.sendMessage(msg);
+							}
+
+							api.setStatus(EpnyAPI.EpnyAPIStatus.KEY_UP);
+						}
+					} else {
+						if(compareThreshold((amp[1] - (amp[0] + amp[2])/2))) {
+							api.setStatus(EpnyAPI.EpnyAPIStatus.KEY_DOWN);
+						} else {
+							api.setStatus(EpnyAPI.EpnyAPIStatus.KEY_UP);
+						}
+					}
+
+					Log.d(LOG, api.getKey() + "(" + api.getFreqIndex() + ")" + "'s Amplitude : " + amp[2]);
 					/*
 					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude : " + amp[0]);
 					Log.d(LOG, api.getId() + "(" + (api.getFreqIndex() - 1) + ")" + "'s Amplitude : " + amp[1]);
