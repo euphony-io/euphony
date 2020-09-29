@@ -62,6 +62,7 @@ public class EuRxManager {
 					return false;
 				case API: {
 					if(mAPICallRunner != null) {
+						mAPICallRunner.initialize(mAPICallRunner.getRxOption());
 						mListenThread = new Thread(mAPICallRunner, "API");
 						Log.d(LOG, "Euphony : APICallRunner's API Count : " + mAPICallRunner.getAPICount());
 						break;
@@ -120,7 +121,6 @@ public class EuRxManager {
 		} else {
 			mAPICallRunner.addAPI(api);
 		}
-
 	}
 
 	public RxManagerStatus getStatus() {

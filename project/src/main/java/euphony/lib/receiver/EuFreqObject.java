@@ -77,6 +77,10 @@ public class EuFreqObject {
 		initEuFreqObject(mOption);
 	}
 
+	public void initialize(EuOption option) {
+		initEuFreqObject(option);
+	}
+
 	private void initEuFreqObject(EuOption mOption)
 	{
 		mRecorder = new AudioRecorder(mOption.getSampleRate());
