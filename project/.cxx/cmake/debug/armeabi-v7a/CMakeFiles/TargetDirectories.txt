@@ -1,3 +1,0 @@
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/native-legacy.dir
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/edit_cache.dir
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/armeabi-v7a/CMakeFiles/rebuild_cache.dir

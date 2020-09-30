@@ -1,7 +1,0 @@
-Executable : C:\Users\desig\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe
-arguments : 
--C
-C:\Users\desig\playspace\euphony\project\.cxx\cmake\debug\arm64-v8a
-native-legacy
-jvmArgs : 
-

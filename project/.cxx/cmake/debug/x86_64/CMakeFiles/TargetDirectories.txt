@@ -1,3 +1,0 @@
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/x86_64/CMakeFiles/native-legacy.dir
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/x86_64/CMakeFiles/edit_cache.dir
-C:/Users/desig/playspace/euphony/project/.cxx/cmake/debug/x86_64/CMakeFiles/rebuild_cache.dir
