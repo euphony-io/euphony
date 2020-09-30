@@ -1,7 +1,9 @@
 apply plugin: 'com.android.library'
-if(gradle.language.equals("kotlin")) {
+if(gradle.hasProperty("language") && gradle.language.equals("kotlin")) {
     apply plugin: 'kotlin-android-extensions'
     apply plugin: 'kotlin-android'
+} else {
+    gradle.ext.language = "java"
 }
 
 apply plugin: "com.jfrog.bintray"
@@ -45,7 +47,8 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    if(gradle.hasProperty("language") && gradle.language.equals("kotlin"))
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.google.oboe:oboe:1.4.3'
 
