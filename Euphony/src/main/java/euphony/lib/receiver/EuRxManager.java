@@ -144,6 +144,37 @@ public class EuRxManager {
 		}
 	}
 
+	public void setOnWaveKeyPressed(int freq, double threshold, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(freq, KEY_PRESSED, iAPICallDetector);
+
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, threshold, api);
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+	}
+
+	public void setOnWaveKeyDown(int key, double threshold, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(key, KEY_DOWN, iAPICallDetector);
+
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, threshold, api);
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+	}
+
+	public void setOnWaveKeyUp(int key, double threshold, APICallDetector iAPICallDetector) {
+		EpnyAPI api = new EpnyAPI(key, KEY_UP, iAPICallDetector);
+
+		if(mAPICallRunner == null) {
+			mAPICallRunner = new APICallRunner(mOption, threshold, api);
+		} else {
+			mAPICallRunner.addAPI(api);
+		}
+	}
+
+
 	public RxManagerStatus getStatus() {
 		if(mListenThread != null) {
 			switch (mListenThread.getState()) {
@@ -267,10 +298,18 @@ public class EuRxManager {
 
 	private class APICallRunner extends EuFreqObject implements Runnable {
 
+		private double mThreshold = 0.0009;
 		private ArrayList<EpnyAPI> APICallList = new ArrayList<EpnyAPI>();
 
 		APICallRunner(EuOption option, EpnyAPI api) {
 			super(option);
+			addAPI(api);
+			Log.d(LOG, "Added " + api.getKey() + "(" + api.getFreqIndex() + ")");
+		}
+
+		APICallRunner(EuOption option, double threshold, EpnyAPI api) {
+			super(option);
+			mThreshold = threshold;
 			addAPI(api);
 			Log.d(LOG, "Added " + api.getKey() + "(" + api.getFreqIndex() + ")");
 		}
@@ -282,7 +321,7 @@ public class EuRxManager {
 		}
 
 		private boolean compareThreshold(float amp) {
-			if(amp > 0.0009)
+			if(amp > mThreshold)
 				return true;
 			else
 				return false;
