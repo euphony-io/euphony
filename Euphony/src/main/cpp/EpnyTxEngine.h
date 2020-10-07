@@ -24,6 +24,7 @@ public:
     void setAudioApi(oboe::AudioApi audioApi);
     void setChannelCount(int channelCount);
     void setDeviceId(int32_t deviceId);
+    int getFramesPerBursts();
     void setBufferSizeInBursts(int32_t numBursts);
     void setPerformance(oboe::PerformanceMode mode);
     void setAudioFrequency(double freq);

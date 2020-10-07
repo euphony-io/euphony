@@ -35,7 +35,7 @@ public class EuphonyTx {
     }
 
     public EuphonyTx() {
-        if(create() != true) {
+        if(!create()) {
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
             Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
@@ -43,7 +43,7 @@ public class EuphonyTx {
     }
 
     public EuphonyTx(Context context) {
-        if(create(context) != true){
+        if(!create(context)){
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
             Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
@@ -127,6 +127,7 @@ public class EuphonyTx {
     public void callAPI(double freq, EpnyAPIDuration duration) {
 
         if(mEngineHandle != 0) {
+            native_setAudioFrequency(mEngineHandle, freq);
             native_setToneOn( mEngineHandle,true);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -154,6 +155,11 @@ public class EuphonyTx {
 
     public void setChannelCount(int channelCount) {
         if (mEngineHandle != 0) native_setChannelCount(mEngineHandle, channelCount);
+    }
+
+    public int getFramesPerBursts(){
+        if (mEngineHandle != 0) return native_getFramesPerBursts(mEngineHandle);
+        else return -1;
     }
 
     public void setBufferSizeInBursts(int bufferSizeInBursts){
@@ -191,6 +197,7 @@ public class EuphonyTx {
     private native void native_setAudioApi(long engineHandle, int audioApi);
     private native void native_setAudioDeviceId(long engineHandle, int deviceId);
     private native void native_setChannelCount(long engineHandle, int channelCount);
+    private native int native_getFramesPerBursts(long engineHandle);
     private native void native_setBufferSizeInBursts(long engineHandle, int bufferSizeInBursts);
     private native double native_getCurrentOutputLatencyMillis(long engineHandle);
     private native boolean native_isLatencyDetectionSupported(long engineHandle);

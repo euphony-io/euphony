@@ -185,6 +185,10 @@ void EpnyTxEngine::setDeviceId(int32_t deviceId) {
     pImpl->mDeviceId = deviceId;
 }
 
+int EpnyTxEngine::getFramesPerBursts() {
+    return pImpl->mStream->getFramesPerBurst();
+}
+
 void EpnyTxEngine::setBufferSizeInBursts(int32_t numBursts) {
     pImpl->setBufferSizeInBursts(numBursts);
 }

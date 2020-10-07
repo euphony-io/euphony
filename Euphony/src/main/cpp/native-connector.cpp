@@ -201,4 +201,18 @@ extern "C" {
         oboe::DefaultStreamValues::SampleRate = (int32_t) sample_rate;
         oboe::DefaultStreamValues::FramesPerBurst = (int32_t) frames_per_burst;
     }
+
+    JNIEXPORT jint JNICALL
+    Java_euphony_lib_transmitter_EuphonyTx_native_1getFramesPerBursts(JNIEnv *env, jobject thiz,
+            jlong engine_handle) {
+
+        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return -1;
+        }
+
+        return engine->getFramesPerBursts();
+
+    }
 }
