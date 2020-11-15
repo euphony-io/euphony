@@ -14,6 +14,7 @@ set(EUPHONY_SRC
         EpnyOscillator.cpp
         EpnySoundGenerator.cpp
         EpnyTxEngine.cpp
+        EpnyRxEngine.cpp
         EpnyAudioStreamCallback.cpp
         native-connector.cpp
         )
