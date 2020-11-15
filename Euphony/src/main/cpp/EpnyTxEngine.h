@@ -37,7 +37,7 @@ private:
     EpnyTxEngine(const EpnyTxEngine &);
     const EpnyTxEngine &operator =(const EpnyTxEngine &);
 
-    class Impl; std::unique_ptr<Impl> pImpl;
+    class EpnyTxEngineImpl; std::unique_ptr<EpnyTxEngineImpl> pImpl;
 };
 
 

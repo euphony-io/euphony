@@ -7,7 +7,7 @@
 #include "EpnySoundGenerator.h"
 #include "EpnyAudioStreamCallback.h"
 
-class EpnyTxEngine::Impl : public IRestartable{
+class EpnyTxEngine::EpnyTxEngineImpl : public IRestartable{
 public:
     std::mutex mLock;
     std::shared_ptr<oboe::AudioStream> mStream;
@@ -22,12 +22,12 @@ public:
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
 
 
-    Impl() {
+    EpnyTxEngineImpl() {
         createCallback();
         start();
     }
 
-    virtual ~Impl() = default;
+    virtual ~EpnyTxEngineImpl() = default;
 
     void createCallback() {
         mCallback = std::make_unique<EpnyAudioStreamCallback>(*this);
@@ -144,7 +144,7 @@ public:
 };
 
 EpnyTxEngine::EpnyTxEngine()
-: pImpl(std::make_unique<Impl>())
+: pImpl(std::make_unique<EpnyTxEngineImpl>())
 { }
 
 EpnyTxEngine::~EpnyTxEngine() = default;
