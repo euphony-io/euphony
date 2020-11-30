@@ -7,7 +7,7 @@
 
 class IFFTProcessor {
 public:
-    virtual void create() = 0;
+    virtual void create(int fft_size) = 0;
     virtual void destroy() = 0;
     virtual void doSpectrum() = 0;
     virtual void doSpectrums() = 0;

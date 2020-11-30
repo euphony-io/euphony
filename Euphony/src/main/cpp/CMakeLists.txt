@@ -13,6 +13,7 @@ set(EUPHONY_SRC
         EpnyFrequency.cpp
         EpnyOscillator.cpp
         EpnySoundGenerator.cpp
+        EpnyFFTProcessor.cpp
         EpnyTxEngine.cpp
         EpnyRxEngine.cpp
         EpnyAudioStreamCallback.cpp
