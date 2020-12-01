@@ -52,7 +52,7 @@ kiss_fftr_cfg kiss_fftr_alloc(int nfft,int inverse_fft,void * mem,size_t * lenme
     return st;
 }
 
-void kiss_fftr(kiss_fftr_cfg st,const kiss_fft_scalar *timedata,kiss_fft_cpx *freqdata)
+void kiss_fftr(kiss_fftr_cfg st,const kiss_fft_scalar *timedata, kiss_fft_cpx *freqdata)
 {
     /* input buffer timedata is stored row-wise */
 

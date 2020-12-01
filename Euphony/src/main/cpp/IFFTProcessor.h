@@ -7,10 +7,10 @@
 
 class IFFTProcessor {
 public:
-    virtual void create(int fft_size) = 0;
+    virtual void create(int fft_size, int samplerate) = 0;
     virtual void destroy() = 0;
-    virtual void doSpectrum() = 0;
-    virtual void doSpectrums() = 0;
+    virtual float doSpectrum(int spectrum_idx) = 0;
+    virtual float* doSpectrums(int from_idx, int to_idx, short* pcm_src) = 0;
 };
 
 #endif //EUPHONY_IFFTPROCESSOR_H

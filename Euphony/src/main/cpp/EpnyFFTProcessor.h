@@ -20,21 +20,25 @@ struct KissFFT
 {
     kiss_fftr_cfg config;
     /* unique_ptr's array version. it is available on c++14. */
-    std::unique_ptr<kiss_fft_cpx[]> spectrum;
+    kiss_fft_cpx* spectrum;
+    float* result;
     int numSamples;
+    int samplerate;
 };
 
 class EpnyFFTProcessor : IFFTProcessor {
 public:
-    virtual void create(int fft_size);
+    virtual void create(int fft_size, int samplerate);
     virtual void destroy();
-    virtual void doSpectrum();
-    virtual void doSpectrums();
+    virtual float doSpectrum(int spectrum_idx);
+    virtual float* doSpectrums(int from_idx, int to_idx, short* src);
 
-    EpnyFFTProcessor(int fft_size);
+    EpnyFFTProcessor(int fft_size, int samplerate);
     virtual ~EpnyFFTProcessor() = 0;
 
 private:
+    inline float shortToFloat(short val);
+    inline int frequencyToIndex(int freq);
     std::unique_ptr<KissFFT> mFFT;
 };
 
