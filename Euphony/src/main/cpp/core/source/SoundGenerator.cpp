@@ -2,11 +2,11 @@
 // Created by desig on 2020-08-15.
 //
 
-#include "EpnySoundGenerator.h"
+#include "SoundGenerator.h"
 
-EpnySoundGenerator::EpnySoundGenerator(int32_t sampleRate, int32_t channelCount) :
+Euphony::SoundGenerator::SoundGenerator(int32_t sampleRate, int32_t channelCount) :
         TappableAudioSource(sampleRate, channelCount)
-        , mOscillators(std::make_unique<EpnyOscillator[]>(channelCount)){
+        , mOscillators(std::make_unique<Oscillator[]>(channelCount)){
 
     double frequency = 18000.0;
     //constexpr double interval = 1000.0;
@@ -21,7 +21,7 @@ EpnySoundGenerator::EpnySoundGenerator(int32_t sampleRate, int32_t channelCount)
     }
 }
 
-void EpnySoundGenerator::renderAudio(float *audioData, int32_t numFrames) {
+void Euphony::SoundGenerator::renderAudio(float *audioData, int32_t numFrames) {
     // Render each oscillator into its own channel
     std::fill_n(mBuffer.get(), kSharedBufferSize, 0);
     for (int i = 0; i < mChannelCount; ++i) {
@@ -32,13 +32,13 @@ void EpnySoundGenerator::renderAudio(float *audioData, int32_t numFrames) {
     }
 }
 
-void EpnySoundGenerator::setFrequency(double frequency) {
+void Euphony::SoundGenerator::setFrequency(double frequency) {
     for(int i = 0;  i< mChannelCount; ++i) {
         mOscillators[i].setFrequency(frequency);
     }
 }
 
-void EpnySoundGenerator::tap(bool isDown) {
+void Euphony::SoundGenerator::tap(bool isDown) {
     for (int i = 0; i < mChannelCount; ++i) {
         mOscillators[i].setWaveOn(isDown);
     }

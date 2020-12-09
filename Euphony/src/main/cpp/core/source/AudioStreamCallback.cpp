@@ -2,9 +2,9 @@
 // Created by designe on 20. 8. 24.
 //
 
-#include "EpnyAudioStreamCallback.h"
+#include <AudioStreamCallback.h>
 
-oboe::DataCallbackResult EpnyAudioStreamCallback::onAudioReady(
+oboe::DataCallbackResult Euphony::AudioStreamCallback::onAudioReady(
         oboe::AudioStream *oboeStream, void *audioData, int32_t numFrames) {
     if (oboeStream != mStream) {
         mStream = oboeStream;

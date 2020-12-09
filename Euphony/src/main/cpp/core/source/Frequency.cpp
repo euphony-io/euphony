@@ -2,19 +2,19 @@
 // Created by designe on 20. 9. 16.
 //
 
-#include "EpnyFrequency.h"
+#include "../Frequency.h"
 
-EpnyFrequency::EpnyFrequency()
+Euphony::Frequency::Frequency()
 :mHz(0),
 mSize(0)
 {}
 
-EpnyFrequency::EpnyFrequency(int hz, int size)
+Euphony::Frequency::Frequency(int hz, int size)
 :mHz(hz),
 mSize(size)
 {}
 
-void EpnyFrequency::createFrequency(int hz, int size) {
+void Euphony::Frequency::createFrequency(int hz, int size) {
     float phase = 0.0;
     mPhaseIncrement.store((kTwoPi * hz) / static_cast<double>(kSampleRate));
 
@@ -27,32 +27,30 @@ void EpnyFrequency::createFrequency(int hz, int size) {
 
 
 
-int EpnyFrequency::getHz() const {
+int Euphony::Frequency::getHz() const {
     return mHz;
 }
 
-void EpnyFrequency::setHz(int hz) {
+void Euphony::Frequency::setHz(int hz) {
     mHz = hz;
     if(mSize != 0)
         createFrequency(mHz, mSize);
 }
 
-int EpnyFrequency::getSize() const {
+int Euphony::Frequency::getSize() const {
     return mSize;
 }
 
-void EpnyFrequency::setSize(int size) {
+void Euphony::Frequency::setSize(int size) {
     mSize = size;
     if(mHz != 0)
         createFrequency(mHz, mSize);
 }
 
-const std::vector<float> &EpnyFrequency::getSource() const {
+const std::vector<float> &Euphony::Frequency::getSource() const {
     return mSource;
 }
 
-void EpnyFrequency::setSource(const std::vector<float> &source) {
+void Euphony::Frequency::setSource(const std::vector<float> &source) {
     mSource = source;
 }
-
-

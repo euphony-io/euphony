@@ -22,8 +22,8 @@
 #include <oboe/AudioStreamCallback.h>
 #include <Log.h>
 
-#include "IRenderableAudio.h"
-#include "IRestartable.h"
+#include <IRenderableAudio.h>
+#include <IRestartable.h>
 
 /**
  * This is a callback object which will render data from an `IRenderableAudio` source. It is

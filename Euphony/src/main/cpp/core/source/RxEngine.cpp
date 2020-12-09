@@ -3,10 +3,11 @@
 //
 
 #include <oboe/Oboe.h>
-#include <Log.h>
-#include "EpnyRxEngine.h"
+#include "Log.h"
+#include "../FFTProcessor.h"
+#include "../RxEngine.h"
 
-class EpnyRxEngine::EpnyRxEngineImpl {
+class Euphony::RxEngine::RxEngineImpl {
 public:
     std::mutex mLock;
     bool isRecording;
@@ -57,10 +58,10 @@ public:
     }
 };
 
-void EpnyRxEngine::start() {
+void Euphony::RxEngine::start() {
     pImpl->start();
 }
 
-void EpnyRxEngine::stop() {
+void Euphony::RxEngine::stop() {
     pImpl->stop();
 }

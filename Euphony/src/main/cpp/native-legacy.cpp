@@ -4,7 +4,7 @@
 
 #include <jni.h>
 #include <string>
-#include "kiss_fftr.h"
+#include "arms/kiss_fftr.h"
 #include <malloc.h>
 #include <cstdlib>
 #include <cmath>

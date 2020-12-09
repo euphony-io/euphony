@@ -4,27 +4,29 @@
 
 #include <jni.h>
 #include <oboe/Oboe.h>
-#include <Log.h>
-#include "EpnyTxEngine.h"
+#include "debug-helper/Log.h"
+#include "core/TxEngine.h"
+
+using namespace Euphony;
 
 extern "C" {
     JNIEXPORT jlong JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1createEngine(JNIEnv *env, jobject thiz) {
-        EpnyTxEngine * engine = new(std::nothrow) EpnyTxEngine();
+        TxEngine * engine = new(std::nothrow) TxEngine();
         return reinterpret_cast<jlong>(engine);
     }
 
     JNIEXPORT void JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1deleteEngine(JNIEnv *env, jobject thiz,
                                                                 jlong engine_handle) {
-        delete reinterpret_cast<EpnyTxEngine *>(engine_handle);
+        delete reinterpret_cast<TxEngine *>(engine_handle);
     }
 
     JNIEXPORT void JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1setToneOn(JNIEnv *env, jobject thiz,
                                                              jlong engine_handle,
                                                              jboolean is_tone_on) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -37,7 +39,7 @@ extern "C" {
     JNIEXPORT void JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1start(JNIEnv *env, jobject thiz,
                                                          jlong engine_handle) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -49,7 +51,7 @@ extern "C" {
     JNIEXPORT void JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1stop(JNIEnv *env, jobject thiz,
                                                         jlong engine_handle) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -61,7 +63,7 @@ extern "C" {
     JNIEXPORT jint JNICALL
     Java_euphony_lib_transmitter_EuphonyTx_native_1getStatus(JNIEnv *env, jobject thiz,
                                                              jlong engine_handle) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return 2;
@@ -80,7 +82,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioApi(JNIEnv *env, jobject thiz,
                                                                jlong engine_handle,
                                                                jint audio_api) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -94,7 +96,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioDeviceId(JNIEnv *env, jobject thiz,
                                                                     jlong engine_handle,
                                                                     jint device_id) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -107,7 +109,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1setAudioFrequency(JNIEnv *env, jobject thiz,
                                                                      jlong engine_handle,
                                                                      jdouble frequency) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -120,7 +122,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1setChannelCount(JNIEnv *env, jobject thiz,
                                                                    jlong engine_handle,
                                                                    jint channel_count) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -135,7 +137,7 @@ extern "C" {
                                                                          jlong engine_handle,
                                                                          jint buffer_size_in_bursts) {
 
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -149,7 +151,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1getCurrentOutputLatencyMillis(JNIEnv *env,
                                                                                  jobject thiz,
                                                                                  jlong engine_handle) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return static_cast<jdouble>(-1.0);
@@ -162,7 +164,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1isLatencyDetectionSupported(JNIEnv *env,
                                                                                jobject thiz,
                                                                                jlong engine_handle) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return JNI_FALSE;
@@ -175,7 +177,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1setPerformance(JNIEnv *env, jobject thiz,
                                                                   jlong engine_handle,
                                                                   jint performance_level) {
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return;
@@ -206,7 +208,7 @@ extern "C" {
     Java_euphony_lib_transmitter_EuphonyTx_native_1getFramesPerBursts(JNIEnv *env, jobject thiz,
             jlong engine_handle) {
 
-        EpnyTxEngine *engine = reinterpret_cast<EpnyTxEngine *> (engine_handle);
+        TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return -1;

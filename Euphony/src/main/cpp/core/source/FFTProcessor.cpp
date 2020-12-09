@@ -2,17 +2,17 @@
 // Created by opener on 20. 11. 30.
 //
 
-#include "EpnyFFTProcessor.h"
+#include "../FFTProcessor.h"
 
-EpnyFFTProcessor::EpnyFFTProcessor(int fft_size, int samplerate) {
+Euphony::FFTProcessor::FFTProcessor(int fft_size, int samplerate) {
     create(fft_size, samplerate);
 }
 
-EpnyFFTProcessor::~EpnyFFTProcessor() {
+Euphony::FFTProcessor::~FFTProcessor() {
     destroy();
 }
 
-inline float EpnyFFTProcessor::shortToFloat(short val) {
+inline float Euphony::FFTProcessor::shortToFloat(short val) {
     if( val < 0 )
         return val * ( 1 / 32768.0f );
     else
@@ -20,12 +20,12 @@ inline float EpnyFFTProcessor::shortToFloat(short val) {
 }
 
 
-inline int EpnyFFTProcessor::frequencyToIndex(int freq) {
+inline int Euphony::FFTProcessor::frequencyToIndex(int freq) {
     return ((mFFT->numSamples>>1) + 1) * ((double)freq / (double)mFFT->samplerate);
 }
 
 
-void EpnyFFTProcessor::create(int fft_size, int samplerate) {
+void Euphony::FFTProcessor::create(int fft_size, int samplerate) {
     mFFT = std::make_unique<KissFFT>();
 
     mFFT->config = kiss_fftr_alloc(fft_size, 0, nullptr, nullptr);
@@ -35,21 +35,21 @@ void EpnyFFTProcessor::create(int fft_size, int samplerate) {
     mFFT->samplerate = samplerate;
 }
 
-void EpnyFFTProcessor::destroy() {
+void Euphony::FFTProcessor::destroy() {
     free(mFFT->config);
     delete mFFT->spectrum;
     mFFT.reset();
     mFFT = nullptr;
 }
 
-float EpnyFFTProcessor::doSpectrum(int spectrum_idx) {
+float Euphony::FFTProcessor::doSpectrum(int spectrum_idx) {
     float re = shortToFloat(mFFT->spectrum[spectrum_idx].r) * mFFT->numSamples;
     float im = shortToFloat(mFFT->spectrum[spectrum_idx].i) * mFFT->numSamples;
 
     return sqrtf( re * re + im * im ) / (mFFT->numSamples / 2);
 }
 
-float* EpnyFFTProcessor::doSpectrums(int from_idx, int to_idx, short* src) {
+float* Euphony::FFTProcessor::doSpectrums(int from_idx, int to_idx, short* src) {
     float startFrequency = 17500.0;
     int spectrum_len = mFFT->numSamples >> 1; // spectrum size must be half of numSamples;
     //int start = from_idx;//(startFrequency / (float)mFFT->samplerate);

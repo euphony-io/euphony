@@ -2,35 +2,35 @@
 // Created by desig on 2020-08-15.
 //
 #include <oboe/Oboe.h>
-#include <Log.h>
-#include "EpnyTxEngine.h"
-#include "EpnySoundGenerator.h"
-#include "EpnyAudioStreamCallback.h"
+#include "Log.h"
+#include "../TxEngine.h"
+#include "../SoundGenerator.h"
+#include "../AudioStreamCallback.h"
 
-class EpnyTxEngine::EpnyTxEngineImpl : public IRestartable{
+class Euphony::TxEngine::TxEngineImpl : public IRestartable{
 public:
     std::mutex mLock;
     std::shared_ptr<oboe::AudioStream> mStream;
     oboe::AudioStreamBuilder mStreamBuilder;
-    std::unique_ptr<EpnyAudioStreamCallback> mCallback;
-    std::shared_ptr<EpnySoundGenerator> mAudioSource;
+    std::unique_ptr<AudioStreamCallback> mCallback;
+    std::shared_ptr<SoundGenerator> mAudioSource;
     bool mIsLatencyDetectionSupported = false;
 
     int32_t mDeviceId = oboe::Unspecified;
     int32_t mChannelCount = oboe::Unspecified;
-    EpnyStatus mStatus = STOP;
+    Status mStatus = STOP;
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
 
 
-    EpnyTxEngineImpl() {
+    TxEngineImpl() {
         createCallback();
         start();
     }
 
-    virtual ~EpnyTxEngineImpl() = default;
+    virtual ~TxEngineImpl() = default;
 
     void createCallback() {
-        mCallback = std::make_unique<EpnyAudioStreamCallback>(*this);
+        mCallback = std::make_unique<AudioStreamCallback>(*this);
     }
 
     oboe::Result createPlaybackStream() {
@@ -75,7 +75,7 @@ public:
 
         auto result = createPlaybackStream();
         if(result == oboe::Result::OK) {
-            mAudioSource = std::make_shared<EpnySoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
+            mAudioSource = std::make_shared<SoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
             mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mAudioSource));
             mStream->start();
             mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
@@ -143,60 +143,60 @@ public:
     }
 };
 
-EpnyTxEngine::EpnyTxEngine()
-: pImpl(std::make_unique<EpnyTxEngineImpl>())
+Euphony::TxEngine::TxEngine()
+: pImpl(std::make_unique<TxEngineImpl>())
 { }
 
-EpnyTxEngine::~EpnyTxEngine() = default;
+Euphony::TxEngine::~TxEngine() = default;
 
-void EpnyTxEngine::tap(bool isDown) {
+void Euphony::TxEngine::tap(bool isDown) {
     pImpl->mAudioSource->tap(isDown);
 }
 
-void EpnyTxEngine::setAudioFrequency(double freq) {
+void Euphony::TxEngine::setAudioFrequency(double freq) {
     pImpl->mAudioSource->setFrequency(freq);
 }
 
-void EpnyTxEngine::stop() {
+void Euphony::TxEngine::stop() {
     pImpl->stop();
 }
 
-void EpnyTxEngine::start() {
+void Euphony::TxEngine::start() {
     pImpl->start();
 }
 
-bool EpnyTxEngine::isLatencyDetectionSupported() {
+bool Euphony::TxEngine::isLatencyDetectionSupported() {
     return pImpl->isLatencyDetectionSupported();
 }
 
-void EpnyTxEngine::setAudioApi(oboe::AudioApi audioApi) {
+void Euphony::TxEngine::setAudioApi(oboe::AudioApi audioApi) {
     pImpl->mAudioApi = audioApi;
 }
 
-void EpnyTxEngine::setPerformance(oboe::PerformanceMode mode) {
+void Euphony::TxEngine::setPerformance(oboe::PerformanceMode mode) {
     pImpl->setPerformance(mode);
 }
 
-void EpnyTxEngine::setChannelCount(int channelCount) {
+void Euphony::TxEngine::setChannelCount(int channelCount) {
     pImpl->mChannelCount = channelCount;
 }
 
-void EpnyTxEngine::setDeviceId(int32_t deviceId) {
+void Euphony::TxEngine::setDeviceId(int32_t deviceId) {
     pImpl->mDeviceId = deviceId;
 }
 
-int EpnyTxEngine::getFramesPerBursts() {
+int Euphony::TxEngine::getFramesPerBursts() {
     return pImpl->mStream->getFramesPerBurst();
 }
 
-void EpnyTxEngine::setBufferSizeInBursts(int32_t numBursts) {
+void Euphony::TxEngine::setBufferSizeInBursts(int32_t numBursts) {
     pImpl->setBufferSizeInBursts(numBursts);
 }
 
-double EpnyTxEngine::getCurrentOutputLatencyMillis() {
+double Euphony::TxEngine::getCurrentOutputLatencyMillis() {
     return pImpl->getCurrentOutputLatencyMillis();
 }
 
-EpnyStatus EpnyTxEngine::getStatus() {
+Euphony::Status Euphony::TxEngine::getStatus() {
     return pImpl->mStatus;
 }

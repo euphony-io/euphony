@@ -2,26 +2,26 @@
 // Created by designe on 20. 8. 25.
 //
 
-#include "EpnyOscillator.h"
+#include "../Oscillator.h"
 
 /*
  * Frequencies Methods
  * */
-void EpnyOscillator::setFrequency(double frequency) {
+void Euphony::Oscillator::setFrequency(double frequency) {
     mFrequency = frequency;
     mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
 }
 
-void EpnyOscillator::setSampleRate(int32_t sampleRate) {
+void Euphony::Oscillator::setSampleRate(int32_t sampleRate) {
     mSampleRate = sampleRate;
     mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
 }
 
-void EpnyOscillator::setWaveOn(bool isWaveOn) {
+void Euphony::Oscillator::setWaveOn(bool isWaveOn) {
     mIsWaveOn.store(isWaveOn);
 }
 
-void EpnyOscillator::renderAudio(float *data, int32_t numFrames) {
+void Euphony::Oscillator::renderAudio(float *data, int32_t numFrames) {
     if(mIsWaveOn) {
         for(int i = 0; i < numFrames; ++i) {
             data[i] = (float) (sin(mPhase) * mAmplitude);
