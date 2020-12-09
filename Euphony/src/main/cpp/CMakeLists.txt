@@ -32,8 +32,8 @@ include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library( native-legacy SHARED ${LEGACY_SRC} )
 target_compile_definitions(native-legacy PUBLIC FIXED_POINT=16)
-add_library(Euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
-target_compile_definitions(Euphony PUBLIC FIXED_POINT=16)
+add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
+target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
 
 find_library( # Sets the name of the path variable.
         log-lib
@@ -46,7 +46,7 @@ find_package(
 )
 
 target_link_libraries(
-        Euphony
+        euphony
         ${log-lib}
         oboe::oboe
 )
