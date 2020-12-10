@@ -34,6 +34,25 @@ namespace Euphony {
         // From IRenderableAudio
         void renderAudio(float *data, int32_t numFrames);
 
+        static double getPhaseIncrement(double frequency){
+            return ((kTwoPi * frequency) / static_cast<double> (kDefaultSampleRate));
+        }
+
+        static std::unique_ptr<float[]> makeStaticWave(int freq, int waveLength) {
+            std::unique_ptr<float[]> source = std::make_unique<float[]>(waveLength);
+
+            double phase = 0.0;
+            double phaseIncrement = Euphony::Oscillator::getPhaseIncrement(freq);
+            for(int i = 0; i < waveLength; i++) {
+                source[i] = sin(phase);
+                phase += phaseIncrement;
+                if(phase > kTwoPi) phase -= kTwoPi;
+            }
+
+            return std::unique_ptr<float[]>();
+        }
+
+
     private:
         std::atomic<bool> mIsFirstWave{false};
         std::atomic<bool> mIsLastWave{false};
