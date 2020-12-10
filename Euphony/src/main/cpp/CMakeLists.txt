@@ -14,7 +14,7 @@ set(EUPHONY_SRC
         arms/kiss_fftr.c
         core/source/Frequency.cpp
         core/source/Oscillator.cpp
-        core/source/SoundGenerator.cpp
+        core/source/WaveGenerator.cpp
         core/source/FFTProcessor.cpp
         core/source/TxEngine.cpp
         core/source/RxEngine.cpp

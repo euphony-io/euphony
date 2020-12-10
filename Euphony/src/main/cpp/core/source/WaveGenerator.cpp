@@ -2,9 +2,9 @@
 // Created by desig on 2020-08-15.
 //
 
-#include "SoundGenerator.h"
+#include "WaveGenerator.h"
 
-Euphony::SoundGenerator::SoundGenerator(int32_t sampleRate, int32_t channelCount) :
+Euphony::WaveGenerator::WaveGenerator(int32_t sampleRate, int32_t channelCount) :
         TappableAudioSource(sampleRate, channelCount)
         , mOscillators(std::make_unique<Oscillator[]>(channelCount)){
 
@@ -21,7 +21,7 @@ Euphony::SoundGenerator::SoundGenerator(int32_t sampleRate, int32_t channelCount
     }
 }
 
-void Euphony::SoundGenerator::renderAudio(float *audioData, int32_t numFrames) {
+void Euphony::WaveGenerator::renderAudio(float *audioData, int32_t numFrames) {
     // Render each oscillator into its own channel
     std::fill_n(mBuffer.get(), kSharedBufferSize, 0);
     for (int i = 0; i < mChannelCount; ++i) {
@@ -32,13 +32,13 @@ void Euphony::SoundGenerator::renderAudio(float *audioData, int32_t numFrames) {
     }
 }
 
-void Euphony::SoundGenerator::setFrequency(double frequency) {
+void Euphony::WaveGenerator::setFrequency(double frequency) {
     for(int i = 0;  i< mChannelCount; ++i) {
         mOscillators[i].setFrequency(frequency);
     }
 }
 
-void Euphony::SoundGenerator::tap(bool isDown) {
+void Euphony::WaveGenerator::tap(bool isDown) {
     for (int i = 0; i < mChannelCount; ++i) {
         mOscillators[i].setWaveOn(isDown);
     }

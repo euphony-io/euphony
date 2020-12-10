@@ -4,7 +4,7 @@
 #include <oboe/Oboe.h>
 #include "Log.h"
 #include "../TxEngine.h"
-#include "../SoundGenerator.h"
+#include "../WaveGenerator.h"
 #include "../AudioStreamCallback.h"
 
 class Euphony::TxEngine::TxEngineImpl : public IRestartable{
@@ -13,7 +13,7 @@ public:
     std::shared_ptr<oboe::AudioStream> mStream;
     oboe::AudioStreamBuilder mStreamBuilder;
     std::unique_ptr<AudioStreamCallback> mCallback;
-    std::shared_ptr<SoundGenerator> mAudioSource;
+    std::shared_ptr<WaveGenerator> mAudioSource;
     bool mIsLatencyDetectionSupported = false;
 
     int32_t mDeviceId = oboe::Unspecified;
@@ -75,7 +75,7 @@ public:
 
         auto result = createPlaybackStream();
         if(result == oboe::Result::OK) {
-            mAudioSource = std::make_shared<SoundGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
+            mAudioSource = std::make_shared<WaveGenerator>(mStream->getSampleRate(), mStream->getChannelCount());
             mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mAudioSource));
             mStream->start();
             mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);

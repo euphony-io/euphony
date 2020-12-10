@@ -2,24 +2,24 @@
 // Created by desig on 2020-08-15.
 //
 
-#ifndef EUPHONY_SOUNDGENERATOR_H
-#define EUPHONY_SOUNDGENERATOR_H
+#ifndef EUPHONY_WAVEGENERATOR_H
+#define EUPHONY_WAVEGENERATOR_H
 
 
 #include <TappableAudioSource.h>
 #include "Oscillator.h"
 
 namespace Euphony {
-    class SoundGenerator : public TappableAudioSource {
+    class WaveGenerator : public TappableAudioSource {
         static constexpr size_t kSharedBufferSize = 2048;
     public:
-        SoundGenerator(int32_t sampleRate, int32_t channelCount);
+        WaveGenerator(int32_t sampleRate, int32_t channelCount);
 
-        ~SoundGenerator() = default;
+        ~WaveGenerator() = default;
 
-        SoundGenerator(SoundGenerator &&other) = default;
+        WaveGenerator(WaveGenerator &&other) = default;
 
-        SoundGenerator &operator=(SoundGenerator &&other) = default;
+        WaveGenerator &operator=(WaveGenerator &&other) = default;
 
         void tap(bool isDown) override;
 
@@ -35,4 +35,4 @@ namespace Euphony {
 }
 
 
-#endif //EUPHONY_SOUNDGENERATOR_H
+#endif //EUPHONY_WAVEGENERATOR_H
