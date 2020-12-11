@@ -43,3 +43,7 @@ void Euphony::WaveGenerator::tap(bool isDown) {
         mOscillators[i].setWaveOn(isDown);
     }
 }
+
+std::unique_ptr<float[]> Euphony::WaveGenerator::makeWave(int freq) {
+
+}

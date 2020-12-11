@@ -10,6 +10,10 @@
 #include "Oscillator.h"
 
 namespace Euphony {
+    constexpr int32_t kDataStartPoint = 18000;
+    constexpr int32_t kDataLength = 2048;
+    constexpr int32_t kDataInterval = 86;
+
     class WaveGenerator : public TappableAudioSource {
         static constexpr size_t kSharedBufferSize = 2048;
     public:
@@ -26,6 +30,8 @@ namespace Euphony {
         void renderAudio(float *audioData, int32_t numFrames) override;
 
         void setFrequency(double frequency);
+
+        std::unique_ptr<float[]> makeStaticWave(int freq);
 
     private:
         std::unique_ptr<Oscillator[]> mOscillators;
