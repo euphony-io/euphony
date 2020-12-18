@@ -56,9 +56,3 @@ std::unique_ptr<float[]> Euphony::WaveGenerator::makeStaticWave(int freq) {
 
     return waveArray;
 }
-
-
-
-
-    }
-}
