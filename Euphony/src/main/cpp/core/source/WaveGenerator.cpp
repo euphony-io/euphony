@@ -44,6 +44,21 @@ void Euphony::WaveGenerator::tap(bool isDown) {
     }
 }
 
-std::unique_ptr<float[]> Euphony::WaveGenerator::makeWave(int freq) {
+std::unique_ptr<float[]> Euphony::WaveGenerator::makeStaticWave(int freq) {
+    std::unique_ptr<float[]> waveArray = std::make_unique<float[]>(kDataLength);
+    float phase = 0.0;
+    double phaseIncrement = (kTwoPi * freq) / static_cast<double>(kDefaultSampleRate);
+    for (int i = 0; i < kDataLength; i++) {
+        waveArray[i] = (float) sin(phase);
+        phase += phaseIncrement;
+        if (phase > kTwoPi) phase -= kTwoPi;
+    }
 
+    return waveArray;
+}
+
+
+
+
+    }
 }
