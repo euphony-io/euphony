@@ -28,7 +28,7 @@ struct KissFFT
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_euphony_lib_receiver_KissFFT_create(JNIEnv *env, jobject thiz, jint numSamples) {
+Java_euphony_rx_KissFFT_create(JNIEnv *env, jobject thiz, jint numSamples) {
     KissFFT* fft = new KissFFT();
 
     fft->config = kiss_fftr_alloc(numSamples,0,nullptr,nullptr);
@@ -44,7 +44,7 @@ Java_euphony_lib_receiver_KissFFT_create(JNIEnv *env, jobject thiz, jint numSamp
  */
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_destroy(JNIEnv *env, jobject thiz, jlong handle) {
+Java_euphony_rx_KissFFT_destroy(JNIEnv *env, jobject thiz, jlong handle) {
     KissFFT* fft = (KissFFT*)handle;
     free(fft->config);
     free(fft->spectrum);
@@ -53,7 +53,7 @@ Java_euphony_lib_receiver_KissFFT_destroy(JNIEnv *env, jobject thiz, jlong handl
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_doSpectrum(JNIEnv *env, jobject thiz, jlong handle,
+Java_euphony_rx_KissFFT_doSpectrum(JNIEnv *env, jobject thiz, jlong handle,
                                              jobject source, jint sample_idx, jlong mag_address,
                                              jlong dbfs_address) {
     KissFFT* fft = (KissFFT*)handle;
@@ -72,7 +72,7 @@ Java_euphony_lib_receiver_KissFFT_doSpectrum(JNIEnv *env, jobject thiz, jlong ha
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_doSpectrums(JNIEnv *env, jobject thiz, jlong handle,
+Java_euphony_rx_KissFFT_doSpectrums(JNIEnv *env, jobject thiz, jlong handle,
                                               jobject source, jobject target) {
     KissFFT* fft = (KissFFT*)handle;
     kiss_fft_scalar* samples = (kiss_fft_scalar*)env->GetDirectBufferAddress( source );
@@ -108,7 +108,7 @@ Java_euphony_lib_receiver_KissFFT_doSpectrums(JNIEnv *env, jobject thiz, jlong h
  */
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_spectrum_1for_1phase(JNIEnv *env, jobject thiz, jlong handle,
+Java_euphony_rx_KissFFT_spectrum_1for_1phase(JNIEnv *env, jobject thiz, jlong handle,
                                                        jobject source, jobject target) {
     KissFFT* fft = (KissFFT*)handle;
     kiss_fft_scalar* samples = (kiss_fft_scalar*)env->GetDirectBufferAddress( source );
@@ -135,7 +135,7 @@ Java_euphony_lib_receiver_KissFFT_spectrum_1for_1phase(JNIEnv *env, jobject thiz
  */
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_getRealPart(JNIEnv *env, jobject thiz, jlong handle,
+Java_euphony_rx_KissFFT_getRealPart(JNIEnv *env, jobject thiz, jlong handle,
                                               jobject real) {
     KissFFT* fft = (KissFFT*)handle;
     short* target = (short*)env->GetDirectBufferAddress(real);
@@ -150,7 +150,7 @@ Java_euphony_lib_receiver_KissFFT_getRealPart(JNIEnv *env, jobject thiz, jlong h
  */
 extern "C"
 JNIEXPORT void JNICALL
-Java_euphony_lib_receiver_KissFFT_getImagePart(JNIEnv *env, jobject thiz, jlong handle,
+Java_euphony_rx_KissFFT_getImagePart(JNIEnv *env, jobject thiz, jlong handle,
                                                jobject imag) {
     KissFFT* fft = (KissFFT*)handle;
     short* target = (short*)env->GetDirectBufferAddress(imag);
