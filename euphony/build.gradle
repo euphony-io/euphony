@@ -3,67 +3,25 @@ if(gradle.language.equals("kotlin")) {
     apply plugin: 'kotlin-android-extensions'
     apply plugin: 'kotlin-android'
 }
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.kt3k.coveralls'
-apply plugin: 'jacoco-android'
 
-buildscript {
-    repositories {
-        jcenter()
-        google()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-    }
-}
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'euphony'
-    publishedGroupId = 'euphony.lib'
-    libraryName = 'euphony'
-    artifact = 'euphony'
-    libraryDescription = 'Acoustic Data Telecommunication Library'
-    siteUrl = 'https://dev.jbear.co/euphony'
-    gitUrl = 'https://github.com/designe/euphony'
-    libraryVersion = '0.7.1.6'
-    developerId = 'designe'
-    developerName = 'Ji-woong Choi'
-    developerEmail = 'designe@outlook.com'
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
+apply from: file('publish.gradle')
 
 android {
-    compileSdkVersion(26)
+    compileSdkVersion(30)
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     if(gradle.language.equals("kotlin")) implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-}
-
-if(gradle.startParameter.getTaskNames().size() > 2) {
-    // add it to the bottom of the file
-    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
 
 android {
-
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 30
 
         ndk {
             moduleName "kissff"
@@ -83,7 +41,7 @@ android {
 
     buildTypes {
         release {
-            testCoverageEnabled true
+            testCoverageEnabled false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
@@ -100,15 +58,4 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
-}
-repositories {
-    mavenCentral()
-}
-
-coveralls {
-    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
-}
-
-tasks.coveralls {
-    dependsOn 'jacocoTestReport'
 }

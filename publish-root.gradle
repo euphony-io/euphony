@@ -1,0 +1,21 @@
+// Create variables with empty default values
+ext["signing.keyId"] = System.getenv('SIGNING_KEYID') ?: project.properties['SIGNING_KEYID']
+ext["signing.password"] = System.getenv('SIGNING_PASSWORD') ?: project.properties['SIGNING_PASSWORD']
+ext["signing.secretKeyRingFile"] = System.getenv('SIGNING_SECRET_KEY_RING_FILE') ?: project.properties['SIGNING_SECRET_KEY_RING_FILE']
+ext["ossrhUsername"] = System.getenv('OSSRH_USERNAME') ?: project.properties['OSSRH_USERNAME']
+ext["ossrhPassword"] = System.getenv('OSSRH_PASSWORD') ?: project.properties['OSSRH_PASSWORD']
+ext["sonatypeStagingProfileId"] = System.getenv('SONATYPE_STAGING_PROFILE_ID') ?: project.properties['SONATYPE_STAGING_PROFILE_ID']
+
+// Set up Sonatype repository
+nexusPublishing {
+    repositories {
+        sonatype {
+            stagingProfileId = sonatypeStagingProfileId
+            username = ossrhUsername
+            password = ossrhPassword
+
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
