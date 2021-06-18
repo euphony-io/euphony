@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package euphony.rx;
 
 import android.os.Handler;
 import android.os.Message;
@@ -6,11 +6,11 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import euphony.lib.util.EuOption;
+import euphony.util.EuOption;
 
-import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_DOWN;
-import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_PRESSED;
-import static euphony.lib.receiver.EpnyAPI.EpnyAPITrigger.KEY_UP;
+import static euphony.rx.EpnyAPI.EpnyAPITrigger.KEY_DOWN;
+import static euphony.rx.EpnyAPI.EpnyAPITrigger.KEY_PRESSED;
+import static euphony.rx.EpnyAPI.EpnyAPITrigger.KEY_UP;
 
 public class EuRxManager {
 

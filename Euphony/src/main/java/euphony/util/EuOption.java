@@ -1,4 +1,4 @@
-package euphony.lib.util;
+package euphony.util;
 
 public class EuOption {
     public enum EncodingType {

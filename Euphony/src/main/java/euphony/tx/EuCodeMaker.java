@@ -1,7 +1,7 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
-import euphony.lib.util.EuOption;
-import euphony.lib.util.PacketErrorDetector;
+import euphony.util.EuOption;
+import euphony.util.PacketErrorDetector;
 
 public class EuCodeMaker extends EuFreqGenerator {
 	String mMainString;

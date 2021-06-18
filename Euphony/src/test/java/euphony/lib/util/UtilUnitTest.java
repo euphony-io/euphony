@@ -2,7 +2,10 @@ package euphony.lib.util;
 
 import org.junit.Test;
 
-import euphony.lib.transmitter.EuDataEncoder;
+import euphony.tx.EuDataEncoder;
+import euphony.util.ErrorHandler;
+import euphony.util.EuOption;
+import euphony.util.PacketErrorDetector;
 
 import static org.junit.Assert.assertEquals;
 public class UtilUnitTest {

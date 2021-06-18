@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package euphony.rx;
 
 public interface APICallDetector {
     void call();

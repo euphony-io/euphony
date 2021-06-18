@@ -1,6 +1,6 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
-import euphony.lib.util.EuCodec;
+import euphony.util.EuCodec;
 
 public class EuDataEncoder extends EuCodec {
 	private String mOriginalSource;

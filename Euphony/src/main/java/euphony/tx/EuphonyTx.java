@@ -1,11 +1,10 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
-
 
 public class EuphonyTx {
     long mEngineHandle = 0;

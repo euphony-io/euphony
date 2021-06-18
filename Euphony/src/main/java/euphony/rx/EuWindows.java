@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package euphony.rx;
 
 import java.nio.ByteBuffer;
 

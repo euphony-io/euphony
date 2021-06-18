@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package euphony.rx;
 
 public class EuDataDecoder {
 	private String mOriginalSource;

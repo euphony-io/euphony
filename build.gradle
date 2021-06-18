@@ -2,11 +2,11 @@
 buildscript {
     ext.kotlin_version = '1.3.72'
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         if(gradle.hasProperty("language") && gradle.language.equals("kotlin"))
             classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
@@ -16,7 +16,7 @@ buildscript {
 allprojects {
     apply plugin: 'jacoco'
     repositories {
-        jcenter()
+        mavenCentral()
         google()
     }
 }

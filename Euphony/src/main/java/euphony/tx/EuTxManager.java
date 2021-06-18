@@ -1,4 +1,4 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -6,8 +6,8 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
-import euphony.lib.util.EuOption;
-import euphony.lib.util.PacketErrorDetector;
+import euphony.util.EuOption;
+import euphony.util.PacketErrorDetector;
 
 public class EuTxManager {
 	private AudioTrack mAudioTrack = null;

@@ -1,4 +1,4 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;

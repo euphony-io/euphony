@@ -1,8 +1,8 @@
-package euphony.lib.transmitter;
+package euphony.tx;
 
 import android.util.Log;
 
-import euphony.lib.util.EuOption;
+import euphony.util.EuOption;
 
 public class EuFreqGenerator {
 	

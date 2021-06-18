@@ -1,8 +1,11 @@
 package euphony.lib.transmitter;
 
 import org.junit.Test;
-import euphony.lib.transmitter.EuDataEncoder;
-import euphony.lib.util.EuOption;
+
+import euphony.tx.EuCodeMaker;
+import euphony.tx.EuDataEncoder;
+import euphony.util.EuOption;
+import euphony.tx.EuTxManager;
 
 import static org.junit.Assert.assertEquals;
 public class TransmitterUnitTest {

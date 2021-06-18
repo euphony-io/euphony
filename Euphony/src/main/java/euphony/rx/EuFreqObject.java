@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package euphony.rx;
 
 import android.util.Log;
 
@@ -8,8 +8,8 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
-import euphony.lib.util.EuOption;
-import euphony.lib.util.PacketErrorDetector;
+import euphony.util.EuOption;
+import euphony.util.PacketErrorDetector;
 
 public class EuFreqObject {
 
