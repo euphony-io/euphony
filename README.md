@@ -1,8 +1,7 @@
 <p align='center'><img src='https://github.com/designe/euphony/raw/master/assets/euphony_logo.png' width='400px' /></p>
 <hr style='border-style:inset; border-width:0.5px'/>
 <p align='center'>
-    <a href = 'https://bintray.com/jbear/maven/euphony/0.7.1.6/link'><img src='https://travis-ci.org/designe/euphony.svg?branch=master' alt='travis_ci'/></a> <a href = 'https://coveralls.io/github/designe/euphony?branch=master'><img src='https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master' alt='Coverage Status'/></a> <a href = 'https://opensource.org/licenses/Apache-2.0'><img src='https://img.shields.io/badge/License-Apache%202.0-blue.svg' alt='License'/></a>
-    <a href = 'https://bintray.com/jbear/maven/euphony/0.7.1.6/link'><img src='https://api.bintray.com/packages/jbear/maven/euphony/images/download.svg?version=0.7.1.6' alt='Download'/></a>
+    <a href = 'https://search.maven.org/artifact/co.jbear.lib/euphony/0.7.1.6/aar'><img src='https://maven-badges.herokuapp.com/maven-central/co.jbear.lib/euphony/badge.svg' alt='mavenCentral'/></a> <a href = 'https://coveralls.io/github/designe/euphony?branch=master'><img src='https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master' alt='Coverage Status'/></a> <a href = 'https://opensource.org/licenses/Apache-2.0'><img src='https://img.shields.io/badge/License-Apache%202.0-blue.svg' alt='License'/></a>
 </p>
 
 Acoustic Data Telecommunication Library. This is for Android version.  

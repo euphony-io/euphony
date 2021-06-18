@@ -3,7 +3,7 @@ apply plugin: 'signing'
 
 def LIB_GROUP_ID = 'co.jbear.lib'
 def LIB_ARTIFACT_ID = 'euphony'
-def LIB_VERSION = '0.7.1.1'
+def LIB_VERSION = '0.7.1.6'
 
 task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
