@@ -100,13 +100,17 @@ android {
 
     buildTypes {
         release {
-            testCoverageEnabled true
+            testCoverageEnabled false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
         }
+    }
+
+    lintOptions {
+        warning 'MissingPermission'
     }
 
     buildFeatures {
