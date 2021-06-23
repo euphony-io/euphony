@@ -1,4 +1,4 @@
-package co.euphony.lib.receiver;
+package co.euphony.rx;
 
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ public class ReceiverUnitTest {
         EuDataDecoder mEuDataDecoder = new EuDataDecoder("68656c6c");
         assertEquals(mEuDataDecoder.decodeHexCharSource(), "hell");
         assertEquals(EuDataDecoder.decodeStaticHexCharSource("68656c6c6f2c20657570686f6e79"),
-                "hello, co.euphony");
+                "hello, euphony");
         int[] source = {0x6, 0x8, 0x6, 0x5, 0x6, 0xc, 0x6, 0xc, 0x6, 0xf};
         assertEquals(EuDataDecoder.decodeStaticHexCharSource(source), "hello");
     }

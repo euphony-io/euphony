@@ -1,4 +1,4 @@
-package co.euphony.lib.transmitter;
+package co.euphony.tx;
 
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class TransmitterUnitTest {
         EuDataEncoder mEuDataEncoder = new EuDataEncoder("hell");
         assertEquals(mEuDataEncoder.getOriginalSource(), "hell");
         assertEquals(mEuDataEncoder.encodeHexCharSource(), "68656c6c");
-        assertEquals(EuDataEncoder.encodeStaticHexCharSource("hello, co.euphony"),
+        assertEquals(EuDataEncoder.encodeStaticHexCharSource("hello, euphony"),
                 "68656c6c6f2c20657570686f6e79");
     }
 
