@@ -46,6 +46,11 @@ find_package(
 )
 
 target_link_libraries(
+        native-legacy
+        ${log-lib}
+)
+
+target_link_libraries(
         euphony
         ${log-lib}
         oboe::oboe

@@ -11,19 +11,19 @@ using namespace Euphony;
 
 extern "C" {
     JNIEXPORT jlong JNICALL
-    Java_euphony_tx_EuphonyTx_native_1createEngine(JNIEnv *env, jobject thiz) {
+    Java_co_euphony_tx_EuphonyTx_native_1createEngine(JNIEnv *env, jobject thiz) {
         TxEngine * engine = new(std::nothrow) TxEngine();
         return reinterpret_cast<jlong>(engine);
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1deleteEngine(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1deleteEngine(JNIEnv *env, jobject thiz,
                                                                 jlong engine_handle) {
         delete reinterpret_cast<TxEngine *>(engine_handle);
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setToneOn(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setToneOn(JNIEnv *env, jobject thiz,
                                                              jlong engine_handle,
                                                              jboolean is_tone_on) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -37,7 +37,7 @@ extern "C" {
 
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1start(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1start(JNIEnv *env, jobject thiz,
                                                          jlong engine_handle) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
@@ -49,7 +49,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1stop(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1stop(JNIEnv *env, jobject thiz,
                                                         jlong engine_handle) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
@@ -61,7 +61,7 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL
-    Java_euphony_tx_EuphonyTx_native_1getStatus(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1getStatus(JNIEnv *env, jobject thiz,
                                                              jlong engine_handle) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
         if (engine == nullptr) {
@@ -79,7 +79,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setAudioApi(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setAudioApi(JNIEnv *env, jobject thiz,
                                                                jlong engine_handle,
                                                                jint audio_api) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -93,7 +93,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setAudioDeviceId(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setAudioDeviceId(JNIEnv *env, jobject thiz,
                                                                     jlong engine_handle,
                                                                     jint device_id) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -106,7 +106,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setAudioFrequency(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setAudioFrequency(JNIEnv *env, jobject thiz,
                                                                      jlong engine_handle,
                                                                      jdouble frequency) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -119,7 +119,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setChannelCount(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setChannelCount(JNIEnv *env, jobject thiz,
                                                                    jlong engine_handle,
                                                                    jint channel_count) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -133,7 +133,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setBufferSizeInBursts(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setBufferSizeInBursts(JNIEnv *env, jobject thiz,
                                                                          jlong engine_handle,
                                                                          jint buffer_size_in_bursts) {
 
@@ -148,7 +148,7 @@ extern "C" {
 
 
     JNIEXPORT jdouble JNICALL
-    Java_euphony_tx_EuphonyTx_native_1getCurrentOutputLatencyMillis(JNIEnv *env,
+    Java_co_euphony_tx_EuphonyTx_native_1getCurrentOutputLatencyMillis(JNIEnv *env,
                                                                                  jobject thiz,
                                                                                  jlong engine_handle) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -161,7 +161,7 @@ extern "C" {
     }
 
     JNIEXPORT jboolean JNICALL
-    Java_euphony_tx_EuphonyTx_native_1isLatencyDetectionSupported(JNIEnv *env,
+    Java_co_euphony_tx_EuphonyTx_native_1isLatencyDetectionSupported(JNIEnv *env,
                                                                                jobject thiz,
                                                                                jlong engine_handle) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -174,7 +174,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setPerformance(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setPerformance(JNIEnv *env, jobject thiz,
                                                                   jlong engine_handle,
                                                                   jint performance_level) {
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
@@ -197,7 +197,7 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_euphony_tx_EuphonyTx_native_1setDefaultStreamValues(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1setDefaultStreamValues(JNIEnv *env, jobject thiz,
                                                                           jint sample_rate,
                                                                           jint frames_per_burst) {
         oboe::DefaultStreamValues::SampleRate = (int32_t) sample_rate;
@@ -205,7 +205,7 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL
-    Java_euphony_tx_EuphonyTx_native_1getFramesPerBursts(JNIEnv *env, jobject thiz,
+    Java_co_euphony_tx_EuphonyTx_native_1getFramesPerBursts(JNIEnv *env, jobject thiz,
             jlong engine_handle) {
 
         TxEngine *engine = reinterpret_cast<TxEngine *> (engine_handle);
