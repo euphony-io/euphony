@@ -7,15 +7,14 @@ import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public class KissFFT {	
+public class KissFFT {
 	
 	static{
-	        System.loadLibrary("native-legacy");
-		/*
-		System.loadLibrary("kissff"); // kiss_fft.c
-		System.loadLibrary("kissfftr"); // kiss_fftr.c
-		System.loadLibrary("kissfft"); // KissFFT.cpp
-		 */
+	        try {
+                    System.loadLibrary("native-legacy");
+            } catch (final UnsatisfiedLinkError e) {
+	                Log.e("LOAD_LIBRARY", "loadLibrary" + Log.getStackTraceString(e));
+            }
 	}
 	
         /** the pointer to the kiss fft object **/
