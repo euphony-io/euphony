@@ -20,23 +20,6 @@ public class TransmitterUnitTest {
     }
 
     @Test
-    public void EuTxManager_iscorrect() {
-        EuTxManager mEuTxManager = new EuTxManager();
-        mEuTxManager.setCode("Hello, Euphony");
-        int length = 63488;
-        int outStreamLength = mEuTxManager.getOutStream().length;
-        assertEquals(outStreamLength, length);
-        mEuTxManager.process();
-        mEuTxManager.process(3);
-
-        EuTxManager mEuTxManager2 = new EuTxManager(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.LIVE, EuOption.ModulationType.FSK));
-        mEuTxManager2.setCode("Hello, Euphony");
-        length = 253952;
-        outStreamLength = mEuTxManager2.getOutStream().length;
-        assertEquals(outStreamLength, length);
-    }
-
-    @Test
     public void EuCodeMaker_iscorrect() {
         EuOption txOption = new EuOption();
         txOption.setModulationType(EuOption.ModulationType.CPFSK);
