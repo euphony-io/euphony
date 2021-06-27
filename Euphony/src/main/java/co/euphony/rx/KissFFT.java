@@ -10,11 +10,7 @@ import java.nio.ShortBuffer;
 public class KissFFT {
 	
 	static{
-	        try {
-                    System.loadLibrary("native-legacy");
-            } catch (final UnsatisfiedLinkError e) {
-	                Log.e("LOAD_LIBRARY", "loadLibrary" + Log.getStackTraceString(e));
-            }
+            System.loadLibrary("native-legacy");
 	}
 	
         /** the pointer to the kiss fft object **/

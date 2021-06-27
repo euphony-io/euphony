@@ -1,74 +1,16 @@
-apply plugin: 'com.android.library'
-if(gradle.hasProperty("language") && gradle.language.equals("kotlin")) {
-    apply plugin: 'kotlin-android-extensions'
-    apply plugin: 'kotlin-android'
-} else {
-    gradle.ext.language = "java"
-}
-
-apply plugin: "com.jfrog.bintray"
-apply plugin: "com.github.kt3k.coveralls"
-apply plugin: "com.hiya.jacoco-android"
-
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
-        classpath "com.hiya:jacoco-android:0.2"
-        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
-    }
-}
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'co.euphony'
-    publishedGroupId = 'co.euphony.lib'
-    libraryName = 'co.euphony'
-    artifact = 'co.euphony'
-    libraryDescription = 'Acoustic Data Telecommunication Library'
-    siteUrl = 'https://dev.jbear.co/co.euphony'
-    gitUrl = 'https://github.com/designe/co.euphony'
-    libraryVersion = '0.7.1.6'
-    developerId = 'designe'
-    developerName = 'Ji-woong Choi'
-    developerEmail = 'designe@outlook.com'
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    if(gradle.hasProperty("language") && gradle.language.equals("kotlin"))
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation 'com.google.oboe:oboe:1.6.0'
-
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-}
-
-if(gradle.startParameter.getTaskNames().size() > 2) {
-    // add it to the bottom of the file
-    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-    apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+plugins {
+    id 'com.android.library'
+    id "com.github.kt3k.coveralls"
+    id "com.hiya.jacoco-android"
+    id 'jacoco'
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -78,22 +20,6 @@ android {
                 cppFlags "-std=c++14"
                 arguments "-DANDROID_STL=c++_shared"
             }
-        }
-    }
-
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
-        }
-    }
-
-    sourceSets {
-        main {
-            java.srcDirs = ['src/main/' + gradle.language]
-        }
-        test {
-            java.srcDirs = ['src/test/' + gradle.language]
         }
     }
 
@@ -108,6 +34,13 @@ android {
         }
     }
 
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+
     lintOptions {
         warning 'MissingPermission'
     }
@@ -117,7 +50,14 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            all {
+                systemProperty 'LD_LIBRARY_PATH', "${rootDir}/build/intermediates/cmake/debug/obj/x86_64"
+                //System.setProperty('LD_LIBRARY_PATH', "${rootDir}/build/nativeLibs")
+                //System.setProperty('DYLD_LIBRARY_PATH', "${rootDir}/build/nativeLibs")
+            }
+            returnDefaultValues true
+        }
     }
 }
 
@@ -127,4 +67,15 @@ coveralls {
 
 tasks.coveralls {
     dependsOn 'jacocoTestReport'
+}
+
+dependencies {
+    if(gradle.hasProperty("language") && gradle.language == "kotlin")
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.google.oboe:oboe:1.6.0'
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
