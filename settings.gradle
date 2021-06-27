@@ -1,4 +1,4 @@
-include ':Euphony'
+include ':euphony'
 
 // select main language : java, kotlin
 /* if you want to use kotlin as a main language, uncomment below line. */
