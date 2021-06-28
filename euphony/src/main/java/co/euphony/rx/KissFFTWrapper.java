@@ -17,7 +17,7 @@ public class KissFFTWrapper extends FFTStrategy {
     }
 
     @Override
-    public FloatBuffer makeSpectrum(ShortBuffer samples) {
+    public FloatBuffer makeSpectrum(ShortBuffer samples, FloatBuffer spectrum) {
         fft.doSpectrums(samples, spectrum);
         return spectrum;
     }
