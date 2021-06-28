@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.nio.FloatBuffer;
+import java.nio.ReadOnlyBufferException;
 
 import co.euphony.rx.FFTStrategy;
 import co.euphony.rx.KissFFTWrapper;
@@ -25,7 +26,7 @@ public class TxUnitTest {
 
     @Before
     public void setup() {
-        fft = new KissFFTWrapper(1024);
+        fft = new KissFFTWrapper(512);
     }
 
     @Test
@@ -35,17 +36,30 @@ public class TxUnitTest {
         streamLength = txManager.getOutStream().length;
         assertEquals(streamLength, 10240);
 
-        txManager.setCode("Hello, Euphony");
+        FloatBuffer[] buf = fft.makeSpectrum(txManager.getOutStream());
+        assertEquals(buf.length, 41);
+        fft.finish();
+
+        for(int i = 0; i < buf.length; i++) {
+            float[] floatArray = new float[(fft.getFFTSize() >> 1) + 1];
+            try {
+                buf[i].get(floatArray);
+            } catch (ReadOnlyBufferException rbe) {
+                rbe.printStackTrace();
+            } catch (UnsupportedOperationException uoe) {
+                uoe.printStackTrace();
+            }
+        }
+
+/*        txManager.setCode("Hello, Euphony");
         streamLength = txManager.getOutStream().length;
         assertEquals(streamLength, 63488);
-
-        //FloatBuffer buf = fft.makeSpectrum(txManager.getOutStream());
-
+*/
         //Assert.assertArrayEquals(buf.array(), expectedResult);
         //buf.array();
 
-        txManager.process();
-        txManager.process(3);
+        //txManager.process();
+        //txManager.process(3);
     }
 
     @Test
