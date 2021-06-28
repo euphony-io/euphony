@@ -1,6 +1,7 @@
 package co.euphony.tx;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,6 +22,7 @@ public class TxUnitTest {
     }
 
     @Test
+    @Ignore("This test code is now working on AndroidTest.")
     public void tx_default_test() {
         EuTxManager txManager = new EuTxManager();
         txManager.setCode("A");
@@ -41,6 +43,7 @@ public class TxUnitTest {
     }
 
     @Test
+    @Ignore("This test code is now working on AndroidTest.")
     public void tx_ascii_live_fsk_test() {
         EuTxManager mEuTxManager2 = new EuTxManager(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.LIVE, EuOption.ModulationType.FSK));
         mEuTxManager2.setCode("Hello, Euphony");
