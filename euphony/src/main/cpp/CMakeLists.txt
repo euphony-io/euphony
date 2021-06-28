@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.4.1)
 
-project(Euphony
+project(euphony
         VERSION 0.8)
 
 set(LEGACY_SRC
