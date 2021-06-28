@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: set up JDK 1.8
@@ -19,11 +17,11 @@ jobs:
   androidTest:
     runs-on: macOS-latest
     steps:
-      - name: checkout
-      - uses: actions/checkout@v2
+    - name: checkout
+    - uses: actions/checkout@v2
 
-      - name: Instrumentation Tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: ./gradlew connectedCheck
+    - name: Instrumentation Tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        script: ./gradlew connectedCheck
