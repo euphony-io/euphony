@@ -18,7 +18,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        api-level: [21, 25, 29]
+        api-level: [24, 27, 29]
         target: [default, google_apis]
         arch: [x86, x86_64, arm64-v8a]
     steps:
