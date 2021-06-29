@@ -47,8 +47,9 @@ public abstract class FFTStrategy {
             recycleSpectrum.clear();
             sb.put(src);
             makeSpectrum(sb, recycleSpectrum);
-            result[i] = recycleSpectrum.duplicate();
-            //result[i].put(recycleSpectrum);
+            result[i] = FloatBuffer.allocate(recycleSpectrum.capacity());
+            result[i].put(recycleSpectrum);
+            result[i].position(recycleSpectrum.position());
             sb.clear();
         }
 

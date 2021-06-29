@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         api-level: [24, 27, 29]
-        target: [default, google_apis]
+        target: [default]
         arch: [x86, x86_64]
     steps:
     - name: checkout
