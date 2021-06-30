@@ -59,8 +59,7 @@ public class TxUnitTest {
                         maxIndex = j;
                     }
                 }
-
-                Log.d(TX_TAG, i + " / " + maxIndex + " / " + maxValue + " / " + freqReader.getFreqByIndex(maxIndex));
+                //Log.d(TX_TAG, i + " / " + maxIndex + " / " + maxValue + " / " + freqReader.getFreqByIndex(maxIndex));
             } catch (ReadOnlyBufferException rbe) {
                 rbe.printStackTrace();
             } catch (UnsupportedOperationException uoe) {
