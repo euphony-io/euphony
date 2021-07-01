@@ -5,31 +5,40 @@ import android.util.Log;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.nio.FloatBuffer;
 import java.nio.ReadOnlyBufferException;
-import java.util.Arrays;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
+import co.euphony.rx.CodeDecoder;
 import co.euphony.rx.FFTStrategy;
-import co.euphony.rx.FreqReader;
+import co.euphony.rx.FreqInterpreter;
 import co.euphony.rx.KissFFTWrapper;
 import co.euphony.util.EuOption;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 @SmallTest
 public class TxUnitTest {
-    static final String TX_TAG = "TX_TAG";
+    private static final String TX_TAG = "TX_TAG";
+    private static final String a_CODE = "a";
+    /* S (beginCode) + 61 (ASCII a) + 97 (ErrorCode) */
+    private static final String a_GEN_CODE = "S6197";
+    /* 2048(buffer length) * 5(code length) = 10240 */
+    private static final int a_GEN_CODE_LENGTH = 10240;
+
+
     private float[] expectedResult;
     private int streamLength = 0;
     FFTStrategy fft;
-    FreqReader freqReader = new FreqReader();
+    FreqInterpreter freqInterpreter = new FreqInterpreter();
+    CodeDecoder codeDecoder = new CodeDecoder();
     @Before
     public void setup() {
         fft = new KissFFTWrapper(512);
@@ -38,44 +47,38 @@ public class TxUnitTest {
     @Test
     public void tx_default_test() {
         EuTxManager txManager = new EuTxManager();
-        txManager.setCode("a");
+        txManager.setCode(a_CODE);
+        Assert.assertThat(txManager.getGenCode(), is(a_GEN_CODE));
+
         streamLength = txManager.getOutStream().length;
-        assertEquals(streamLength, 10240);
+        assertEquals(streamLength, a_GEN_CODE_LENGTH);
 
         FloatBuffer[] buf = fft.makeSpectrum(txManager.getOutStream());
-        assertEquals(buf.length, 41);
+        assertEquals(buf.length, 40);
         fft.finish();
 
         for(int i = 0; i < buf.length; i++) {
-            float[] floatArray = new float[(fft.getFFTSize() >> 1) + 1];
+            float[] floatArray;
             try {
                 floatArray = buf[i].array();
-                //buf[i].get(floatArray);
                 int maxIndex = 0;
                 float maxValue = 0;
-                for(int j = 0; j < 224; j++) {
+                for(int j = freqInterpreter.getStartIdx(); j < freqInterpreter.getLastIdx(); j++) {
                     if(floatArray[j] > maxValue) {
                         maxValue = floatArray[j];
                         maxIndex = j;
                     }
                 }
-                //Log.d(TX_TAG, i + " / " + maxIndex + " / " + maxValue + " / " + freqReader.getFreqByIndex(maxIndex));
+                Log.d(TX_TAG, i + " / " + maxIndex + " / " + maxValue + " / " + freqInterpreter.getFreqByIdx(maxIndex));
+                codeDecoder.addCodeIdx(freqInterpreter.getCodeIdxByIdx(maxIndex));
             } catch (ReadOnlyBufferException rbe) {
                 rbe.printStackTrace();
             } catch (UnsupportedOperationException uoe) {
                 uoe.printStackTrace();
             }
         }
-
-/*        txManager.setCode("Hello, Euphony");
-        streamLength = txManager.getOutStream().length;
-        assertEquals(streamLength, 63488);
-*/
-        //Assert.assertArrayEquals(buf.array(), expectedResult);
-        //buf.array();
-
-        //txManager.process();
-        //txManager.process(3);
+        Log.d(TX_TAG, codeDecoder.getGenCode());
+        assertEquals(a_GEN_CODE, codeDecoder.getGenCode());
     }
 
     @Test

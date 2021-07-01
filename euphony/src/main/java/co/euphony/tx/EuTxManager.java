@@ -19,6 +19,8 @@ public class EuTxManager {
 	}
 
 	private short[] mOutStream;
+
+	private String genCode = "";
 	
 	public EuTxManager() {
 		setOption(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK));
@@ -75,17 +77,21 @@ public class EuTxManager {
 				break;
 		}
 
-		code = beginCode + code + errorCode;
+		genCode = beginCode + code + errorCode;
 
 		// set communication mode.
 		switch(mTxOption.getCommunicationMode()) {
 			case GENERAL:
-				mOutStream = mCodeMaker.assembleData(code);
+				mOutStream = mCodeMaker.assembleData(genCode);
 				break;
 			case LIVE:
-				mOutStream = mCodeMaker.assembleLiveData(code);
+				mOutStream = mCodeMaker.assembleLiveData(genCode);
 				break;
 		}
+	}
+
+	public String getGenCode() {
+		return genCode;
 	}
 
 	public void process() { process(1); }

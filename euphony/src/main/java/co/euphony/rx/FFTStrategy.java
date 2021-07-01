@@ -36,7 +36,7 @@ public abstract class FFTStrategy {
         FloatBuffer[] result;// = makeFloatBuffer(lenSamples);
         int cycleCount = 1;
         if(lenSamples > shortBufferSize) {
-            cycleCount = lenSamples / shortBufferSize + 1;
+            cycleCount = lenSamples / shortBufferSize;
         }
         result = new FloatBuffer[cycleCount];
 
