@@ -76,8 +76,8 @@ public class TxUnitTest {
     }
 
     @Test
-    /* Tx & Rx test about character "a" */
-    public void tx_rx_a_char_default_test() {
+    /* Default Tx & Rx Test */
+    public void tx_rx_default_test() {
         EuTxManager txManager = new EuTxManager();
         txManager.setCode(code);
         Assert.assertThat(txManager.getGenCode(), is(expectedGenCode));

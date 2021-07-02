@@ -14,8 +14,9 @@ public class CodeDecoder {
     EuOption option;
     ArrayList<Integer> codeIdxArray = new ArrayList<>();
     HashMap<Integer, Integer> codeCountMap = new HashMap<>();
+    StringBuilder genCode = null;
     private int oneCodeSize = 0;
-    private int outsetFreq;
+    //private int outsetFreq;
 
     public CodeDecoder() {
         this(new EuOption());
@@ -28,7 +29,7 @@ public class CodeDecoder {
 
     private void init() {
         oneCodeSize = (option.getBufferSize() / (option.getFFTSize() >> 1));
-        outsetFreq = option.getOutsetFrequency();
+        // outsetFreq = option.getOutsetFrequency();
     }
 
     public void addCodeIdx(int codeIdx) {
@@ -36,36 +37,42 @@ public class CodeDecoder {
     }
 
     public String getGenCode() {
-        StringBuilder code = new StringBuilder();
+        if(genCode != null)
+            return genCode.toString();
+
+        genCode = new StringBuilder();
 
         int oneCodeCheck = 0;
-        int sumCodeIdx = 0;
-
         for(int codeIdx : codeIdxArray) {
             oneCodeCheck++;
-            countCodeIdx(codeIdx);
-            if(oneCodeCheck == oneCodeSize) {
-                int bestCodeIdx = getBestCodeIdx();
-                Log.d(TAG,  "sumCodeIdx(" + sumCodeIdx + "), " + bestCodeIdx);
 
+            if (oneCodeCheck == 1) {
+                continue;
+            }
+            else if (oneCodeCheck == oneCodeSize) {
+                makeCode(getBestCodeIdx());
                 oneCodeCheck = 0;
-                sumCodeIdx = 0;
                 codeCountMap.clear();
-
-                if(isStartPoint(bestCodeIdx)) {
-                    code.append("S");
-                    continue;
-                }
-
-                if(isMoreThan0xA(bestCodeIdx))
-                    code.append("").append((char) ('a' + (bestCodeIdx - 10)));
-                else
-                    code.append("").append(bestCodeIdx);
-
+            } else {
+                countCodeIdx(codeIdx);
             }
         }
 
-        return code.toString();
+        return genCode.toString();
+    }
+
+    private void makeCode(final int bestCodeIdx) {
+        Log.d(TAG,  "bestCodeIdx = " + bestCodeIdx);
+
+        if(isStartPoint(bestCodeIdx)) {
+            genCode.append("S");
+            return;
+        }
+
+        if(isMoreThan0xA(bestCodeIdx))
+            genCode.append((char) ('a' + (bestCodeIdx - 10)));
+        else
+            genCode.append(bestCodeIdx);
     }
 
     private void countCodeIdx(int codeIdx) {
@@ -78,14 +85,19 @@ public class CodeDecoder {
     }
 
     private int getBestCodeIdx() {
+        if(codeCountMap.size() == 1)
+            return (int) codeCountMap.keySet().toArray()[0];
+
         int bestCodeIdx = 0;
         int maxCodeIdxCount = 0;
+
         for(Map.Entry<Integer, Integer> e : codeCountMap.entrySet()) {
             if(e.getValue() > maxCodeIdxCount) {
                 bestCodeIdx = e.getKey();
                 maxCodeIdxCount = e.getValue();
             }
         }
+        Log.d(TAG,  bestCodeIdx + " of " + codeCountMap.size() + " on getBestCodeIdx()");
         return bestCodeIdx;
     }
 
