@@ -29,7 +29,7 @@ public class FreqInterpreter {
     }
 
     private void init() {
-        for (int i = -1; i < rxOption.getDataRate(); i++) {
+        for (int i = -1; i <= rxOption.getDataRate(); i++) {
             int freq = rxOption.getControlPoint() + rxOption.getDataInterval() * i;
             int freqIdx = ((int)((freq / 22050.0) * rxOption.getFFTSize() / 2)) + 1;
             freq2IdxMap.put(freq, freqIdx);
