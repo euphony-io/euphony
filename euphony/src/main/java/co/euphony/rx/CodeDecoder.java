@@ -3,6 +3,8 @@ package co.euphony.rx;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import co.euphony.util.EuOption;
 
@@ -11,6 +13,7 @@ public class CodeDecoder {
 
     EuOption option;
     ArrayList<Integer> codeIdxArray = new ArrayList<>();
+    HashMap<Integer, Integer> codeCountMap = new HashMap<>();
     private int oneCodeSize = 0;
     private int outsetFreq;
 
@@ -34,33 +37,58 @@ public class CodeDecoder {
 
     public String getGenCode() {
         StringBuilder code = new StringBuilder();
-        int codeIdxCount = 0;
+
+        int oneCodeCheck = 0;
         int sumCodeIdx = 0;
+
         for(int codeIdx : codeIdxArray) {
-            sumCodeIdx += codeIdx;
-            codeIdxCount++;
-            if(codeIdxCount == oneCodeSize) {
-                int avgCodeIdx = sumCodeIdx >> 3;
-                Log.d(TAG,  "sumCodeIdx(" + sumCodeIdx + "), " + avgCodeIdx);
+            oneCodeCheck++;
+            countCodeIdx(codeIdx);
+            if(oneCodeCheck == oneCodeSize) {
+                int bestCodeIdx = getBestCodeIdx();
+                Log.d(TAG,  "sumCodeIdx(" + sumCodeIdx + "), " + bestCodeIdx);
 
-                codeIdxCount = 0;
+                oneCodeCheck = 0;
                 sumCodeIdx = 0;
+                codeCountMap.clear();
 
-                if(isStartPoint(avgCodeIdx)) {
+                if(isStartPoint(bestCodeIdx)) {
                     code.append("S");
                     continue;
                 }
 
-                if(isMoreThan0xA(avgCodeIdx))
-                    code.append("").append((char) ('a' + (avgCodeIdx - 10)));
+                if(isMoreThan0xA(bestCodeIdx))
+                    code.append("").append((char) ('a' + (bestCodeIdx - 10)));
                 else
-                    code.append("").append(avgCodeIdx);
+                    code.append("").append(bestCodeIdx);
 
             }
         }
 
         return code.toString();
     }
+
+    private void countCodeIdx(int codeIdx) {
+        Integer codeCount = codeCountMap.get(codeIdx);
+        if (codeCount == null) {
+            codeCountMap.put(codeIdx, 1);
+        } else {
+            codeCountMap.put(codeIdx, codeCount + 1);
+        }
+    }
+
+    private int getBestCodeIdx() {
+        int bestCodeIdx = 0;
+        int maxCodeIdxCount = 0;
+        for(Map.Entry<Integer, Integer> e : codeCountMap.entrySet()) {
+            if(e.getValue() > maxCodeIdxCount) {
+                bestCodeIdx = e.getKey();
+                maxCodeIdxCount = e.getValue();
+            }
+        }
+        return bestCodeIdx;
+    }
+
 
     private boolean isStartPoint(int codeIdx) { return codeIdx == -1; }
     private boolean isMoreThan0xA(int hex) { return hex > 9; }
