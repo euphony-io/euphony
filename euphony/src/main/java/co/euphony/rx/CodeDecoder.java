@@ -2,19 +2,25 @@ package co.euphony.rx;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
+import co.euphony.common.Packet;
 import co.euphony.util.EuOption;
+import co.euphony.util.PacketErrorDetector;
 
+/* TODO: CodeDecoder's renaming necessary : like a PacketDecoder (intuitive) */
 public class CodeDecoder {
     private final String TAG = "CodeDecoder";
 
     EuOption option;
     ArrayList<Integer> codeIdxArray = new ArrayList<>();
     HashMap<Integer, Integer> codeCountMap = new HashMap<>();
-    StringBuilder genCode = null;
+
+    Packet packet;
     private int oneCodeSize = 0;
     //private int outsetFreq;
 
@@ -29,6 +35,7 @@ public class CodeDecoder {
 
     private void init() {
         oneCodeSize = (option.getBufferSize() / (option.getFFTSize() >> 1));
+        packet = new Packet();
         // outsetFreq = option.getOutsetFrequency();
     }
 
@@ -36,11 +43,9 @@ public class CodeDecoder {
         codeIdxArray.add(codeIdx);
     }
 
-    public String getGenCode() {
-        if(genCode != null)
-            return genCode.toString();
-
-        genCode = new StringBuilder();
+    public Packet decodePacket() {
+        if(packet.isVerified())
+            return packet;
 
         int oneCodeCheck = 0;
         for(int codeIdx : codeIdxArray) {
@@ -58,21 +63,17 @@ public class CodeDecoder {
             }
         }
 
-        return genCode.toString();
+        return packet;
     }
 
     private void makeCode(final int bestCodeIdx) {
         Log.d(TAG,  "bestCodeIdx = " + bestCodeIdx);
 
         if(isStartPoint(bestCodeIdx)) {
-            genCode.append("S");
             return;
+        } else {
+            packet.push(bestCodeIdx);
         }
-
-        if(isMoreThan0xA(bestCodeIdx))
-            genCode.append((char) ('a' + (bestCodeIdx - 10)));
-        else
-            genCode.append(bestCodeIdx);
     }
 
     private void countCodeIdx(int codeIdx) {
@@ -101,7 +102,5 @@ public class CodeDecoder {
         return bestCodeIdx;
     }
 
-
     private boolean isStartPoint(int codeIdx) { return codeIdx == -1; }
-    private boolean isMoreThan0xA(int hex) { return hex > 9; }
 }

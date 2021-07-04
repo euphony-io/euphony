@@ -2,7 +2,6 @@ package co.euphony.tx;
 
 import android.util.Log;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 
 import org.junit.Assert;
@@ -15,7 +14,9 @@ import java.nio.FloatBuffer;
 import java.nio.ReadOnlyBufferException;
 import java.util.Arrays;
 
+import co.euphony.common.Packet;
 import co.euphony.rx.CodeDecoder;
+import co.euphony.rx.EuDataDecoder;
 import co.euphony.rx.FFTStrategy;
 import co.euphony.rx.FreqInterpreter;
 import co.euphony.rx.KissFFTWrapper;
@@ -41,8 +42,8 @@ public class TxUnitTest {
     public static Iterable<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {a_CODE, a_GEN_CODE, a_GEN_CODE_STREAM_LENGTH, a_BUFFER_LENGTH},
-                {"b", "S6284", 10240, 40},
-                {"c", "S6375", 10240, 40},
+                {"b", "S6284", 5*2048, 5*8},
+                {"c", "S6375", 5*2048, 5*8},
                 {"abc", "S61626386", 9*2048, 9*8},
                 {"lmno", "S6c6d6e6f20", 11*2048, 11*8},
                 {"efg", "S656667c2", 9*2048, 9*8},
@@ -109,15 +110,16 @@ public class TxUnitTest {
                 uoe.printStackTrace();
             }
         }
-        Log.d(TX_TAG, codeDecoder.getGenCode());
-        assertEquals(expectedGenCode, codeDecoder.getGenCode());
-    }
+        Packet packet = codeDecoder.decodePacket();
+        if(packet.build()) {
+            Log.d(TX_TAG, "packet build success : " + packet.toString());
+        } else {
+            Log.d(TX_TAG, "packet build failed");
+        }
 
-    @Test
-    public void tx_ascii_live_fsk_test() {
-        EuTxManager mEuTxManager2 = new EuTxManager(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.LIVE, EuOption.ModulationType.FSK));
-        mEuTxManager2.setCode("Hello, Euphony");
-        streamLength = mEuTxManager2.getOutStream().length;
-        assertEquals(streamLength, 253952);
+        assertEquals(expectedGenCode, packet.toString());
+
+        String result = EuDataDecoder.decodeStaticHexCharSource(packet.getPayload());
+        assertEquals(code, result);
     }
 }
