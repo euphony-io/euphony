@@ -20,11 +20,10 @@ import co.euphony.rx.EuDataDecoder;
 import co.euphony.rx.FFTStrategy;
 import co.euphony.rx.FreqInterpreter;
 import co.euphony.rx.KissFFTWrapper;
-import co.euphony.util.EuOption;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+
 
 @RunWith(Parameterized.class)
 @SmallTest
@@ -53,7 +52,6 @@ public class TxUnitTest {
                 });
     }
 
-    private float[] expectedResult;
     private int streamLength = 0;
     FFTStrategy fft;
     FreqInterpreter freqInterpreter = new FreqInterpreter();
