@@ -42,7 +42,7 @@ public class EuOption {
         mFFTSize = 512;
         mBufferSize = 2048;
         mFadeRange = 512; // to apply fadein fadeout range
-        mControlPoint = 18000;
+        mControlPoint = 18017;
         mDataRate = 16;
         mDataInterval = mSampleRate / mFFTSize;
         mOutsetFrequency = mControlPoint - mDataInterval;

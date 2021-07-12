@@ -3,6 +3,8 @@ package co.euphony.rx;
 import org.junit.Before;
 import org.junit.Test;
 
+import co.euphony.util.EuOption;
+
 import static org.junit.Assert.*;
 
 public class FreqInterpreterTest {
@@ -15,13 +17,17 @@ public class FreqInterpreterTest {
     };
 
     int[] freqArray = {
-            17914, 18000, 18086, 18172, 18258, 18344, 18430, 18516, 18602,
-            18688, 18774, 18860, 18946, 19032, 19118, 19204, 19290
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0
     };
 
     @Before
     public void setUp() throws Exception {
         freqReader = new FreqInterpreter();
+        EuOption option = new EuOption();
+        for(int i = 0; i < 17; i++) {
+            freqArray[i] = option.getOutsetFrequency() + (option.getDataInterval() * i);
+        }
     }
 
     @Test

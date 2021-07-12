@@ -10,8 +10,8 @@ import co.euphony.util.EuOption;
 public class FreqInterpreter {
     private static final String TAG = "FREQ_INTERPRETER";
     private EuOption rxOption;
-    protected Map<Integer, Integer> freq2IdxMap = new HashMap<Integer, Integer>();
-    private Map<Integer, Integer> idx2FreqMap = new HashMap<Integer, Integer>();
+    protected Map<Integer, Integer> freq2IdxMap = new HashMap<>();
+    private Map<Integer, Integer> idx2FreqMap = new HashMap<>();
 
     private int startIndex = 0;
     private int lastIndex = 0;
@@ -31,7 +31,7 @@ public class FreqInterpreter {
     private void init() {
         for (int i = -1; i <= rxOption.getDataRate(); i++) {
             int freq = rxOption.getControlPoint() + rxOption.getDataInterval() * i;
-            int freqIdx = ((int)((freq / 22050.0) * rxOption.getFFTSize() / 2)) + 1;
+            int freqIdx = ((int)((freq / 22050.0) * rxOption.getFFTSize() / 2));
             freq2IdxMap.put(freq, freqIdx);
             idx2FreqMap.put(freqIdx, freq);
         }
