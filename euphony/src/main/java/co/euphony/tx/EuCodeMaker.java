@@ -4,8 +4,6 @@ import co.euphony.util.EuOption;
 import co.euphony.util.PacketErrorDetector;
 
 public class EuCodeMaker extends EuFreqGenerator {
-	String mMainString;
-	short[] mCodeSource;
 	private EuOption mTxOption;
 	private int mControlPoint;
 	private int mOutsetFrequency;
@@ -14,7 +12,7 @@ public class EuCodeMaker extends EuFreqGenerator {
 	private EuOption.ModulationType mModulation;
 	
 	public EuCodeMaker() {
-		setOption(new EuOption());
+		this(new EuOption());
 	}
 
 	public EuCodeMaker(EuOption option) {
