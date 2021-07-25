@@ -8,13 +8,19 @@ add_library (gtest STATIC ${GOOGLETEST_ROOT}/src/gtest_main.cc ${GOOGLETEST_ROOT
 target_include_directories (gtest PRIVATE ${GOOGLETEST_ROOT})
 target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 
+message(STATUS "ndk path = ${ANDROID_NDK}")
+message(STATUS "googletest root = ${GOOGLETEST_ROOT}")
+
 # Include Euphony sources
 set (EUPHONY_DIR ${CMAKE_CURRNET_SOURCE_DIR}/..)
 include_directories(
         ${EUPHONY_DIR}/core
+        ${EUPHONY_DIR}/core/source
 )
 
 add_executable(
         testEuphony
-        test
+        encoderTest.cpp
 )
+
+target_link_libraries(testEuphony gtest euphony)
