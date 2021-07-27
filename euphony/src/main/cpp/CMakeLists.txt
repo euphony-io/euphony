@@ -42,7 +42,6 @@ include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
 target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
-
 find_library( # Sets the name of the path variable.
         log-lib
         # Specifies the name of the NDK library that
@@ -56,9 +55,10 @@ find_package(
 target_link_libraries(
         euphony
         ${log-lib}
+        OpenSLES
         oboe::oboe
 )
 
 # for c++ unit-test (gtest)
 # TODO: unit-test CMakeLists is not completed
-# add_subdirectory(tests)
+add_subdirectory(tests)
