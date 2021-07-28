@@ -12,7 +12,7 @@ message(STATUS "ndk path = ${ANDROID_NDK}")
 message(STATUS "googletest root = ${GOOGLETEST_ROOT}")
 
 # Include Euphony sources
-set (EUPHONY_DIR ${CMAKE_CURRNET_SOURCE_DIR}/..)
+set (EUPHONY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
 include_directories(
         ${EUPHONY_DIR}/core
         ${EUPHONY_DIR}/core/source
