@@ -23,9 +23,9 @@ android {
             }
         }
 
-        ndk {
+        /* ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
-        }
+        } */
     }
 
     buildTypes {
@@ -57,7 +57,7 @@ android {
     testOptions {
         unitTests {
             all {
-                environment 'LD_LIBRARY_PATH', "${rootDir}/build/intermediates/cmake/debug/obj/x86_64"
+                //environment 'LD_LIBRARY_PATH', "${rootDir}/build/intermediates/cmake/debug/obj/x86_64"
                 //System.setProperty('LD_LIBRARY_PATH', "${rootDir}/build/nativeLibs")
                 //System.setProperty('DYLD_LIBRARY_PATH', "${rootDir}/build/nativeLibs")
             }
