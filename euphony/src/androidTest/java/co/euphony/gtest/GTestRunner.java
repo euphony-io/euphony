@@ -57,6 +57,10 @@ public class GTestRunner {
         String filesDir = "/data/local/tmp/testEuphony/" + abi;
         try {
             File testResultFile = new File(filesDir , GTEST_RESULT_FILE);
+            if(testResultFile.exists()) {
+                Log.i(TAG, "Test result is not available. It will be passed.");
+                return;
+            }
 
             InputStream inStream = new FileInputStream(testResultFile);
 
