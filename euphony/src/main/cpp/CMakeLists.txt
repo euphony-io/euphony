@@ -9,11 +9,15 @@ set(LEGACY_SRC
         arms/kiss_fftr.c
         native-legacy.cpp
         )
+
+find_library( log-lib log )
 add_library( native-legacy SHARED ${LEGACY_SRC} )
 target_compile_definitions(native-legacy PUBLIC FIXED_POINT=16)
 target_link_libraries(
         native-legacy
         ${log-lib}
+        -fopenmp
+        -static-openmp
 )
 
 # for euphony
@@ -42,11 +46,6 @@ include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 # add_library ( <name> [STATIC|SHARED|MODULE] <src> <src> )
 add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
 target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
-find_library( # Sets the name of the path variable.
-        log-lib
-        # Specifies the name of the NDK library that
-        # you want CMake to locate.
-        log )
 
 find_package(
         oboe REQUIRED CONFIG

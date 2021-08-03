@@ -17,7 +17,7 @@ android {
         /* This externalNativeBuild block is different from the one which is on the outside of defaultConfig  */
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++14"
+                cppFlags "-std=c++14 -fopenmp"
                 arguments "-DANDROID_STL=c++_shared"
                 arguments "-DANDROID_SDK_ROOT=${android.getSdkDirectory().getAbsolutePath()}"
             }
