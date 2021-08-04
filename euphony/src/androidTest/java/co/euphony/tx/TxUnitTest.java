@@ -71,7 +71,7 @@ public class TxUnitTest {
 
     @Before
     public void setup() {
-        fft = new KissFFTWrapper(512);
+        fft = null;
     }
 
     @Test
@@ -84,6 +84,7 @@ public class TxUnitTest {
         streamLength = txManager.getOutStream().length;
         assertEquals(expectedStreamLength, streamLength);
 
+        fft = new KissFFTWrapper(512);
         FloatBuffer[] buf = fft.makeSpectrum(txManager.getOutStream());
         assertEquals(expectedBufferLength, buf.length);
         fft.finish();

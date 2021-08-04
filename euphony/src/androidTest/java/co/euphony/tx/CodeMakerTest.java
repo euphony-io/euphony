@@ -43,7 +43,7 @@ public class CodeMakerTest {
     int expectedStreamLength;
     int expectedBufferLength;
     public CodeMakerTest(String expectedGenCode, int expectedStreamLength, int expectedBufferLength) {
-        fft = new KissFFTWrapper(512);
+        fft = null;
         this.expectedGenCode = expectedGenCode;
         this.expectedStreamLength = expectedStreamLength;
         this.expectedBufferLength = expectedBufferLength;
@@ -78,6 +78,7 @@ public class CodeMakerTest {
         short[] stream = codeMaker.assembleData(expectedGenCode);
         assertEquals(expectedStreamLength, stream.length);
 
+        fft = new KissFFTWrapper(512);
         FloatBuffer[] buf = fft.makeSpectrum(stream);
         assertEquals(expectedBufferLength, buf.length);
         fft.finish();
