@@ -1,0 +1,12 @@
+execute_process(COMMAND ${ADB} shell LD_LIBRARY_PATH=${TARGET_TEST_LIB_DIR} ${TARGET_TEST_LIB_DIR}/testEuphony
+                OUTPUT_VARIABLE GTEST_EUPHONY_OUTPUT
+                RESULT_VARIABLE GTEST_RESULT
+                ERROR_VARIABLE GTEST_ERROR_OUTPUT
+                )
+
+string(STRIP ${GTEST_EUPHONY_OUTPUT} GTEST_EUPHONY_OUTPUT)
+if( ${GTEST_RESULT} )
+    message(FATAL_ERROR "** Gtest Failure (${GTEST_RESULT}) **\n${GTEST_EUPHONY_OUTPUT}")
+else()
+    message("**** Gtest Success ****")
+endif()
