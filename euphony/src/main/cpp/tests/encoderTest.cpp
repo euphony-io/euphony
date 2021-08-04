@@ -1,8 +1,3 @@
-//
-// Created by desig on 2021-07-25.
-//
-
-
 #include <gtest/gtest.h>
 #include <Definitions.h>
 #include <Base16.h>
@@ -41,7 +36,7 @@ INSTANTIATE_TEST_CASE_P(
         AsciiEncodingTestSuite,
         EncoderTestFixture,
         ::testing::Values(
-                TestParamType("b", "62"),
+                TestParamType("a", "61"),
                 TestParamType("b", "62"),
                 TestParamType("c", "63"),
                 TestParamType("abc", "616263"),

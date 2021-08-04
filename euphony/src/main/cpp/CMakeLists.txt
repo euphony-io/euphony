@@ -56,6 +56,8 @@ target_link_libraries(
         ${log-lib}
         OpenSLES
         oboe::oboe
+        -fopenmp
+        -static-openmp
 )
 
 # for c++ unit-test (gtest)
