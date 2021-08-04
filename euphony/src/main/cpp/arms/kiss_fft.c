@@ -271,8 +271,9 @@ void kf_work(
             f += fstride * in_stride;
         }
     }else{
+        int fstride_next = fstride * p;
         for(; Fout != Fout_end; Fout += m) {
-            kf_work(Fout, f, fstride * p, in_stride, factors, st);
+            kf_work(Fout, f, fstride_next, in_stride, factors, st);
             f += fstride * in_stride;
         }
     }
@@ -368,12 +369,10 @@ void kiss_fft_stride(kiss_fft_cfg st,const kiss_fft_cpx *fin, kiss_fft_cpx *fout
             return;
         }
 
-        __android_log_print(ANDROID_LOG_INFO,"KISS_FFT_STRIDE","tmpbuf call on kfwork at stride");
         kf_work(tmpbuf, fin,1, in_stride, st->factors,st);
         memcpy(fout, tmpbuf, tmpBufMemorySize);
         free(tmpbuf);
     } else {
-        __android_log_print(ANDROID_LOG_INFO,"KISS_FFT_STRIDE","kfwork call at stride");
         kf_work( fout, fin, 1, in_stride, st->factors,st );
     }
 }

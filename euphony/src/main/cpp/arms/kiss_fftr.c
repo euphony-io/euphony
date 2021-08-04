@@ -16,7 +16,7 @@ kiss_fftr_cfg kiss_fftr_alloc(int nfft,int inverse_fft,void * mem,size_t * lenme
 {
     int i;
     kiss_fftr_cfg st = NULL;
-    size_t subsize, memneeded;
+    size_t subsize = 0, memneeded;
 
     if (nfft & 1) {
         fprintf(stderr,"Real FFT optimization must be even.\n");
@@ -42,7 +42,8 @@ kiss_fftr_cfg kiss_fftr_alloc(int nfft,int inverse_fft,void * mem,size_t * lenme
     st->super_twiddles = st->tmpbuf + nfft;
     kiss_fft_alloc(nfft, inverse_fft, st->substate, &subsize);
 
-    for (i = 0; i < nfft/2; ++i) {
+    int nfft_half = (nfft >> 1);
+    for (i = 0; i < nfft_half; ++i) {
         double phase =
             -3.14159265358979323846264338327 * ((double) (i+1) / nfft + .5);
         if (inverse_fft)
@@ -63,12 +64,9 @@ void kiss_fftr(kiss_fftr_cfg st,const kiss_fft_scalar *timedata, kiss_fft_cpx *f
         fprintf(stderr,"kiss fft usage error: improper alloc\n");
         exit(1);
     }
-   // __android_log_print(ANDROID_LOG_INFO,"----","a");
     ncfft = st->substate->nfft;
-   // __android_log_print(ANDROID_LOG_INFO,"----","b");
     /*perform the parallel fft of two real signals packed in real,imag*/
     kiss_fft( st->substate , (const kiss_fft_cpx*)timedata, st->tmpbuf );
-   // __android_log_print(ANDROID_LOG_INFO,"----","c");
     /* The real part of the DC element of the frequency spectrum in st->tmpbuf
      * contains the sum of the even-numbered elements of the input time sequence
      * The imag part is the sum of the odd-numbered elements
@@ -92,7 +90,8 @@ void kiss_fftr(kiss_fftr_cfg st,const kiss_fft_scalar *timedata, kiss_fft_cpx *f
     freqdata[ncfft].i = freqdata[0].i = 0;
 #endif
 
-    for ( k=1;k <= ncfft/2 ; ++k ) {
+    int ncfft_half = (ncfft >> 1);
+    for ( k=1;k <= ncfft_half ; ++k ) {
         fpk    = st->tmpbuf[k];
         fpnk.r =   st->tmpbuf[ncfft-k].r;
         fpnk.i = - st->tmpbuf[ncfft-k].i;
