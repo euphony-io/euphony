@@ -7,7 +7,7 @@ using namespace Euphony;
 
 typedef std::tuple<string, string> TestParamType;
 
-class EncoderTestFixture : public ::testing::TestWithParam<TestParamType> {
+class Base16EncoderTestFixture : public ::testing::TestWithParam<TestParamType> {
 
 public:
     void openEncoder() {
@@ -16,10 +16,10 @@ public:
         ASSERT_NE(codec, nullptr);
     }
 
-    BinaryCodec* codec = nullptr;
+    BaseCodec* codec = nullptr;
 };
 
-TEST_P(EncoderTestFixture, ASCIIEncodingTest)
+TEST_P(Base16EncoderTestFixture, ASCIIEncodingTest)
 {
     openEncoder();
 
@@ -34,7 +34,7 @@ TEST_P(EncoderTestFixture, ASCIIEncodingTest)
 
 INSTANTIATE_TEST_CASE_P(
         AsciiEncodingTestSuite,
-        EncoderTestFixture,
+        Base16EncoderTestFixture,
         ::testing::Values(
                 TestParamType("a", "61"),
                 TestParamType("b", "62"),

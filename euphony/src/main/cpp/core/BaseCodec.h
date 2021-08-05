@@ -2,18 +2,18 @@
 // Created by desig on 2021-07-25.
 //
 
-#ifndef EUPHONY_BINARYCODEC_H
-#define EUPHONY_BINARYCODEC_H
+#ifndef EUPHONY_BASECODEC_H
+#define EUPHONY_BASECODEC_H
 
 #include "Definitions.h"
 #include <string>
 using std::string;
 
 namespace Euphony {
-    class BinaryCodec {
+    class BaseCodec {
         CharacterSet characterSet;
     public:
-        virtual ~BinaryCodec() = default;
+        virtual ~BaseCodec() = default;
 
         CharacterSet getCharacterSet() {
             return characterSet;
@@ -28,4 +28,4 @@ namespace Euphony {
     };
 }
 
-#endif //EUPHONY_BINARYCODEC_H
+#endif //EUPHONY_BASECODEC_H

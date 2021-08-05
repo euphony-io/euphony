@@ -1,11 +1,11 @@
 #ifndef EUPHONY_BASE16_H
 #define EUPHONY_BASE16_H
 
-#include "BinaryCodec.h"
+#include "BaseCodec.h"
 
 namespace Euphony {
 
-    class Base16 : public BinaryCodec {
+    class Base16 : public BaseCodec {
     public:
         Base16() = default;
         ~Base16() = default;
