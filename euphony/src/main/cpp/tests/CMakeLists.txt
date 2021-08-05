@@ -11,6 +11,7 @@ target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 add_executable(
         ${TEST_EUPHONY}
         encoderTest.cpp
+        decoderTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)
