@@ -2,6 +2,7 @@
 // Created by designe on 20. 9. 16.
 //
 
+#include "../Definitions.h"
 #include "../Frequency.h"
 
 Euphony::Frequency::Frequency()
@@ -24,8 +25,6 @@ void Euphony::Frequency::createFrequency(int hz, int size) {
         if(phase > kTwoPi) phase -= kTwoPi;
     }
 }
-
-
 
 int Euphony::Frequency::getHz() const {
     return mHz;

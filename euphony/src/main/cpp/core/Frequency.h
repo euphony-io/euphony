@@ -7,7 +7,6 @@
 
 #include <vector>
 
-constexpr int32_t kSampleRate = 48000;
 constexpr double kPi = M_PI;
 constexpr double kTwoPi = kPi * 2.0;
 
@@ -29,21 +28,13 @@ namespace Euphony {
 
     public:
         Frequency(int hz, int size);
-
         Frequency();
-
         int getHz() const;
-
         void setHz(int hz);
-
         int getSize() const;
-
         void setSize(int size);
-
         const std::vector<float> &getSource() const;
-
         void setSource(const std::vector<float> &source);
-
         void applyCrossfade(CrossfadeType);
     };
 
