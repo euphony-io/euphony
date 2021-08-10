@@ -2,8 +2,8 @@
 // Created by designe on 20. 9. 16.
 //
 
-#ifndef EUPHONY_FREQUENCY_H
-#define EUPHONY_FREQUENCY_H
+#ifndef EUPHONY_WAVE_H
+#define EUPHONY_WAVE_H
 
 #include <vector>
 
@@ -12,11 +12,13 @@ constexpr double kTwoPi = kPi * 2.0;
 
 namespace Euphony {
 
+    class WaveBuilder;
+
     enum CrossfadeType {
         FRONT, END, BOTH
     };
 
-    class Frequency {
+    class Wave {
     private:
         int mHz;
         int mSize;
@@ -24,11 +26,15 @@ namespace Euphony {
         float mPhase = 0.0;
         std::atomic<double> mPhaseIncrement{0.0};
 
-        void createFrequency(int hz, int size);
-
+        void oscillate(int hz, int size);
+        void updatePhaseIncrement(int hz);
     public:
-        Frequency(int hz, int size);
-        Frequency();
+        friend class WaveBuilder;
+
+        Wave(int hz, int size);
+        Wave();
+        static WaveBuilder create();
+
         int getHz() const;
         void setHz(int hz);
         int getSize() const;
@@ -40,4 +46,4 @@ namespace Euphony {
 
 }
 
-#endif //EUPHONY_FREQUENCY_H
+#endif //EUPHONY_WAVE_H

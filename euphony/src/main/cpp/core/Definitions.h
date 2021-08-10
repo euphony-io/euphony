@@ -15,7 +15,7 @@ namespace Euphony {
     enum class ModeType : int32_t {
         DEFAULT = 0, // Default Soundless Communication
         LIVE = 1, // Live Souldless Communication
-        DETECT = 2, // For Frequency Detection
+        DETECT = 2, // For Wave Detection
         COMMAND = 3, //
         FIND = 4
     };
