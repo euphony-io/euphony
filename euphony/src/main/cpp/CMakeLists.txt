@@ -27,6 +27,7 @@ set(EUPHONY_SRC
         core/source/Base16.cpp
         core/source/FFTModel.cpp
         core/source/Wave.cpp
+        core/source/WaveBuilder.cpp
         core/source/Oscillator.cpp
         core/source/WaveGenerator.cpp
         core/source/FFTProcessor.cpp

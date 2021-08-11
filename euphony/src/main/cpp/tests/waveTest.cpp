@@ -11,19 +11,19 @@ using namespace Euphony;
 
 typedef std::tuple<int, int> TestParamType;
 
-class FrequencyTestFixture : public ::testing::TestWithParam<TestParamType> {
+class WaveTestFixture : public ::testing::TestWithParam<TestParamType> {
 
 public:
     void makeFrequency() {
-        EXPECT_EQ(frequency, nullptr);
-        frequency = new Wave();
-        ASSERT_NE(frequency, nullptr);
+        EXPECT_EQ(wave, nullptr);
+        wave = new Wave();
+        ASSERT_NE(wave, nullptr);
     }
 
-    Wave* frequency = nullptr;
+    Wave* wave = nullptr;
 };
 
-TEST_P(FrequencyTestFixture, FrequencyUnitTest)
+TEST_P(WaveTestFixture, WaveUnitTest)
 {
     makeFrequency();
 
@@ -32,15 +32,23 @@ TEST_P(FrequencyTestFixture, FrequencyUnitTest)
 
     std::tie(inputHz, inputSize) = GetParam();
 
-    frequency->setHz(inputHz);
-    EXPECT_EQ(frequency->getHz(), inputHz);
-    frequency->setSize(inputSize);
-    EXPECT_EQ(frequency->getSize(), inputSize);
+    wave->setHz(inputHz);
+    EXPECT_EQ(wave->getHz(), inputHz);
+    wave->setSize(inputSize);
+    EXPECT_EQ(wave->getSize(), inputSize);
+
+    std::vector<float> source = wave->getSource();
+    EXPECT_EQ(wave->getSource().capacity(), inputSize);
+    EXPECT_EQ(wave->getSource().size(), 0);
+
+    wave->oscillate();
+    EXPECT_EQ(wave->getSource().capacity(), inputSize);
+    EXPECT_EQ(wave->getSource().size(), inputSize);
 }
 
 INSTANTIATE_TEST_CASE_P(
-        AsciiDecodingTestSuite,
-        FrequencyTestFixture,
+        WaveTestSuite,
+        WaveTestFixture,
         ::testing::Values(
                 TestParamType(18000, 512),
                 TestParamType(18000, 1024),
@@ -48,8 +56,3 @@ INSTANTIATE_TEST_CASE_P(
                 TestParamType(20000, 2048),
                 TestParamType(21000, 2048)
 ));
-
-
-
-
-
