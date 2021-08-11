@@ -63,7 +63,7 @@ Web version is also available now. but only transmitter version. [Web version.] 
 
 
 ## Contributing
-Changes are improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
+Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
 
 
 ## License
