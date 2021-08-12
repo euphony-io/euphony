@@ -29,9 +29,9 @@ set(EUPHONY_SRC
         core/source/FFTProcessor.cpp
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
+        core/source/WaveGenerator.cpp
         core/source/Oscillator.cpp
         core/source/FSK.cpp
-        core/source/WaveGenerator.cpp
         core/source/TxEngine.cpp
         core/source/RxEngine.cpp
         core/source/AudioStreamCallback.cpp

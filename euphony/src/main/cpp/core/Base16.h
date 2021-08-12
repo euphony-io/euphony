@@ -11,6 +11,7 @@ namespace Euphony {
         ~Base16() = default;
         string encode(string src);
         string decode(string src);
+        int convertChar2Int(char source);
     };
 }
 

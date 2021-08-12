@@ -19,3 +19,18 @@ string Euphony::Base16::decode(string src) {
     return result;
 }
 
+int Euphony::Base16::convertChar2Int(char source) {
+    switch(source) {
+        case '0': case '1': case '2':
+        case '3': case '4': case '5':
+        case '6': case '7': case '8':
+        case '9':
+            return source - '0';
+        case 'a': case 'b': case 'c':
+        case 'd': case 'e': case 'f':
+            return source - 'a' + 10;
+    }
+
+    return -1;
+}
+
