@@ -14,6 +14,7 @@ add_executable(
         base16DecoderTest.cpp
         waveTest.cpp
         waveBuilderTest.cpp
+        FSKTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)
