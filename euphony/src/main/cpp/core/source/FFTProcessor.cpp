@@ -28,15 +28,16 @@ inline int Euphony::FFTProcessor::frequencyToIndex(int freq) {
 
 void Euphony::FFTProcessor::initialize(int fft_size, int samplerate) {
     config = kiss_fftr_alloc(fft_size, 0, nullptr, nullptr);
-    spectrum = new kiss_fft_cpx[fft_size];
-    result = new float[fft_size >> 1];
+    spectrum = (kiss_fft_cpx*) malloc(sizeof(kiss_fft_cpx) * (int)fft_size);
+    result = new float[fft_size >> 1]();
     fftSize = fft_size;
     sampleRate = samplerate;
 }
 
 void Euphony::FFTProcessor::destroy() {
     free(config);
-    delete spectrum;
+    free(spectrum);
+    delete result;
 }
 
 float* Euphony::FFTProcessor::makeSpectrum(short* src) {
@@ -53,4 +54,8 @@ float* Euphony::FFTProcessor::makeSpectrum(short* src) {
     }
 
     return result;
+}
+
+int Euphony::FFTProcessor::getResultSize() const {
+    return (fftSize >> 1) + 1;
 }

@@ -22,6 +22,7 @@ namespace Euphony {
     public:
         virtual void destroy();
         virtual float* makeSpectrum(short* src);
+        int getResultSize() const;
         FFTProcessor(int fft_size, int samplerate);
         ~FFTProcessor();
 

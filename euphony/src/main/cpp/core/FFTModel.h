@@ -8,6 +8,8 @@
 namespace Euphony {
     class FFTModel {
     public:
+        virtual ~FFTModel() = default;
+
         void initialize(int fftSize);
         virtual void initialize(int fftSize, int sampleRate) = 0;
         virtual void destroy() = 0;
