@@ -33,8 +33,10 @@ namespace Euphony {
         void setHz(int hz);
         int getSize() const;
         void setSize(int size);
-        const std::vector<float> &getSource() const;
+        std::vector<float> getSource() const;
         void setSource(const std::vector<float> &source);
+        std::vector<int16_t> getInt16Source();
+        int16_t convertFloat2Int16(float source);
 
     private:
         friend class WaveBuilder;
@@ -45,6 +47,7 @@ namespace Euphony {
         float mPhase = 0.0;
         std::atomic<double> mPhaseIncrement{0.0};
         void updatePhaseIncrement(int hz);
+
     };
 
 }
