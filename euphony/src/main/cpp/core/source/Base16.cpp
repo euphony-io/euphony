@@ -29,6 +29,8 @@ int Euphony::Base16::convertChar2Int(char source) {
         case 'a': case 'b': case 'c':
         case 'd': case 'e': case 'f':
             return source - 'a' + 10;
+        default:
+            throw Base16Exception();
     }
 
     return -1;

@@ -5,15 +5,11 @@
 #include "Wave.h"
 #include <string>
 #include <vector>
-using std::string;
-using std::vector;
-using std::shared_ptr;
-using namespace Euphony;
 
 namespace Euphony {
     class FSK : public Modem {
     public:
-        vector<shared_ptr<Wave>> modulate(string code);
+        std::vector<std::shared_ptr<Wave>> modulate(std::string code);
         int demodulate(const float* source, const int size);
     private:
         const int getStartFreqIdx() const;

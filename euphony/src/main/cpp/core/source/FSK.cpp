@@ -1,7 +1,11 @@
 #include "../Definitions.h"
 #include "../FSK.h"
 #include "../WaveBuilder.h"
+#include "../Base16Exception.h"
 
+using namespace Euphony;
+using std::string;
+using std::vector;
 using std::make_shared;
 
 vector<shared_ptr<Wave>> FSK::modulate(string code) {
@@ -29,16 +33,17 @@ vector<shared_ptr<Wave>> FSK::modulate(string code) {
                                 .build()
                 );
                 break;
-            case 'A': case 'B':
-            case 'C': case 'D': case 'E':
-            case 'F':
+            case 'a': case 'b': case 'c':
+            case 'd': case 'e': case 'f':
                 result.push_back(
                         Wave::create()
-                                .vibratesAt(kStandardFrequency + ((c - 'A' + 10) * kFrequencyInterval))
+                                .vibratesAt(kStandardFrequency + ((c - 'a' + 10) * kFrequencyInterval))
                                 .setSize(kBufferSize)
                                 .build()
                 );
                 break;
+            default:
+                throw Base16Exception();
         }
     }
 
@@ -48,14 +53,14 @@ vector<shared_ptr<Wave>> FSK::modulate(string code) {
 int FSK::demodulate(const float *source, const int size) {
     int maxIndex = 0;
     float maxValue = 0;
-    for(int i = getStartFreqIdx(); i < getEndFreqIdx(); i++) {
+    for(int i = getStartFreqIdx() - 1; i < getEndFreqIdx(); i++) {
         if(source[i] > maxValue) {
             maxValue = source[i];
             maxIndex = i;
         }
     }
 
-    return maxIndex;
+    return maxIndex - getStartFreqIdx();
 }
 
 const int FSK::getStartFreqIdx() const {

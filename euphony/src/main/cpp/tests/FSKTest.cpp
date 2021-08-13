@@ -3,6 +3,7 @@
 #include <FSK.h>
 #include <FFTProcessor.h>
 #include <tuple>
+#include <Base16Exception.h>
 
 using namespace Euphony;
 
@@ -56,18 +57,31 @@ TEST_P(FSKTestFixture, FSKModulationTest)
     fft->destroy();
 }
 
+TEST_F(FSKTestFixture, FSKCodeThrowTest)
+{
+    createFSK();
+
+    string inputCode = "K";
+    try {
+        auto resultFSK = fsk->modulate(inputCode);
+    } catch(Base16Exception e) {
+        EXPECT_EQ(BASE16_EXCEPTION_MSG, e.MSG());
+    }
+}
+
 INSTANTIATE_TEST_CASE_P(
         FSKTestSuite,
         FSKTestFixture,
         ::testing::Values(
-                TestParamType("0", 1, 209),
-                TestParamType("1", 1, 210),
-                TestParamType("2", 1, 211),
-                TestParamType("3", 1, 212),
-                TestParamType("4", 1, 213),
-                TestParamType("5", 1, 214),
-                TestParamType("012345", 6, 209),
-                TestParamType("0123456789", 10, 209),
-                TestParamType("ABCDEF", 6, 219),
-                TestParamType("0123456789ABCDEF", 16, 209)
+                TestParamType("0", 1, 0),
+                TestParamType("1", 1, 1),
+                TestParamType("2", 1, 2),
+                TestParamType("3", 1, 3),
+                TestParamType("4", 1, 4),
+                TestParamType("5", 1, 5),
+                TestParamType("012345", 6, 0),
+                TestParamType("0123456789", 10, 0),
+                TestParamType("abcdef", 6, 10),
+                TestParamType("0123456789abcdef", 16, 0),
+                TestParamType("S0123456789abcdef", 17, -1)
 ));
