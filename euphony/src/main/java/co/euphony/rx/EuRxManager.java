@@ -25,20 +25,21 @@ public class EuRxManager {
 	}
 
 	private static final int RX_MODE = 1;
-	private static final int PS_MODE = 2;
 	private static final int DETECT_MODE = 3;
 	private static final int API_CALL_MODE = 4;
 
 	private EuOption mOption;
+
 	public EuRxManager() {
 		mOption = new EuOption();
-		mOption.setFFTSize(1024);
 	}
-	public EuRxManager(EuOption option) { mOption = option; }
+
+	public EuRxManager(EuOption option) {
+		mOption = option;
+	}
 
 	public EuRxManager(EuOption.CommunicationMode mode) {
 		mOption = new EuOption();
-		mOption.setFFTSize(1024);
 		mOption.setCommunicationMode(mode);
 	}
 	
@@ -55,15 +56,8 @@ public class EuRxManager {
 		if(getStatus() != RxManagerStatus.RUNNING) {
 			switch (option.getCommunicationMode()) {
 				case GENERAL:
-				case LIVE:
 					mListenThread = new Thread(new RxRunner(option), "RX");
 					break;
-				case FIND:
-					mListenThread = new Thread(new PsRunner(option), "PS");
-					break;
-				case DETECT:
-					Log.d(LOG, "Detect must have specific frequency value");
-					return false;
 				case API: {
 					if(mAPICallRunner != null) {
 						mAPICallRunner.initialize(mAPICallRunner.getRxOption());
@@ -76,6 +70,9 @@ public class EuRxManager {
 						return false;
 					}
 				}
+				default:
+					Log.d(LOG, "Detect must have specific frequency value");
+					return false;
 			}
 			mListenThread.start();
 			return true;
@@ -87,9 +84,7 @@ public class EuRxManager {
 	public boolean listen(EuOption option, int freq) {
 		if(getStatus() != RxManagerStatus.RUNNING) {
 			switch (option.getCommunicationMode()) {
-				case GENERAL:
-				case LIVE:
-				case FIND:
+				default:
 					Log.d(LOG, "Please use other listen function.");
 					return false;
 				case DETECT:
@@ -208,9 +203,6 @@ public class EuRxManager {
 				case RX_MODE:
 					mAcousticSensor.notify(msg.obj + "");
 					break;
-				case PS_MODE:
-					mPositionDetector.detectSignal((Integer)msg.obj);
-					break;
 				case DETECT_MODE:
 					mFrequencyDetector.detect((float)msg.obj);
 					break;
@@ -224,16 +216,6 @@ public class EuRxManager {
 			}
 		}
 	};
-	
-	private PositionDetector mPositionDetector;
-	
-	public PositionDetector getPositionDetector() {
-		return mPositionDetector;
-	}
-	
-	public void setPositionDetector(PositionDetector detector) {
-		this.mPositionDetector = detector;
-	}
 
 	public EuOption getOption() {
 		return mOption;
@@ -261,9 +243,6 @@ public class EuRxManager {
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_MODE;
 					switch (mRxOption.getEncodingType()) {
-						case ASCII:
-							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
-							break;
 						case HEX:
 							msg.obj = getReceivedData();
 							break;
@@ -449,79 +428,6 @@ public class EuRxManager {
 
 			destroyFFT();
 
-		}
-	}
-	
-	private class PsRunner extends EuFreqObject implements Runnable {
-
-		PsRunner(EuOption option) {
-			super(option);
-		}
-
-		@Override
-		public void run() {
-			boolean startswt = false;
-			int startcnt = 0;
-			int specificFreq = 0;
-			Log.i("START", "START LISTEN");
-			while(!Thread.currentThread().isInterrupted()){
-				//To find the frequency point
-				while(!startswt) {
-					processFFT();
-					int i;
-					for(i = 21000; i >= 16500; i-= mRxOption.getDataInterval())
-						if(100 < detectFreq(i)){
-							startswt = true;
-							break;
-						}
-					specificFreq = i;
-					
-					//there is no af area..
-					if(startcnt++ > 1000){
-						startswt = true;
-						Log.i("START", "FAILED to find any position");
-					}
-				}
-				
-				int signal, max_signal = 0, avr_signal = 0;
-				int noSignalCnt=0, processingCnt = 0, maxCnt=0;
-				do{
-					processFFT();
-					signal = detectFreq(specificFreq);
-					
-					if(signal < 20)
-						noSignalCnt++;
-					else{
-						noSignalCnt = 0;
-						
-						if(max_signal < signal){
-							maxCnt++;
-							max_signal = signal;
-							avr_signal += max_signal;
-						}
-						if(++processingCnt > 50){
-							avr_signal /= maxCnt;
-							Message msg = mHandler.obtainMessage();
-							msg.what = PS_MODE;
-							msg.obj = avr_signal;
-							mHandler.sendMessage(msg);
-							processingCnt = 0;
-							max_signal = 0;
-							avr_signal = 0;
-							maxCnt = 0;
-						}
-					}
-				}while(noSignalCnt < 50 && startswt);
-
-				destroyFFT();
-				
-				Message msg = mHandler.obtainMessage();
-				msg.what = PS_MODE;
-				msg.obj = -1;
-				mHandler.sendMessage(msg);
-				break;
-				
-			}
 		}
 	}
 }
