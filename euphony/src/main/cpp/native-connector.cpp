@@ -35,6 +35,11 @@ extern "C" {
         engine->tap(is_tone_on);
     }
 
+    JNIEXPORT void JNICALL
+    Java_co_euphony_tx_EuphonyTx_native_1setCode(JNIEnv *env, jobject thiz, jlong engine_handle,
+                                                 jstring data) {
+        // TODO: implement native_setCode()
+    }
 
     JNIEXPORT void JNICALL
     Java_co_euphony_tx_EuphonyTx_native_1start(JNIEnv *env, jobject thiz,
