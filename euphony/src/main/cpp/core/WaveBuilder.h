@@ -12,6 +12,7 @@ namespace Euphony {
     public:
         WaveBuilder& vibratesAt(int hz);
         WaveBuilder& setSize(int size);
+        WaveBuilder& setCrossfade(CrossfadeType type);
         shared_ptr<Wave> build();
     };
 };

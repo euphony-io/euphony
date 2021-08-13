@@ -10,19 +10,22 @@ using namespace Euphony;
 
 Euphony::Wave::Wave()
 :mHz(0),
-mSize(0)
+mSize(0),
+crossfadeType(NONE)
 {}
 
 Euphony::Wave::Wave(int hz, int size)
 :mHz(hz),
-mSize(size)
+mSize(size),
+crossfadeType(NONE)
 {
     oscillate();
 }
 
 Euphony::Wave::Wave(const Wave& copy)
 : mHz(copy.mHz),
-mSize(copy.mSize)
+mSize(copy.mSize),
+crossfadeType(copy.crossfadeType)
 {
     oscillate();
 }
@@ -45,6 +48,26 @@ void Euphony::Wave::oscillate() {
             mSource.push_back(sin(phase));
             phase += mPhaseIncrement;
             if(phase > kTwoPi) phase -= kTwoPi;
+        }
+
+        if(crossfadeType != NONE) {
+            for (int i = 0; i < kBufferFadeLength; ++i) {
+                float miniWindow = static_cast<float>(i) / static_cast<float>(kBufferFadeLength);
+                switch (crossfadeType) {
+                    case BOTH:
+                        mSource[i] *= miniWindow;
+                        mSource[this->mSize - 1 - i] *= miniWindow;
+                        break;
+                    case END:
+                        mSource[this->mSize - 1 - i] *= miniWindow;
+                        break;
+                    case FRONT:
+                        mSource[i] *= miniWindow;
+                        break;
+                    default:
+                        continue;
+                }
+            }
         }
     }
 }
@@ -102,4 +125,8 @@ void Euphony::Wave::setSource(const std::vector<float> &source) {
 
 int16_t Euphony::Wave::convertFloat2Int16(float source) {
     return static_cast<float>(SHRT_MAX) * source;
+}
+
+void Wave::setCrossfade(CrossfadeType crossfadeType) {
+    this->crossfadeType = crossfadeType;
 }

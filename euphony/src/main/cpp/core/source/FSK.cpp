@@ -19,6 +19,7 @@ vector<shared_ptr<Wave>> FSK::modulate(string code) {
                         Wave::create()
                                 .vibratesAt(kStartSignalFrequency)
                                 .setSize(kBufferSize)
+                                .setCrossfade(BOTH)
                                 .build()
                 );
                 break;
@@ -30,6 +31,7 @@ vector<shared_ptr<Wave>> FSK::modulate(string code) {
                         Wave::create()
                                 .vibratesAt(kStandardFrequency + ((c - '0') * kFrequencyInterval))
                                 .setSize(kBufferSize)
+                                .setCrossfade(BOTH)
                                 .build()
                 );
                 break;
@@ -39,6 +41,7 @@ vector<shared_ptr<Wave>> FSK::modulate(string code) {
                         Wave::create()
                                 .vibratesAt(kStandardFrequency + ((c - 'a' + 10) * kFrequencyInterval))
                                 .setSize(kBufferSize)
+                                .setCrossfade(BOTH)
                                 .build()
                 );
                 break;
