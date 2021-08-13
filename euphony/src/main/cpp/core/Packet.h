@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <Base16.h>
 
 using std::string;
 using std::vector;
@@ -10,14 +11,22 @@ using std::vector;
 namespace Euphony {
     class Packet {
     public:
-        string create(string code);
+        Packet():base16(Base16()) {}
+
+        string create(string source);
+        void push(int data);
         void clear();
+        string getStrPayload();
+        string toString();
 
     private:
+        Base16 base16;
         vector<int> payload;
         int checksum;
         int parityCode;
         bool isVerified;
+
+        string makeErrorDetectorCode();
     };
 }
 
