@@ -23,7 +23,7 @@ public class EuTxManager {
 	private String genCode = "";
 	
 	public EuTxManager() {
-		setOption(new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK));
+		setOption(new EuOption(EuOption.EncodingType.HEX, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK));
 	}
 
 	public EuTxManager(EuOption option) {
@@ -66,7 +66,6 @@ public class EuTxManager {
 
 		// set encoding code.
 		switch(mTxOption.getEncodingType()) {
-			case ASCII:
 			case HEX:
 				code = EuDataEncoder.encodeStaticHexCharSource(data);
 				errorCode = PacketErrorDetector.makeErrorDetectionCode(code, EuOption.EncodingType.HEX);
@@ -83,9 +82,6 @@ public class EuTxManager {
 		switch(mTxOption.getCommunicationMode()) {
 			case GENERAL:
 				mOutStream = mCodeMaker.assembleData(genCode);
-				break;
-			case LIVE:
-				mOutStream = mCodeMaker.assembleLiveData(genCode);
 				break;
 		}
 	}

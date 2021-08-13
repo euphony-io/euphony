@@ -2,11 +2,11 @@ package co.euphony.util;
 
 public class EuOption {
     public enum EncodingType {
-        ASCII, HEX, BINARY
+        HEX, BINARY
     }
 
     public enum CommunicationMode {
-        GENERAL, LIVE, FIND, DETECT, API
+        GENERAL, DETECT, API
     }
 
     public enum ModulationType {
