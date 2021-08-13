@@ -25,6 +25,7 @@ set(EUPHONY_SRC
         arms/kiss_fft.c
         arms/kiss_fftr.c
         core/source/Base16.cpp
+        core/source/Base16Exception.cpp
         core/source/FFTModel.cpp
         core/source/FFTProcessor.cpp
         core/source/Wave.cpp

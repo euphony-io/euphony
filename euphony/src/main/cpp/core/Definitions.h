@@ -12,6 +12,8 @@ namespace Euphony {
     constexpr int32_t kStandardFrequency = 18017;
     constexpr int32_t kStartSignalFrequency = kStandardFrequency - kFrequencyInterval;
 
+    static constexpr const char* BASE16_EXCEPTION_MSG = "BASE16 couldn't support this code value";
+
     enum class ModeType : int32_t {
         DEFAULT = 0, // Default Soundless Communication
         LIVE = 1, // Live Souldless Communication
