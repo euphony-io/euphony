@@ -2,6 +2,7 @@
 #define EUPHONY_DEFINITIONS_H
 
 #include <cstdint>
+#include <math.h>
 
 namespace Euphony {
     constexpr int32_t kSampleRate = 44100;
@@ -11,6 +12,8 @@ namespace Euphony {
     constexpr int32_t kFrequencyInterval = kSampleRate / kFFTSize;
     constexpr int32_t kStandardFrequency = 18017;
     constexpr int32_t kStartSignalFrequency = kStandardFrequency - kFrequencyInterval;
+    constexpr double kPi = M_PI;
+    constexpr double kTwoPi = kPi * 2.0;
 
     static constexpr const char* BASE16_EXCEPTION_MSG = "BASE16 couldn't support this code value";
 

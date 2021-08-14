@@ -7,9 +7,6 @@
 
 #include <vector>
 
-constexpr double kPi = M_PI;
-constexpr double kTwoPi = kPi * 2.0;
-
 namespace Euphony {
 
     class WaveBuilder;
