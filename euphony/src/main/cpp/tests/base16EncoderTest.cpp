@@ -44,6 +44,8 @@ INSTANTIATE_TEST_CASE_P(
                 TestParamType("efg", "656667"),
                 TestParamType("abcdefghijklmnopqrstuvwxyz", "6162636465666768696a6b6c6d6e6f707172737475767778797a"),
                 TestParamType("ABC", "414243"),
-                TestParamType("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "4142434445464748494a4b4c4d4e4f505152535455565758595a")
+                TestParamType("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "4142434445464748494a4b4c4d4e4f505152535455565758595a"),
+                TestParamType("hell", "68656c6c"),
+                TestParamType("hello, euphony", "68656c6c6f2c20657570686f6e79")
                 ));
 

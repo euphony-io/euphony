@@ -3,6 +3,7 @@ package co.euphony.tx;
 import android.util.Log;
 
 import androidx.test.filters.SmallTest;
+import androidx.test.filters.Suppress;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -75,7 +76,8 @@ public class TxUnitTest {
     }
 
     @Test
-    /* Default Tx & Rx Test */
+    @Suppress
+    /* Default Tx & Rx Test (this will be substituted by gtest (packetWithFSKTest.cpp) */
     public void tx_rx_default_test() {
         EuTxManager txManager = new EuTxManager();
         txManager.setCode(code);
