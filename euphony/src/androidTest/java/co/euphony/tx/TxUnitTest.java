@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.test.filters.SmallTest;
 import androidx.test.filters.Suppress;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -79,7 +80,7 @@ public class TxUnitTest {
     @Suppress
     /* Default Tx & Rx Test (this will be substituted by gtest (packetWithFSKTest.cpp) */
     public void tx_rx_default_test() {
-        EuTxManager txManager = new EuTxManager();
+        EuTxManager txManager = new EuTxManager(InstrumentationRegistry.getInstrumentation().getContext());
         txManager.setCode(code);
         Assert.assertThat(txManager.getGenCode(), is(expectedGenCode));
 

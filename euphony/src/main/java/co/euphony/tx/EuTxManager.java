@@ -1,38 +1,21 @@
 package co.euphony.tx;
 
 import android.content.Context;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioTrack;
-import android.util.Log;
 
 import co.euphony.util.EuOption;
-import co.euphony.util.PacketErrorDetector;
 
 public class EuTxManager {
-	private AudioTrack mAudioTrack = null;
+	private EuphonyTx txCore;
 	private EuOption mTxOption = null;
-	private EuCodeMaker mCodeMaker;
-
-	public short[] getOutStream() {
-		return mOutStream;
-	}
-
-	private short[] mOutStream;
-
 	private String genCode = "";
-	
-	public EuTxManager() {
-		setOption(new EuOption(EuOption.EncodingType.HEX, EuOption.CommunicationMode.GENERAL, EuOption.ModulationType.FSK));
-	}
 
-	public EuTxManager(EuOption option) {
-		setOption(option);
+	public EuTxManager(Context context) {
+		txCore = new EuphonyTx(context);
 	}
 
 	public void setOption(EuOption option) {
         mTxOption = option;
-        mCodeMaker = new EuCodeMaker(mTxOption);
+        // mCodeMaker = new EuCodeMaker(mTxOption);
     }
 	/*
 	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
@@ -44,56 +27,30 @@ public class EuTxManager {
 
 	public void setCode(String data)
 	{
-		/*
-		GENERATE CODE FROM STRING
-
-		1) Ss is starting buffer to use trigger point
-           S includes starting buffer with crossfade effect.
-           s is only starting buffer.
-		 */
-		String beginCode = "";
-		String code = "";
-		String errorCode = "";
-		switch(mTxOption.getModulationType()) {
-			case ASK:
-			case FSK:
-				beginCode = "S";
-				break;
-			case CPFSK:
-				beginCode = "Ss";
-				break;
-		}
-
-		// set encoding code.
-		switch(mTxOption.getEncodingType()) {
-			case HEX:
-				code = EuDataEncoder.encodeStaticHexCharSource(data);
-				errorCode = PacketErrorDetector.makeErrorDetectionCode(code, EuOption.EncodingType.HEX);
-				break;
-			case BINARY:
-				code = EuDataEncoder.encodeStaticBinaryCharSource(data);
-				errorCode = PacketErrorDetector.makeErrorDetectionCode(code, EuOption.EncodingType.BINARY);
-				break;
-		}
-
-		genCode = beginCode + code + errorCode;
-
-		// set communication mode.
-		switch(mTxOption.getCommunicationMode()) {
-			case GENERAL:
-				mOutStream = mCodeMaker.assembleData(genCode);
-				break;
-		}
+		txCore.setCode(data);
 	}
 
 	public String getGenCode() {
 		return genCode;
 	}
 
+	public short[] getOutStream() {
+
+		/* TODO: legacy code will be removed.
+		    That will be bring from EuphonyTx.
+		return mOutStream;
+		 */
+		return null;
+	}
+
 	public void process() { process(1); }
 
 	public void process(int count)
 	{
+		txCore.setCountToneOn(true, count);
+
+		/*
+		* TODO: legacy code will be removed.
 		if(count > 0)
 			mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, mOutStream.length*2, AudioTrack.MODE_STREAM);
 		else {
@@ -113,29 +70,27 @@ public class EuTxManager {
 				Log.i("PROCESS", e.getMessage());
 			}
 		}
+		 */
 	}
 	
 	public void stop()
 	{
+		txCore.setToneOn(false);
+		/*
+		* TODO: legacy code will be removed.
 		if(mAudioTrack != null)
 			mAudioTrack.pause();
+		 */
 	}
 	
 	public void setSoftVolume(float ratio)
 	{
+		/*
+		* TODO: legacy soft volume adjustment.
+		*  That will be created using EuphonyTx.
 		for(int i = 0; i < mOutStream.length; i++)
 			mOutStream[i] *= ratio;
+
+		 */
 	}
-
-	public void setSystemVolumeMax(Context _context)
-	{
-		AudioManager am = (AudioManager) _context.getSystemService(Context.AUDIO_SERVICE);
-
-		if (am != null) {
-            am.setStreamVolume(
-                    AudioManager.STREAM_MUSIC,
-                    am.getStreamMaxVolume(AudioManager.STREAM_MUSIC),
-                    0);
-        }
-	}	 
 }

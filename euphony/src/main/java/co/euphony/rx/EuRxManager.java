@@ -25,8 +25,8 @@ public class EuRxManager {
 	}
 
 	private static final int RX_MODE = 1;
-	private static final int DETECT_MODE = 3;
-	private static final int API_CALL_MODE = 4;
+	private static final int DETECT_MODE = 2;
+	private static final int API_CALL_MODE = 3;
 
 	private EuOption mOption;
 
@@ -83,18 +83,15 @@ public class EuRxManager {
 
 	public boolean listen(EuOption option, int freq) {
 		if(getStatus() != RxManagerStatus.RUNNING) {
-			switch (option.getCommunicationMode()) {
-				default:
-					Log.d(LOG, "Please use other listen function.");
-					return false;
-				case DETECT:
-					mDetectRunner = new DetectRunner(option, freq);
-					mListenThread = new Thread(mDetectRunner, "DETECT");
-					break;
+			if(option.getCommunicationMode() == EuOption.CommunicationMode.DETECT) {
+				mDetectRunner = new DetectRunner(option, freq);
+				mListenThread = new Thread(mDetectRunner, "DETECT");
+				mListenThread.start();
+				return true;
+			} else {
+				Log.d(LOG, "Please use other listen function.");
+				return false;
 			}
-
-			mListenThread.start();
-			return true;
 		} else {
 			return false;
 		}
@@ -242,10 +239,9 @@ public class EuRxManager {
 				if (this.getCompleted()) {
 					Message msg = mHandler.obtainMessage();
 					msg.what = RX_MODE;
-					switch (mRxOption.getEncodingType()) {
-						case HEX:
+					msg.obj = null;
+					if(mRxOption.getEncodingType() == EuOption.EncodingType.HEX) {
 							msg.obj = getReceivedData();
-							break;
 					}
 					this.setCompleted(false);
 					mHandler.sendMessage(msg);
@@ -278,7 +274,7 @@ public class EuRxManager {
 	private class APICallRunner extends EuFreqObject implements Runnable {
 
 		private double mThreshold = 0.0009;
-		private ArrayList<EpnyAPI> APICallList = new ArrayList<EpnyAPI>();
+		private ArrayList<EpnyAPI> APICallList = new ArrayList<>();
 
 		APICallRunner(EuOption option, EpnyAPI api) {
 			super(option);
@@ -300,10 +296,7 @@ public class EuRxManager {
 		}
 
 		private boolean compareThreshold(float amp) {
-			if(amp > mThreshold)
-				return true;
-			else
-				return false;
+			return amp > mThreshold;
 		}
 
 		public void addAPI(EpnyAPI api) {
