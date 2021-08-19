@@ -5,6 +5,11 @@ $ git clone https://github.com/euphony-io/euphony.git
 $ cd euphony/
 ```
 ### Build from the command line
+### on Windows
+```
+> gradlew build
+```
+### on Linux or MacOS
 ```
 $ ./gradlew build
 ```
