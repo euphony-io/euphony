@@ -27,7 +27,7 @@ There are 3 ways adding euphony to your project.
 
 2. Add the following line to the `dependencies` section:
 
-```jsx
+```gradle
 dependencies {
 	// other dependencies
 	// ...
@@ -56,7 +56,7 @@ dependencies {
 
 3. Check your `build.gradle` in app module
 
-```
+```gradle
 repositories {
     flatDir {
         dirs 'libs'
@@ -98,7 +98,7 @@ then click `sync` and you can use euphony library!!
 
 > If Could not get unknown property 'language' for build 'import_Euphony' of type org.gradle.invocation.DefaultGradle. error occur, please add a sentence below in setting.gradle(Project) and click 'Sync Now'
 
-```jsx
+```gradle
 gradle.ext.language = "java"; // or kotlin
 ```
 
@@ -120,7 +120,7 @@ gradle.ext.language = "java"; // or kotlin
 
 After that, you can see a sentence is added in `build.gradle(Module:app)`
 
-```
+```gradle
 dependencies{
      ...
       implementation project(path: ':euphony')
@@ -137,7 +137,7 @@ dependencies{
 
 Add the following line to the AndroidManifest.xml:
 
-```
+```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
 
@@ -169,7 +169,7 @@ I made button to request user permissions.So, If you push that button, request a
 
 Let's look up the code.
 
-```jsx
+```java
 package com.example.euphonytest;
 
 import androidx.annotation.NonNull;
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
     }
 ```
 
-```jsx
+```java
    //after requestPermission
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
 this is main activity code i made,
 
-```
+```java
 int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
 
                 if (permission == PackageManager.PERMISSION_DENIED) {
