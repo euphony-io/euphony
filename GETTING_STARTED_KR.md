@@ -86,9 +86,9 @@ val mRxManager = EuRxManager()
 
 ```java
 mRxManager.setAcousticSensor(new AcousticSensor() {
-		@Override
-		public void notify(String letters) {
-      //when data is received
+	@Override
+	public void notify(String letters) {
+		//when data is received
     }
  });
 ```
