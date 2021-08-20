@@ -48,7 +48,7 @@ dependencies {
 
 <img width="392" alt="aar_001" src="https://user-images.githubusercontent.com/27720475/130188260-a0f3ee6d-7afc-4dfc-928e-5562eca476ba.png">
 
-2. put `euphony.aar` file in `libs` folder, and just click `Refactor`
+2. Put `euphony.aar` file in `libs` folder, and just click `Refactor`
 
 <img width="392" alt="aar_002_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187177-b97b55ef-158a-4975-b0f8-b9e8bfdc5886.png">
 
@@ -129,7 +129,7 @@ dependencies{
 
 ```
 
-> path could be different, if you change Module Name at step 3
+> Path could be different, if you change module name at step 3
 
 ---
 
@@ -149,7 +149,7 @@ Its details is below.
 <details>
     <summary>Show details</summary>
 
-So, if you wanna use this library in the right way, you should check your permission manually in app configuration.That's because after Android 6.0 Marshmallow, Android introduced a new permissions model that lets apps request permissions from the user at runtime, rather than prior to installation.
+So, if you wanna use this library in the right way, you should check your permission manually in app configuration. That's because after Android 6.0 Marshmallow, Android introduced a new permissions model that lets apps request permissions from the user at runtime, rather than prior to installation.
 
 You can read a below docs to check details.[https://developer.android.com/training/permissions/usage-notes?hl=en](https://developer.android.com/training/permissions/usage-notes?hl=en)
 
@@ -161,7 +161,7 @@ Let's check out how can it possible.
 
 Because my test app's sdk is 30, i should consider about it.
 
-I made button to request user permissions.So, If you push that button, request alert pops up, and if you denied permission, app is closed automatically.
+I made button to request user permissions. So, if you push that button, request alert pops up, and if you denied permission, app is closed automatically.
 
 ![https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png](https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png)
 
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-this is main activity code i made,
+This is main activity code i made,
 
 ```java
 int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
