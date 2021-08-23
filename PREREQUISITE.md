@@ -104,23 +104,28 @@ then click `sync` and you can use euphony library!!
 
 <img width="392" alt="module_004" src="https://user-images.githubusercontent.com/27720475/130185365-e4ef05af-60e1-4f37-b0a4-6b87cf2b17b1.png">
 
-<img width="392" alt="module_005" src="https://user-images.githubusercontent.com/27720475/130185374-b42d0860-6b2e-48a7-aa1f-a99eaf52435e.png">
-
+> ! The summary below covers some possible errors. Unfold it if you need.
+>
+> <details>
+>    <summary>Possible errors</summary>
+> <img width="392" alt="module_005" src="https://user-images.githubusercontent.com/27720475/130185374-b42d0860-6b2e-48a7-aa1f-a99eaf52435e.png">
+>
 > If Could not get unknown property 'language' for build 'import_Euphony' of type org.gradle.invocation.DefaultGradle. error occur, please add a sentence below in setting.gradle(Project) and click 'Sync Now'
-
-```gradle
-gradle.ext.language = "java"; // or kotlin
-```
-
-<img width="392" alt="module_006" src="https://user-images.githubusercontent.com/27720475/130185379-8f6fb9d8-d4a5-497e-b7ec-514aeb1088a0.png">
-
-> If you want to know more about 'Gradle', [https://www.baeldung.com/gradle-build-settings-properties](https://www.baeldung.com/gradle-build-settings-properties) will be helpful
-
-<img width="392" alt="module_007" src="https://user-images.githubusercontent.com/27720475/130185391-02c82964-299e-484c-80e1-810254dd7070.png">
-
-> If Caused by: groovy.lang.MissingPropertyException: Cannot get property 'signing.keyId' on extra properties extension as it does not exist error occur, please delete the sentence below in euphony/gradle.build and click 'Sync Now'apply from: file('publish.gradle')
-
-<img width="392" alt="module_008" src="https://user-images.githubusercontent.com/27720475/130185404-16a862f0-28ee-4c0e-917c-826fe73d25bb.png">
+>
+> ```gradle
+> gradle.ext.language = "java"; // or kotlin
+> ```
+>
+> <img width="392" alt="module_006" src="https://user-images.githubusercontent.com/27720475/130185379-8f6fb9d8-d4a5-497e-b7ec-514aeb1088a0.png">
+>
+> > If you want to know more about 'Gradle', [https://www.baeldung.com/gradle-build-settings-properties](https://www.baeldung.com/gradle-build-settings-properties) will be helpful
+>
+> <img width="392" alt="module_007" src="https://user-images.githubusercontent.com/27720475/130185391-02c82964-299e-484c-80e1-810254dd7070.png">
+>
+> > If Caused by: groovy.lang.MissingPropertyException: Cannot get property 'signing.keyId' on extra properties extension as it does not exist error occur, please delete the sentence below in euphony/gradle.build and click 'Sync Now'apply from: file('publish.gradle')
+>
+> <img width="392" alt="module_008" src="https://user-images.githubusercontent.com/27720475/130185404-16a862f0-28ee-4c0e-917c-826fe73d25bb.png">
+> </details>
 
 4. Now, we'll gonna add a dependency. In `File` > `Project Structure`, click `+` button at `Dependencies` > `app`. Then click `Module Dependency`
 
