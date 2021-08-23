@@ -15,7 +15,7 @@ This consists of two parts.
 
 ### Generate sound waves and transmits though a microphone.
 
-1. **Create EuTxManager type object which turns data into sound waves.**
+1. **Create EuTxManager object which turns data into sound waves.**
 - Java
 
 ```java
