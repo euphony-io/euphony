@@ -1,5 +1,6 @@
 # Getting Started
-
+English | [한글](GETTING_STARTED_KR.md)
+  
 Euphony is a library that transmits data using critical bandwidths of the tonal frequency inaudible to humans.  
 Since the API is written in Java, users can use it in any language running on JVM like Java or Kotlin.
 
