@@ -1,3 +1,13 @@
+# Table of Contents
+
+- [Prerequisite](#prerequisite)
+  - [1. Add euphony to your project](#1-add-euphony-to-your-project)
+    - [1.1 Using Maven repository](#11-using-maven-repository)
+    - [1.2 Import the aar/jar file directly](#12-import-the-aarjar-file-directly)
+    - [1.3 Import the Euphony module in your project](#13-import-the-euphony-module-in-your-project)
+  - [2. Edit your AndroidManifest.xml](#2-edit-your-androidmanifestxml)
+    - [Request permission to users](#request-permission-to-users)
+
 # Prerequisite
 
 You need to do two actions.
