@@ -66,7 +66,7 @@ mTxManager.process(-1)
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
 
-1. **음파를 데이터로 받아오는 EuRxManager 객체를 생성**
+1. **음파를 데이터로 인식하기 위한 EuRxManager 객체 생성**
 - Java
 
 ```java
