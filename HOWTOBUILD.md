@@ -20,6 +20,11 @@ $ ./gradlew build
 
 ## How to Unit Test
 ### Test from the command line
+### on Windows
+```
+> gradlew test
+```
+### on Linux or MacOS
 ```
 $ ./gradlew test
 ```
