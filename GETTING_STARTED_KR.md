@@ -54,9 +54,7 @@ mTxManager.process(-1);
 mTxManager.process(-1)
 ```
 
-## 수신기
-
----
+## 수신 파트
 
 ### 레코더를 통한 음파 수신 부분
 
