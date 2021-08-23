@@ -97,7 +97,7 @@ mRxManager.setAcousticSensor(new AcousticSensor() {
 
 ```kotlin
 mRxManager.acousticSensor = AcousticSensor { letters ->
-    //when data is received
+	//when data is received
 }
 ```
 
