@@ -153,7 +153,7 @@ Add the following line to the AndroidManifest.xml:
 
 ### Request permission to users
 
-Plus, you should consider that the permission model is different depending on the users android version.
+Plus, you should consider that the permission model is different depending on the user's android version.
 Its details is below.
 
 <details>
