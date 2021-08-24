@@ -229,17 +229,18 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 1000) {
             boolean check_result = true;
-        for (int result : grantResults) {
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                check_result = false;
-                break;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    check_result = false;
+                    break;
+                }
             }
-        }
-            if(check_result == true) { } else {
+            if(check_result == true) {
+
+            } else {
                 finish();
             }
         }
-
     }
 }
 ```
@@ -249,13 +250,12 @@ This is main activity code i made,
 ```java
 int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
 
-                if (permission == PackageManager.PERMISSION_DENIED) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{
-                                Manifest.permission.RECORD_AUDIO}, 1000);
-                    }
-                }
-
+if (permission == PackageManager.PERMISSION_DENIED) {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        requestPermissions(new String[]{
+                Manifest.permission.RECORD_AUDIO}, 1000);
+    }
+}
 ```
 
 We can know whether permission is denied or not. And we also consider both sdk version is higher than 16 which is mashmellow and call function requestPermission.
