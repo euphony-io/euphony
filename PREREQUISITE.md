@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-This is main activity code i made,
+This is `MainActivity` for adding permission.
 
 ```java
 int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
