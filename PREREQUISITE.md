@@ -174,9 +174,7 @@ Over the all, as this library's minimun sdk is 14, we must consider two types ap
 
 Let's check out how can it possible.
 
-Because my test app's sdk is 30, i should consider about it.
-
-I made button to request user permissions. So, if you push that button, request alert pops up, and if you denied permission, app is closed automatically.
+The sample code below is an example of adding permission through the UI. Please refer to it.
 
 ![https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png](https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png)
 
