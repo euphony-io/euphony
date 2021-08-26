@@ -29,14 +29,14 @@ For more detailed prerequisite, please refer to the link below.
 
 ## Euphony is very easy to use
 
-in Transmitter
+**Transmitter**
 ```java
 EuTxManager mTxManager = new EuTxManager();
 mTxManager.euInitTransmit("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
 mTxManager.process(-1); // generate sound infinite.
 ```
 
-in Receiver
+**Receiver**
 ```java
 EuRxManager mRxManager = new EuRxManager();
 mRxManager.setAcousticSensor(new AcousticSensor() {
@@ -57,17 +57,17 @@ Below links are detail guides.
 - [How To Build & Unit Test Guide](HOWTOBUILD.md)
 
 ## Architecture
-<p align='center'> <img src='https://github.com/designe/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
+<p align='center'> <img src='https://github.com/euphony-io/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
 
 
 ## Web version
 Web version is also available now. but only transmitter version. 
-- [Web version](https://github.com/designe/euphony.js) : This is written in Javascript.
+- [Web version](https://github.com/euphony-io/euphony.js) : This is written in Javascript.
 
 
 ## Sample Projects
-- [Euphony Listener](https://github.com/designe/euphony-listener) : Euphony Demo to recognize sound data.
-- [Euphony Speaker](https://github.com/designe/euphony-speaker) : Euphony Demo to generate sound data.
+- [Euphony Listener](https://github.com/euphony-io/euphony-listener) : Euphony Demo to recognize sound data.
+- [Euphony Speaker](https://github.com/euphony-io/euphony-speaker) : Euphony Demo to generate sound data.
 
 
 ## Contributing
