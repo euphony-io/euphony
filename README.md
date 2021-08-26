@@ -25,7 +25,7 @@ dependencies {
 ```
 
 For more detailed prerequisite, please refer to the link below.  
-- [Full Prerequiste Guide](PREREQUISITE.md)
+- [Full Prerequisite Guide](PREREQUISITE.md)
 
 ## Euphony is very easy to use
 
