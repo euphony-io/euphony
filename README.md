@@ -13,16 +13,19 @@ Official Library Site : https://dev.jbear.co/euphony
 
 ## Prerequisite
 1) build.gradle in app module
-```
+```gradle
 dependencies {
     implementation 'euphony.lib:euphony:0.7.1.6'
 }
 ```
 
 2) AndroidManifest.xml
-```
+```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 ```
+
+For more detailed prerequisite, please refer to the link below.  
+[Full Prerequiste Guide](PREREQUISITE.md)
 
 ## Euphony is very easy to use
 
@@ -48,6 +51,10 @@ mRxManager.listen();  //Listening Start
 // mRxManager.finish();
 
 ```
+
+Below links are detail guides.
+- [Getting Started Guide](GETTING_STARTED.md)
+- [How To Build & Unit Test Guide](HOWTOBUILD.md)
 
 ## Architecture
 <p align='center'> <img src='https://github.com/designe/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
