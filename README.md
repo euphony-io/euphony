@@ -75,5 +75,4 @@ Changes and improvements are more than welcome! Feel Free to fork and open a pul
 
 
 ## License
-Euphony is licensed under the Apache 2.0 license.  
-(https://github.com/designe/Euphony/blob/master/LICENSE)
+* [Apache 2.0](https://github.com/euphony-io/euphony/blob/master/LICENSE) : Euphony is licensed under the Apache 2.0 license.  
