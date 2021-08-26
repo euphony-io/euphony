@@ -62,7 +62,7 @@ Below links are detail guides.
 
 ## Web version
 Web version is also available now. but only transmitter version. 
-- [Web version.](https://github.com/designe/euphony.js) : This is written in Javascript.
+- [Web version](https://github.com/designe/euphony.js) : This is written in Javascript.
 
 
 ## Sample Projects
