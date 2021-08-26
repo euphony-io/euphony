@@ -25,7 +25,7 @@ dependencies {
 ```
 
 For more detailed prerequisite, please refer to the link below.  
-[Full Prerequiste Guide](PREREQUISITE.md)
+- [Full Prerequiste Guide](PREREQUISITE.md)
 
 ## Euphony is very easy to use
 
@@ -61,7 +61,8 @@ Below links are detail guides.
 
 
 ## Web version
-Web version is also available now. but only transmitter version. [Web version.] (https://github.com/designe/euphony.js)
+Web version is also available now. but only transmitter version. 
+- [Web version.](https://github.com/designe/euphony.js) : This is written in Javascript.
 
 
 ## Sample Projects
@@ -74,4 +75,5 @@ Changes and improvements are more than welcome! Feel Free to fork and open a pul
 
 
 ## License
-Euphony is licensed under the Apache 2.0 license. (https://github.com/designe/Euphony/blob/master/LICENSE)
+Euphony is licensed under the Apache 2.0 license.  
+(https://github.com/designe/Euphony/blob/master/LICENSE)
