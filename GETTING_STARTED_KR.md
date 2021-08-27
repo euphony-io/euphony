@@ -1,4 +1,5 @@
 # 시작하기
+[English](GETTING_STARTED.md) | 한글
 
 euphony는 사람에게 들리지 않는 가청주파수 임계대역을 활용해 데이터를 전송하는 라이브러리입니다.  
 API는 Java로 작성되어 있기 때문에 사용자는 Java 또는 Kotlin과 같은 JVM에서 동작하는 모든 언어에서 사용 가능합니다.  
