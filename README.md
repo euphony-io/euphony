@@ -60,7 +60,7 @@ Web version is also available now. but only transmitter version. [Web version.] 
 ## Sample Projects
 - [Euphony Listener](https://github.com/designe/euphony-listener) : Euphony Demo to recognize sound data.
 - [Euphony Speaker](https://github.com/designe/euphony-speaker) : Euphony Demo to generate sound data.
-
+- [Sound Helper](https://github.com/euphony-io/sound-helper) : Euphony dev team, Eutophia sample project
 
 ## Contributing
 Changes are improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
