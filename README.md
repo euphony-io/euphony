@@ -69,6 +69,7 @@ Web version is also available now. but only transmitter version.
 - [Euphony Listener](https://github.com/euphony-io/euphony-listener) : Euphony Demo to recognize sound data.
 - [Euphony Speaker](https://github.com/euphony-io/euphony-speaker) : Euphony Demo to generate sound data.
 - [Sound Helper](https://github.com/euphony-io/sound-helper) : Euphony Demo for patients and assistants in case of an emergency.
+- [Soundless Check-in](https://github.com/euphony-io/soundless-check-in) : Euphony Demo to check in through sound wave.
 - [Here Is My Card](https://github.com/euphony-io/here-is-my-card) : Euphony Demo for sharing buisness cards.
 - [Looking For Job](https://github.com/euphony-io/looking-for-job) : Euphony Demo to send and receive resumes.
 - [Listen My Order](https://github.com/euphony-io/listen-my-order) : Euphony Demo for communicate restaurant menu information.
