@@ -69,8 +69,6 @@ Web version is also available now. but only transmitter version.
 - [Euphony Listener](https://github.com/euphony-io/euphony-listener) : Euphony Demo to recognize sound data.
 - [Euphony Speaker](https://github.com/euphony-io/euphony-speaker) : Euphony Demo to generate sound data.
 - [Sound Helper](https://github.com/euphony-io/sound-helper) : Euphony Demo for patients and assistants in case of an emergency.
-
-
 - [Soundless Check-in](https://github.com/euphony-io/soundless-check-in) : Euphony Demo to check in through sound wave.
 
 ## Contributing
