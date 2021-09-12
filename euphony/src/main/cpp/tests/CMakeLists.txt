@@ -15,6 +15,7 @@ add_executable(
         base16Test.cpp
         defaultCharsetTest.cpp
         hexVectorTest.cpp
+        packetErrorDetectorTest.cpp
         waveTest.cpp
         waveBuilderTest.cpp
 )

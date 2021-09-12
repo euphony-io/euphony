@@ -30,6 +30,7 @@ set(EUPHONY_SRC
         core/source/Base16Exception.cpp
         core/source/DefaultCharset.cpp
         core/source/HexVector.cpp
+        core/source/PacketErrorDetector.cpp
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
         )
