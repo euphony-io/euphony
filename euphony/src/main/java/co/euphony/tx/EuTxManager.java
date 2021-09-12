@@ -10,7 +10,6 @@ import co.euphony.util.EuOption;
 
 public class EuTxManager {
 	private AudioTrack mAudioTrack = null;
-	private EuOption mTxOption = null;
 	private EuCodeMaker mCodeMaker = new EuCodeMaker();
 	private EuDataEncoder mDataEncoder = new EuDataEncoder();
 
@@ -20,14 +19,7 @@ public class EuTxManager {
 
 	private short[] mOutStream;
 	
-	public EuTxManager() {
-		mTxOption = new EuOption(EuOption.EncodingType.ASCII, EuOption.CommunicationMode.GENERAL);
-	}
-
-	public EuTxManager(EuOption option) {
-		mTxOption = option;
-	}
-
+	public EuTxManager() { }
 	/*
 	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
 	 */
@@ -39,25 +31,8 @@ public class EuTxManager {
 	public void setCode(String data)
 	{
 		String code = data;
-
-		// set encoding code.
-		switch(mTxOption.getEncodingType()) {
-			case ASCII:
-				code = mDataEncoder.encodeStaticHexCharSource(data);
-				break;
-			case HEX:
-				break;
-		}
-
-		// set communication mode.
-		switch(mTxOption.getCommunicationMode()) {
-			case GENERAL:
-				mOutStream = mCodeMaker.assembleData(code);
-				break;
-			case LIVE:
-				mOutStream = mCodeMaker.assembleLiveData(code);
-				break;
-		}
+		code = mDataEncoder.encodeStaticHexCharSource(data);
+		mOutStream = mCodeMaker.assembleData(code);
 	}
 
 	public void process() { process(1); }
