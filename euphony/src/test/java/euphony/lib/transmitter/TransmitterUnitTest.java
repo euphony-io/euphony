@@ -2,9 +2,6 @@ package euphony.lib.transmitter;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import co.euphony.tx.EuDataEncoder;
-import co.euphony.tx.EuTxManager;
-import co.euphony.util.EuOption;
 
 import static org.junit.Assert.assertEquals;
 public class TransmitterUnitTest {
