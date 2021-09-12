@@ -7,21 +7,21 @@ import java.nio.ShortBuffer;
 import java.util.ArrayList;
 
 import android.util.Log;
-import co.euphony.util.COMMON;
+import co.euphony.common.Constants;
 import co.euphony.util.PacketErrorDetector;
 
 public class EuFreqObject {
 
-	public final int SAMPLERATE = COMMON.SAMPLERATE;//44100;
-	public final int fftsize = COMMON.FFT_SIZE;//512;
-	public final int MAXREFERENCE = COMMON.MAX_REF;//4000;
-	public final int MINREFERENCE = COMMON.MIN_REF;//50;
-	public final double MAXFREQUENCY = COMMON.MAX_FREQ;//22050.0;
-	public final int DEFAULT_REF = COMMON.DEFAULT_REF;//500
-	public final int START_FREQ = COMMON.START_FREQ; //18000
-	public final int RXCHANNEL = COMMON.CHANNEL;// 16
+	public final int SAMPLERATE = Constants.SAMPLERATE;//44100;
+	public final int fftsize = Constants.FFT_SIZE;//512;
+	public final int MAXREFERENCE = Constants.MAX_REF;//4000;
+	public final int MINREFERENCE = Constants.MIN_REF;//50;
+	public final double MAXFREQUENCY = Constants.MAX_FREQ;//22050.0;
+	public final int DEFAULT_REF = Constants.DEFAULT_REF;//500
+	public final int START_FREQ = Constants.START_FREQ; //18000
+	public final int RXCHANNEL = Constants.CHANNEL;// 16
 	private final int STARTCHANNEL = 1;	
-	private int mFreqSpan = COMMON.CHANNEL_SPAN; // 86
+	private int mFreqSpan = Constants.CHANNEL_SPAN; // 86
 	public final int START_BIT = START_FREQ - mFreqSpan;
 	public final int START_BIT_IDX = RXCHANNEL;
 	public int[] DATA_FREQ = new int[RXCHANNEL];

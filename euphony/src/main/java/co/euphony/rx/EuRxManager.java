@@ -1,6 +1,6 @@
 package co.euphony.rx;
 
-import co.euphony.util.COMMON;
+import co.euphony.common.Constants;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -165,7 +165,7 @@ public class EuRxManager {
 				while(!startswt) {
 					processFFT();
 					int i;
-					for(i = 21000; i >= 16500; i-=COMMON.CHANNEL_SPAN)
+					for(i = 21000; i >= 16500; i-= Constants.CHANNEL_SPAN)
 						if(100 < detectFreq(i)){
 							startswt = true;
 							break;

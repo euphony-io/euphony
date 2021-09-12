@@ -1,19 +1,19 @@
 package co.euphony.tx;
 
-import co.euphony.util.COMMON;
+import co.euphony.common.Constants;
 
 public class EuFreqGenerator {
 	
 	// FIXED ACOUSTIC DATA
-	public final int SAMPLERATE = COMMON.SAMPLERATE;//44100;
-	public final int DATA_LENGTH = COMMON.DATA_LENGTH;//2048;
+	public final int SAMPLERATE = Constants.SAMPLERATE;//44100;
+	public final int DATA_LENGTH = Constants.DATA_LENGTH;//2048;
 	public final double PI = Math.PI;
 	public final double PI2 = PI * 2;
 	
 	// Member for Frequency point
 	// DEFAULT DEFINITION 
-	private int mFreqBasePoint = COMMON.START_FREQ;
-	private int mFreqSpan = COMMON.CHANNEL_SPAN;	//86
+	private int mFreqBasePoint = Constants.START_FREQ;
+	private int mFreqSpan = Constants.CHANNEL_SPAN;	//86
 	private short[] mZeroSource = new short[DATA_LENGTH];
 
 	public EuFreqGenerator() { }
@@ -57,7 +57,7 @@ public class EuFreqGenerator {
     public short[] applyCrossFade(short[] source)
     {
     	double mini_window;
-    	int fade_section = COMMON.FADE_RANGE;
+    	int fade_section = Constants.FADE_RANGE;
     	for(int i = 0; i < fade_section; i++)
     	{
     		mini_window = (double)i / (double)fade_section;

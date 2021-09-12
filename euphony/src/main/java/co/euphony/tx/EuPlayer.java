@@ -1,6 +1,6 @@
 package co.euphony.tx;
 
-import co.euphony.util.COMMON;
+import co.euphony.common.Constants;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -9,7 +9,7 @@ public class EuPlayer {
 	
 	private short[] mSource;
 	private AudioTrack mAudioTrack = null;
-	private final int DATA_LENGTH = COMMON.FFT_SIZE * 4;//2048;
+	private final int DATA_LENGTH = Constants.FFT_SIZE * 4;//2048;
 	private short[] mZeroSource = new short[DATA_LENGTH];
 	
 	public EuPlayer() { }
