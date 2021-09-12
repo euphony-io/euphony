@@ -24,6 +24,8 @@ target_link_libraries(
 set(EUPHONY_SRC
         arms/kiss_fft.c
         arms/kiss_fftr.c
+        core/source/Wave.cpp
+        core/source/WaveBuilder.cpp
         )
 
 set(EUPHONY_HDR core)
@@ -43,4 +45,4 @@ target_link_libraries(
 )
 
 # for c++ unit-test (gtest)
-# add_subdirectory(tests)
+add_subdirectory(tests)
