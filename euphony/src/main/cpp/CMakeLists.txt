@@ -24,11 +24,14 @@ target_link_libraries(
 set(EUPHONY_SRC
         arms/kiss_fft.c
         arms/kiss_fftr.c
+        core/source/AudioStreamCallback.cpp
         core/source/ASCIICharset.cpp
         core/source/Base2.cpp
         core/source/Base16.cpp
         core/source/Base16Exception.cpp
         core/source/DefaultCharset.cpp
+        core/source/EuPIOscillator.cpp
+        core/source/EuPIRenderer.cpp
         core/source/FFTModel.cpp
         core/source/FFTProcessor.cpp
         core/source/FSK.cpp
@@ -36,8 +39,11 @@ set(EUPHONY_SRC
         core/source/Packet.cpp
         core/source/PacketBuilder.cpp
         core/source/PacketErrorDetector.cpp
+        core/source/TxEngine.cpp
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
+        core/source/WaveRenderer.cpp
+        native-connector.cpp
         )
 
 set(EUPHONY_HDR core)
