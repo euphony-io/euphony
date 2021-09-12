@@ -43,15 +43,22 @@ set(EUPHONY_SRC
 set(EUPHONY_HDR core)
 set(DEBUG_HELPER debug-helper)
 set(DEBUG_HELPER_SRC debug-helper/Trace.cpp)
+set(SL_HEADERS arms/sl-headers)
 
-include_directories( ${EUPHONY_HDR} ${DEBUG_HELPER})
+include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 
 add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
 target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
 
+find_package(
+        oboe REQUIRED CONFIG
+)
+
 target_link_libraries(
         euphony
         ${log-lib}
+        OpenSLES
+        oboe::oboe
         -fopenmp
         -static-openmp
 )
