@@ -14,6 +14,7 @@ add_executable(
         base2Test.cpp
         base16Test.cpp
         defaultCharsetTest.cpp
+        FSKTest.cpp
         hexVectorTest.cpp
         packetTest.cpp
         packetBuilderTest.cpp

@@ -3,8 +3,10 @@
 
 #include <cstdint>
 #include <math.h>
+#include "Wave.h"
 
 namespace Euphony {
+    typedef std::vector<std::shared_ptr<Wave>> WaveList;
 
     constexpr int32_t kChannelCount = 2;
     constexpr int32_t kSampleRate = 44100;

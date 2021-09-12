@@ -31,6 +31,7 @@ set(EUPHONY_SRC
         core/source/DefaultCharset.cpp
         core/source/FFTModel.cpp
         core/source/FFTProcessor.cpp
+        core/source/FSK.cpp
         core/source/HexVector.cpp
         core/source/Packet.cpp
         core/source/PacketBuilder.cpp
