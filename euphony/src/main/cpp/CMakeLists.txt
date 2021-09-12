@@ -24,6 +24,7 @@ target_link_libraries(
 set(EUPHONY_SRC
         arms/kiss_fft.c
         arms/kiss_fftr.c
+        core/source/HexVector.cpp
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
         )

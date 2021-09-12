@@ -10,6 +10,7 @@ target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 
 add_executable(
         ${TEST_EUPHONY}
+        hexVectorTest.cpp
         waveTest.cpp
         waveBuilderTest.cpp
 )
