@@ -8,11 +8,11 @@
 namespace Euphony {
     typedef std::vector<std::shared_ptr<Wave>> WaveList;
 
-    constexpr int32_t kChannelCount = 2;
+    constexpr int32_t kChannelCount = 1;
     constexpr int32_t kSampleRate = 44100;
     constexpr int32_t kFFTSize = 512;
     constexpr int32_t kBufferSize = 2048;
-    constexpr int32_t kBufferFadeLength = 256;
+    constexpr int32_t kBufferFadeLength = 128;
     constexpr int32_t kFrequencyInterval = kSampleRate / kFFTSize;
     constexpr int32_t kStandardFrequency = 18001;
     constexpr int32_t kStartSignalFrequency = kStandardFrequency - kFrequencyInterval;
