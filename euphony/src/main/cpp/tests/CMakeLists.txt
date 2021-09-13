@@ -30,6 +30,7 @@ set(TARGET_TEST_DIR /data/local/tmp/${TEST_EUPHONY}) # Directory on device to pu
 set(TARGET_TEST_LIB_DIR ${TARGET_TEST_DIR}/${ANDROID_ABI})
 set(LIBCPP_SHARED_PATH ${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${ANDROID_ABI}/libc++_shared.so)
 
+get_target_property( OBOE_LIBRARY_PATH oboe::oboe IMPORTED_LOCATION)
 find_program(ADB NAMES adb PATHS ${ANDROID_SDK_ROOT}/platform-tools) # Verified to be working on Linux.
 
 execute_process(COMMAND ${ADB} shell getprop ro.product.cpu.abi
@@ -47,6 +48,7 @@ else()
 
                 # Push necessary libraries
                 COMMAND ${ADB} push $<TARGET_FILE:euphony> ${TARGET_TEST_LIB_DIR}/
+                COMMAND ${ADB} push ${OBOE_LIBRARY_PATH} ${TARGET_TEST_LIB_DIR}/
                 COMMAND ${ADB} push ${LIBCPP_SHARED_PATH} ${TARGET_TEST_LIB_DIR}/
 
                 # Push Euphony Test Binary
