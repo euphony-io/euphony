@@ -21,7 +21,7 @@ public:
     std::shared_ptr<oboe::AudioStream> mStream;
     oboe::AudioStreamBuilder mStreamBuilder;
     std::unique_ptr<AudioStreamCallback> mCallback;
-    shared_ptr<EuphonyAudioSource> mAudioSource = nullptr;
+    std::shared_ptr<EuphonyAudioSource> mAudioSource = nullptr;
     bool mIsLatencyDetectionSupported = false;
 
     double eupiFreq;
@@ -71,9 +71,7 @@ public:
                 return std::make_shared<WaveRenderer>(modulationResult, kChannelCount);
             }
             case ModeType::EUPI:
-                mAudioSource = std::make_shared<EuPIRenderer>(kSampleRate, kChannelCount);
-                std::dynamic_pointer_cast<EuPIRenderer>(mAudioSource)->setFrequency(eupiFreq);
-                return mAudioSource;
+                return std::make_shared<EuPIRenderer>(kSampleRate, kChannelCount);
         }
     }
 
@@ -159,9 +157,13 @@ public:
                 mModeType = ModeType::DEFAULT;
                 break;
             case 1:
+                if(mModeType == ModeType::EUPI)
+                    return;
+
                 mModeType = ModeType::EUPI;
                 break;
         }
+
 
         mAudioSource = createAudioSource(mModeType);
     }

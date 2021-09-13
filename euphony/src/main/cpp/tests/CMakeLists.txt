@@ -20,8 +20,10 @@ add_executable(
         packetTest.cpp
         packetBuilderTest.cpp
         packetErrorDetectorTest.cpp
+        packetWithFSKTest.cpp
         waveTest.cpp
         waveBuilderTest.cpp
+        waveRendererTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)
