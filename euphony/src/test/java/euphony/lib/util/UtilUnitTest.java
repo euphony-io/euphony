@@ -17,8 +17,8 @@ public class UtilUnitTest {
         int[] source = {0x6, 0x8, 0x6, 0x5, 0x6, 0xc, 0x6, 0xc, 0x6, 0xf};
         assertEquals(PacketErrorDetector.makeCheckSum(source), 14);
         assertEquals(PacketErrorDetector.makeCheckSum(   234), 6);
-        assertEquals(PacketErrorDetector.makeParellelParity(source), 4);
-        assertEquals(PacketErrorDetector.makeParellelParity(234), 10);
+        assertEquals(PacketErrorDetector.makeParallelParity(source), 4);
+        assertEquals(PacketErrorDetector.makeParallelParity(234), 10);
         assertTrue(PacketErrorDetector.checkEvenParity(source, 4));
         assertFalse(PacketErrorDetector.checkEvenParity(source, 5));
         assertTrue(PacketErrorDetector.verifyCheckSum(source, 14));

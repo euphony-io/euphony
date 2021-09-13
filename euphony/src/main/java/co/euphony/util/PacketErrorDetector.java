@@ -64,7 +64,7 @@ public class PacketErrorDetector {
 	 *  return type : int
 	 *            the EvenParity data to transmit
 	 *****************************************************/
-	public static int makeParellelParity(int payLoad){
+	public static int makeParallelParity(int payLoad){
 		int evenParity1 = ((0x8 & payLoad) >> 3);
 		int evenParity2 = ((0x4 & payLoad) >> 2);
 		int evenParity3 = ((0x2 & payLoad) >> 1);
@@ -85,7 +85,7 @@ public class PacketErrorDetector {
 	    *  return type : int
 	    *            the EvenParity data to transmit
 	    *****************************************************/
-	   public static int makeParellelParity(int[] payLoad){
+	   public static int makeParallelParity(int[] payLoad){
 	      int evenParity1 = 0;
 	      int evenParity2 = 0;
 	      int evenParity3 = 0;
