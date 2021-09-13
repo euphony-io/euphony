@@ -2,7 +2,7 @@ package euphony.lib.receiver;
 
 import org.junit.Test;
 
-import euphony.lib.transmitter.EuDataEncoder;
+import co.euphony.rx.EuDataDecoder;
 
 import static org.junit.Assert.assertEquals;
 
