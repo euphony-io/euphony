@@ -10,6 +10,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
+import co.euphony.util.EuOption;
+
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
@@ -63,6 +65,14 @@ public class EuTxManagerTest {
         activeResult = txManager.getGenCode();
         assertEquals("S6284", activeResult);
 
+    }
+
+    @Test
+    public void getGenWaveSource() {
+        txManager.setCode(code);
+        txManager.setMode(EuOption.ModeType.DEFAULT);
+        float[] waveSourceData = txManager.getOutStream();
+        assertEquals(waveSourceData.length, expectedStreamLength);
     }
 
     @Test

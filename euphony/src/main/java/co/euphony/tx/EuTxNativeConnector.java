@@ -156,6 +156,12 @@ public class EuTxNativeConnector {
         return null;
     }
 
+    public float[] getGenWaveSource() {
+        if(mEngineHandle != 0)
+            return native_getGenWaveSource(mEngineHandle);
+        return null;
+    }
+
     public void setAudioFrequency(double freq) {
         if(mEngineHandle != 0) native_setAudioFrequency(mEngineHandle, freq);
     }
@@ -215,6 +221,7 @@ public class EuTxNativeConnector {
     private native void native_setModulation(long engineHandle, int modulationType);
     private native String native_getCode(long engineHandle);
     private native String native_getGenCode(long engineHandle);
+    private native float[] native_getGenWaveSource(long engineHandle);
     private native void native_setAudioFrequency(long engineHandle, double frequency);
     private native void native_setAudioApi(long engineHandle, int audioApi);
     private native void native_setAudioDeviceId(long engineHandle, int deviceId);

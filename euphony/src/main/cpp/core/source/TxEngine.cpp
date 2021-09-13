@@ -338,3 +338,16 @@ std::string TxEngine::getGenCode() {
     return pImpl->txPacket->toString();
 }
 
+float *Euphony::TxEngine::getGenWaveSource() {
+    if(pImpl->mAudioSource != nullptr)
+        return std::dynamic_pointer_cast<WaveRenderer>(pImpl->mAudioSource)->getWaveSource();
+    else
+        return nullptr;
+}
+
+int Euphony::TxEngine::getGenWaveSourceSize() {
+    if(pImpl->mAudioSource != nullptr)
+        return std::dynamic_pointer_cast<WaveRenderer>(pImpl->mAudioSource)->getWaveSourceSize();
+    else
+        return 0;
+}

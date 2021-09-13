@@ -26,6 +26,8 @@ namespace Euphony {
         void setCode(std::string data);
         std::string getCode();
         std::string getGenCode();
+        float* getGenWaveSource();
+        int getGenWaveSourceSize();
         void setCodingType(int codingTypeSrc);
         void setMode(int modeSrc);
         void setModulation(int modulationTypeSrc);

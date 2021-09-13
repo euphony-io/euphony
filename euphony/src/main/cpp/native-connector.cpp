@@ -120,6 +120,26 @@ extern "C" {
         return env->NewStringUTF(engine->getGenCode().c_str());
     }
 
+    JNIEXPORT jfloatArray JNICALL
+    Java_co_euphony_tx_EuTxNativeConnector_native_1getGenWaveSource(JNIEnv *env, jobject thiz,
+                                                                    jlong engine_handle) {
+        jfloatArray result;
+
+        auto engine = reinterpret_cast<TxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return nullptr;
+        }
+
+        float* genWaveSource = engine->getGenWaveSource();
+        int genWaveSourceSize = engine->getGenWaveSourceSize();
+
+        result = env->NewFloatArray(genWaveSourceSize);
+        env->SetFloatArrayRegion(result, 0, genWaveSourceSize, genWaveSource);
+
+        return result;
+    }
+
     JNIEXPORT void JNICALL
     Java_co_euphony_tx_EuTxNativeConnector_native_1start(JNIEnv *env, jobject thiz,
                                                          jlong engine_handle) {
