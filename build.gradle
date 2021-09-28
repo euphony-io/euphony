@@ -38,6 +38,6 @@ task cleanCache(type: Delete) {
         include('/*.bin')
     }
     doLast {
-        println "Build Cache Completed!!!"
+        println "Clear gradle cache."
     }
 }
