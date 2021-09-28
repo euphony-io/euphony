@@ -19,6 +19,8 @@ android {
         }
     }
 
+    preBuild.dependsOn rootProject.cleanCache
+
     buildTypes {
         release {
             testCoverageEnabled false

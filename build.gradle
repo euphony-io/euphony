@@ -31,3 +31,13 @@ allprojects {
         }
     }
 }
+
+task cleanCache(type: Delete) {
+    def cacheDir = "${project.gradle.gradleUserHomeDir}/caches/transforms-2/files-2.1"
+    delete fileTree(cacheDir){
+        include('/*.bin')
+    }
+    doLast {
+        println "Clear gradle cache."
+    }
+}
