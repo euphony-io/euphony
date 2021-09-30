@@ -4,6 +4,13 @@
 
 using namespace Euphony;
 
+WaveRenderer::WaveRenderer()
+: channelCount (kChannelCount)
+, waveSourceSize(0)
+, readFrameIndex(0)
+, renderIndex(0)
+, renderTotalCount(0){ }
+
 WaveRenderer::WaveRenderer(WaveList waveListSrc, int32_t channelCountSrc)
 : channelCount (channelCountSrc)
 , waveSourceSize(0)
@@ -79,4 +86,12 @@ void WaveRenderer::setWaveList(WaveList waveListSrc) {
             waveSource[j + (i * kBufferSize)] = waveSrc[j];
         }
     }
+}
+
+std::shared_ptr<WaveRenderer> WaveRenderer::getInstance() {
+    std::call_once(WaveRenderer::flag, []() {
+        WaveRenderer::instance.reset(new WaveRenderer());
+    });
+
+    return instance;
 }

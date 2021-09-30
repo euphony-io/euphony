@@ -56,3 +56,11 @@ std::unique_ptr<float[]> EuPIRenderer::makeStaticWave(int freq) {
 
     return waveArray;
 }
+
+std::shared_ptr<EuPIRenderer> EuPIRenderer::getInstance(int32_t sampleRate, int32_t channelCount) {
+    std::call_once(EuPIRenderer::flag, [](int32_t sr, int32_t cc) {
+        EuPIRenderer::instance.reset(new EuPIRenderer(sr, cc));
+    }, sampleRate, channelCount);
+
+    return instance;
+}
