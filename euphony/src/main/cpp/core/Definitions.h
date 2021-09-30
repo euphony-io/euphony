@@ -20,6 +20,7 @@ namespace Euphony {
     constexpr double kTwoPi = kPi * 2.0;
 
     static constexpr const char* BASE16_EXCEPTION_MSG = "BASE16 couldn't support this code value";
+    static constexpr const char* BASE32_EXCEPTION_MSG = "BASE32 couldn't support this code value";
 
     enum class ModeType : int32_t {
         DEFAULT = 0, // Default Soundless Communication
