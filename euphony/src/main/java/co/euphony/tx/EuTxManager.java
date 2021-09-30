@@ -34,14 +34,6 @@ public class EuTxManager {
 		txCore = new EuTxNativeConnector(context);
 	}
 
-	/*
-	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
-	 */
-	@Deprecated
-	public void euInitTransmit(String data) {
-		setCode(data);
-	}
-
 	public void setCode(String data)
 	{
 		txCore.setCode(data);
@@ -127,6 +119,15 @@ public class EuTxManager {
 	public void setMode(EuOption.ModeType modeType) {
 		this.modeType = modeType;
 		txCore.setMode(modeType);
+	}
+
+
+	/*
+	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
+	 */
+	@Deprecated
+	public void euInitTransmit(String data) {
+		setCode(data);
 	}
 
 	/*
