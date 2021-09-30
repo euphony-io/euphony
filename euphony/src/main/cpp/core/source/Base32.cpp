@@ -10,9 +10,11 @@ Base32::Base32(const HexVector &hexVectorSrc)
 std::string Base32::getBaseString() {
     int sum = 0;
 
-    int size = hexVector.size();
-    for(int i=0; i<size; i++) {
-        sum += (hexToDec(hexVector[i]) * pow(16, size - i - 1));
+    int size = hexVector.getSize();
+    int i =0;
+    for(u_int8_t hex : hexVector) {
+        sum += (hex * pow(16, size - i - 1));
+        i++;
     }
 
     return decToBase32(sum);

@@ -32,6 +32,8 @@ INSTANTIATE_TEST_SUITE_P(
                 TestParamType(std::vector<u_int8_t>{ 0x61 }, "31"),
                 TestParamType(std::vector<u_int8_t>{ 0x62 }, "32"),
                 TestParamType(std::vector<u_int8_t>{ 0x63 }, "33"),
+                TestParamType(std::vector<u_int8_t>{ 0x99 }, "4p"),
+                TestParamType(std::vector<u_int8_t>{ 0x98 }, "4o"),
                 TestParamType(std::vector<u_int8_t>{ 0x61, 0x62, 0x63 }, "313233"),
                 TestParamType(std::vector<u_int8_t>{ 0x6c, 0x6d, 0x6e, 0x6f }, "3c3d3e3f"),
                 TestParamType(std::vector<u_int8_t>{ 0x65, 0x66, 0x67 }, "353637")
