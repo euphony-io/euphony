@@ -1,5 +1,6 @@
 #include "../Base32.h"
 #include <iomanip>
+#include <sstream>
 #include <cmath>
 
 using namespace Euphony;
@@ -10,11 +11,8 @@ Base32::Base32(const HexVector &hexVectorSrc)
 std::string Base32::getBaseString() {
     int sum = 0;
 
-    int size = hexVector.getSize();
-    int i =0;
     for(u_int8_t hex : hexVector) {
-        sum += (hex * pow(16, size - i - 1));
-        i++;
+        sum = (sum << 4) | hex;
     }
 
     return decToBase32(sum);
