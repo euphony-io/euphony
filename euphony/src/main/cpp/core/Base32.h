@@ -19,7 +19,7 @@ namespace Euphony {
         HexVector hexVector;
 
         int hexToDec(u_int8_t hex, int i);
-        std::string decToBase32(int sum);
+        std::string bitsToBase32(int sum);
     };
 }
 

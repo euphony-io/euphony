@@ -30,11 +30,16 @@ INSTANTIATE_TEST_SUITE_P(
         Base32TranslationFixture,
         ::testing::Values(
                 TestParamType(std::vector<u_int8_t>{ 0x05 }, "5"),
-                TestParamType(std::vector<u_int8_t>{ 0x62 }, "32"),
+                TestParamType(std::vector<u_int8_t>{ 0x60 }, "30"),
                 TestParamType(std::vector<u_int8_t>{ 0x63 }, "33"),
                 TestParamType(std::vector<u_int8_t>{ 0x99 }, "4p"),
                 TestParamType(std::vector<u_int8_t>{ 0x98 }, "4o"),
                 TestParamType(std::vector<u_int8_t>{ 0x61, 0x62, 0x63 }, "62oj3"),
                 TestParamType(std::vector<u_int8_t>{ 0x6c, 0x6d, 0x6e, 0x6f }, "1m6qrjf"),
-                TestParamType(std::vector<u_int8_t>{ 0x65, 0x66, 0x67 }, "6apj7")
+                TestParamType(std::vector<u_int8_t>{ 0x65, 0x66, 0x67 }, "6apj7"),
+                TestParamType(std::vector<u_int8_t>{
+                        0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68,
+                        0x69, 0x6a, 0x6b, 0x6c, 0x6d, 0x6e, 0x6f, 0x70,
+                        0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79
+                }, "30c5h66p35cpjmgqbaddm6qrjfe1on4srkelr7eu3p")
         ));

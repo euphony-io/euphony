@@ -9,13 +9,21 @@ Base32::Base32(const HexVector &hexVectorSrc)
 : hexVector(hexVectorSrc) {}
 
 std::string Base32::getBaseString() {
+    std::stringstream ss;
     int sum = 0;
+    int rest = hexVector.getSize() % 5;
 
+    int count = 0;
     for(u_int8_t hex : hexVector) {
+        count++;
         sum = (sum << 4) | hex;
+        if(count % 5 == rest) {
+            ss << bitsToBase32(sum);
+            sum = 0;
+        }
     }
 
-    return decToBase32(sum);
+    return ss.str();
 }
 
 int Euphony::Base32::convertChar2Int(char source) const {
@@ -52,17 +60,17 @@ const Euphony::HexVector &Euphony::Base32::getHexVector() const {
     return hexVector;
 }
 
-std::string Base32::decToBase32(int sum){
+std::string Base32::bitsToBase32(int value){
     std::string result;
     int count = 0;
     int base32;
 
-    for (int i = 0; i < 32; i += 5) {
-        if ((sum >> i) > 0) count = i / 5;
+    for (int i = 0; i < 20; i += 5) {
+        if ((value >> i) > 0) count = i / 5;
     }
 
     for (int i = count * 5; i >= 0; i -= 5) {
-        base32 = ((sum >> i) & 31);
+        base32 = ((value >> i) & 31);
         if (base32 < 10) result.push_back(base32 + '0');
         else result.push_back(base32 - 10 + 'a');
     }
