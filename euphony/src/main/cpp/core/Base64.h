@@ -1,15 +1,15 @@
-#ifndef EUPHONY_BASE32_H
-#define EUPHONY_BASE32_H
+#ifndef EUPHONY_BASE64_H
+#define EUPHONY_BASE64_H
 
 #include "Base.h"
-#include "Base32Exception.h"
+#include "Base64Exception.h"
 
 namespace Euphony {
 
-    class Base32 : public Base {
+    class Base64 : public Base {
     public:
-        Base32(const HexVector &hexVectorSrc);
-        ~Base32() = default;
+        Base64(const HexVector &hexVectorSrc);
+        ~Base64() = default;
         std::string getBaseString();
         const HexVector &getHexVector() const;
         int convertChar2Int(char source) const;
@@ -18,8 +18,8 @@ namespace Euphony {
     private:
         HexVector hexVector;
 
-        std::string bitsToBase32(int sum);
+        std::string bitsToBase64(int sum);
     };
 }
 
-#endif //EUPHONY_BASE32_H
+#endif //EUPHONY_BASE64_H

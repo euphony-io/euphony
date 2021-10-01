@@ -29,8 +29,10 @@ set(EUPHONY_SRC
         core/source/Base2.cpp
         core/source/Base16.cpp
         core/source/Base32.cpp
+        core/source/Base64.cpp
         core/source/Base16Exception.cpp
         core/source/Base32Exception.cpp
+        core/source/Base64Exception.cpp
         core/source/DefaultCharset.cpp
         core/source/EuPIOscillator.cpp
         core/source/EuPIRenderer.cpp
