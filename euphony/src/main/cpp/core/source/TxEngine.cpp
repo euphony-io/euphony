@@ -25,6 +25,7 @@ public:
     std::shared_ptr<EuPIRenderer> mEuPIRenderer;
     std::shared_ptr<WaveRenderer> mWaveRenderer;
     bool mIsLatencyDetectionSupported = false;
+    oboe::Result mStreamResult = oboe::Result::ErrorBase;
 
     double eupiFreq;
     int32_t mDeviceId = oboe::Unspecified;
@@ -46,6 +47,12 @@ public:
     , mWaveRenderer(WaveRenderer::getInstance())
     , mStatus(STOP){
         createCallback();
+        mStreamResult = createPlaybackStream();
+        if(mStreamResult == oboe::Result::OK)
+            LOGD("EUPHONY / EpnyTxEngine: %s", oboe::convertToText(mStreamResult));
+        else
+            LOGE("Error creating playback stream. Error: %s", oboe::convertToText(mStreamResult));
+
         setModulation(ModulationType::FSK);
         //start();
     }
@@ -78,12 +85,30 @@ public:
     void stop() {
         std::lock_guard<std::mutex> lock(mLock);
         if(mStream) {
+            switch(mModeType) {
+                case ModeType::DEFAULT:
+                default:
+                    stopDefaultMode();
+                    break;
+                case ModeType::EUPI:
+                    stopEuPIMode();
+                    break;
+            }
+
             mStream->stop();
             mStatus = STOP;
         }
     }
 
-    oboe::Result reopenStream() {
+    void stopDefaultMode() {
+        mWaveRenderer->tap(false);
+    }
+
+    void stopEuPIMode() {
+        mEuPIRenderer->tap(false);
+    }
+
+    Euphony::Result reopenStream() {
         {
             // Stop and close in case not already closed.
             std::lock_guard<std::mutex> lock(mLock);
@@ -96,6 +121,7 @@ public:
     }
 
     void startDefaultMode() {
+        mWaveRenderer->tap(true);
         mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mWaveRenderer));
         mStream->start();
         mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
@@ -103,16 +129,20 @@ public:
     }
 
     void startEuPIMode() {
+        mEuPIRenderer->tap(true);
         mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mEuPIRenderer));
         mStream->start();
         mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
         mStatus = RUNNING;
     }
 
-    oboe::Result start() {
+    Euphony::Result start() {
         std::lock_guard<std::mutex> lock(mLock);
-        auto result = createPlaybackStream();
-        if(result == oboe::Result::OK) {
+
+        if(mStatus == RUNNING)
+            return Euphony::Result::ERROR_ALREADY_RUNNING;
+
+        if(mStreamResult == oboe::Result::OK) {
             switch(mModeType) {
                 case ModeType::DEFAULT:
                 default:
@@ -122,12 +152,13 @@ public:
                     startEuPIMode();
                     break;
             }
-            LOGD("EUPHONY / EpnyTxEngine: %s", oboe::convertToText(result));
         }
         else {
             mStatus = STOP;
-            LOGE("Error creating playback stream. Error: %s", oboe::convertToText(result));
+            return Euphony::Result::ERROR_GENERAL;
         }
+
+        return Euphony::Result::OK;
     }
 
     void setCode(std::string data) {
@@ -281,8 +312,8 @@ void TxEngine::stop() {
     pImpl->stop();
 }
 
-void TxEngine::start() {
-    pImpl->start();
+Euphony::Result TxEngine::start() {
+    return pImpl->start();
 }
 
 void TxEngine::setCode(std::string data) {

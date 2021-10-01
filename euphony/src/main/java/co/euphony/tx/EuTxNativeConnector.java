@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.util.Log;
 
+import co.euphony.common.Constants;
 import co.euphony.util.EuOption;
 
 public class EuTxNativeConnector {
@@ -67,9 +68,13 @@ public class EuTxNativeConnector {
         mEngineHandle = 0;
     }
 
-    public void start() {
-        if(mEngineHandle != 0)
-            native_start(mEngineHandle);
+    public Constants.Result start() {
+        if(mEngineHandle != 0) {
+            final int res = native_start(mEngineHandle);
+            return Constants.Result.fromInteger(res);
+        }
+        else
+            return Constants.Result.ERROR_GENERAL;
     }
 
     public void stop() {
@@ -209,7 +214,7 @@ public class EuTxNativeConnector {
 
     private native long native_createEngine();
     private native void native_deleteEngine(long engineHandle);
-    private native void native_start(long engineHandle);
+    private native int native_start(long engineHandle);
     private native void native_stop(long engineHandle);
     private native int native_getStatus(long engineHandle);
     private native void native_setPerformance(long engineHandle, int performanceLevel);

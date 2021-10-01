@@ -140,16 +140,16 @@ extern "C" {
         return result;
     }
 
-    JNIEXPORT void JNICALL
+    JNIEXPORT jint JNICALL
     Java_co_euphony_tx_EuTxNativeConnector_native_1start(JNIEnv *env, jobject thiz,
                                                          jlong engine_handle) {
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
-            return;
+            return 2;
         }
 
-        engine->start();
+        return (jint) engine->start();
     }
 
     JNIEXPORT void JNICALL
