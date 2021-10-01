@@ -6,6 +6,9 @@
 
 using namespace Euphony;
 
+std::shared_ptr<EuPIRenderer> EuPIRenderer::instance = nullptr;
+std::once_flag EuPIRenderer::flag;
+
 EuPIRenderer::EuPIRenderer(int32_t sampleRate, int32_t channelCount)
         : mSampleRate(sampleRate),
           mChannelCount(channelCount),

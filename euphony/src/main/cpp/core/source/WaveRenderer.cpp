@@ -4,6 +4,9 @@
 
 using namespace Euphony;
 
+std::shared_ptr<WaveRenderer> WaveRenderer::instance = nullptr;
+std::once_flag WaveRenderer::flag;
+
 WaveRenderer::WaveRenderer()
 : channelCount (kChannelCount)
 , waveSourceSize(0)
