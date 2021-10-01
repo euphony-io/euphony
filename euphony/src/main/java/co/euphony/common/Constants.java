@@ -20,4 +20,25 @@ public class Constants {
 	public static final int MIN_REF = 50;
 
 	public static final int DEFAULT_REF = 500;	// BASE Reference value
+
+	/*
+	 * it is working as java porting version of Euphony::Result at euphony/src/main/cpp/core/Definitions.h
+	 */
+	public enum Result {
+		OK,
+		ERROR_GENERAL,
+		ERROR_ALREADY_RUNNING;
+
+		public static Result fromInteger(int source) {
+			switch(source) {
+				case 0:
+					return OK;
+				default:
+				case 1:
+					return ERROR_GENERAL;
+				case 2:
+					return ERROR_ALREADY_RUNNING;
+			}
+		}
+	}
 }
