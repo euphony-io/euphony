@@ -11,14 +11,16 @@ Base64::Base64(const HexVector &hexVectorSrc)
 std::string Base64::getBaseString() {
     std::stringstream ss;
     int sum = 0;
-    int rest = hexVector.getSize() % 3;
+    const int bitDivisionUnit = 3;
+    int rest = hexVector.getSize() % bitDivisionUnit;
+    if(!rest) rest = bitDivisionUnit;
 
     int count = 0;
     for(u_int8_t hex : hexVector) {
-        count++;
         sum = (sum << 4) | hex;
-        if(count % 3 == rest) {
+        if(++count == rest) {
             ss << bitsToBase64(sum);
+            rest += bitDivisionUnit;
             sum = 0;
         }
     }

@@ -6,19 +6,21 @@
 using namespace Euphony;
 
 Base32::Base32(const HexVector &hexVectorSrc)
-: hexVector(hexVectorSrc) {}
+        : hexVector(hexVectorSrc) {}
 
 std::string Base32::getBaseString() {
     std::stringstream ss;
     int sum = 0;
-    int rest = hexVector.getSize() % 5;
+    const int bitDivisionUnit = 5;
+    int rest = hexVector.getSize() % bitDivisionUnit;
+    if(!rest) rest = bitDivisionUnit;
 
     int count = 0;
     for(u_int8_t hex : hexVector) {
-        count++;
         sum = (sum << 4) | hex;
-        if(count % 5 == rest) {
+        if(++count == rest) {
             ss << bitsToBase32(sum);
+            rest += bitDivisionUnit;
             sum = 0;
         }
     }
@@ -49,9 +51,9 @@ int Euphony::Base32::convertChar2Int(char source) const {
 
 char Base32::convertInt2Char(int source) const {
     const char base32Array[32] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                               'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                               'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                               'u', 'v'};
+                                  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                                  'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                                  'u', 'v'};
 
     return base32Array[source];
 }
