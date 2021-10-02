@@ -11,14 +11,16 @@ Base32::Base32(const HexVector &hexVectorSrc)
 std::string Base32::getBaseString() {
     std::stringstream ss;
     int sum = 0;
-    int rest = hexVector.getSize() % 5;
+    const int bitDivisionUnit = 5;
+    int rest = hexVector.getSize() % bitDivisionUnit;
+    if(!rest) rest = bitDivisionUnit;
 
     int count = 0;
     for(u_int8_t hex : hexVector) {
-        count++;
         sum = (sum << 4) | hex;
-        if(count % 5 == rest) {
+        if(++count == rest) {
             ss << bitsToBase32(sum);
+            rest += bitDivisionUnit;
             sum = 0;
         }
     }
