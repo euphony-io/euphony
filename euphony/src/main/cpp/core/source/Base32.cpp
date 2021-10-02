@@ -71,8 +71,7 @@ std::string Base32::bitsToBase32(int value){
 
     for (int i = count * 5; i >= 0; i -= 5) {
         base32 = ((value >> i) & 31);
-        if (base32 < 10) result.push_back(base32 + '0');
-        else result.push_back(base32 - 10 + 'a');
+        result.push_back(convertInt2Char(base32));
     }
 
     return result;
