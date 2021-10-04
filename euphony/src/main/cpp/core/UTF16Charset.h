@@ -4,11 +4,11 @@
 #include "Charset.h"
 
 namespace Euphony {
+
     class UTF16Charset : public Charset {
     public:
         UTF16Charset() = default;
         ~UTF16Charset() = default;
-
         HexVector encode(std::string src);
         std::string decode(const HexVector &src);
     };
