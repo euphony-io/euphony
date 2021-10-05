@@ -11,6 +11,7 @@ target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 add_executable(
         ${TEST_EUPHONY}
         asciiCharsetTest.cpp
+        utf8CharsetTest.cpp
         base2Test.cpp
         base16Test.cpp
         defaultCharsetTest.cpp
