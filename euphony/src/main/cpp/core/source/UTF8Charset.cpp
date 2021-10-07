@@ -18,8 +18,8 @@ std::string UTF8Charset::decode(const HexVector& src) {
     std::string result;
     std::vector<u_int8_t> hexSource = src.getHexSource();
 
-    for (int i = 0; i < hexSource.size() / 2; i++)
-        result += (hexSource[2 * i] << 4) | hexSource[2 * i + 1];
+    for (int i = 0; i < hexSource.size(); i+=2)
+        result += (hexSource[i] << 4) | hexSource[i + 1];
 
     return result;
 }
