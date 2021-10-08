@@ -72,6 +72,11 @@ foreach(SERIAL ${ADB_DEVICE_LIST})
         add_custom_command(TARGET ${TEST_EUPHONY} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -DADB:STRING="${ADB}" -DSERIAL:STRING="${SERIAL}" -DTARGET_TEST_LIB_DIR:STRING="${TARGET_TEST_LIB_DIR}" -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake.run.test.script
                 )
+
+        # Remove gtest executable files in device.
+        add_custom_command(TARGET ${TEST_EUPHONY} POST_BUILD
+                COMMAND ${ADB} -s ${SERIAL} shell rm -r ${TARGET_TEST_LIB_DIR}
+                )
     endif()
 endforeach()
 
