@@ -12,6 +12,7 @@ add_executable(
         ${TEST_EUPHONY}
         asciiCharsetTest.cpp
         utf16CharsetTest.cpp
+        utf32CharsetTest.cpp
         base2Test.cpp
         base16Test.cpp
         defaultCharsetTest.cpp
