@@ -64,17 +64,9 @@ const Euphony::HexVector &Euphony::Base32::getHexVector() const {
 
 std::string Base32::bitsToBase32(int value){
     std::string result;
-    int count = 0;
-    int base32;
-
-    for (int i = 0; i < 20; i += 5) {
-        if ((value >> i) > 0) count = i / 5;
+    while(value != 0) {
+        result = convertInt2Char(value & 0x1f) + result;
+        value >>= 5;
     }
-
-    for (int i = count * 5; i >= 0; i -= 5) {
-        base32 = ((value >> i) & 31);
-        result.push_back(convertInt2Char(base32));
-    }
-
     return result;
 }
