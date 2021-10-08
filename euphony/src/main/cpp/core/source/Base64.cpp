@@ -78,17 +78,9 @@ const Euphony::HexVector &Euphony::Base64::getHexVector() const {
 
 std::string Base64::bitsToBase64(int value){
     std::string result;
-    int count = 0;
-    int base64;
-
-    for (int i = 0; i < 12; i += 6) {
-        if ((value >> i) > 0) count = i / 6;
+    while(value != 0) {
+        result = convertInt2Char(value & 0x3f) + result;
+        value >>= 6;
     }
-
-    for (int i = count * 6; i >= 0; i -= 6) {
-        base64 = ((value >> i) & 63);
-        result.push_back(convertInt2Char(base64));
-    }
-
     return result;
 }
