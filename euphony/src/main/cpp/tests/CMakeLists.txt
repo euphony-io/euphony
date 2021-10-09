@@ -11,7 +11,10 @@ target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 add_executable(
         ${TEST_EUPHONY}
         asciiCharsetTest.cpp
+        utf8CharsetTest.cpp
+        utf16CharsetTest.cpp
         base2Test.cpp
+        base32Test.cpp
         base16Test.cpp
         base32Test.cpp
         base64Test.cpp
@@ -73,6 +76,11 @@ foreach(SERIAL ${ADB_DEVICE_LIST})
         # Run gtest & get the result.
         add_custom_command(TARGET ${TEST_EUPHONY} POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -DADB:STRING="${ADB}" -DSERIAL:STRING="${SERIAL}" -DTARGET_TEST_LIB_DIR:STRING="${TARGET_TEST_LIB_DIR}" -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake.run.test.script
+                )
+
+        # Remove gtest executable files in device.
+        add_custom_command(TARGET ${TEST_EUPHONY} POST_BUILD
+                COMMAND ${ADB} -s ${SERIAL} shell rm -r ${TARGET_TEST_LIB_DIR}
                 )
     endif()
 endforeach()
