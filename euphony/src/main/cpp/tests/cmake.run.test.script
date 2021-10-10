@@ -4,11 +4,13 @@ execute_process(COMMAND ${ADB} -s ${SERIAL} shell LD_LIBRARY_PATH=${TARGET_TEST_
                 ERROR_VARIABLE GTEST_ERROR_OUTPUT
                 )
 
+string(STRIP ${GTEST_EUPHONY_OUTPUT} GTEST_EUPHONY_OUTPUT)
+string(REPLACE "\n\n" "\r[NEXT]\r" GTEST_EUPHONY_OUTPUT ${GTEST_EUPHONY_OUTPUT})
+string(REPLACE "\n" "\r" GTEST_EUPHONY_OUTPUT ${GTEST_EUPHONY_OUTPUT})
+
 if( ${GTEST_RESULT} GREATER 0 )
-    string(STRIP ${GTEST_EUPHONY_OUTPUT} GTEST_EUPHONY_OUTPUT)
-    string(REPLACE "\n\n" "\r[NEXT]\r" GTEST_EUPHONY_OUTPUT ${GTEST_EUPHONY_OUTPUT})
-    string(REPLACE "\n" "\r" GTEST_EUPHONY_OUTPUT ${GTEST_EUPHONY_OUTPUT})
     message(FATAL_ERROR "** Gtest Failure (${GTEST_RESULT}) **\r${GTEST_EUPHONY_OUTPUT}")
 else()
+    message(${GTEST_EUPHONY_OUTPUT})
     message("**** Gtest Success ****")
 endif()

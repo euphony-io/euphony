@@ -50,6 +50,27 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+
+    gradle.buildFinished {
+        def abiArr = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+        def logfile = "android_gradle_build_stdout_targets.txt"
+        def lastWordIfThereAreNoDevice = "Linking"
+        def resultStr = "\n"
+        def noDevice = true
+        for (abi in abiArr) {
+            def filePath = "euphony/.cxx/cmake/debug/$abi/$logfile"
+            def lines = new File(filePath).readLines()
+            if (lines.get(lines.size() - 1).contains(lastWordIfThereAreNoDevice))
+                continue
+            noDevice = false
+            resultStr += "> $abi/$logfile\n"
+            resultStr += lines.join("\n")
+        }
+        if (noDevice)
+            println "The build was successful, not verified by unit tests. For unit testing, connect a virtual device or Android device to adb."
+        else
+            println "Print build_stdout $resultStr"
+    }
 }
 
 dependencies {
