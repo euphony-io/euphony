@@ -70,9 +70,10 @@ Web version is also available now. but only transmitter version.
 - [Euphony Speaker](https://github.com/euphony-io/euphony-speaker) : Euphony Demo to generate sound data.
 - [Sound Helper](https://github.com/euphony-io/sound-helper) : Euphony Demo for patients and assistants in case of an emergency.
 - [Soundless Check-in](https://github.com/euphony-io/soundless-check-in) : Euphony Demo to check in through sound wave.
-- [Here Is My Card](https://github.com/euphony-io/here-is-my-card) : Euphony Demo for sharing buisness cards.
+- [Here Is My Card](https://github.com/euphony-io/here-is-my-card) : Euphony Demo for sharing business cards.
 - [Looking For Job](https://github.com/euphony-io/looking-for-job) : Euphony Demo to send and receive resumes.
 - [Listen My Order](https://github.com/euphony-io/listen-my-order) : Euphony Demo for communicate restaurant menu information.
+- [Wave-In](https://github.com/euphony-io/check-in-speaker) : Euphony Demo to check-in using a safe Number.
 
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
