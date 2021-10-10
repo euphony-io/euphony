@@ -16,6 +16,8 @@ add_executable(
         base2Test.cpp
         base32Test.cpp
         base16Test.cpp
+        base32Test.cpp
+        base64Test.cpp
         defaultCharsetTest.cpp
         FFTTest.cpp
         FSKTest.cpp
