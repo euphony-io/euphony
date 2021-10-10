@@ -32,13 +32,8 @@ std::string UTF32Charset::decode(const HexVector &src) {
 
     for (int hexIdx = 0; hexIdx < hexSource.size(); hexIdx+=HEX_NUM_COUNT) {
         char32_t ch = hexSource[hexIdx];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 1];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 2];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 3];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 4];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 5];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 6];
-        ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + 7];
+        for(int offset = 1; offset < HEX_NUM_COUNT; offset++)
+            ch = ( ch << BIT_COUNT_IN_HEX_NUM ) | hexSource[hexIdx + offset];
         utf32s += ch;
     }
 
