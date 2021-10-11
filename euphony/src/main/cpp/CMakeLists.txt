@@ -28,6 +28,7 @@ set(EUPHONY_SRC
         core/source/ASCIICharset.cpp
         core/source/UTF8Charset.cpp
         core/source/UTF16Charset.cpp
+        core/source/UTF32Charset.cpp
         core/source/Base2.cpp
         core/source/Base16.cpp
         core/source/Base32.cpp

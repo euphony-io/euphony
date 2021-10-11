@@ -13,6 +13,7 @@ add_executable(
         asciiCharsetTest.cpp
         utf8CharsetTest.cpp
         utf16CharsetTest.cpp
+        utf32CharsetTest.cpp
         base2Test.cpp
         base32Test.cpp
         base16Test.cpp
