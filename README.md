@@ -73,7 +73,7 @@ Web version is also available now. but only transmitter version.
 - [Here Is My Card](https://github.com/euphony-io/here-is-my-card) : Euphony Demo for sharing business cards.
 - [Looking For Job](https://github.com/euphony-io/looking-for-job) : Euphony Demo to send and receive resumes.
 - [Listen My Order](https://github.com/euphony-io/listen-my-order) : Euphony Demo for communicate restaurant menu information.
-- [Wave-In](https://github.com/euphony-io/check-in-speaker) : Euphony Demo to check-in using a safe number.
+- [Wave-In](https://github.com/euphony-io/wave-in-speaker) : COVID-19 Check-in solution using a safe number based on MVVM model.
 
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
