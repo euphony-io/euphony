@@ -17,8 +17,8 @@ namespace Euphony {
 
     private:
         HexVector hexVector;
-
         std::string bitsToBase32(int sum);
+        const std::string RET_ZERO_FOR_BASE32 = "0000";
     };
 }
 
