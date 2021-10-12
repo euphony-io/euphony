@@ -4,6 +4,7 @@
 #include "Definitions.h"
 #include "Modem.h"
 #include "FSK.h"
+#include "ASK.h"
 
 namespace Euphony {
     class ModemFactory {
@@ -13,6 +14,8 @@ namespace Euphony {
                 default:
                 case ModulationType::FSK :
                     return std::make_shared<FSK>();
+                case ModulationType::ASK :
+                    return std::make_shared<ASK>();
             }
         }
     };

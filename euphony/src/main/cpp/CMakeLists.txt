@@ -26,6 +26,7 @@ set(EUPHONY_SRC
         arms/kiss_fftr.c
         core/source/AudioStreamCallback.cpp
         core/source/ASCIICharset.cpp
+        core/source/ASK.cpp
         core/source/UTF8Charset.cpp
         core/source/UTF16Charset.cpp
         core/source/Base2.cpp

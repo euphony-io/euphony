@@ -11,12 +11,14 @@ using namespace Euphony;
 Euphony::Wave::Wave()
 : mHz(0),
 mSize(0),
+mAmpSize(1),
 crossfadeType(NONE)
 {}
 
 Euphony::Wave::Wave(int hz, int bufferSize)
 : mHz(hz),
 mSize(bufferSize),
+mAmpSize(1),
 crossfadeType(NONE)
 {
     oscillate();
@@ -25,6 +27,7 @@ crossfadeType(NONE)
 Wave::Wave(const float *src, int bufferSize)
 : mHz(0)
 , mSize(bufferSize)
+, mAmpSize(1)
 , crossfadeType(NONE)
 {
     for(int i = 0; i < bufferSize; ++i) {
@@ -35,6 +38,7 @@ Wave::Wave(const float *src, int bufferSize)
 Euphony::Wave::Wave(const Wave& copy)
 : mHz(copy.mHz),
 mSize(copy.mSize),
+mAmpSize(copy.mAmpSize),
 crossfadeType(copy.crossfadeType)
 {
     oscillate();
@@ -55,7 +59,7 @@ void Euphony::Wave::oscillate() {
         float phase = 0.0;
 
         for(int i = 0; i < this->mSize; ++i) {
-            mSource.push_back(sin(phase));
+            mSource.push_back(sin(phase) * mAmpSize);
             phase += mPhaseIncrement;
             if(phase > kTwoPi) phase -= kTwoPi;
         }
@@ -85,6 +89,7 @@ void Euphony::Wave::oscillate() {
 void Euphony::Wave::oscillate(int hz, int size) {
     this->setHz(hz);
     this->setSize(size);
+    this->setAmpSize(1);
     this->oscillate();
 }
 
@@ -104,6 +109,13 @@ int Euphony::Wave::getSize() const {
 void Euphony::Wave::setSize(int size) {
     mSize = size;
     mSource.reserve(size);
+}
+float Euphony::Wave::getAmpSize() const {
+    return mAmpSize;
+}
+
+void Euphony::Wave::setAmpSize(float size) {
+    mAmpSize = size;
 }
 
 std::vector<float> Euphony::Wave::getSource() const {
