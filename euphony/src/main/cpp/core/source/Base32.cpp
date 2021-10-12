@@ -68,5 +68,5 @@ std::string Base32::bitsToBase32(int value){
         result = convertInt2Char(value & 0x1f) + result;
         value >>= 5;
     }
-    return result;
+    return (result.empty()) ? RET_ZERO_FOR_BASE32 : result;
 }
