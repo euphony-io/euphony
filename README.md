@@ -75,6 +75,8 @@ Web version is also available now. but only transmitter version.
 - [Listen My Order](https://github.com/euphony-io/listen-my-order) : Euphony Demo for communicate restaurant menu information.
 - [Wave-In](https://github.com/euphony-io/wave-in-speaker) : COVID-19 Check-in solution using a safe number based on MVVM model.
 
+- [Wave-In (for store)](https://github.com/euphony-io/wave-in-listener) : COVID-19 Check-in solution for store using a safe number based on MVVM model.
+
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
 
