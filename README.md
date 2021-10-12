@@ -74,7 +74,6 @@ Web version is also available now. but only transmitter version.
 - [Looking For Job](https://github.com/euphony-io/looking-for-job) : Euphony Demo to send and receive resumes.
 - [Listen My Order](https://github.com/euphony-io/listen-my-order) : Euphony Demo for communicate restaurant menu information.
 - [Wave-In](https://github.com/euphony-io/wave-in-speaker) : COVID-19 Check-in solution using a safe number based on MVVM model.
-
 - [Wave-In (for store)](https://github.com/euphony-io/wave-in-listener) : COVID-19 Check-in solution for store using a safe number based on MVVM model.
 
 ## Contributing
