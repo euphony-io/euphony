@@ -14,7 +14,6 @@ add_executable(
         utf8CharsetTest.cpp
         utf16CharsetTest.cpp
         base2Test.cpp
-        base32Test.cpp
         base16Test.cpp
         base32Test.cpp
         base64Test.cpp
