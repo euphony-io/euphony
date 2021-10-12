@@ -17,7 +17,7 @@ namespace Euphony {
         void popBack();
         std::string toString() const;
         const std::vector<u_int8_t> &getHexSource() const;
-        void setHexSource(const std::vector<u_int8_t> &hexSource);
+        void setHexSource(const std::vector<u_int8_t> &hexSrc);
         int getSize() const;
         void clear();
 
