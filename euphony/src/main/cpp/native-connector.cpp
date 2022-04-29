@@ -146,7 +146,7 @@ extern "C" {
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
-            return 2;
+            return static_cast<jint>(Result::ERROR_GENERAL);
         }
 
         return (jint) engine->start();
@@ -170,16 +170,10 @@ extern "C" {
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
         if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
-            return 2;
+            return static_cast<jint>(Status::STOP);
         }
 
-        switch(engine->getStatus()) {
-            case RUNNING:
-                return 0;
-            case STOP:
-                return 1;
-        }
-
+        return static_cast<jint>(engine->getStatus());
     }
 
     JNIEXPORT void JNICALL

@@ -27,6 +27,11 @@ namespace Euphony {
         ERROR_ALREADY_RUNNING = 2
     };
 
+    enum class Status : int32_t {
+        RUNNING = 0,
+        STOP = 1
+    };
+
     enum class ModeType : int32_t {
         DEFAULT = 0, // Default Soundless Communication
         DETECT = 1, // For Wave Detection

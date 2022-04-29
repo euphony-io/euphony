@@ -11,9 +11,6 @@
 constexpr int32_t kBufferSizeAutomatic = 0;
 
 namespace Euphony {
-    enum Status {
-        RUNNING, STOP
-    };
 
     class TxEngine {
     public:

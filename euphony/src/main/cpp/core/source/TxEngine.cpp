@@ -45,7 +45,7 @@ public:
     , mModeType(ModeType::DEFAULT)
     , mEuPIRenderer(EuPIRenderer::getInstance(kSampleRate, kChannelCount))
     , mWaveRenderer(WaveRenderer::getInstance())
-    , mStatus(STOP){
+    , mStatus(Status::STOP){
         createCallback();
         mStreamResult = createPlaybackStream();
         if(mStreamResult == oboe::Result::OK)
@@ -96,7 +96,7 @@ public:
             }
 
             mStream->stop();
-            mStatus = STOP;
+            mStatus = Status::STOP;
         }
     }
 
@@ -125,7 +125,7 @@ public:
         mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mWaveRenderer));
         mStream->start();
         mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
-        mStatus = RUNNING;
+        mStatus = Status::RUNNING;
     }
 
     void startEuPIMode() {
@@ -133,13 +133,13 @@ public:
         mCallback->setSource(std::dynamic_pointer_cast<IRenderableAudio>(mEuPIRenderer));
         mStream->start();
         mIsLatencyDetectionSupported = (mStream->getTimestamp((CLOCK_MONOTONIC)) != oboe::Result::ErrorUnimplemented);
-        mStatus = RUNNING;
+        mStatus = Status::RUNNING;
     }
 
     Euphony::Result start() {
         std::lock_guard<std::mutex> lock(mLock);
 
-        if(mStatus == RUNNING)
+        if(mStatus == Status::RUNNING)
             return Euphony::Result::ERROR_ALREADY_RUNNING;
 
         if(mStreamResult == oboe::Result::OK) {
@@ -154,7 +154,7 @@ public:
             }
         }
         else {
-            mStatus = STOP;
+            mStatus = Status::STOP;
             return Euphony::Result::ERROR_GENERAL;
         }
 
