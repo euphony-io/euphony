@@ -131,9 +131,7 @@ public class EuTxManager {
 				mAudioTrack.pause();
 		}
 		else {
-			new Handler(Looper.getMainLooper()).postDelayed(() -> {
-				txCore.stop();
-			}, 300);
+			txCore.stop();
 		}
 	}
 
