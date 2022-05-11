@@ -94,8 +94,8 @@ public:
                     stopEuPIMode();
                     break;
             }
-
             mStream->requestPause();
+            mStream->requestFlush();
             mStatus = Status::STOP;
         }
     }

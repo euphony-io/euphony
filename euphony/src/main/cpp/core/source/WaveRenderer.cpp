@@ -29,18 +29,26 @@ void WaveRenderer::renderAudio(float *targetData, int32_t numFrames) {
         const float *waveSrcData = waveSource.get();
 
         for (int i = 0; i < numFrames; ++i) {
-            for (int j = 0; j < channelCount; ++j) {
-                targetData[(i * channelCount) + j] = waveSrcData[readFrameIndex];
+            const int targetDataIndex = i * channelCount;
+            for (int chNo = 0; chNo < channelCount; ++chNo) {
+                targetData[targetDataIndex + chNo] = waveSrcData[readFrameIndex];
             }
             if (++readFrameIndex == waveSourceSize){
                 readFrameIndex = 0;
-                if(renderTotalCount > 0) {
-                    if(++renderIndex >= renderTotalCount)
-                        isWaveOn.store(false);
+                if(renderTotalCount > 0 && ++renderIndex == renderTotalCount) {
+                    for (int j = i + 1; j < numFrames; ++j) {
+                        for (int chNo = 0; chNo < channelCount; ++chNo) {
+                            targetData[j + chNo] = 0;
+                        }
+                    }
+                    isWaveOn.store(false);
+                    break;
                 }
             }
         }
     } else {
+        renderIndex = 0;
+        readFrameIndex = 0;
         renderSilence(targetData, numFrames * channelCount);
     }
 }
