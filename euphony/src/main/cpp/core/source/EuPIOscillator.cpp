@@ -24,7 +24,7 @@ void Euphony::EuPIOscillator::setWaveOn(bool isWaveOn) {
 void Euphony::EuPIOscillator::renderAudio(float *data, int32_t numFrames) {
     /* mapping frequencies data */
     for(int i = 0; i < numFrames; ++i) {
-        data[i] = (float) (sin(mPhase) * mAmplitude);
+        data[i] = sin(mPhase) * mAmplitude;
         mPhase += mPhaseIncrement;
         if (mPhase > kTwoPi) mPhase -= kTwoPi;
     }
