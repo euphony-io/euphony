@@ -12,7 +12,6 @@ import co.euphony.common.Constants;
 import co.euphony.util.EuOption;
 
 import static android.media.AudioTrack.SUCCESS;
-import static android.media.AudioTrack.WRITE_BLOCKING;
 
 public class EuTxManager {
 	private EuTxNativeConnector txCore;
@@ -89,27 +88,24 @@ public class EuTxManager {
 		txCore.start();
 	}
 
-	short[] outShortStream;
 	private void playWithAndroidEngine(int count) {
-		float[] outStream = txCore.getGenWaveSource();
+		final float[] outStream = txCore.getGenWaveSource();
+		final int minBufferSizeBytes = AudioTrack.getMinBufferSize(Constants.SAMPLERATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_FLOAT);
+		final int bufferSize = outStream.length * minBufferSizeBytes;
+		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, Constants.SAMPLERATE, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_FLOAT, bufferSize, AudioTrack.MODE_STATIC);
 
-		mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 44100, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, outStream.length*2, AudioTrack.MODE_STATIC);
+		/* A value of -1 means infinite looping, and 0 disables looping. */
 		if(count <= 0)
 			count = -1;
 
-		int result = mAudioTrack.setLoopPoints(0, outStream.length, count);
+		final int result = mAudioTrack.setLoopPoints(0, outStream.length, count);
 		if(result != SUCCESS) {
 			Log.i("PROCESS", "failed to loop points : " + result);
 		}
 
-		outShortStream = new short[outStream.length];
-		for(int i = 0; i < outStream.length; i++) {
-			outShortStream[i] = (short) (32767 * outStream[i]);
-		}
-
 		if(mAudioTrack != null){
-			try{
-				mAudioTrack.write(outShortStream, 0, outShortStream.length);
+			try {
+				mAudioTrack.write(outStream, 0, outStream.length, AudioTrack.WRITE_NON_BLOCKING);
 				mAudioTrack.play();
 			}
 			catch(IllegalStateException e)
