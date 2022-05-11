@@ -22,30 +22,20 @@ void Euphony::EuPIOscillator::setWaveOn(bool isWaveOn) {
 }
 
 void Euphony::EuPIOscillator::renderAudio(float *data, int32_t numFrames) {
+    /* mapping frequencies data */
+    for(int i = 0; i < numFrames; ++i) {
+        data[i] = (float) (sin(mPhase) * mAmplitude);
+        mPhase += mPhaseIncrement;
+        if (mPhase > kTwoPi) mPhase -= kTwoPi;
+    }
+
     if(mIsWaveOn) {
-        for(int i = 0; i < numFrames; ++i) {
-            data[i] = (float) (sin(mPhase) * mAmplitude);
-            mPhase += mPhaseIncrement;
-            if (mPhase > kTwoPi) mPhase -= kTwoPi;
-        }
         if(mIsFirstWave != true) {
-            /* Crossfade in first */
+            /* Crossfade first */
             for(int i = 0; i < numFrames; i++) {
                 data[i] *= ((float)i / (float)numFrames);
             }
+            mIsFirstWave.store(true);
         }
-        mIsFirstWave.store(true);
-        mIsLastWave.store(false);
-    } else {
-        if(mIsLastWave != true) {
-            for(int i = 0; i < numFrames; ++i) {
-                data[i] = (sin(mPhase) * ((float)(numFrames-i) / (float)numFrames));
-                mPhase += mPhaseIncrement;
-                if (mPhase > kTwoPi) mPhase -= kTwoPi;
-            }
-            mIsLastWave.store(true);
-            mIsFirstWave.store(false);
-        }
-        else memset(data, 0, sizeof(float) * numFrames);
     }
 }

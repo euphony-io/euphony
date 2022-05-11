@@ -4,6 +4,16 @@
 
 using namespace Euphony;
 
+std::shared_ptr<WaveRenderer> WaveRenderer::instance = nullptr;
+std::once_flag WaveRenderer::flag;
+
+WaveRenderer::WaveRenderer()
+: channelCount (kChannelCount)
+, waveSourceSize(0)
+, readFrameIndex(0)
+, renderIndex(0)
+, renderTotalCount(0){ }
+
 WaveRenderer::WaveRenderer(WaveList waveListSrc, int32_t channelCountSrc)
 : channelCount (channelCountSrc)
 , waveSourceSize(0)
@@ -16,18 +26,13 @@ WaveRenderer::WaveRenderer(WaveList waveListSrc, int32_t channelCountSrc)
 
 void WaveRenderer::renderAudio(float *targetData, int32_t numFrames) {
     if(isWaveOn) {
-        int64_t framesToRenderFromData = numFrames;
         const float *waveSrcData = waveSource.get();
 
-        if (readFrameIndex + numFrames >= waveSourceSize) {
-            framesToRenderFromData = waveSourceSize - readFrameIndex;
-        }
-
-        for (int i = 0; i < framesToRenderFromData; ++i) {
+        for (int i = 0; i < numFrames; ++i) {
             for (int j = 0; j < channelCount; ++j) {
                 targetData[(i * channelCount) + j] = waveSrcData[readFrameIndex];
             }
-            if (++readFrameIndex >= waveSourceSize){
+            if (++readFrameIndex == waveSourceSize){
                 readFrameIndex = 0;
                 if(renderTotalCount > 0) {
                     if(++renderIndex >= renderTotalCount)
@@ -35,11 +40,6 @@ void WaveRenderer::renderAudio(float *targetData, int32_t numFrames) {
                 }
             }
         }
-
-        if(framesToRenderFromData < numFrames){
-            renderSilence(&targetData[framesToRenderFromData], numFrames * channelCount);
-        }
-
     } else {
         renderSilence(targetData, numFrames * channelCount);
     }
@@ -79,4 +79,12 @@ void WaveRenderer::setWaveList(WaveList waveListSrc) {
             waveSource[j + (i * kBufferSize)] = waveSrc[j];
         }
     }
+}
+
+std::shared_ptr<WaveRenderer> WaveRenderer::getInstance() {
+    std::call_once(WaveRenderer::flag, []() {
+        WaveRenderer::instance.reset(new WaveRenderer());
+    });
+
+    return instance;
 }

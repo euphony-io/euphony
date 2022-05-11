@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import co.euphony.common.Constants;
 import co.euphony.util.EuOption;
 
 import static android.media.AudioTrack.SUCCESS;
@@ -34,14 +35,6 @@ public class EuTxManager {
 		txCore = new EuTxNativeConnector(context);
 	}
 
-	/*
-	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
-	 */
-	@Deprecated
-	public void euInitTransmit(String data) {
-		setCode(data);
-	}
-
 	public void setCode(String data)
 	{
 		txCore.setCode(data);
@@ -51,16 +44,18 @@ public class EuTxManager {
 		return txCore.getCode();
 	}
 
-	public void callEuPI(double freq, EuPIDuration duration) {
+	public Constants.Result callEuPI(double freq, EuPIDuration duration) {
 		setMode(EuOption.ModeType.EUPI);
 		txCore.setToneOn(true);
 		txCore.setAudioFrequency(freq);
-		txCore.start();
+		Constants.Result res = txCore.start();
 
 		if (duration != EuPIDuration.LENGTH_FOREVER) {
 			new Handler(Looper.getMainLooper()).postDelayed(this::stop,
 					(duration == EuPIDuration.LENGTH_SHORT) ? 200 : 500);
 		}
+
+		return res;
 	}
 
 	public float[] getOutStream() {
@@ -129,6 +124,25 @@ public class EuTxManager {
 		txCore.setMode(modeType);
 	}
 
+	public void stop()
+	{
+		if(modeType == EuOption.ModeType.DEFAULT && playerEngineType == PlayerEngine.ANDROID_DEFAULT_ENGINE) {
+			if(mAudioTrack != null)
+				mAudioTrack.pause();
+		}
+		else {
+			txCore.stop();
+		}
+	}
+
+	/*
+	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
+	 */
+	@Deprecated
+	public void euInitTransmit(String data) {
+		setCode(data);
+	}
+
 	/*
 	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming issue
 	 */
@@ -141,17 +155,4 @@ public class EuTxManager {
 	@Deprecated
 	public void process(int count) { play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE); }
 
-	public void stop()
-	{
-		if(modeType == EuOption.ModeType.DEFAULT && playerEngineType == PlayerEngine.ANDROID_DEFAULT_ENGINE) {
-			if(mAudioTrack != null)
-				mAudioTrack.pause();
-		}
-		else {
-			txCore.setToneOn(false);
-			new Handler(Looper.getMainLooper()).postDelayed(() -> {
-				txCore.stop();
-			}, 300);
-		}
-	}
 }
