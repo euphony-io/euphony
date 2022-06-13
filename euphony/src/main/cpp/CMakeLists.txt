@@ -29,6 +29,7 @@ set(EUPHONY_SRC
         core/source/UTF8Charset.cpp
         core/source/UTF16Charset.cpp
         core/source/UTF32Charset.cpp
+        core/source/DefaultCharset.cpp
         core/source/Base2.cpp
         core/source/Base16.cpp
         core/source/Base32.cpp
@@ -36,7 +37,6 @@ set(EUPHONY_SRC
         core/source/Base16Exception.cpp
         core/source/Base32Exception.cpp
         core/source/Base64Exception.cpp
-        core/source/DefaultCharset.cpp
         core/source/EuPIOscillator.cpp
         core/source/EuPIRenderer.cpp
         core/source/FFTModel.cpp
@@ -47,6 +47,7 @@ set(EUPHONY_SRC
         core/source/PacketBuilder.cpp
         core/source/PacketErrorDetector.cpp
         core/source/TxEngine.cpp
+        core/source/RxEngine.cpp
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
         core/source/WaveRenderer.cpp
