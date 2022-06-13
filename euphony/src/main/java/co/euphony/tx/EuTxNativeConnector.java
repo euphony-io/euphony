@@ -179,10 +179,6 @@ public class EuTxNativeConnector {
         if (mEngineHandle != 0) native_setAudioDeviceId(mEngineHandle, deviceId);
     }
 
-    public void setChannelCount(int channelCount) {
-        if (mEngineHandle != 0) native_setChannelCount(mEngineHandle, channelCount);
-    }
-
     public int getFramesPerBursts(){
         if (mEngineHandle != 0) return native_getFramesPerBursts(mEngineHandle);
         else return -1;
@@ -230,7 +226,6 @@ public class EuTxNativeConnector {
     private native void native_setAudioFrequency(long engineHandle, double frequency);
     private native void native_setAudioApi(long engineHandle, int audioApi);
     private native void native_setAudioDeviceId(long engineHandle, int deviceId);
-    private native void native_setChannelCount(long engineHandle, int channelCount);
     private native int native_getFramesPerBursts(long engineHandle);
     private native void native_setBufferSizeInBursts(long engineHandle, int bufferSizeInBursts);
     private native double native_getCurrentOutputLatencyMillis(long engineHandle);

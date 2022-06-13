@@ -28,7 +28,6 @@ public:
     oboe::Result mStreamResult = oboe::Result::ErrorBase;
 
     int32_t mDeviceId = oboe::Unspecified;
-    int32_t mChannelCount = oboe::Unspecified;
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
 
     std::shared_ptr<Packet> txPacket = nullptr;
@@ -337,10 +336,6 @@ void TxEngine::setAudioApi(oboe::AudioApi audioApi) {
 
 void TxEngine::setPerformance(oboe::PerformanceMode mode) {
     pImpl->setPerformance(mode);
-}
-
-void TxEngine::setChannelCount(int channelCount) {
-    pImpl->mChannelCount = channelCount;
 }
 
 void TxEngine::setDeviceId(int32_t deviceId) {

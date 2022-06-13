@@ -217,20 +217,6 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_co_euphony_tx_EuTxNativeConnector_native_1setChannelCount(JNIEnv *env, jobject thiz,
-                                                                   jlong engine_handle,
-                                                                   jint channel_count) {
-        auto engine = reinterpret_cast<TxEngine *> (engine_handle);
-        if(engine == nullptr) {
-            LOGE("Engine handle is invalid, call createHandle() to create a new one");
-            return;
-        }
-
-        engine->setChannelCount(channel_count);
-
-    }
-
-    JNIEXPORT void JNICALL
     Java_co_euphony_tx_EuTxNativeConnector_native_1setBufferSizeInBursts(JNIEnv *env, jobject thiz,
                                                                          jlong engine_handle,
                                                                          jint buffer_size_in_bursts) {
