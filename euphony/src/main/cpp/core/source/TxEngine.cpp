@@ -27,7 +27,6 @@ public:
     bool mIsLatencyDetectionSupported = false;
     oboe::Result mStreamResult = oboe::Result::ErrorBase;
 
-    double eupiFreq;
     int32_t mDeviceId = oboe::Unspecified;
     int32_t mChannelCount = oboe::Unspecified;
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
@@ -221,10 +220,6 @@ public:
         }
 
         mModem = ModemFactory::create(mModulationType);
-    }
-
-    void setEupiFrequency(double freq) {
-        eupiFreq = freq;
     }
 
     void setBufferSizeInBursts(int32_t numBursts)
