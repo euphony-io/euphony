@@ -1,14 +1,13 @@
-package co.euphony.tx;
+package co.euphony.common;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.os.Build;
 import android.util.Log;
 
-import co.euphony.common.Constants;
 import co.euphony.util.EuOption;
 
-public class EuTxNativeConnector {
+public class EuNativeConnector {
     long mEngineHandle = 0;
 
     public enum EpnyStatus {
@@ -25,7 +24,7 @@ public class EuTxNativeConnector {
         System.loadLibrary("euphony");
     }
 
-    public EuTxNativeConnector() {
+    public EuNativeConnector() {
         if(!create()) {
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
@@ -33,7 +32,7 @@ public class EuTxNativeConnector {
         }
     }
 
-    public EuTxNativeConnector(Context context) {
+    public EuNativeConnector(Context context) {
         if(!create(context)){
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
@@ -41,8 +40,8 @@ public class EuTxNativeConnector {
         }
     }
 
-    public static EuTxNativeConnector newInstance() {
-        return new EuTxNativeConnector();
+    public static EuNativeConnector newInstance() {
+        return new EuNativeConnector();
     }
 
     boolean create() {

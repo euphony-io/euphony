@@ -9,13 +9,13 @@ import android.os.Looper;
 import android.util.Log;
 
 import co.euphony.common.Constants;
+import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
 import static android.media.AudioTrack.SUCCESS;
-import static android.media.AudioTrack.WRITE_BLOCKING;
 
 public class EuTxManager {
-	private EuTxNativeConnector txCore;
+	private EuNativeConnector txCore;
 	private AudioTrack mAudioTrack = null;
 	private EuOption.ModeType modeType;
 	private PlayerEngine playerEngineType;
@@ -32,7 +32,7 @@ public class EuTxManager {
 	}
 
 	public EuTxManager(Context context) {
-		txCore = new EuTxNativeConnector(context);
+		txCore = new EuNativeConnector(context);
 	}
 
 	public void setCode(String data)
