@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import co.euphony.common.Constants;
+import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
 import static co.euphony.rx.EuPI.EuPITrigger.KEY_DOWN;
@@ -18,12 +19,20 @@ public class EuRxManager {
 
 	private final String LOG = "EuRxManager";
 
+	private EuNativeConnector nativeCore = EuNativeConnector.getInstance();
+	private RxEngineType rxEngineType = RxEngineType.EUPHONY_JAVA_ENGINE;
+
 	private Thread mListenThread = null;
 	private DetectRunner mDetectRunner = null;
 	private EuPICallRunner mEuPICallRunner = null;
 
 	public enum RxManagerStatus {
 		RUNNING, STOP
+	}
+
+	public enum RxEngineType {
+		EUPHONY_JAVA_ENGINE,
+		EUPHONY_NATIVE_ENGINE
 	}
 
 	private static final int RX_MODE = 1;
@@ -45,8 +54,8 @@ public class EuRxManager {
 				.modeWith(mode)
 				.build();
 	}
-	
-	public boolean listen() {
+
+	private boolean listenOnJava() {
 		if(getStatus() != RxManagerStatus.RUNNING) {
 			switch (mOption.getMode()) {
 				case DEFAULT:
@@ -72,6 +81,20 @@ public class EuRxManager {
 		} else {
 			return false;
 		}
+	}
+
+	private boolean listenOnNative() {
+		/* TODO: 1) To implement the getRxStatus() */
+		/* TODO: 2) To implement the native listener */
+
+		return false;
+	}
+
+	public boolean listen() {
+		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
+			return listenOnJava();
+		else
+			return listenOnNative();
 	}
 
 	public boolean listen(int freq) {
