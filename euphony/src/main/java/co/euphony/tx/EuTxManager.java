@@ -32,7 +32,7 @@ public class EuTxManager {
 	}
 
 	public EuTxManager() {
-		txCore = new EuNativeConnector();
+		txCore = EuNativeConnector.getInstance();
 	}
 
 	public void setCode(String data)

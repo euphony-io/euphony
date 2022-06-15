@@ -24,7 +24,15 @@ public class EuNativeConnector {
         System.loadLibrary("euphony");
     }
 
-    public EuNativeConnector() {
+    private static class InnerInstanceClazz {
+        private static final EuNativeConnector instance = new EuNativeConnector();
+    }
+
+    public static EuNativeConnector getInstance() {
+        return InnerInstanceClazz.instance;
+    }
+
+    private EuNativeConnector() {
         if(!create()){
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
@@ -32,9 +40,6 @@ public class EuNativeConnector {
         }
     }
 
-    public static EuNativeConnector newInstance() {
-        return new EuNativeConnector();
-    }
 
     boolean create() {
         if(mEngineHandle == 0)
