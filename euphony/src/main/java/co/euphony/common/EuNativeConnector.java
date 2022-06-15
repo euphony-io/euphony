@@ -25,15 +25,7 @@ public class EuNativeConnector {
     }
 
     public EuNativeConnector() {
-        if(!create()) {
-            Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
-        } else {
-            Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
-        }
-    }
-
-    public EuNativeConnector(Context context) {
-        if(!create(context)){
+        if(!create()){
             Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
         } else {
             Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
@@ -47,15 +39,6 @@ public class EuNativeConnector {
     boolean create() {
         if(mEngineHandle == 0)
             mEngineHandle = native_createEngine();
-
-        return (mEngineHandle != 0);
-    }
-
-    boolean create(Context context) {
-        if(mEngineHandle == 0) {
-            setDefaultStreamValues(context);
-            mEngineHandle = native_createEngine();
-        }
 
         return (mEngineHandle != 0);
     }
@@ -112,27 +95,6 @@ public class EuNativeConnector {
     public void setModulation(EuOption.ModulationType modulationType) {
         if(mEngineHandle != 0) {
             native_setModulation(mEngineHandle, modulationType.ordinal());
-        }
-    }
-
-    private void setDefaultStreamValues(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            AudioManager myAudioMgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-            String sampleRateStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE);
-            Log.d("EUPHONY_MSG","This device's samplerate for output : " + sampleRateStr);
-            int defaultSampleRate = Integer.parseInt(sampleRateStr);
-            if(defaultSampleRate == 0) defaultSampleRate = 44100;
-
-            String framesPerBurstStr = myAudioMgr.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER);
-            Log.d("EUPHONY_MSG","This device's frames per buffer for output : " + framesPerBurstStr);
-            int defaultFramesPerBurst = Integer.parseInt(framesPerBurstStr);
-            if(defaultFramesPerBurst == 0) defaultFramesPerBurst = 256; // Use Default
-            native_setDefaultStreamValues(defaultSampleRate, defaultFramesPerBurst);
-        }
-    }
-    private void setDefaultStreamValues(int sampleRate, int framesPerBurst) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1){
-            native_setDefaultStreamValues(sampleRate, framesPerBurst);
         }
     }
 
@@ -229,5 +191,4 @@ public class EuNativeConnector {
     private native void native_setBufferSizeInBursts(long engineHandle, int bufferSizeInBursts);
     private native double native_getCurrentOutputLatencyMillis(long engineHandle);
     private native boolean native_isLatencyDetectionSupported(long engineHandle);
-    private native void native_setDefaultStreamValues(int sampleRate, int framesPerBurst);
 }

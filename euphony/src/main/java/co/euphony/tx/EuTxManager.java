@@ -31,8 +31,8 @@ public class EuTxManager {
 		EUPHONY_NATIVE_ENGINE
 	}
 
-	public EuTxManager(Context context) {
-		txCore = new EuNativeConnector(context);
+	public EuTxManager() {
+		txCore = new EuNativeConnector();
 	}
 
 	public void setCode(String data)

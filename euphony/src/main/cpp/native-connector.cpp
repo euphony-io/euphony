@@ -3,6 +3,7 @@
 //
 
 #include <jni.h>
+#include <android/api-level.h>
 #include <oboe/Oboe.h>
 #include "debug-helper/Log.h"
 #include "core/TxEngine.h"
@@ -10,9 +11,42 @@
 using namespace Euphony;
 
 extern "C" {
+
+    int getSampleRateForDevice(JNIEnv *env) {
+        jclass audioSystem = env->FindClass("android/media/AudioSystem");
+        jmethodID method = env->GetStaticMethodID(audioSystem, "getPrimaryOutputSamplingRate", "()I");
+        jint outputSampleRate = env->CallStaticIntMethod(audioSystem, method);
+        LOGD("This device's samplerate for output : %d", outputSampleRate);
+
+        if(outputSampleRate == 0)
+            return 44100;
+        else
+            return outputSampleRate;
+    }
+
+    int getFramesPerBurstForDevice(JNIEnv *env) {
+        jclass audioSystem = env->FindClass("android/media/AudioSystem");
+        jmethodID method = env->GetStaticMethodID(audioSystem, "getPrimaryOutputFrameCount", "()I");
+        jint bufferLength = env->CallStaticIntMethod(audioSystem, method);
+        LOGD("This device's frames per buffer for output : %d", bufferLength);
+
+        if(bufferLength == 0)
+            return 256;
+        else
+            return bufferLength;
+    }
+
     JNIEXPORT jlong JNICALL
     Java_co_euphony_common_EuNativeConnector_native_1createEngine(JNIEnv *env, jobject thiz) {
         auto engine = new(std::nothrow) TxEngine();
+
+        /* if Android Version >= JELLEY_BEAN_MR1_LEVEL(17) */
+        if(android_get_device_api_level() >= 17) {
+            /* Setting for default SampleRate & FramesPerBurst */
+            oboe::DefaultStreamValues::SampleRate = (int32_t) getSampleRateForDevice(env);
+            oboe::DefaultStreamValues::FramesPerBurst = (int32_t) getFramesPerBurstForDevice(env);
+        }
+
         return reinterpret_cast<jlong>(engine);
     }
 
@@ -281,20 +315,12 @@ extern "C" {
         }
     }
 
-    JNIEXPORT void JNICALL
-    Java_co_euphony_common_EuNativeConnector_native_1setDefaultStreamValues(JNIEnv *env, jobject thiz,
-                                                                          jint sample_rate,
-                                                                          jint frames_per_burst) {
-        oboe::DefaultStreamValues::SampleRate = (int32_t) sample_rate;
-        oboe::DefaultStreamValues::FramesPerBurst = (int32_t) frames_per_burst;
-    }
-
     JNIEXPORT jint JNICALL
     Java_co_euphony_common_EuNativeConnector_native_1getFramesPerBursts(JNIEnv *env, jobject thiz,
                                                                       jlong engine_handle) {
 
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
-        if(engine == nullptr) {
+        if (engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
             return -1;
         }
