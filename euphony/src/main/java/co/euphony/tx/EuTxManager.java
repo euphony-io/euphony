@@ -136,6 +136,14 @@ public class EuTxManager {
 	}
 
 	/*
+	 * @deprecated Replaced by {@link #EuTxManager()}, deprecated for using context argument
+	 */
+	@Deprecated
+	public EuTxManager(Context context) {
+		txCore = EuNativeConnector.getInstance();
+	}
+
+	/*
 	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
 	 */
 	@Deprecated
