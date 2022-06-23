@@ -84,6 +84,7 @@ public class EuRxManager {
 	private boolean listenOnNative() {
 		/* TODO: 1) To implement the getRxStatus() */
 		/* TODO: 2) To implement the native listener */
+		nativeCore.rx_start();
 
 		return false;
 	}
@@ -97,11 +98,14 @@ public class EuRxManager {
 
 	public void finish()
 	{
-		if(mListenThread != null) {
-			mListenThread.interrupt();
+		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
+			if (mListenThread != null) {
+				mListenThread.interrupt();
+			}
+			mListenThread = null;
+		} else {
+			nativeCore.rx_stop();
 		}
-		
-		mListenThread = null;
 	}
 
 	public void setOnWaveKeyPressed(int freq, EuPICallDetector iEuPICallDetector) {

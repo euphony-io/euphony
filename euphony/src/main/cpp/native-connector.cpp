@@ -7,6 +7,7 @@
 #include <oboe/Oboe.h>
 #include "debug-helper/Log.h"
 #include "core/TxEngine.h"
+#include "core/RxEngine.h"
 
 using namespace Euphony;
 
@@ -175,8 +176,8 @@ extern "C" {
     }
 
     JNIEXPORT jint JNICALL
-    Java_co_euphony_common_EuNativeConnector_native_1start(JNIEnv *env, jobject thiz,
-                                                         jlong engine_handle) {
+    Java_co_euphony_common_EuNativeConnector_native_1tx_1start(JNIEnv *env, jobject thiz,
+                                                               jlong engine_handle) {
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
@@ -187,11 +188,35 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_co_euphony_common_EuNativeConnector_native_1stop(JNIEnv *env, jobject thiz,
-                                                        jlong engine_handle) {
+    Java_co_euphony_common_EuNativeConnector_native_1tx_1stop(JNIEnv *env, jobject thiz,
+                                                              jlong engine_handle) {
         auto engine = reinterpret_cast<TxEngine *> (engine_handle);
         if(engine == nullptr) {
             LOGE("Engine handle is invalid, call createHandle() to create a new one");
+            return;
+        }
+
+        engine->stop();
+    }
+
+    JNIEXPORT jint JNICALL
+    Java_co_euphony_common_EuNativeConnector_native_1rx_1start(JNIEnv *env, jobject thiz,
+                                                               jlong engine_handle) {
+        auto engine = reinterpret_cast<RxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Rx Engine is invalid, call createHandle() to create a new one");
+            return static_cast<jint>(Result::ERROR_GENERAL);
+        }
+
+        return (jint) engine->start();
+    }
+
+    JNIEXPORT void JNICALL
+    Java_co_euphony_common_EuNativeConnector_native_1rx_1stop(JNIEnv *env, jobject thiz,
+                                                              jlong engine_handle) {
+        auto engine = reinterpret_cast<RxEngine *> (engine_handle);
+        if(engine == nullptr) {
+            LOGE("Rx Engine is invalid, call createHandle() to create a new one");
             return;
         }
 

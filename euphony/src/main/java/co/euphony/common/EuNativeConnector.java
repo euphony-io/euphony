@@ -1,8 +1,6 @@
 package co.euphony.common;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.os.Build;
 import android.util.Log;
 
 import co.euphony.util.EuOption;
@@ -55,18 +53,32 @@ public class EuNativeConnector {
         mEngineHandle = 0;
     }
 
-    public Constants.Result play() {
+    public Constants.Result tx_start() {
         if(mEngineHandle != 0) {
-            final int res = native_start(mEngineHandle);
+            final int res = native_tx_start(mEngineHandle);
             return Constants.Result.fromInteger(res);
         }
         else
             return Constants.Result.ERROR_GENERAL;
     }
 
-    public void stop() {
+    public void tx_stop() {
         if(mEngineHandle != 0)
-            native_stop(mEngineHandle);
+            native_tx_stop(mEngineHandle);
+    }
+
+    public Constants.Result rx_start() {
+        if(mEngineHandle != 0) {
+            final int res = native_rx_start(mEngineHandle);
+            return Constants.Result.fromInteger(res);
+        }
+        else
+            return Constants.Result.ERROR_GENERAL;
+    }
+
+    public void rx_stop() {
+        if(mEngineHandle != 0)
+            native_rx_stop(mEngineHandle);
     }
 
     public void setPerformance(EpnyPerformanceMode mode, Context context) {
@@ -176,8 +188,10 @@ public class EuNativeConnector {
 
     private native long native_createEngine();
     private native void native_deleteEngine(long engineHandle);
-    private native int native_start(long engineHandle);
-    private native void native_stop(long engineHandle);
+    private native int native_tx_start(long engineHandle);
+    private native void native_tx_stop(long engineHandle);
+    private native int native_rx_start(long engineHandle);
+    private native void native_rx_stop(long engineHandle);
     private native int native_getStatus(long engineHandle);
     private native void native_setPerformance(long engineHandle, int performanceLevel);
     private native void native_setToneOn(long engineHandle, boolean isToneOn);
