@@ -48,7 +48,7 @@ public class EuTxManager {
 		setMode(EuOption.ModeType.EUPI);
 		txCore.setToneOn(true);
 		txCore.setAudioFrequency(freq);
-		Constants.Result res = txCore.start();
+		Constants.Result res = txCore.play();
 
 		if (duration != EuPIDuration.LENGTH_FOREVER) {
 			new Handler(Looper.getMainLooper()).postDelayed(this::stop,
@@ -86,7 +86,7 @@ public class EuTxManager {
 
 	private void playWithNativeEngine(final int count) {
 		txCore.setCountToneOn(true, count);
-		txCore.start();
+		txCore.play();
 	}
 
 	short[] outShortStream;

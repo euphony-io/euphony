@@ -55,7 +55,7 @@ public class EuNativeConnector {
         mEngineHandle = 0;
     }
 
-    public Constants.Result start() {
+    public Constants.Result play() {
         if(mEngineHandle != 0) {
             final int res = native_start(mEngineHandle);
             return Constants.Result.fromInteger(res);
