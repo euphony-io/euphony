@@ -52,3 +52,8 @@ float* Euphony::FFTProcessor::makeSpectrum(short* src) {
 int Euphony::FFTProcessor::getResultSize() const {
     return halfOfFFTSize + 1;
 }
+
+float *Euphony::FFTProcessor::makeSpectrum(float *src) {
+    /* TODO: should implement makeSpectrum for float source */
+    return nullptr;
+}

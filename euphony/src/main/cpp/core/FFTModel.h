@@ -12,6 +12,7 @@ namespace Euphony {
         virtual ~FFTModel() = default;
 
         virtual float *makeSpectrum(short *pcmSrc) = 0;
+        virtual float *makeSpectrum(float *pcmSrc) = 0;
 
         int getFFTSize() const;
         void setFFTSize(int fftSize);

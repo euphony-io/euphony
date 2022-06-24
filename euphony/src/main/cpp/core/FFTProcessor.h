@@ -23,6 +23,7 @@ namespace Euphony {
         FFTProcessor(int fft_size, int sample_rate);
         ~FFTProcessor();
         virtual float* makeSpectrum(short* src);
+        virtual float* makeSpectrum(float* src);
         int getResultSize() const;
 
     private:
