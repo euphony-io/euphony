@@ -1,4 +1,5 @@
 #include "../RxEngine.h"
+#include "../FFTProcessor.h"
 #include <oboe/Oboe.h>
 #include <Log.h>
 
@@ -36,6 +37,7 @@ public:
         int32_t numInputSamples = numFrames * samplesPerFrame;
 
         /* Input Data Processing Part */
+
         /* End */
 
         return result;
@@ -54,10 +56,12 @@ public:
 
     Euphony::Result start() {
         isRecording = true;
+        mStream->requestStart();
         return Euphony::Result::OK;
     }
 
     void stop() {
+        mStream->requestStop();
         isRecording = false;
     }
 };
