@@ -59,12 +59,15 @@ android {
         def noDevice = true
         for (abi in abiArr) {
             def filePath = "euphony/.cxx/cmake/debug/$abi/$logfile"
-            def lines = new File(filePath).readLines()
-            if (lines.get(lines.size() - 1).contains(lastWordIfThereAreNoDevice))
-                continue
-            noDevice = false
-            resultStr += "> $abi/$logfile\n"
-            resultStr += lines.join("\n")
+            def file = new File(filePath)
+            if (file.exists()) {
+                def lines = file.readLines()
+                if (lines.get(lines.size() - 1).contains(lastWordIfThereAreNoDevice))
+                    continue
+                noDevice = false
+                resultStr += "> $abi/$logfile\n"
+                resultStr += lines.join("\n")
+            }
         }
         if (noDevice)
             println "The build was successful, not verified by unit tests. For unit testing, connect a virtual device or Android device to adb."
