@@ -4,6 +4,7 @@
 #include <FFTProcessor.h>
 #include <WaveBuilder.h>
 #include <tuple>
+#include <BlueFFT.h>
 
 using namespace Euphony;
 
@@ -13,9 +14,10 @@ class FFTTestFixture : public ::testing::TestWithParam<TestParamType> {
 
 public:
     std::unique_ptr<FFTModel> fft = nullptr;
+    std::unique_ptr<FFTModel> fft2 = nullptr;
 };
 
-TEST_P(FFTTestFixture, FFTDefaultTest)
+TEST_P(FFTTestFixture, FFTProcessorTest)
 {
     int inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex;
     std::tie(inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex) = GetParam();
@@ -29,7 +31,29 @@ TEST_P(FFTTestFixture, FFTDefaultTest)
 
     auto shortWaveSourceVector = wave->getInt16Source();
     int16_t* shortWaveSource = &shortWaveSourceVector[0];
+
     float* resultBuf = fft->makeSpectrum(shortWaveSource);
+    const int activeResult = FSK::getMaxIdxFromSource(resultBuf, 32, inputSampleRate, inputFFTSize);
+
+    EXPECT_EQ(expectedSpectrumIndex, activeResult);
+}
+
+TEST_P(FFTTestFixture, BlueFFTTest)
+{
+    int inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex;
+    std::tie(inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex) = GetParam();
+
+    fft2 = std::make_unique<BlueFFT>(inputFFTSize, inputSampleRate);
+
+    auto wave = Wave::create()
+            .vibratesAt(inputFrequency)
+            .setSize(2048)
+            .build();
+
+    auto waveSourceVector = wave->getSource();
+    float* floatWaveSource = &waveSourceVector[0];
+    float* resultBuf = fft2->makeSpectrum(floatWaveSource);
+
     const int activeResult = FSK::getMaxIdxFromSource(resultBuf, 32, inputSampleRate, inputFFTSize);
 
     EXPECT_EQ(expectedSpectrumIndex, activeResult);
