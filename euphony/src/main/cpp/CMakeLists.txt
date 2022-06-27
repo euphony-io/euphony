@@ -63,7 +63,7 @@ set(SL_HEADERS arms/sl-headers)
 include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 
 add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
-target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
+target_compile_definitions(euphony PUBLIC)
 
 find_package(
         oboe REQUIRED CONFIG

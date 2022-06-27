@@ -22,18 +22,19 @@ namespace Euphony {
     public:
         FFTProcessor(int fft_size, int sample_rate);
         ~FFTProcessor();
-        virtual float* makeSpectrum(short* src);
-        virtual float* makeSpectrum(float* src);
+        virtual Spectrums makeSpectrum(short* src);
+        virtual Spectrums makeSpectrum(float* src);
         int getResultSize() const;
 
     private:
-        static inline float shortToFloat(const short val);
-        inline int frequencyToIndex(const int freq) const;
+        static float shortToFloat(const short val);
+        int frequencyToIndex(const int freq) const;
 
         kiss_fftr_cfg config;
         /* unique_ptr's array version. it is available on c++14. */
         kiss_fft_cpx* spectrum;
-        float* result;
+        float* amplitudeSpectrum;
+        float* phaseSpectrum;
         int fftSize;
         int halfOfFFTSize;
     };

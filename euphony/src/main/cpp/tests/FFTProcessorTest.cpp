@@ -4,20 +4,18 @@
 #include <FFTProcessor.h>
 #include <WaveBuilder.h>
 #include <tuple>
-#include <BlueFFT.h>
 
 using namespace Euphony;
 
 typedef std::tuple<int, int, int, int> TestParamType;
 
-class FFTTestFixture : public ::testing::TestWithParam<TestParamType> {
+class FFTProcessorTestFixture : public ::testing::TestWithParam<TestParamType> {
 
 public:
     std::unique_ptr<FFTModel> fft = nullptr;
-    std::unique_ptr<FFTModel> fft2 = nullptr;
 };
 
-TEST_P(FFTTestFixture, FFTProcessorTest)
+TEST_P(FFTProcessorTestFixture, FFTProcessorTest)
 {
     int inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex;
     std::tie(inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex) = GetParam();
@@ -26,42 +24,21 @@ TEST_P(FFTTestFixture, FFTProcessorTest)
 
     auto wave = Wave::create()
             .vibratesAt(inputFrequency)
-            .setSize(2048)
+            .setSize(512)
             .build();
 
-    auto shortWaveSourceVector = wave->getInt16Source();
-    int16_t* shortWaveSource = &shortWaveSourceVector[0];
+    auto floatWaveSourceVector = wave->getSource();
+    float* floatWaveSource = &floatWaveSourceVector[0];
 
-    float* resultBuf = fft->makeSpectrum(shortWaveSource);
-    const int activeResult = FSK::getMaxIdxFromSource(resultBuf, 32, inputSampleRate, inputFFTSize);
-
-    EXPECT_EQ(expectedSpectrumIndex, activeResult);
-}
-
-TEST_P(FFTTestFixture, BlueFFTTest)
-{
-    int inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex;
-    std::tie(inputFrequency, inputFFTSize, inputSampleRate, expectedSpectrumIndex) = GetParam();
-
-    fft2 = std::make_unique<BlueFFT>(inputFFTSize, inputSampleRate);
-
-    auto wave = Wave::create()
-            .vibratesAt(inputFrequency)
-            .setSize(2048)
-            .build();
-
-    auto waveSourceVector = wave->getSource();
-    float* floatWaveSource = &waveSourceVector[0];
-    float* resultBuf = fft2->makeSpectrum(floatWaveSource);
-
-    const int activeResult = FSK::getMaxIdxFromSource(resultBuf, 32, inputSampleRate, inputFFTSize);
+    auto result = fft->makeSpectrum(floatWaveSource);
+    const int activeResult = FSK::getMaxIdxFromSource(result.amplitudeSpectrum, 32, inputSampleRate, inputFFTSize);
 
     EXPECT_EQ(expectedSpectrumIndex, activeResult);
 }
 
 INSTANTIATE_TEST_SUITE_P(
         FFTTest,
-        FFTTestFixture,
+        FFTProcessorTestFixture,
         ::testing::Values(
                 /*
                  * Frequency, FFTSize, sampleRate, expectedSpectrumIndex

@@ -42,10 +42,7 @@ extern "C" {
 #include <android/log.h>
 #define kiss_fft_scalar short //int32_t
 #else
-# ifndef kiss_fft_scalar
-/*  default is float */
-#   define kiss_fft_scalar float
-# endif
+#define kiss_fft_scalar float
 #endif
 
 typedef struct {
