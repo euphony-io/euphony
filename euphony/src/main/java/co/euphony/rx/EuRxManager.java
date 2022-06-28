@@ -19,7 +19,7 @@ public class EuRxManager {
 
 	private final String LOG = "EuRxManager";
 
-	private EuNativeConnector nativeCore = EuNativeConnector.getInstance();
+	private EuNativeConnector nativeCore;
 	private RxEngineType rxEngineType = RxEngineType.EUPHONY_JAVA_ENGINE;
 
 	private Thread mListenThread = null;
@@ -45,6 +45,14 @@ public class EuRxManager {
 				.encodingWith(EuOption.CodingType.BASE16)
 				.modulationWith(EuOption.ModulationType.FSK)
 				.build();
+	}
+
+	public EuRxManager(RxEngineType engineType) {
+		rxEngineType = engineType;
+		if(rxEngineType == RxEngineType.EUPHONY_NATIVE_ENGINE)
+			nativeCore = EuNativeConnector.getInstance();
+		else
+			nativeCore = null;
 	}
 
 	public EuRxManager(EuOption.ModeType mode) {

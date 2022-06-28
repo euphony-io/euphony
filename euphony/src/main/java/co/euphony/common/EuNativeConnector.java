@@ -6,7 +6,8 @@ import android.util.Log;
 import co.euphony.util.EuOption;
 
 public class EuNativeConnector {
-    long mEngineHandle = 0;
+    long mTxEngineHandle = 0;
+    long mRxEngineHandle = 0;
 
     public enum EpnyStatus {
         RUNNING, STOP, NO_CREATE
@@ -31,31 +32,47 @@ public class EuNativeConnector {
     }
 
     private EuNativeConnector() {
-        if(!create()){
-            Log.e("EUPHONY_ERROR","Euphony Engine Creation was failed.");
-        } else {
-            Log.d("EUPHONY_MSG","Euphony Engine Creation was successful");
-        }
+        if(!createTxEngine())
+            Log.e("EUPHONY_ERROR","Euphony Tx Engine Creation was failed.");
+        else
+            Log.d("EUPHONY_MSG","Euphon Tx Engine Creation was successful");
+
+        if(!createRxEngine())
+            Log.e("EUPHONY_ERROR", "Euphony Rx Engine Creation was failed.");
+        else
+            Log.d("EUPHONY_MSG", "Euphony Rx Engine creation was successful");
+
     }
 
 
-    boolean create() {
-        if(mEngineHandle == 0)
-            mEngineHandle = native_createEngine();
+    boolean createTxEngine() {
+        if(mTxEngineHandle == 0)
+            mTxEngineHandle = native_createTxEngine();
 
-        return (mEngineHandle != 0);
+        return (mTxEngineHandle != 0);
+    }
+
+    boolean createRxEngine() {
+        if(mRxEngineHandle == 0)
+            mRxEngineHandle = native_createRxEngine();
+
+        return (mTxEngineHandle != 0);
     }
 
     void clean() {
-        if(mEngineHandle != 0)
-            native_deleteEngine(mEngineHandle);
+        if(mTxEngineHandle != 0)
+            native_deleteTxEngine(mTxEngineHandle);
 
-        mEngineHandle = 0;
+        if(mRxEngineHandle != 0)
+            native_deleteRxEngine(mRxEngineHandle);
+
+        mTxEngineHandle = 0;
+        mRxEngineHandle = 0;
     }
 
     public Constants.Result tx_start() {
-        if(mEngineHandle != 0) {
-            final int res = native_tx_start(mEngineHandle);
+        if(mTxEngineHandle != 0) {
+            final int res = native_tx_start(mTxEngineHandle);
             return Constants.Result.fromInteger(res);
         }
         else
@@ -63,13 +80,13 @@ public class EuNativeConnector {
     }
 
     public void tx_stop() {
-        if(mEngineHandle != 0)
-            native_tx_stop(mEngineHandle);
+        if(mTxEngineHandle != 0)
+            native_tx_stop(mTxEngineHandle);
     }
 
     public Constants.Result rx_start() {
-        if(mEngineHandle != 0) {
-            final int res = native_rx_start(mEngineHandle);
+        if(mRxEngineHandle != 0) {
+            final int res = native_rx_start(mRxEngineHandle);
             return Constants.Result.fromInteger(res);
         }
         else
@@ -77,107 +94,107 @@ public class EuNativeConnector {
     }
 
     public void rx_stop() {
-        if(mEngineHandle != 0)
-            native_rx_stop(mEngineHandle);
+        if(mRxEngineHandle != 0)
+            native_rx_stop(mRxEngineHandle);
     }
 
     public void setPerformance(EpnyPerformanceMode mode, Context context) {
-        if(mEngineHandle != 0) {
+        if(mTxEngineHandle != 0) {
             switch(mode) {
                 case PowerSavingMode:
-                    native_setPerformance(mEngineHandle, 0);
+                    native_setPerformance(mTxEngineHandle, 0);
                     break;
                 case NormalMode:
-                    native_setPerformance(mEngineHandle, 1);
+                    native_setPerformance(mTxEngineHandle, 1);
                     break;
                 case SuperPowerMode:
-                    native_setPerformance(mEngineHandle, 2);
+                    native_setPerformance(mTxEngineHandle, 2);
                     break;
             }
         }
     }
 
     public void setCodingType(EuOption.CodingType codingType) {
-        if(mEngineHandle != 0) {
-            native_setCodingType(mEngineHandle, codingType.ordinal());
+        if(mTxEngineHandle != 0) {
+            native_setCodingType(mTxEngineHandle, codingType.ordinal());
         }
     }
 
     public void setMode(EuOption.ModeType modeType) {
-        if(mEngineHandle != 0) {
-            native_setMode(mEngineHandle, modeType.ordinal());
+        if(mTxEngineHandle != 0) {
+            native_setMode(mTxEngineHandle, modeType.ordinal());
         }
     }
 
     public void setModulation(EuOption.ModulationType modulationType) {
-        if(mEngineHandle != 0) {
-            native_setModulation(mEngineHandle, modulationType.ordinal());
+        if(mTxEngineHandle != 0) {
+            native_setModulation(mTxEngineHandle, modulationType.ordinal());
         }
     }
 
     public void setToneOn(boolean isToneOn) {
-        if(mEngineHandle != 0) native_setToneOn(mEngineHandle, isToneOn);
+        if(mTxEngineHandle != 0) native_setToneOn(mTxEngineHandle, isToneOn);
     }
 
     public void setCountToneOn(boolean isToneOn, int count) {
-        if(mEngineHandle != 0) native_setCountToneOn(mEngineHandle, isToneOn, count);
+        if(mTxEngineHandle != 0) native_setCountToneOn(mTxEngineHandle, isToneOn, count);
     }
 
     public void setCode(String data) {
-        if(mEngineHandle != 0) native_setCode(mEngineHandle, data);
+        if(mTxEngineHandle != 0) native_setCode(mTxEngineHandle, data);
     }
 
     public String getCode() {
-        if(mEngineHandle != 0)
-            return native_getCode(mEngineHandle);
+        if(mTxEngineHandle != 0)
+            return native_getCode(mTxEngineHandle);
         return null;
     }
 
     public String getGenCode() {
-        if(mEngineHandle != 0)
-            return native_getGenCode(mEngineHandle);
+        if(mTxEngineHandle != 0)
+            return native_getGenCode(mTxEngineHandle);
         return null;
     }
 
     public float[] getGenWaveSource() {
-        if(mEngineHandle != 0)
-            return native_getGenWaveSource(mEngineHandle);
+        if(mTxEngineHandle != 0)
+            return native_getGenWaveSource(mTxEngineHandle);
         return null;
     }
 
     public void setAudioFrequency(double freq) {
-        if(mEngineHandle != 0) native_setAudioFrequency(mEngineHandle, freq);
+        if(mTxEngineHandle != 0) native_setAudioFrequency(mTxEngineHandle, freq);
     }
 
     public void setAudioApi(int audioApi){
-        if (mEngineHandle != 0) native_setAudioApi(mEngineHandle, audioApi);
+        if (mTxEngineHandle != 0) native_setAudioApi(mTxEngineHandle, audioApi);
     }
 
     public void setAudioDeviceId(int deviceId){
-        if (mEngineHandle != 0) native_setAudioDeviceId(mEngineHandle, deviceId);
+        if (mTxEngineHandle != 0) native_setAudioDeviceId(mTxEngineHandle, deviceId);
     }
 
     public int getFramesPerBursts(){
-        if (mEngineHandle != 0) return native_getFramesPerBursts(mEngineHandle);
+        if (mTxEngineHandle != 0) return native_getFramesPerBursts(mTxEngineHandle);
         else return -1;
     }
 
     public void setBufferSizeInBursts(int bufferSizeInBursts){
-        if (mEngineHandle != 0) native_setBufferSizeInBursts(mEngineHandle, bufferSizeInBursts);
+        if (mTxEngineHandle != 0) native_setBufferSizeInBursts(mTxEngineHandle, bufferSizeInBursts);
     }
 
     public double getCurrentOutputLatencyMillis(){
-        if (mEngineHandle == 0) return 0;
-        return native_getCurrentOutputLatencyMillis(mEngineHandle);
+        if (mTxEngineHandle == 0) return 0;
+        return native_getCurrentOutputLatencyMillis(mTxEngineHandle);
     }
 
     public boolean isLatencyDetectionSupported() {
-        return mEngineHandle != 0 && native_isLatencyDetectionSupported(mEngineHandle);
+        return mTxEngineHandle != 0 && native_isLatencyDetectionSupported(mTxEngineHandle);
     }
 
     public EpnyStatus getStatus() {
-        if(mEngineHandle == 0) return EpnyStatus.NO_CREATE;
-        switch(native_getStatus(mEngineHandle)) {
+        if(mTxEngineHandle == 0) return EpnyStatus.NO_CREATE;
+        switch(native_getStatus(mTxEngineHandle)) {
             case 0:
                 return EpnyStatus.RUNNING;
             case 1:
@@ -186,8 +203,10 @@ public class EuNativeConnector {
         return EpnyStatus.NO_CREATE;
     }
 
-    private native long native_createEngine();
-    private native void native_deleteEngine(long engineHandle);
+    private native long native_createTxEngine();
+    private native void native_deleteTxEngine(long engineHandle);
+    private native long native_createRxEngine();
+    private native void native_deleteRxEngine(long engineHandle);
     private native int native_tx_start(long engineHandle);
     private native void native_tx_stop(long engineHandle);
     private native int native_rx_start(long engineHandle);

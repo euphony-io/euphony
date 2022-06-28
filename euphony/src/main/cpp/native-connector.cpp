@@ -38,7 +38,7 @@ extern "C" {
     }
 
     JNIEXPORT jlong JNICALL
-    Java_co_euphony_common_EuNativeConnector_native_1createEngine(JNIEnv *env, jobject thiz) {
+    Java_co_euphony_common_EuNativeConnector_native_1createTxEngine(JNIEnv *env, jobject thiz) {
         auto engine = new(std::nothrow) TxEngine();
 
         /* if Android Version >= JELLEY_BEAN_MR1_LEVEL(17) */
@@ -52,9 +52,22 @@ extern "C" {
     }
 
     JNIEXPORT void JNICALL
-    Java_co_euphony_common_EuNativeConnector_native_1deleteEngine(JNIEnv *env, jobject thiz,
-                                                                jlong engine_handle) {
+    Java_co_euphony_common_EuNativeConnector_native_1deleteTxEngine(JNIEnv *env, jobject thiz,
+                                                                    jlong engine_handle) {
         delete reinterpret_cast<TxEngine *>(engine_handle);
+    }
+
+    JNIEXPORT void JNICALL
+    Java_co_euphony_common_EuNativeConnector_native_1deleteRxEngine(JNIEnv *env, jobject thiz,
+                                                                jlong engine_handle) {
+        delete reinterpret_cast<RxEngine *>(engine_handle);
+    }
+
+    JNIEXPORT jlong JNICALL
+    Java_co_euphony_common_EuNativeConnector_native_1createRxEngine(JNIEnv *env, jobject thiz) {
+        auto engine = new(std::nothrow) RxEngine();
+
+        return reinterpret_cast<jlong>(engine);
     }
 
     JNIEXPORT void JNICALL
