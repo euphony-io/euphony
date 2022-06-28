@@ -31,37 +31,63 @@ public:
         oboe::DataCallbackResult result = oboe::DataCallbackResult::Continue;
 
         /* Definitions for input processing */
-        const float *inputFloats = static_cast<const float *>(inputData);
+        const auto *inputFloats = static_cast<const float *>(inputData);
 
         int32_t samplesPerFrame = stream->getChannelCount();
         int32_t numInputSamples = numFrames * samplesPerFrame;
 
         /* Input Data Processing Part */
-
+        LOGD("Euphony / OnAudioReady: samplesPerFrame %d, numInputSamples %d", samplesPerFrame, numInputSamples);
         /* End */
 
         return result;
     }
+
+    void onErrorBeforeClose(oboe::AudioStream *stream, oboe::Result error) override {
+        LOGE("%s stream error before close: %s",
+             oboe::convertToText(stream->getDirection()),
+             oboe::convertToText(error)
+             );
+    }
+
+    void onErrorAfterClose(oboe::AudioStream *stream, oboe::Result error) override {
+        LOGE("%s stream error after close: %s",
+             oboe::convertToText(stream->getDirection()),
+             oboe::convertToText(error)
+             );
+    }
+
 
     oboe::Result createRxStream() {
         return mStreamBuilder.setDeviceId(mDeviceId)
         ->setDirection(oboe::Direction::Input)
         ->setSampleRate(kSampleRate)
         ->setChannelCount(kChannelCount)
+        ->setFormat(oboe::AudioFormat::Float)
         ->setSharingMode(oboe::SharingMode::Exclusive)
         ->setPerformanceMode(oboe::PerformanceMode::LowLatency)
-        ->setFormat(oboe::AudioFormat::Float)
+        ->setDataCallback(this)
+        ->setErrorCallback(this)
         ->openStream(mStream);
     }
 
     Euphony::Result start() {
-        isRecording = true;
-        mStream->requestStart();
-        return Euphony::Result::OK;
+        if(!isRecording) {
+            mStream->requestStart();
+            isRecording = true;
+            LOGD("Euphony / Rx / start()");
+            return Euphony::Result::OK;
+        } else {
+            LOGD("Euphony / Rx / already started()");
+            return Euphony::Result::ERROR_ALREADY_RUNNING;
+        }
     }
 
     void stop() {
-        mStream->requestStop();
+        if(isRecording && mStream) {
+            mStream->requestStop();
+            LOGD("Euphony / Rx / stop()");
+        }
         isRecording = false;
     }
 };
