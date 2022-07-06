@@ -1,0 +1,73 @@
+name: 🐞 Bug
+description: File a bug/issue
+title: "[Bug] <title>"
+labels: "bug"
+
+body:
+- type: checkboxes
+  attributes:
+    label: Is there an existing issue for this?
+    description: Please search to see if an issue already exists for the bug you encountered.
+    options:
+    - label: I have searched the existing issues.
+      required: true
+
+- type: checkboxes
+  attributes:
+    label: Would you like to work on the issue?
+    description: Please tick this checkbox, if you want this issue assigned to you.
+    options:
+    - label: Assign this issue to me.
+      required: false
+      
+- type: textarea
+  attributes:
+    label: Describe the bug
+    description: A clear and concise description of what the bug is.
+  validations:
+    required: true
+    
+- type: textarea
+  attributes:
+    label: Expected Behavior
+    description: A clear and concise description of what you expected to happen.
+  validations:
+    required: false
+    
+- type: textarea
+  attributes:
+    label: Environment
+    description: |
+      examples:
+        - **OS**: IOS
+        - **Broswer**: [Chrome, Safari]
+        - **Version**: 1.2
+    value: |
+        - OS:
+        - Broswer:
+        - Version:
+    render: markdown
+  validations:
+    required: true
+    
+- type: textarea
+  attributes:
+    label: Steps to reproduce
+    description: Steps to reproduce the behavior.
+    placeholder: |
+      1. Go to ...
+      2. Click on ...
+      3. Scroll down to '...'
+      4. See error...
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Anything else?
+    description: |
+      Links? References? Add any other context about the problem here!
+  validations:
+    required: false
+- type: markdown
+  attributes:
+    value: "## Screenshots! If applicable, add screenshots to help explain your problem"
