@@ -34,13 +34,13 @@ val mTxManager = EuTxManager()
 - Java
 
 ```java
-mTxManager.euInitTransmit("Hello, Euphony");
+mTxManager.setCode("Hello, Euphony");
 ```
 
 - Kotlin
 
 ```kotlin
-mTxManager.euInitTransmit("Hello, Euphony")
+mTxManager.setCode("Hello, Euphony")
 ```
 
 3. **With process method, set how many times to repeat the sound(data). (-1 is infinite)**
