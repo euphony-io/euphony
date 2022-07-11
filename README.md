@@ -32,7 +32,7 @@ For more detailed prerequisite, please refer to the link below.
 **Transmitter**
 ```java
 EuTxManager mTxManager = new EuTxManager();
-mTxManager.euInitTransmit("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
+mTxManager.setCode("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
 mTxManager.process(-1); // generate sound infinite.
 ```
 

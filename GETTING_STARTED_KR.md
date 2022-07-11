@@ -29,17 +29,17 @@ EuTxManager mTxManager = new EuTxManager();
 val mTxManager = EuTxManager()
 ```
 
-2. **euInitTransmit 메소드로 전송할 문장을 입력**
+2. **setCode 메소드로 전송할 문장을 입력**
 - Java
 
 ```java
-mTxManager.euInitTransmit("Hello, Euphony");
+mTxManager.setCode("Hello, Euphony");
 ```
 
 - Kotlin
 
 ```kotlin
-mTxManager.euInitTransmit("Hello, Euphony")
+mTxManager.setCode("Hello, Euphony")
 ```
 
 3. **process 메소드로 문장(음파)을 몇 번 반복할지 설정 (-1은 무한반복)**
