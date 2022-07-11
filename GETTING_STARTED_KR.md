@@ -29,7 +29,7 @@ EuTxManager mTxManager = new EuTxManager();
 val mTxManager = EuTxManager()
 ```
 
-2. **euInitTransmit 메소드로 전송할 문장을 입력**
+2. **setCode 메소드로 전송할 문장을 입력**
 - Java
 
 ```java

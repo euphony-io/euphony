@@ -30,7 +30,7 @@ EuTxManager mTxManager = new EuTxManager();
 val mTxManager = EuTxManager()
 ```
 
-2. **Use euInitTransmit method, enter the data you want to transmit.**
+2. **Use setCode method, enter the data you want to transmit.**
 - Java
 
 ```java
