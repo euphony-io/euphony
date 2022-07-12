@@ -43,17 +43,17 @@ mTxManager.setCode("Hello, Euphony");
 mTxManager.setCode("Hello, Euphony")
 ```
 
-3. **With process method, set how many times to repeat the sound(data). (-1 is infinite)**
+3. **With play method, set how many times to repeat the sound(data). (-1 is infinite)**
 - Java
 
 ```java
-mTxManager.process(-1);
+mTxManager.play(-1);
 ```
 
 - Kotlin
 
 ```kotlin
-mTxManager.process(-1)
+mTxManager.play(-1)
 ```
 
 ## in Receiver

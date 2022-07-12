@@ -42,17 +42,17 @@ mTxManager.setCode("Hello, Euphony");
 mTxManager.setCode("Hello, Euphony")
 ```
 
-3. **process 메소드로 문장(음파)을 몇 번 반복할지 설정 (-1은 무한반복)**
+3. **play 메소드로 문장(음파)을 몇 번 반복할지 설정 (-1은 무한반복)**
 - Java
 
 ```java
-mTxManager.process(-1);
+mTxManager.play(-1);
 ```
 
 - Kotlin
 
 ```kotlin
-mTxManager.process(-1)
+mTxManager.play(-1)
 ```
 
 ## 수신 파트
