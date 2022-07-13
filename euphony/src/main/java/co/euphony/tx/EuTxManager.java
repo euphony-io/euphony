@@ -132,7 +132,7 @@ public class EuTxManager {
 	}
 
 	/*
-	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming & dynamic option.
+	 * @deprecated Replaced by {@link #setCode(String)}, deprecated for naming & dynamic option.
 	 */
 	@Deprecated
 	public void euInitTransmit(String data) {
@@ -140,13 +140,13 @@ public class EuTxManager {
 	}
 
 	/*
-	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming issue
+	 * @deprecated Replaced by {@link #play()}, deprecated for naming issue
 	 */
 	@Deprecated
 	public void process() { play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE); }
 
 	/*
-	 * @deprecated Replaced by {@link #setCode()}, deprecated for naming issue
+	 * @deprecated Replaced by {@link #play(int)}, deprecated for naming issue
 	 */
 	@Deprecated
 	public void process(int count) { play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE); }
