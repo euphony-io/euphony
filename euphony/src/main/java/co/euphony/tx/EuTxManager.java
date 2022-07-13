@@ -140,7 +140,7 @@ public class EuTxManager {
 	}
 
 	/*
-	 * @deprecated Replaced by {@link #play(int)}, deprecated for naming issue
+	 * @deprecated Replaced by {@link #play()}, deprecated for naming issue
 	 */
 	@Deprecated
 	public void process() { play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE); }
