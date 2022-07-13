@@ -33,7 +33,7 @@ For more detailed prerequisite, please refer to the link below.
 ```java
 EuTxManager mTxManager = new EuTxManager();
 mTxManager.setCode("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
-mTxManager.process(-1); // generate sound infinite.
+mTxManager.play(-1); // generate sound infinite.
 ```
 
 **Receiver**
