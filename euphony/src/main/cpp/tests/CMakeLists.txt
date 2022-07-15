@@ -30,6 +30,7 @@ add_executable(
         waveTest.cpp
         waveBuilderTest.cpp
         waveRendererTest.cpp
+        wakeUpFFTSensorTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)

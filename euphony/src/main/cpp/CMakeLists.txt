@@ -52,6 +52,7 @@ set(EUPHONY_SRC
         core/source/Wave.cpp
         core/source/WaveBuilder.cpp
         core/source/WaveRenderer.cpp
+        core/source/WakeUpFFTSensor.cpp
         native-connector.cpp
         )
 
