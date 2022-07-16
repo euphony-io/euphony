@@ -1,7 +1,7 @@
 name: 'Documentation'
 description: 'Write a report about the issue'
 title: '[documentation] <title>'
-labels: documentation
+labels: 'documentation'
 
 body:
 - type: input
