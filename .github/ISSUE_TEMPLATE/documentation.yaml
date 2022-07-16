@@ -1,6 +1,6 @@
 name: Documentation
 description: Write a report about the issue
-title: "[documentation] <title>"
+title: '[documentation] <title>'
 labels: documentation
 
 body:
