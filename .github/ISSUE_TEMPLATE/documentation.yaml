@@ -8,7 +8,7 @@ body:
   attributes:
     label: Title
     description: title of documentation
-    validations:
+   validations:
     required: true
 
 - type: textarea
@@ -16,7 +16,7 @@ body:
     label: Does the document's page already exist? 
     description: Please leave the link if a document's page already exists.
   validations:
-    required: false;
+    required: false
 
 - type: textarea
   attributes:
@@ -37,4 +37,4 @@ body:
     label: Anything else? 
     description: Write any messages If you want.
   validations:
-    required: false;
+    required: false
