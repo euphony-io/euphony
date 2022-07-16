@@ -1,5 +1,5 @@
 name: Documentation
-about: Write a report about the issue
+description: Write a report about the issue
 title: "[documentation] <title>"
 labels: documentation
 
