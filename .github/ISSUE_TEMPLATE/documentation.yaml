@@ -1,5 +1,5 @@
-name: Documentation
-description: Write a report about the issue
+name: 📚Documentation
+description: A request to update or improve Euphony documentation
 title: "[documentation] <title>"
 labels: "documentation"
 
@@ -11,10 +11,10 @@ body:
   validations:
     required: true
 
-- type: textarea
+- type: input
   attributes:
     label: Does the document's page already exist? 
-    description: Please leave the link if a document's page already exists.
+    description: Please link to it. (Example: https://github.com/euphony-io/euphony/blob/master/CONTRIBUTING.md)
   validations:
     required: false
 
