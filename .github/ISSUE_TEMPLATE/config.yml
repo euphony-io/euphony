@@ -2,4 +2,4 @@ blank_issues_enabled: true
 contact_links:
   - name: Ask a question
     url: https://github.com/euphony-io/euphony/discussions
-    about: GitHub Discussions is a collaborative communication forum for the community around an open source project. Community members can ask and answer questions, share updates, have open-ended conversations, and follow along on decisions affecting the community's way of working.
+    about: Ask questions and discuss with other Euphony community members
