@@ -5,24 +5,26 @@
 #ifndef EUPHONY_WAKEUPFFTSENSOR_H
 #define EUPHONY_WAKEUPFFTSENSOR_H
 
+#include <memory>
+#include "FFTModel.h"
 #include "WakeUpSensor.h"
 
 namespace Euphony {
     class WakeUpFFTSensor : public WakeUpSensor {
     public:
         WakeUpFFTSensor(int sampleRate);
-        int feedAudioData(float* audioSrc, int size);
+        int feedAudioData(const float* audioSrc, const int size);
         bool isWakeUp();
         bool isWakeUp(int signFrequency);
 
     private:
-        std::unique_ptr<FFTModel> gear1st;
-        std::unique_ptr<FFTModel> gear2nd;
-        int gear1stFFTSize = 0;
-        int gear2ndFFTSize = 0;
-        bool isStarted = false;
-        int fftSize = 0;
-        int sampleRate = 0;
+        int isWaveDetected(const float* audioSrc, const int size);
+        std::unique_ptr<FFTModel> preFFT;
+        std::unique_ptr<FFTModel> postFFT;
+        int preFFTSize;
+        int postFFTSize;
+        bool isStarted;
+        int sampleRate;
     };
 }
 

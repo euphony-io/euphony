@@ -1,24 +1,43 @@
 #include "../WakeUpFFTSensor.h"
 #include <FSK.h>
+#include <FFTProcessor.h>
 
 using namespace Euphony;
 
 WakeUpFFTSensor::WakeUpFFTSensor(int sampleRate)
-: gear1stFFTSize(32), gear2ndFFTSize(32)
+: preFFTSize(32), postFFTSize(2048), isStarted(false), sampleRate(sampleRate)
 {
-    gear1st = std::make_unique<FFTProcessor>(gear1stFFTSize, sampleRate);
-    gear2nd = std::make_uqniue<FFTProcessor>(gear2ndFFTSize, sampleRate);
+    preFFT = std::make_unique<FFTProcessor>(preFFTSize, sampleRate);
+    postFFT = std::make_unique<FFTProcessor>(postFFTSize, sampleRate);
 }
 
 
-int WakeUpFFTSensor::feedAudioData(float *audioSrc, int size) {
-    for(int i = 0; i < size; i += gear1stFFTSize) {
-        auto result = gear1st->makeSpectrum(audioSrc + i);
-        FSK::getMaxIdxFromSource(result.amplitudeSpectrum, 2, sampleRate, gear1stFFTSize)
+int WakeUpFFTSensor::feedAudioData(const float *audioSrc, const int size) {
+    std::vector<int> resultVector(32, 0);
+
+    return isWaveDetected(audioSrc, size);
+}
+
+int WakeUpFFTSensor::isWaveDetected(const float* audioSrc, const int size) {
+    int resultArray[4] = {0, };
+
+    int maxIdx = 0, maxIdxCount = 0;
+    int waveCount = 0;
+    for(int i = 0; i < size; i += preFFTSize) {
+        auto result = preFFT->makeSpectrum(audioSrc + i);
+        const int idx = FSK::getMaxIdxFromSource(result.amplitudeSpectrum, 2, sampleRate, preFFTSize);
+
+        if(idx != 0) {
+            waveCount = 0;
+            continue;
+        }
+
+        waveCount++;
     }
 
-    return 0;
+    return (waveCount == 0) ? -1 : size - (waveCount * preFFTSize);
 }
+
 
 bool WakeUpFFTSensor::isWakeUp() {
     return isStarted;
