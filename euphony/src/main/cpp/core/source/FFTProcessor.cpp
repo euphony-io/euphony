@@ -36,13 +36,13 @@ inline int Euphony::FFTProcessor::frequencyToIndex(const int freq) const {
     return (int)(((halfOfFFTSize) + 1) * ((double)freq / (double)getSampleRate()));
 }
 
-Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(short* src) {
+Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(const short* src) {
     /* TODO: should implement makeSpectrum for int16 source */
     return {0, 0};
 }
 
 
-Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(float *src) {
+Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(const float *src) {
 
     int startIdx = frequencyToIndex(kStartSignalFrequency) - 1;
     int lenHalfOfNumSamples = halfOfFFTSize; // spectrum size must be half of numSamples;
@@ -61,7 +61,12 @@ Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(float *src) {
     return {&amplitudeSpectrum[0], &phaseSpectrum[0]};
 }
 
+Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(float *src, int numSamples) {
+
+    return {nullptr, nullptr};
+}
 
 int Euphony::FFTProcessor::getResultSize() const {
     return halfOfFFTSize + 1;
 }
+

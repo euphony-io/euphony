@@ -19,8 +19,8 @@ namespace Euphony {
         FFTModel(int fftSizeSrc, int sampleRateSrc);
         virtual ~FFTModel() = default;
 
-        virtual Spectrums makeSpectrum(short *pcmSrc) = 0;
-        virtual Spectrums makeSpectrum(float *pcmSrc) = 0;
+        virtual Spectrums makeSpectrum(const short *pcmSrc) = 0;
+        virtual Spectrums makeSpectrum(const float *pcmSrc) = 0;
 
         float makeAmplitudeSpectrum(float real, float im) const;
         float makePhaseSpectrum(float real, float im) const;
