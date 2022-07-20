@@ -15,8 +15,8 @@ namespace Euphony {
     public:
         BlueFFT(int fft_size, int sample_rate);
         ~BlueFFT();
-        virtual Spectrums makeSpectrum(short* src);
-        virtual Spectrums makeSpectrum(float* src);
+        virtual Spectrums makeSpectrum(const short* src);
+        virtual Spectrums makeSpectrum(const float* src);
         int getResultSize() const;
 
     private:

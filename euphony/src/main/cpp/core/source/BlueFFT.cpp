@@ -19,12 +19,12 @@ Euphony::BlueFFT::~BlueFFT() {
     std::vector<float>().swap(phaseSpectrum);
 }
 
-Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(short *src) {
+Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(const short *src) {
     /* TODO: should implement makeSpectrum for short source */
     return {0, 0};
 }
 
-Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(float *src) {
+Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(const float *src) {
 
     for(int i = 0; i < fftSize; i++) {
         floatSrc[i].real(src[i]);
