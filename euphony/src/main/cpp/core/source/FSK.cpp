@@ -89,7 +89,7 @@ int FSK::getMaxIdxFromSource(const float *fft_source, const int baseSize, const 
         }
     }
 
-    return maxIndex - getStartFreqIdx();
+    return maxIndex - startIdx;
 }
 
 
