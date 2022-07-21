@@ -20,6 +20,7 @@ namespace Euphony {
         int getResultSize() const;
 
     private:
+        void initFloatSrc();
         static float shortToFloat(const short val);
         int frequencyToIndex(const int freq) const;
         template <typename T>

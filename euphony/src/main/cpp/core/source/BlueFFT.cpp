@@ -1,7 +1,9 @@
 #include "../BlueFFT.h"
 #include "../Definitions.h"
 
-Euphony::BlueFFT::BlueFFT(int fft_size, int sample_rate)
+using namespace Euphony;
+
+BlueFFT::BlueFFT(int fft_size, int sample_rate)
 : FFTModel(fft_size, sample_rate)
 , fftSize(fft_size)
 , halfOfFFTSize(fft_size >> 1)
@@ -12,19 +14,25 @@ Euphony::BlueFFT::BlueFFT(int fft_size, int sample_rate)
     phaseSpectrum.resize(halfOfFFTSize);
 }
 
-Euphony::BlueFFT::~BlueFFT() {
+BlueFFT::~BlueFFT() {
     std::vector<fcpx>().swap(floatSrc);
     std::vector<i16cpx>().swap(i16Src);
     std::vector<float>().swap(amplitudeSpectrum);
     std::vector<float>().swap(phaseSpectrum);
 }
 
-Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(const short *src) {
+void BlueFFT::initFloatSrc() {
+    floatSrc.clear();
+    std::vector<fcpx>().swap(floatSrc);
+    floatSrc.resize(fftSize);
+}
+Spectrums BlueFFT::makeSpectrum(const short *src) {
     /* TODO: should implement makeSpectrum for short source */
     return {0, 0};
 }
 
-Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(const float *src) {
+Spectrums BlueFFT::makeSpectrum(const float *src) {
+    initFloatSrc();
 
     for(int i = 0; i < fftSize; i++) {
         floatSrc[i].real(src[i]);
@@ -46,23 +54,23 @@ Euphony::Spectrums Euphony::BlueFFT::makeSpectrum(const float *src) {
     return {&amplitudeSpectrum[0], &phaseSpectrum[0]};
 }
 
-int Euphony::BlueFFT::getResultSize() const {
+int BlueFFT::getResultSize() const {
     return halfOfFFTSize + 1;
 }
 
-inline float Euphony::BlueFFT::shortToFloat(const short val) {
+inline float BlueFFT::shortToFloat(const short val) {
     if( val < 0 )
         return val * ( 1 / 32768.0f );
     else
         return val * ( 1 / 32767.0f );
 }
 
-inline int Euphony::BlueFFT::frequencyToIndex(const int freq) const {
+inline int BlueFFT::frequencyToIndex(const int freq) const {
     return (int)(((halfOfFFTSize) + 1) * ((double)freq / (double)getSampleRate()));
 }
 
 template <typename T>
-void Euphony::BlueFFT::FFT(std::vector<T> &spectrum, bool inv) {
+void BlueFFT::FFT(std::vector<T> &spectrum, bool inv) {
     int N = fftSize;
     for(int i=1, j=0; i<N; i++) {
         int bit = N >> 1;
