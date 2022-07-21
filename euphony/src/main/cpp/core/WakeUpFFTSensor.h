@@ -13,12 +13,13 @@ namespace Euphony {
     class WakeUpFFTSensor : public WakeUpSensor {
     public:
         WakeUpFFTSensor(int sampleRate);
-        int feedAudioData(const float* audioSrc, const int size);
+        bool detectWakeUpSign(const float* audioSrc, const int size);
         bool isWakeUp();
         bool isWakeUp(int signFrequency);
 
     private:
         int isWaveDetected(const float* audioSrc, const int size);
+        int isStartSignalDetected(const float* audioSrc, const int size);
         std::unique_ptr<FFTModel> preFFT;
         std::unique_ptr<FFTModel> postFFT;
         int preFFTSize;

@@ -34,14 +34,9 @@ TEST_P(WakeUpFFTSensorTestFixture, WakeUpFFTSensorTest)
     float* floatWaveSource = &floatWaveSourceVector[0];
 
     sensor = std::make_unique<WakeUpFFTSensor>(sampleRate);
-    int pos = sensor->feedAudioData(floatWaveSource, 2048);
+    bool activeResult = sensor->detectWakeUpSign(floatWaveSource, 2048);
 
-    if(pos == -1)
-        EXPECT_EQ(false, expectedWakeUp);
-    else
-        EXPECT_EQ(true, expectedWakeUp);
-
-    EXPECT_EQ(pos, resultPos);
+    EXPECT_EQ(activeResult, expectedWakeUp);
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -50,12 +45,11 @@ INSTANTIATE_TEST_SUITE_P(
         ::testing::Values(
         /*
          * Frequency, FFTSize, sampleRate, expectedSpectrumIndex
-         * kStartSignalFrequency = 17950
+         * kStartSignalFrequency = 18001 - 86
          */
-        TestParamType(17924, true, 0, 44100),
-        TestParamType(18300, true, 0, 44100),
+        TestParamType(17915, true, 0, 44100),
+        TestParamType(18000, false, 0, 44100),
+        TestParamType(19000, false, -1, 44100),
         TestParamType(20000, false, -1, 44100)
-        //TestParamType(20000, false, 2, 48000),
-        //
         )
 );

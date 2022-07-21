@@ -6,7 +6,7 @@ namespace Euphony {
     class WakeUpSensor {
     public:
         virtual ~WakeUpSensor() = default;
-        virtual int feedAudioData(const float* audioSrc, const int size) = 0;
+        virtual bool detectWakeUpSign(const float* audioSrc, const int size) = 0;
         virtual bool isWakeUp() = 0;
     };
 
