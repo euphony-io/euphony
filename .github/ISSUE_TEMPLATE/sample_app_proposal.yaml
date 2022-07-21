@@ -1,0 +1,52 @@
+name: 🚀 Sample app proposal
+description: Show off your app!
+title: "[Sample App Proposal] <title>"
+labels: Sample Proposal
+
+body:
+# title field (Required)
+- type: input
+  id: app_title
+  attributes:
+    label: What's your app name?
+  validations:
+    required: true
+
+# feature field (Required)
+- type: textarea
+  id: feature
+  attributes:
+    label: "Main features"
+    description: "Summarize the feature of your app"
+    value: "- "
+  validations:
+    required: true
+
+# description field (Required)
+- type: textarea
+  id: description
+  attributes:
+    label: "The features of the app are as follows:"
+    description: "Describe how your app works! you can also use snapshots of your app."
+  validations:
+    required: true
+
+# contributors (Required)
+- type: textarea
+  attributes:
+    label: Who made it?
+    description: "Write contributors ID with profile link. ( Example: Co-authored-by: username <username@example.com> )"
+    value: "Co-authored-by: "
+  validations:
+    required: true
+
+
+# repository link (Required)
+- type: input
+  id: repository_link
+  attributes:
+    label: Submit your repository link!
+    description: "Please submit your sample app repository. ( Example: https://github.com/euphony-io/your-sample-app )"
+    value: "https://github.com/euphony-io/"
+  validations:
+    required: true
