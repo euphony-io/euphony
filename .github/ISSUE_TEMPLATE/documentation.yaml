@@ -14,7 +14,7 @@ body:
 - type: input
   attributes:
     label: Does the document's page already exist? 
-    description: Please link to it.
+    description: "Please link to it. (Ex: https://github.com/euphony-io/euphony/blob/master/CONTRIBUTING.md)"
   validations:
     required: false
 
