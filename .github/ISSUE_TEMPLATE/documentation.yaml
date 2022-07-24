@@ -1,0 +1,40 @@
+name: 📚 Documentation
+description: A request to update or improve Euphony documentation
+title: "[Documentation] <title>"
+labels: "documentation"
+
+body:
+- type: input
+  attributes:
+    label: Title
+    description: title of documentation
+  validations:
+    required: true
+
+- type: input
+  attributes:
+    label: Does the document's page already exist? 
+    description: "Please link to it. (Ex: https://github.com/euphony-io/euphony/blob/master/CONTRIBUTING.md)"
+  validations:
+    required: false
+
+- type: textarea
+  attributes:
+    label: What is the issue of docs?
+    description: A clear and concise description of what the issue of docs is.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Suggest a potential alternative/fix
+    description: Tell us how we could improve the documentation in this regard.
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: Anything else? 
+    description: Write any messages If you want.
+  validations:
+    required: false
