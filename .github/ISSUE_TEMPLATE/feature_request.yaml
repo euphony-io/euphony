@@ -1,7 +1,7 @@
 name: 👑 Feature request
 description: Suggest an idea for this project
 title: "[Feature] <title>"
-labels: "feature"
+labels: "Feature Proposal"
 
 body:
   - type: markdown
