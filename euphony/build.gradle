@@ -35,7 +35,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
+            version "3.22.1"
         }
     }
 
@@ -75,6 +75,8 @@ android {
             println "Print build_stdout $resultStr"
     }
 }
+
+apply from: "publish.gradle"
 
 dependencies {
     implementation 'com.google.oboe:oboe:1.6.1'

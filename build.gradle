@@ -9,18 +9,12 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
-
-        // for mavenCentral publish
-        //classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
+        classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
     }
 }
 
-/*
- * mavenCentral publish script
- *
 apply plugin: 'io.github.gradle-nexus.publish-plugin'
 apply from: file("publish-root.gradle")
-*/
 
 allprojects {
     repositories {
