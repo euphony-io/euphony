@@ -1,7 +1,7 @@
 <p align='center'><img src='https://github.com/designe/euphony/raw/master/assets/euphony_logo.png' width='400px' /></p>
 <hr style='border-style:inset; border-width:0.5px'/>
 <p align='center'>
-    <a href = 'https://search.maven.org/artifact/co.jbear.lib/euphony/0.7.1.6/aar'><img src='https://maven-badges.herokuapp.com/maven-central/co.jbear.lib/euphony/badge.svg' alt='mavenCentral'/></a> <a href = 'https://coveralls.io/github/designe/euphony?branch=master'><img src='https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master' alt='Coverage Status'/></a> <a href = 'https://opensource.org/licenses/Apache-2.0'><img src='https://img.shields.io/badge/License-Apache%202.0-blue.svg' alt='License'/></a>
+    <a href = 'https://search.maven.org/artifact/co.euphony.lib/euphony'><img src='https://maven-badges.herokuapp.com/maven-central/co.euphony.lib/euphony/badge.svg' alt='mavenCentral'/></a> <a href = 'https://coveralls.io/github/designe/euphony?branch=master'><img src='https://coveralls.io/repos/github/designe/euphony/badge.svg?branch=master' alt='Coverage Status'/></a> <a href = 'https://opensource.org/licenses/Apache-2.0'><img src='https://img.shields.io/badge/License-Apache%202.0-blue.svg' alt='License'/></a>
 </p>
 
 Acoustic Data Telecommunication Library. This is for Android version.  
@@ -15,7 +15,7 @@ Euphony provides a handiness library designed to communicate with other devices(
 1) build.gradle in app module
 ```gradle
 dependencies {
-    implementation 'euphony.lib:euphony:0.7.1.6'
+    implementation 'co.euphony.lib:euphony:0.8.0.1'
 }
 ```
 

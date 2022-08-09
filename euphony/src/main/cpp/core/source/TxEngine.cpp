@@ -27,9 +27,7 @@ public:
     bool mIsLatencyDetectionSupported = false;
     oboe::Result mStreamResult = oboe::Result::ErrorBase;
 
-    double eupiFreq;
     int32_t mDeviceId = oboe::Unspecified;
-    int32_t mChannelCount = oboe::Unspecified;
     oboe::AudioApi mAudioApi = oboe::AudioApi::Unspecified;
 
     std::shared_ptr<Packet> txPacket = nullptr;
@@ -223,10 +221,6 @@ public:
         mModem = ModemFactory::create(mModulationType);
     }
 
-    void setEupiFrequency(double freq) {
-        eupiFreq = freq;
-    }
-
     void setBufferSizeInBursts(int32_t numBursts)
     {
         std::lock_guard<std::mutex> lock(mLock);
@@ -342,10 +336,6 @@ void TxEngine::setAudioApi(oboe::AudioApi audioApi) {
 
 void TxEngine::setPerformance(oboe::PerformanceMode mode) {
     pImpl->setPerformance(mode);
-}
-
-void TxEngine::setChannelCount(int channelCount) {
-    pImpl->mChannelCount = channelCount;
 }
 
 void TxEngine::setDeviceId(int32_t deviceId) {

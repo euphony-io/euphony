@@ -18,8 +18,8 @@ namespace Euphony {
         std::shared_ptr<Packet> demodulate(const float* source, int sourceLength, int bufferSize);
     private:
         std::unique_ptr<FFTModel> fftModel;
-        static int getStartFreqIdx() ;
-        static int getEndFreqIdx() ;
+        static int getStartFreqIdx();
+        static int getEndFreqIdx();
         static int getStartFreqIdx(const int sampleRate, const int fftSize);
         static int getEndFreqIdx(const int sampleRate, const int fftSize);
     };

@@ -89,7 +89,7 @@ int FSK::getMaxIdxFromSource(const float *fft_source, const int baseSize, const 
         }
     }
 
-    return maxIndex - getStartFreqIdx();
+    return maxIndex - startIdx;
 }
 
 
@@ -97,10 +97,10 @@ shared_ptr<Packet> FSK::demodulate(const WaveList& waveList) {
     HexVector hexVector = HexVector(waveList.size());
     
     for(const auto& wave : waveList) {
-        auto vectorInt16Source = wave->getInt16Source();
-        int16_t* int16Source = &vectorInt16Source[0];
-        float *resultBuf = fftModel->makeSpectrum(int16Source);
-        hexVector.pushBack(getMaxIdxFromSource(resultBuf));
+        auto floatVectorSource = wave->getSource();
+        float* floatSource = &floatVectorSource[0];
+        auto spectrums = fftModel->makeSpectrum(floatSource);
+        hexVector.pushBack(getMaxIdxFromSource(spectrums.amplitudeSpectrum));
     }
 
     return std::make_shared<Packet>(hexVector);
