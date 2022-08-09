@@ -19,7 +19,8 @@ add_executable(
         base32Test.cpp
         base64Test.cpp
         defaultCharsetTest.cpp
-        FFTTest.cpp
+        FFTProcessorTest.cpp
+        BlueFFTTest.cpp
         FSKTest.cpp
         hexVectorTest.cpp
         packetTest.cpp
@@ -29,6 +30,7 @@ add_executable(
         waveTest.cpp
         waveBuilderTest.cpp
         waveRendererTest.cpp
+        wakeUpFFTSensorTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)

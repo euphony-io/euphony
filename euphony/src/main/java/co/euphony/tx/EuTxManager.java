@@ -9,12 +9,13 @@ import android.os.Looper;
 import android.util.Log;
 
 import co.euphony.common.Constants;
+import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
 import static android.media.AudioTrack.SUCCESS;
 
 public class EuTxManager {
-	private EuTxNativeConnector txCore;
+	private EuNativeConnector txCore;
 	private AudioTrack mAudioTrack = null;
 	private EuOption.ModeType modeType;
 	private PlayerEngine playerEngineType;
@@ -30,8 +31,8 @@ public class EuTxManager {
 		EUPHONY_NATIVE_ENGINE
 	}
 
-	public EuTxManager(Context context) {
-		txCore = new EuTxNativeConnector(context);
+	public EuTxManager() {
+		txCore = EuNativeConnector.getInstance();
 	}
 
 	public void setCode(String data)
@@ -47,7 +48,7 @@ public class EuTxManager {
 		setMode(EuOption.ModeType.EUPI);
 		txCore.setToneOn(true);
 		txCore.setAudioFrequency(freq);
-		Constants.Result res = txCore.start();
+		Constants.Result res = txCore.tx_start();
 
 		if (duration != EuPIDuration.LENGTH_FOREVER) {
 			new Handler(Looper.getMainLooper()).postDelayed(this::stop,
@@ -85,7 +86,7 @@ public class EuTxManager {
 
 	private void playWithNativeEngine(final int count) {
 		txCore.setCountToneOn(true, count);
-		txCore.start();
+		txCore.tx_start();
 	}
 
 	private void playWithAndroidEngine(int count) {
@@ -127,8 +128,16 @@ public class EuTxManager {
 				mAudioTrack.pause();
 		}
 		else {
-			txCore.stop();
+			txCore.tx_stop();
 		}
+	}
+
+	/*
+	 * @deprecated Replaced by {@link #EuTxManager()}, deprecated for using context argument
+	 */
+	@Deprecated
+	public EuTxManager(Context context) {
+		txCore = EuNativeConnector.getInstance();
 	}
 
 	/*
