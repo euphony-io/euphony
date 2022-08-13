@@ -41,7 +41,7 @@ There are 3 ways adding euphony to your project.
 dependencies {
 	// other dependencies
 	// ...
-	implementation 'co.jbear.lib:euphony:0.7.1.6'
+	implementation 'co.euphony.lib:euphony:0.8.0.1'
 }
 ```
 
@@ -54,7 +54,7 @@ dependencies {
 > OS : Windows 10  
 > Android Studio : Arctic Fox | 2020.3.1
 
-1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.jbear.lib/euphony/0.7.1.6/aar) follow the link and download aar file
+1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.euphony.lib/euphony/0.8.0.1/aar) follow the link and download aar file
 
 <img width="392" alt="aar_001" src="https://user-images.githubusercontent.com/27720475/130188260-a0f3ee6d-7afc-4dfc-928e-5562eca476ba.png">
 
@@ -62,7 +62,7 @@ dependencies {
 
 <img width="392" alt="aar_002_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187177-b97b55ef-158a-4975-b0f8-b9e8bfdc5886.png">
 
-<img width="392" alt="aar_003_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187182-33d5f067-9165-4cc8-a8a0-04619d5dfdbe.png">
+<img width="392" alt="aar_003_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/76645322/184471738-64d3dd96-73e2-4de8-9dc6-133100e5470d.png">
 
 3. Check your `build.gradle` in app module
 
@@ -74,7 +74,7 @@ repositories {
 }
 
 dependencies {
-    implementation name: 'euphony-0.7.1.6', ext: 'aar'
+    implementation name: 'euphony-0.8.0.1', ext: 'aar'
 }
 
 ```
@@ -185,77 +185,88 @@ Let's look up the code.
 ```java
 package com.example.euphonytest;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityResultLauncher requestPermissionLauncher;
     private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        requestPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                new ActivityResultCallback<Boolean>() {
+                    @Override
+                    public void onActivityResult(Boolean result) {
+                        if (result) {
+                            // PERMISSION GRANTED
+                        } else {
+                            // PERMISSION DENIED
+                        }
+                    }
+                });
+
         button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
-
-                if (permission == PackageManager.PERMISSION_DENIED) {
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{
-                                Manifest.permission.RECORD_AUDIO}, 1000);
-                    }
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    final String permission = Manifest.permission.RECORD_AUDIO;
+                    requestPermissionLauncher.launch(permission);
                 }
             }
         });
     }
-```
 
-```java
-   //after requestPermission
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 1000) {
-            boolean check_result = true;
-            for (int result : grantResults) {
-                if (result != PackageManager.PERMISSION_GRANTED) {
-                    check_result = false;
-                    break;
-                }
-            }
-            if(check_result == true) {
-
-            } else {
-                finish();
-            }
-        }
-    }
 }
 ```
 
 This is `MainActivity` for adding permission.
 
 ```java
-int permission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.RECORD_AUDIO);
-
-if (permission == PackageManager.PERMISSION_DENIED) {
-    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        requestPermissions(new String[]{
-                Manifest.permission.RECORD_AUDIO}, 1000);
-    }
+ActivityResultLauncher requestPermissionLauncher = registerForActivityResult(
+        new ActivityResultContracts.RequestPermission(),
+        new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean result) {
+                if (result) {
+                    // PERMISSION GRANTED
+                } else {
+                    // PERMISSION DENIED
+                }
+            }
+        });
+if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    final String permission = Manifest.permission.RECORD_AUDIO;
+    requestPermissionLauncher.launch(permission);
 }
 ```
 
 We can know whether permission is denied or not. And we also consider both sdk version is higher than 16 which is mashmellow and call function requestPermission.
 
+This is `MainActivity` for adding multiplePermission.
+	
+```java
+ActivityResultContracts.RequestMultiplePermissions multiplePermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
+ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(multiplePermissionsContract, isGranted -> {
+    Log.d("Permissions", "result: " + isGranted.toString());
+});
+
+if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    multiplePermissionLauncher.launch(permissions);
+}
+```
+	
 </details>
