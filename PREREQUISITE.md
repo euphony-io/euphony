@@ -185,7 +185,6 @@ Let's look up the code.
 ```java
 package com.example.euphonytest;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -193,38 +192,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityResultLauncher requestPermissionLauncher;
     private Button button;
+    private ActivityResultLauncher<String[]> multiplePermissionLauncher;
+    final String[] permissions = {
+            Manifest.permission.RECORD_AUDIO
+            // add other permissions
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        requestPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                new ActivityResultCallback<Boolean>() {
-                    @Override
-                    public void onActivityResult(Boolean result) {
-                        if (result) {
-                            // PERMISSION GRANTED
-                        } else {
-                            // PERMISSION DENIED
-                        }
-                    }
-                });
+        registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+            if(isGranted.toString().contains("false")) {
+                Log.d("Permissions", "result: " + isGranted.toString());
+                finish();
+            }
+        });
 
         button = findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    final String permission = Manifest.permission.RECORD_AUDIO;
-                    requestPermissionLauncher.launch(permission);
+                    multiplePermissionLauncher.launch(permissions);
                 }
             }
         });
@@ -236,37 +233,19 @@ public class MainActivity extends AppCompatActivity {
 This is `MainActivity` for adding permission.
 
 ```java
-ActivityResultLauncher requestPermissionLauncher = registerForActivityResult(
-        new ActivityResultContracts.RequestPermission(),
-        new ActivityResultCallback<Boolean>() {
-            @Override
-            public void onActivityResult(Boolean result) {
-                if (result) {
-                    // PERMISSION GRANTED
-                } else {
-                    // PERMISSION DENIED
-                }
-            }
-        });
-if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-    final String permission = Manifest.permission.RECORD_AUDIO;
-    requestPermissionLauncher.launch(permission);
-}
-```
-
-We can know whether permission is denied or not. And we also consider both sdk version is higher than 16 which is mashmellow and call function requestPermission.
-
-This is `MainActivity` for adding multiplePermission.
-	
-```java
-ActivityResultContracts.RequestMultiplePermissions multiplePermissionsContract = new ActivityResultContracts.RequestMultiplePermissions();
-ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(multiplePermissionsContract, isGranted -> {
-    Log.d("Permissions", "result: " + isGranted.toString());
+ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
+    if(isGranted.toString().contains("false")) {
+        Log.d("Permissions", "result: " + isGranted.toString());
+        finish();
+    }
 });
 
 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     multiplePermissionLauncher.launch(permissions);
 }
 ```
+
+We can know whether permission is denied or not. And we also consider both sdk version is higher than 16 which is mashmellow and call function requestPermission.
+
 	
 </details>
