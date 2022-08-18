@@ -19,7 +19,9 @@ namespace Euphony {
     public:
         Wave();
         Wave(int hz, int bufferSize);
+        Wave(int hz, int bufferSize, int sampleRate);
         Wave(const float* src, int bufferSize);
+        Wave(const float* src, int bufferSize, int sampleRate);
         explicit Wave(const Wave& copy);
 
         static WaveBuilder create();
@@ -31,6 +33,8 @@ namespace Euphony {
         void setHz(int hz);
         int getSize() const;
         void setSize(int size);
+        int getSampleRate() const;
+        void setSampleRate(int sampleRate);
 
         std::vector<float> getSource() const;
         void setSource(const std::vector<float> &source);
@@ -42,6 +46,7 @@ namespace Euphony {
 
         int mHz;
         int mSize;
+        int sampleRate;
         CrossfadeType crossfadeType;
         std::vector<float> mSource;
         float mPhase = 0.0;
