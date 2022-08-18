@@ -1,4 +1,5 @@
 #include "../FSK.h"
+#include "../FFTHelper.h"
 #include "../FFTProcessor.h"
 #include "../Definitions.h"
 #include "../WaveBuilder.h"
@@ -64,8 +65,8 @@ WaveList FSK::modulate(string code) {
 int FSK::getMaxIdxFromSource(const float *fft_source) {
     int maxIndex = 0;
     float maxValue = 0;
-    const int startIdx = getStartFreqIdx();
-    const int endIdx = getEndFreqIdx();
+    const int startIdx = FFTHelper::getIndexOfStandardFrequency(kStandardFrequency, kFFTSize, kSampleRate);
+    const int endIdx = startIdx + 16;
     for(int i = startIdx - 1; i < endIdx; i++) {
         if(fft_source[i] > maxValue) {
             maxValue = fft_source[i];
@@ -73,14 +74,14 @@ int FSK::getMaxIdxFromSource(const float *fft_source) {
         }
     }
 
-    return maxIndex - getStartFreqIdx();
+    return maxIndex - startIdx;
 }
 
 
 int FSK::getMaxIdxFromSource(const float *fft_source, const int baseSize, const int sampleRate, const int fftSize) {
     int maxIndex = 0;
     float maxValue = 0;
-    const int startIdx = getStartFreqIdx(sampleRate, fftSize);
+    const int startIdx = FFTHelper::getIndexOfFrequency(kStandardFrequency, fftSize, sampleRate);
     const int endIdx = startIdx + baseSize;
     for(int i = startIdx - 1; i < endIdx; i++) {
         if(fft_source[i] > maxValue) {
