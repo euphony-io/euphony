@@ -39,6 +39,7 @@ set(EUPHONY_SRC
         core/source/Base64Exception.cpp
         core/source/EuPIOscillator.cpp
         core/source/EuPIRenderer.cpp
+        core/source/FFTHelper.cpp
         core/source/FFTModel.cpp
         core/source/FFTProcessor.cpp
         core/source/BlueFFT.cpp
