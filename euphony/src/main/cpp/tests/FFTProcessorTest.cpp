@@ -18,7 +18,7 @@ public:
     int getResultByFFT(const int inputFrequency, const int standardFrequency, const int sampleRate, const int fftSize) const {
         auto wave = Wave::create()
                 .vibratesAt(inputFrequency)
-                .setSize(512)
+                .setSize(fftSize)
                 .setSampleRate(sampleRate)
                 .build();
 
@@ -70,6 +70,8 @@ INSTANTIATE_TEST_SUITE_P(
                  * kStartSignalFrequency = 17915
                  */
                 TestParamType(17915, 512, 44100, 18001, -1),
-                TestParamType(17906, 512, 48000, 18000, -1)
+                TestParamType(17959, 1024, 44100, 18001, -1),
+                TestParamType(17906, 512, 48000, 18000, -1),
+                TestParamType(17953, 1024, 48000, 18000, -1)
         )
 );
