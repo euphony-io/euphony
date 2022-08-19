@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <Definitions.h>
-#include <FSK.h>
 #include <FFTProcessor.h>
 #include <WaveBuilder.h>
 #include <WakeUpFFTSensor.h>
