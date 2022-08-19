@@ -37,7 +37,7 @@ int FFTHelper::getMaxIdxFromSource(const float *fft_source, const int standardFr
                                    const int sampleRate) {
     int maxIndex = 0;
     float maxValue = 0;
-    const int startIdx = FFTHelper::getIndexOfFrequency(standardFrequency, fftSize, sampleRate);
+    const int startIdx = getIndexOfFrequency(standardFrequency, fftSize, sampleRate);
     const int endIdx = startIdx + range;
     for(int i = startIdx - 1; i < endIdx; i++) {
         if(fft_source[i] > maxValue) {
