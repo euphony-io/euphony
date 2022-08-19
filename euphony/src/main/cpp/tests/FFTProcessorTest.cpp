@@ -45,12 +45,12 @@ TEST_P(FFTProcessorTestFixture, FFTProcessorTest)
         int activeResult = getResultByFFT(inputFrequency, inputStandardFrequency, inputSampleRate, inputFFTSize);
         EXPECT_EQ(expectedSpectrumIndex, activeResult);
 
-        /* Minimum Frequency(-41) Check*/
+        /* Minimum Frequency Check*/
         const int lowFrequency = inputFrequency - frequencyApproximateRange;
         activeResult = getResultByFFT(lowFrequency, inputStandardFrequency, inputSampleRate, inputFFTSize);
         EXPECT_EQ(expectedSpectrumIndex, activeResult);
 
-        /* Maximum Frequency(+43) Check*/
+        /* Maximum Frequency Check*/
         const int highFrequency = inputFrequency + frequencyApproximateRange;
         activeResult = getResultByFFT(highFrequency, inputStandardFrequency, inputSampleRate, inputFFTSize);
         EXPECT_EQ(expectedSpectrumIndex, activeResult);
