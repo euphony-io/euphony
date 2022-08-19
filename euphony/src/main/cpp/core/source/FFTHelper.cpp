@@ -14,7 +14,7 @@ int FFTHelper::getIndexOfStandardFrequency() const {
 }
 
 int FFTHelper::getIndexOfStandardFrequency(const int standardFrequency, const int fftSize, const int sampleRate) {
-    return std::lround((static_cast<float>(static_cast<float>(standardFrequency) / static_cast<float>(sampleRate >> 1)) * (fftSize >> 1)));
+    return std::lround((static_cast<float>(static_cast<float>(standardFrequency) / static_cast<float>(sampleRate >> 1)) * static_cast<float>(fftSize >> 1)));
 }
 
 int FFTHelper::getIndexOfEndFrequency(const int range) const {
@@ -30,7 +30,7 @@ int FFTHelper::getIndexOfFrequency(int frequency) const {
 }
 
 int FFTHelper::getIndexOfFrequency(const int frequency, const int fftSize, const int sampleRate) {
-    return std::lround((static_cast<float>(static_cast<float>(frequency) / static_cast<float>(sampleRate >> 1)) * (fftSize >> 1)));
+    return std::lround((static_cast<float>(static_cast<float>(frequency) / static_cast<float>(sampleRate >> 1)) * static_cast<float>(fftSize >> 1)));
 }
 
 int FFTHelper::getMaxIdxFromSource(const float *fft_source, const int standardFrequency, const int range, const int fftSize,
