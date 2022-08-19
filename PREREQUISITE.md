@@ -234,13 +234,20 @@ public class MainActivity extends AppCompatActivity {
 This is `MainActivity` for adding permission.
 
 ```java
-ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
-    if(isGranted.toString().contains("false")) {
-        Log.d("Permissions", "result: " + isGranted.toString());
-        finish();
+String[] permissions = {
+    Manifest.permission.RECORD_AUDIO
+    // add other permissions
+};
+
+// after requestPermissions
+ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(new 
+ActivityResultContracts.RequestMultiplePermissions(), grantResults -> {
+    for(Boolean result : grantResults.values()) {
+        if (!result) {
+            finish();
+        }
     }
 });
-
 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
     multiplePermissionLauncher.launch(permissions);
 }
