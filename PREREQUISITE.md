@@ -253,7 +253,7 @@ if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 }
 ```
 
-We can know whether permission is denied or not. And we also consider both sdk version is higher than 16 which is mashmellow and call function requestPermission.
+We can know whether permissions are denied or not. And we also consider both sdk version is higher than 16 which is marshmallow and call function RequestMultiplePermissions.
 
 	
 </details>
