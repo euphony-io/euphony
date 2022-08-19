@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <Definitions.h>
-#include <FSK.h>
 #include <WaveBuilder.h>
 #include <tuple>
 #include <BlueFFT.h>

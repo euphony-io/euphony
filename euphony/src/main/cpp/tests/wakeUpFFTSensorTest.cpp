@@ -27,6 +27,7 @@ TEST_P(WakeUpFFTSensorTestFixture, WakeUpFFTSensorTest)
     auto wave = Wave::create()
             .vibratesAt(inputFrequency)
             .setSize(2048)
+            .setSampleRate(sampleRate)
             .setCrossfade(FRONT)
             .build();
 

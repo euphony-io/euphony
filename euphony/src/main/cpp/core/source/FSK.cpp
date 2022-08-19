@@ -101,7 +101,7 @@ shared_ptr<Packet> FSK::demodulate(const WaveList& waveList) {
         auto floatVectorSource = wave->getSource();
         float* floatSource = &floatVectorSource[0];
         auto spectrums = fftModel->makeSpectrum(floatSource);
-        hexVector.pushBack(getMaxIdxFromSource(spectrums.amplitudeSpectrum));
+        hexVector.pushBack(FFTHelper::getMaxIdxFromSource(spectrums.amplitudeSpectrum, kStandardFrequency, 16, kFFTSize, kSampleRate));
     }
 
     return std::make_shared<Packet>(hexVector);

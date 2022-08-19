@@ -1,7 +1,7 @@
 #include "../WakeUpFFTSensor.h"
+#include <FFTHelper.h>
 #include <FSK.h>
 #include <FFTProcessor.h>
-#include <BlueFFT.h>
 
 using namespace Euphony;
 
@@ -28,7 +28,7 @@ int WakeUpFFTSensor::isStartSignalDetected(const float *audioSrc, const int size
     int startSignalCount = 0;
     for(int i = 0; i < size; i += postFFTSize) {
         auto result = postFFT->makeSpectrum(audioSrc + i);
-        if(FSK::getMaxIdxFromSource(result.amplitudeSpectrum, 32, sampleRate, postFFTSize) != -1) {
+        if(FFTHelper::getMaxIdxFromSource(result.amplitudeSpectrum, kStandardFrequency, 32, postFFTSize, sampleRate) != -1) {
             continue;
         }
 
@@ -44,7 +44,7 @@ int WakeUpFFTSensor::isWaveDetected(const float* audioSrc, const int size) {
     int waveCount = 0;
     for(int i = 0; i < size; i += preFFTSize) {
         auto result = preFFT->makeSpectrum(audioSrc + i);
-        const int idx = FSK::getMaxIdxFromSource(result.amplitudeSpectrum, 2, sampleRate, preFFTSize);
+        const int idx = FFTHelper::getMaxIdxFromSource(result.amplitudeSpectrum, kStandardFrequency, 2, preFFTSize, sampleRate);
 
         if(idx != 0) {
             waveCount = 0;
