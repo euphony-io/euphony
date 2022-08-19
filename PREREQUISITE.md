@@ -198,21 +198,22 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private Button button;
-    private ActivityResultLauncher<String[]> multiplePermissionLauncher;
-    final String[] permissions = {
-            Manifest.permission.RECORD_AUDIO
-            // add other permissions
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), isGranted -> {
-            if(isGranted.toString().contains("false")) {
-                Log.d("Permissions", "result: " + isGranted.toString());
-                finish();
+        String[] permissions = {
+                Manifest.permission.RECORD_AUDIO
+                // add other permissions
+        };
+
+        // after requestPermissions
+        ActivityResultLauncher<String[]> multiplePermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), grantResults -> {
+            for(Boolean result : grantResults.values()) {
+                if (!result) {
+                    finish();
+                }
             }
         });
 
