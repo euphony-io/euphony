@@ -19,6 +19,7 @@ add_executable(
         base32Test.cpp
         base64Test.cpp
         defaultCharsetTest.cpp
+        FFTHelperTest.cpp
         FFTProcessorTest.cpp
         BlueFFTTest.cpp
         FSKTest.cpp

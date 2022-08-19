@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <Definitions.h>
-#include <FSK.h>
 #include <FFTProcessor.h>
 #include <WaveBuilder.h>
 #include <WakeUpFFTSensor.h>
@@ -27,6 +26,7 @@ TEST_P(WakeUpFFTSensorTestFixture, WakeUpFFTSensorTest)
     auto wave = Wave::create()
             .vibratesAt(inputFrequency)
             .setSize(2048)
+            .setSampleRate(sampleRate)
             .setCrossfade(FRONT)
             .build();
 

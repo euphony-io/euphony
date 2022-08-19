@@ -8,23 +8,46 @@
 
 using namespace Euphony;
 
-Euphony::Wave::Wave()
-: mHz(0),
-mSize(0),
-crossfadeType(NONE)
+Wave::Wave()
+: mHz(0)
+, mSize(0)
+, sampleRate(kSampleRate)
+, crossfadeType(NONE)
 {}
 
-Euphony::Wave::Wave(int hz, int bufferSize)
-: mHz(hz),
-mSize(bufferSize),
-crossfadeType(NONE)
+Wave::Wave(int hz, int bufferSize)
+        : mHz(hz)
+        , mSize(bufferSize)
+        , sampleRate(kSampleRate)
+        , crossfadeType(NONE)
+{
+    oscillate();
+}
+
+Wave::Wave(int hz, int bufferSize, int sampleRate)
+: mHz(hz)
+, mSize(bufferSize)
+, sampleRate(sampleRate)
+, crossfadeType(NONE)
 {
     oscillate();
 }
 
 Wave::Wave(const float *src, int bufferSize)
+        : mHz(0)
+        , mSize(bufferSize)
+        , sampleRate(kSampleRate)
+        , crossfadeType(NONE)
+{
+    for(int i = 0; i < bufferSize; ++i) {
+        mSource.push_back(src[i]);
+    }
+}
+
+Wave::Wave(const float *src, int bufferSize, int sampleRate)
 : mHz(0)
 , mSize(bufferSize)
+, sampleRate(sampleRate)
 , crossfadeType(NONE)
 {
     for(int i = 0; i < bufferSize; ++i) {
@@ -32,10 +55,11 @@ Wave::Wave(const float *src, int bufferSize)
     }
 }
 
-Euphony::Wave::Wave(const Wave& copy)
-: mHz(copy.mHz),
-mSize(copy.mSize),
-crossfadeType(copy.crossfadeType)
+Wave::Wave(const Wave& copy)
+: mHz(copy.mHz)
+, mSize(copy.mSize)
+, sampleRate(copy.sampleRate)
+, crossfadeType(copy.crossfadeType)
 {
     oscillate();
 }
@@ -44,11 +68,11 @@ WaveBuilder Euphony::Wave::create() {
     return WaveBuilder();
 }
 
-void Euphony::Wave::updatePhaseIncrement(int hz) {
-    mPhaseIncrement.store((kTwoPi * hz) / static_cast<double>(kSampleRate));
+void Wave::updatePhaseIncrement(int hz) {
+    mPhaseIncrement.store((kTwoPi * hz) / static_cast<double>(sampleRate));
 }
 
-void Euphony::Wave::oscillate() {
+void Wave::oscillate() {
     if(this->mHz > 0 && this->mSize > 0) {
         updatePhaseIncrement(this->mHz);
 
@@ -82,38 +106,47 @@ void Euphony::Wave::oscillate() {
     }
 }
 
-void Euphony::Wave::oscillate(int hz, int size) {
+void Wave::oscillate(int hz, int size) {
     this->setHz(hz);
     this->setSize(size);
     this->oscillate();
 }
 
-int Euphony::Wave::getHz() const {
+int Wave::getHz() const {
     return mHz;
 }
 
-void Euphony::Wave::setHz(int hz) {
+void Wave::setHz(int hz) {
     mHz = hz;
-    this->updatePhaseIncrement(hz);
 }
 
-int Euphony::Wave::getSize() const {
+int Wave::getSize() const {
     return mSize;
 }
 
-void Euphony::Wave::setSize(int size) {
+void Wave::setSize(int size) {
     mSize = size;
     mSource.reserve(size);
 }
 
-std::vector<float> Euphony::Wave::getSource() const {
+
+int Wave::getSampleRate() const {
+    return sampleRate;
+}
+
+void Wave::setSampleRate(int sampleRate) {
+    this->sampleRate = sampleRate;
+}
+
+
+std::vector<float> Wave::getSource() const {
     std::vector<float> result;
     result.reserve(mSource.capacity());
     result.assign(mSource.begin(), mSource.end());
     return result;
 }
 
-std::vector<int16_t> Euphony::Wave::getInt16Source() {
+std::vector<int16_t> Wave::getInt16Source() {
     std::vector<int16_t> result;
 
     if(mSource.empty()) {
@@ -129,15 +162,14 @@ std::vector<int16_t> Euphony::Wave::getInt16Source() {
     return result;
 }
 
-void Euphony::Wave::setSource(const std::vector<float> &source) {
+void Wave::setSource(const std::vector<float> &source) {
     mSource = source;
 }
 
-int16_t Euphony::Wave::convertFloat2Int16(float source) {
+int16_t Wave::convertFloat2Int16(float source) {
     return static_cast<float>(SHRT_MAX) * source;
 }
 
 void Wave::setCrossfade(CrossfadeType crossfadeType) {
     this->crossfadeType = crossfadeType;
 }
-
