@@ -5,10 +5,9 @@ import co.euphony.rx.AcousticSensor
 import co.euphony.rx.EuRxManager
 import co.euphony.tx.EuTxManager
 import co.euphony.ui.viewmodel.TxRxCheckerViewModel
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -23,13 +22,13 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-@OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 class TxRxCheckerViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    val mainThreadSurrogate = newSingleThreadContext(TxRxCheckerViewModelTest::class.java.simpleName)
+    val dispatcher = UnconfinedTestDispatcher()
 
     private lateinit var viewModel: TxRxCheckerViewModel
 
@@ -43,7 +42,7 @@ class TxRxCheckerViewModelTest {
     @Before
     fun setup() {
         viewModel = TxRxCheckerViewModel(txManager, rxManager)
-        Dispatchers.setMain(mainThreadSurrogate)
+        Dispatchers.setMain(dispatcher)
     }
 
     @After
