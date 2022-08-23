@@ -5,11 +5,8 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.lifecycle.MutableLiveData
+import co.euphony.common.Constants.*
 import co.euphony.ui.viewmodel.TxRxCheckerViewModel
-import co.euphony.util.Constants.TAG_BUTTON
-import co.euphony.util.Constants.TAG_INPUT
-import co.euphony.util.Constants.TAG_RESULT_FAIL
-import co.euphony.util.Constants.TAG_RESULT_SUCCESS
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

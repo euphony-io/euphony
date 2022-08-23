@@ -21,6 +21,12 @@ public class Constants {
 
 	public static final int DEFAULT_REF = 500;	// BASE Reference value
 
+	// TxRxChecker Test Tags
+	public static final String TAG_INPUT = "TxRxCheckerInput";
+	public static final String TAG_BUTTON = "TxRxCheckerButton";
+	public static final String TAG_RESULT_SUCCESS = "TxRxCheckerResultSuccess";
+	public static final String TAG_RESULT_FAIL = "TxRxCheckerResultFail";
+
 	/*
 	 * it is working as java porting version of Euphony::Result at euphony/src/main/cpp/core/Definitions.h
 	 */

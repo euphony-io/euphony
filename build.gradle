@@ -32,10 +32,11 @@ allprojects {
 }
 
 task cleanCache(type: Delete) {
-    def cacheDir = "${project.gradle.gradleUserHomeDir}/caches/transforms-2/files-2.1"
-    delete fileTree(cacheDir){
-        include('/*.bin')
+    def cppBuildDir = "euphony/.cxx/Debug"
+    delete fileTree(cppBuildDir) {
+        include "**/CMakeSystem.cmake"
     }
+
     doLast {
         println "Clear gradle cache."
     }

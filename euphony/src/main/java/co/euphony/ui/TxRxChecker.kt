@@ -19,15 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.euphony.rx.EuRxManager
-import co.euphony.tx.EuTxManager
+import co.euphony.common.Constants.*
 import co.euphony.ui.theme.LightSkyBlue
 import co.euphony.ui.theme.Typography
 import co.euphony.ui.viewmodel.TxRxCheckerViewModel
-import co.euphony.util.Constants.TAG_BUTTON
-import co.euphony.util.Constants.TAG_INPUT
-import co.euphony.util.Constants.TAG_RESULT_FAIL
-import co.euphony.util.Constants.TAG_RESULT_SUCCESS
 
 @Composable
 fun TxRxChecker(
