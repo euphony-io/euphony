@@ -90,8 +90,8 @@ class TxRxCheckerViewModelTest {
         `when`(rxManager.acousticSensor).thenAnswer {
             AcousticSensor {
                 viewModel.stop()
-                viewModel.rxCode.postValue(rxResult)
-                viewModel.isProcessing.postValue(false)
+                viewModel.setRxCode(rxResult)
+                viewModel.setIsProcessing(false)
             }
         }
         rxManager.acousticSensor.notify(rxResult)
@@ -110,8 +110,8 @@ class TxRxCheckerViewModelTest {
         `when`(rxManager.acousticSensor).thenAnswer {
             AcousticSensor {
                 viewModel.stop()
-                viewModel.rxCode.postValue(rxResult)
-                viewModel.isProcessing.postValue(false)
+                viewModel.setRxCode(rxResult)
+                viewModel.setIsProcessing(false)
             }
         }
         rxManager.acousticSensor.notify(rxResult)

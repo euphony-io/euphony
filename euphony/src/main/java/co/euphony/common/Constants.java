@@ -24,8 +24,8 @@ public class Constants {
 	// TxRxChecker Test Tags
 	public static final String TAG_INPUT = "TxRxCheckerInput";
 	public static final String TAG_BUTTON = "TxRxCheckerButton";
-	public static final String TAG_RESULT_SUCCESS = "TxRxCheckerResultSuccess";
-	public static final String TAG_RESULT_FAIL = "TxRxCheckerResultFail";
+	public static final String PLAY_BUTTON = "▶";
+	public static final String PROGRESS_BUTTON = "▷";
 
 	/*
 	 * it is working as java porting version of Euphony::Result at euphony/src/main/cpp/core/Definitions.h
