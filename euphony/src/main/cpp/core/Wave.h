@@ -33,6 +33,8 @@ namespace Euphony {
         void setHz(int hz);
         int getSize() const;
         void setSize(int size);
+        float getAmpSize() const;
+        void setAmpSize(float size);
         int getSampleRate() const;
         void setSampleRate(int sampleRate);
 
@@ -46,6 +48,7 @@ namespace Euphony {
 
         int mHz;
         int mSize;
+        float mAmpSize;
         int sampleRate;
         CrossfadeType crossfadeType;
         std::vector<float> mSource;

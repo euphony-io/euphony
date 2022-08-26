@@ -46,10 +46,8 @@ namespace Euphony {
 
     enum class ModulationType : int32_t {
         FSK = 0,
-        /*
-        TODO: v0.7.1.6 had ASK feature. but v0.8 has to create it.
-        ASK,
-         */
+        ASK = 1,
+
         /*
         TODO: Rearchitecturing necessary because the CPFSK modulation type has some glitch sound.
         CPFSK

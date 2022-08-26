@@ -13,6 +13,12 @@ WaveBuilder& WaveBuilder::setSize(int size) {
     return *this;
 }
 
+WaveBuilder& WaveBuilder::setAmpSize(float size) {
+    wave.setAmpSize(size);
+    return *this;
+}
+
+
 WaveBuilder& WaveBuilder::setCrossfade(CrossfadeType type) {
     wave.setCrossfade(type);
     return *this;
