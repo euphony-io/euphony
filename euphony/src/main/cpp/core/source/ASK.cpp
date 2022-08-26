@@ -35,7 +35,7 @@ WaveList ASK::modulate(std::string code) {
                                 .vibratesAt(kStandardFrequency)
                                 .setSize(kBufferSize)
                                 .setCrossfade(BOTH)
-                                .setAmpSize(c-'0')
+                                .setAmplitude(c - '0')
                                 .build()
                 );
                 break;
