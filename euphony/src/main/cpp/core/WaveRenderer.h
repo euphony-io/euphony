@@ -1,6 +1,7 @@
 #ifndef EUPHONY_WAVERENDERER_H
 #define EUPHONY_WAVERENDERER_H
 
+#include <mutex>
 #include "Definitions.h"
 #include "EuphonyAudioSource.h"
 
@@ -8,8 +9,13 @@ namespace Euphony {
 
     class WaveRenderer : public EuphonyAudioSource{
     public:
-        WaveRenderer(WaveList waveListSrc, int32_t channelCountSrc);
+        WaveRenderer(const WaveRenderer &) = delete;
+        WaveRenderer(WaveRenderer &&) = delete;
+        WaveRenderer &operator=(const WaveRenderer &) = delete;
+        WaveRenderer &operator=(WaveRenderer &&) = delete;
         ~WaveRenderer() = default;
+
+        static std::shared_ptr<WaveRenderer> getInstance();
 
         void renderAudio(float *targetData, int32_t numFrames) override; //From IRenderableAudio
         void tap(bool isDown) override;
@@ -19,6 +25,11 @@ namespace Euphony {
         void setWaveList(WaveList waveListSrc);
 
     private:
+        WaveRenderer();
+        WaveRenderer(WaveList waveListSrc, int32_t channelCountSrc);
+        static std::shared_ptr<WaveRenderer> instance;
+        static std::once_flag flag;
+
         void renderSilence(float *targetData, int32_t numFrames);
         std::unique_ptr<float[]> waveSource;
         std::atomic<bool> isWaveOn { false };

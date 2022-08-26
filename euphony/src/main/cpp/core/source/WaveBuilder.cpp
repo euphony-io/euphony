@@ -1,3 +1,4 @@
+#include <Definitions.h>
 #include "../WaveBuilder.h"
 
 using namespace Euphony;
@@ -23,12 +24,21 @@ WaveBuilder& WaveBuilder::setCrossfade(CrossfadeType type) {
     return *this;
 }
 
+WaveBuilder& WaveBuilder::setSampleRate(int sampleRate) {
+    wave.setSampleRate(sampleRate);
+    return *this;
+}
+
 std::shared_ptr<Wave> WaveBuilder::build() {
+    if(wave.getSampleRate() == 0)
+        wave.setSampleRate(kSampleRate);
+
     if(wave.getSize() > 0 && wave.getHz() > 0) {
         wave.oscillate();
+        return std::make_shared<Wave>(wave);
+    } else {
+        return nullptr;
     }
-
-    return std::make_shared<Wave>(wave);
 }
 
 

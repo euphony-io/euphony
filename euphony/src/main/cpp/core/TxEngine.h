@@ -5,14 +5,12 @@
 #ifndef EUPHONY_TXENGINE_H
 #define EUPHONY_TXENGINE_H
 
+#include "Definitions.h"
 #include <memory>
 
 constexpr int32_t kBufferSizeAutomatic = 0;
 
 namespace Euphony {
-    enum Status {
-        RUNNING, STOP
-    };
 
     class TxEngine {
     public:
@@ -22,7 +20,7 @@ namespace Euphony {
         void tap(bool isDown);
         void tapCount(bool isDown, int count);
         void stop();
-        void start();
+        Euphony::Result start();
         void setCode(std::string data);
         std::string getCode();
         std::string getGenCode();
@@ -32,7 +30,6 @@ namespace Euphony {
         void setMode(int modeSrc);
         void setModulation(int modulationTypeSrc);
         void setAudioApi(oboe::AudioApi audioApi);
-        void setChannelCount(int channelCount);
         void setDeviceId(int32_t deviceId);
         int getFramesPerBursts();
         void setBufferSizeInBursts(int32_t numBursts);

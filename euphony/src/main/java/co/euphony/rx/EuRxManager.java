@@ -8,6 +8,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import co.euphony.common.Constants;
+import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
 import static co.euphony.rx.EuPI.EuPITrigger.KEY_DOWN;
@@ -18,17 +19,23 @@ public class EuRxManager {
 
 	private final String LOG = "EuRxManager";
 
+	private EuNativeConnector nativeCore;
+	private RxEngineType rxEngineType = RxEngineType.EUPHONY_JAVA_ENGINE;
+
 	private Thread mListenThread = null;
-	private DetectRunner mDetectRunner = null;
 	private EuPICallRunner mEuPICallRunner = null;
 
 	public enum RxManagerStatus {
 		RUNNING, STOP
 	}
 
+	public enum RxEngineType {
+		EUPHONY_JAVA_ENGINE,
+		EUPHONY_NATIVE_ENGINE
+	}
+
 	private static final int RX_MODE = 1;
-	private static final int DETECT_MODE = 2;
-	private static final int EUPI_CALL_MODE = 3;
+	private static final int EUPI_CALL_MODE = 2;
 
 	private EuOption mOption;
 
@@ -40,13 +47,21 @@ public class EuRxManager {
 				.build();
 	}
 
+	public EuRxManager(RxEngineType engineType) {
+		rxEngineType = engineType;
+		if(rxEngineType == RxEngineType.EUPHONY_NATIVE_ENGINE)
+			nativeCore = EuNativeConnector.getInstance();
+		else
+			nativeCore = null;
+	}
+
 	public EuRxManager(EuOption.ModeType mode) {
 		mOption = EuOption.builder()
 				.modeWith(mode)
 				.build();
 	}
-	
-	public boolean listen() {
+
+	private boolean listenOnJava() {
 		if(getStatus() != RxManagerStatus.RUNNING) {
 			switch (mOption.getMode()) {
 				case DEFAULT:
@@ -74,29 +89,31 @@ public class EuRxManager {
 		}
 	}
 
-	public boolean listen(int freq) {
-		if(getStatus() != RxManagerStatus.RUNNING) {
-			if(mOption.getMode() == EuOption.ModeType.DETECT) {
-				mDetectRunner = new DetectRunner(freq);
-				mListenThread = new Thread(mDetectRunner, "DETECT");
-				mListenThread.start();
-				return true;
-			} else {
-				Log.d(LOG, "Please use other listen function.");
-				return false;
-			}
-		} else {
-			return false;
-		}
+	private boolean listenOnNative() {
+		/* TODO: 1) To implement the getRxStatus() */
+		/* TODO: 2) To implement the native listener */
+		nativeCore.rx_start();
+
+		return false;
+	}
+
+	public boolean listen() {
+		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
+			return listenOnJava();
+		else
+			return listenOnNative();
 	}
 
 	public void finish()
 	{
-		if(mListenThread != null) {
-			mListenThread.interrupt();
+		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
+			if (mListenThread != null) {
+				mListenThread.interrupt();
+			}
+			mListenThread = null;
+		} else {
+			nativeCore.rx_stop();
 		}
-		
-		mListenThread = null;
 	}
 
 	public void setOnWaveKeyPressed(int freq, EuPICallDetector iEuPICallDetector) {
@@ -192,9 +209,6 @@ public class EuRxManager {
 				case RX_MODE:
 					mAcousticSensor.notify(msg.obj + "");
 					break;
-				case DETECT_MODE:
-					mFrequencyDetector.detect((float)msg.obj);
-					break;
 				case EUPI_CALL_MODE:
 					EuPI eupi = (EuPI)msg.obj;
 					eupi.getCallback().call();
@@ -213,7 +227,15 @@ public class EuRxManager {
 	public void setOption(EuOption mOption) {
 		this.mOption = mOption;
 	}
-	
+
+	public RxEngineType getRxEngineType() {
+		return this.rxEngineType;
+	}
+
+	public void setRxEngineType(RxEngineType type) {
+		this.rxEngineType = type;
+	}
+
 	private class RxRunner extends EuFreqObject implements Runnable{
 		@Override
 		public void run() 
@@ -240,23 +262,6 @@ public class EuRxManager {
 			}
 
 			destroyFFT();
-		}
-	}
-
-	private FrequencyDetector mFrequencyDetector;
-
-	public FrequencyDetector getFrequencyDetector() {
-		return mFrequencyDetector;
-	}
-
-	public void setFrequencyDetector(FrequencyDetector mFrequencyDetector) {
-		this.mFrequencyDetector = mFrequencyDetector;
-	}
-
-	public void setFrequencyForDetect(int freq) {
-		if(mOption.getMode() == EuOption.ModeType.DETECT) {
-			if(mDetectRunner != null)
-				mDetectRunner.setFrequency(freq);
 		}
 	}
 
@@ -358,40 +363,6 @@ public class EuRxManager {
 				}
 			}
 
-			destroyFFT();
-		}
-	}
-
-	private class DetectRunner extends EuFreqObject implements Runnable {
-
-		int mFrequency = 0;
-		private int mFreqIndex = 0;
-		DetectRunner(int freq) {
-			setFrequency(freq);
-		}
-
-		public void setFrequency(int frequency) {
-			mFrequency = frequency;
-			mFreqIndex = ((int)((frequency / 22050.0) * Constants.FFT_SIZE) / 2) + 1;
-			Log.d(LOG, "Frequency = " + mFrequency + ", mFreqIndex = " + mFreqIndex);
-		}
-
-		@Override
-		public void run() {
-			float previousAmp = 0;
-
-			while (!Thread.currentThread().isInterrupted()) {
-				processFFT();
-				float amp = getSpectrumValue(mFreqIndex);
-
-				if (previousAmp != amp) {
-					Message msg = mHandler.obtainMessage();
-					msg.what = DETECT_MODE;
-					msg.obj = amp;
-					mHandler.sendMessage(msg);
-					previousAmp = amp;
-				}
-			}
 			destroyFFT();
 		}
 	}

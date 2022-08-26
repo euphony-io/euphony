@@ -14,13 +14,15 @@ add_executable(
         asciiCharsetTest.cpp
         utf8CharsetTest.cpp
         utf16CharsetTest.cpp
+        utf32CharsetTest.cpp
         base2Test.cpp
-        base32Test.cpp
         base16Test.cpp
         base32Test.cpp
         base64Test.cpp
         defaultCharsetTest.cpp
-        FFTTest.cpp
+        FFTHelperTest.cpp
+        FFTProcessorTest.cpp
+        BlueFFTTest.cpp
         FSKTest.cpp
         hexVectorTest.cpp
         packetTest.cpp
@@ -30,6 +32,7 @@ add_executable(
         waveTest.cpp
         waveBuilderTest.cpp
         waveRendererTest.cpp
+        wakeUpFFTSensorTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)

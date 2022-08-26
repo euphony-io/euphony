@@ -18,19 +18,26 @@ public:
 
 TEST_P(WaveBuilderTestFixture, WaveBuilderUnitTest)
 {
-int inputHz;
-int inputSize;
+    int inputHz;
+    int inputSize;
 
-std::tie(inputHz, inputSize) = GetParam();
+    std::tie(inputHz, inputSize) = GetParam();
 
-wave = Wave::create()
-        .vibratesAt(inputHz)
-        .setSize(inputSize)
-        .build();
+    wave = Wave::create()
+            .vibratesAt(inputHz)
+            .setSize(inputSize)
+            .setSampleRate(kSampleRate)
+            .build();
 
-EXPECT_EQ(wave->getHz(), inputHz);
-EXPECT_EQ(wave->getSize(), inputSize);
-EXPECT_EQ(wave->getSource().size(), inputSize);
+    EXPECT_EQ(wave->getHz(), inputHz);
+    EXPECT_EQ(wave->getSize(), inputSize);
+    EXPECT_EQ(wave->getSource().size(), inputSize);
+
+    /* TODO: WaveBuilder should be tested below
+     * 1) Result of WaveBuilder is correct?
+     * 2) smpaleRate comparision
+     * 3) what about fail case of WaveBuilder
+     * */
 }
 
 INSTANTIATE_TEST_SUITE_P(

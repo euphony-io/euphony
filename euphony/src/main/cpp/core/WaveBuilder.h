@@ -13,6 +13,7 @@ namespace Euphony {
         WaveBuilder& setSize(int size);
         WaveBuilder& setAmpSize(float size);
         WaveBuilder& setCrossfade(CrossfadeType type);
+        WaveBuilder& setSampleRate(int sampleRate);
         std::shared_ptr<Wave> build();
     };
 };

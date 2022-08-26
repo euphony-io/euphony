@@ -23,6 +23,17 @@ namespace Euphony {
     static constexpr const char* BASE32_EXCEPTION_MSG = "BASE32 couldn't support this code value";
     static constexpr const char* BASE64_EXCEPTION_MSG = "BASE64 couldn't support this code value";
 
+    enum class Result : int32_t {
+        OK = 0,
+        ERROR_GENERAL = 1,
+        ERROR_ALREADY_RUNNING = 2
+    };
+
+    enum class Status : int32_t {
+        RUNNING = 0,
+        STOP = 1
+    };
+
     enum class ModeType : int32_t {
         DEFAULT = 0, // Default Soundless Communication
         DETECT = 1, // For Wave Detection

@@ -14,7 +14,7 @@ class WaveRendererTestFixture : public ::testing::TestWithParam<TestParamType> {
 
 public:
     std::shared_ptr<Wave> wave = nullptr;
-    std::unique_ptr<WaveRenderer> waveRenderer = nullptr;
+    std::shared_ptr<WaveRenderer> waveRenderer = nullptr;
 };
 
 TEST_P(WaveRendererTestFixture, WaveBuilderUnitTest)
@@ -28,7 +28,9 @@ TEST_P(WaveRendererTestFixture, WaveBuilderUnitTest)
     auto fsk = new FSK();
     auto waveList = fsk->modulate(inputString);
 
-    waveRenderer = std::make_unique<WaveRenderer>(waveList, 2);
+    waveRenderer = WaveRenderer::getInstance();//std::make_unique<WaveRenderer>(waveList, 2);
+    waveRenderer->setWaveList(waveList);
+
     const auto actualWaveSourceSize = waveRenderer->getWaveSourceSize();
     EXPECT_EQ(actualWaveSourceSize, expectedBufferSize);
 
