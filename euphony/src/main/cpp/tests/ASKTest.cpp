@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <Definitions.h>
 #include <ASK.h>
-#include <FFTProcessor.h>
 #include <tuple>
 #include <ASCIICharset.h>
 #include <HexVector.h>
@@ -21,7 +20,6 @@ public:
     }
 
     ASK* ask = nullptr;
-    FFTProcessor* fft = nullptr;
 };
 
 TEST_P(ASKTestFixture, ASKModulationStringTest)

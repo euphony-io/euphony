@@ -13,8 +13,8 @@ WaveBuilder& WaveBuilder::setSize(int size) {
     return *this;
 }
 
-WaveBuilder& WaveBuilder::setAmpSize(float size) {
-    wave.setAmpSize(size);
+WaveBuilder& WaveBuilder::setAmplitude(float amplitude) {
+    wave.setAmplitude(amplitude);
     return *this;
 }
 

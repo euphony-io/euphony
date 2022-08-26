@@ -11,7 +11,7 @@ using namespace Euphony;
 Wave::Wave()
 : mHz(0)
 , mSize(0)
-, mAmpSize(1)
+, mAmplitude(1)
 , sampleRate(kSampleRate)
 , crossfadeType(NONE)
 {}
@@ -19,7 +19,7 @@ Wave::Wave()
 Wave::Wave(int hz, int bufferSize)
         : mHz(hz)
         , mSize(bufferSize)
-        , mAmpSize(1)
+        , mAmplitude(1)
         , sampleRate(kSampleRate)
         , crossfadeType(NONE)
 {
@@ -29,7 +29,7 @@ Wave::Wave(int hz, int bufferSize)
 Wave::Wave(int hz, int bufferSize, int sampleRate)
 : mHz(hz)
 , mSize(bufferSize)
-, mAmpSize(1)
+, mAmplitude(1)
 , sampleRate(sampleRate)
 , crossfadeType(NONE)
 {
@@ -39,7 +39,7 @@ Wave::Wave(int hz, int bufferSize, int sampleRate)
 Wave::Wave(const float *src, int bufferSize)
         : mHz(0)
         , mSize(bufferSize)
-        , mAmpSize(1)
+        , mAmplitude(1)
         , sampleRate(kSampleRate)
         , crossfadeType(NONE)
 {
@@ -51,7 +51,7 @@ Wave::Wave(const float *src, int bufferSize)
 Wave::Wave(const float *src, int bufferSize, int sampleRate)
 : mHz(0)
 , mSize(bufferSize)
-, mAmpSize(1)
+, mAmplitude(1)
 , sampleRate(sampleRate)
 , crossfadeType(NONE)
 {
@@ -63,7 +63,7 @@ Wave::Wave(const float *src, int bufferSize, int sampleRate)
 Wave::Wave(const Wave& copy)
 : mHz(copy.mHz)
 , mSize(copy.mSize)
-, mAmpSize(copy.mAmpSize)
+, mAmplitude(copy.mAmplitude)
 , sampleRate(copy.sampleRate)
 , crossfadeType(copy.crossfadeType)
 {
@@ -85,7 +85,7 @@ void Wave::oscillate() {
         float phase = 0.0;
 
         for(int i = 0; i < this->mSize; ++i) {
-            mSource.push_back(sin(phase) * mAmpSize);
+            mSource.push_back(sin(phase) * mAmplitude);
             phase += mPhaseIncrement;
             if(phase > kTwoPi) phase -= kTwoPi;
         }
@@ -115,7 +115,7 @@ void Wave::oscillate() {
 void Wave::oscillate(int hz, int size) {
     this->setHz(hz);
     this->setSize(size);
-    this->setAmpSize(1);
+    this->setAmplitude(1);
     this->oscillate();
 }
 
@@ -136,12 +136,12 @@ void Wave::setSize(int size) {
     mSource.reserve(size);
 }
 
-float Euphony::Wave::getAmpSize() const {
-    return mAmpSize;
+float Euphony::Wave::getAmplitude() const {
+    return mAmplitude;
 }
 
-void Euphony::Wave::setAmpSize(float size) {
-    mAmpSize = size;
+void Euphony::Wave::setAmplitude(float amplitude) {
+    mAmplitude = amplitude;
 }
 
 int Wave::getSampleRate() const {
