@@ -55,7 +55,8 @@ shared_ptr<Packet> ASK::demodulate(const WaveList& waveList) {
     for(const auto& wave : waveList) {
         auto vectorInt16Source = wave->getInt16Source();
         int16_t* int16Source = &vectorInt16Source[0];
-        float *resultBuf = fftModel->makeSpectrum(int16Source);
+        auto spectrums = fftModel->makeSpectrum(int16Source);
+        float *resultBuf = spectrums.amplitudeSpectrum;
         if(resultBuf[startIdx] > threshold)
             hexVector.pushBack(1);
         else
