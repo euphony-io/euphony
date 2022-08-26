@@ -68,29 +68,53 @@ android {
 
     gradle.buildFinished {
         def cppBuildDir = ".cxx/Debug"
-        def lastWordIfThereAreNoDevice = "0"
         def logfile = "android_gradle_build_stdout_targets.txt"
         def resultStr = "\n"
-        def noDevice = true
+        def isUnitTestWorked = false
+        def isDevice = false
 
         fileTree(cppBuildDir).matching {
             include "**/$logfile"
         }.forEach( file -> {
             if (file.exists()) {
                 def lines = file.readLines()
-                if (lines.get(2).contains(lastWordIfThereAreNoDevice))
-                    return
-                noDevice = false
-                resultStr += "> $file.path\n"
-                resultStr += lines.join("\n")
-                resultStr += "\n\n"
+                /* Check the unit-test working */
+                if (lines.size() > 2) {
+                    def lastSentence = lines.get(lines.size() - 1)
+                    if (lastSentence.contains("**** Gtest Success ****")) {
+                        isUnitTestWorked = true
+                        isDevice = true
+                    } else if (lastSentence.contains("ninja: no work to do.")) {
+                        isUnitTestWorked = false
+                        if (!lines.get(2).contains("0"))
+                            isDevice = true
+                    } else if (lastSentence.contains("Linking")) {
+                        isUnitTestWorked = false
+                        return
+                    }
+
+                    resultStr += "> $file.path\n"
+                    resultStr += lines.join("\n")
+                }
             }
         })
 
-        if (noDevice)
-            println "\nThe build was successful, not verified by unit tests. For unit testing, connect a virtual device or Android device to adb."
-        else
-            println "\nPrint build_stdout $resultStr"
+        print "\n"
+        if (!isDevice) {
+            println "THE BUILD WAS SUCCESSFUL, BUT NOT VERIFIED BY NATIVE UNIT TESTS."
+            println "FOR UNIT TESTING, PLEASE CONNECT A VIRTUAL DEVICE OR ANDROID DEVICE TO ADB"
+        }
+        else {
+            if (isUnitTestWorked) {
+                println "Print build_stdout $resultStr"
+                println "\nTHE BUILD & TESTS ARE SUCCESSFUL"
+                println "THERE ARE NO ERRORS FOR NATIVE UNIT TESTS."
+            }
+            else {
+                println "THERE ARE NO CHANGES TO THE CODE."
+                println "THERE IS NO NEED FOR NATIVE UNIT TESTS."
+            }
+        }
     }
 }
 
