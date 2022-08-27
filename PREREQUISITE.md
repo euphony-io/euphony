@@ -13,7 +13,7 @@
 You need to do two actions.
 
 1. Import `euphony` library to your project
-2. Added `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
+2. Add `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
 
 ## 1. Import `euphony` library to your project
 
