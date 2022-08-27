@@ -97,7 +97,7 @@ dependencies{
 
 ```
 
-## 2. Added `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
+## 2. Add `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
 
 Add the following line to the `AndroidManifest.xml`:
 
