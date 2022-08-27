@@ -12,26 +12,21 @@
 
 You need to do two actions.
 
-1. Add euphony to your project
-2. Edit your AndroidManifest.xml to permit euphony to record audio.
+1. Import `euphony` library to your project
+2. Add `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
 
----
-
-## 1. Add euphony to your project
+## 1. Import `euphony` library to your project
 
 There are 3 ways adding euphony to your project.
 
-&nbsp;&nbsp;&nbsp;&nbsp;1. Using Maven repository
-
-&nbsp;&nbsp;&nbsp;&nbsp;2. Import the aar/jar file directly
-
-&nbsp;&nbsp;&nbsp;&nbsp;3. Import the Euphony module in your project
+1. Using Maven repository
+2. Import the aar/jar file directly
+3. Import the Euphony module in your project
 
 ### 1.1 Using Maven repository
 
----
-
-1. Show **_Project window_** with **_Android project view_**. You can select a project view mode in the dropdown list, then open your `build.gradle` file under `Gradle Scripts`.
+1. Show **_Project window_** with **_Android project view_**.   
+   You can select a project view mode in the dropdown list, then open your `build.gradle` file under `Gradle Scripts`.
 
 <img width="392" alt="maven_001_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187144-6bcd31e2-589e-48e0-91ff-d05d28bea4e4.png">
 
@@ -41,28 +36,16 @@ There are 3 ways adding euphony to your project.
 dependencies {
 	// other dependencies
 	// ...
-	implementation 'co.euphony.lib:euphony:0.8.0.1'
+	implementation 'co.euphony.lib:euphony:0.8.1'
 }
 ```
 
 ### 1.2 Import the aar/jar file directly
 
----
-
-#### Environment
-
-> OS : Windows 10  
-> Android Studio : Arctic Fox | 2020.3.1
-
-1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.euphony.lib/euphony/0.8.0.1/aar) follow the link and download aar file
-
-<img width="392" alt="aar_001" src="https://user-images.githubusercontent.com/27720475/130188260-a0f3ee6d-7afc-4dfc-928e-5562eca476ba.png">
-
-2. Put `euphony.aar` file in `libs` folder, and just click `Refactor`
+1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.euphony.lib/euphony/0.8.1/aar) follow the link and download aar file.
+2. Put `euphony.aar` file in `libs` folder.
 
 <img width="392" alt="aar_002_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187177-b97b55ef-158a-4975-b0f8-b9e8bfdc5886.png">
-
-<img width="392" alt="aar_003_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/76645322/184471738-64d3dd96-73e2-4de8-9dc6-133100e5470d.png">
 
 3. Check your `build.gradle` in app module
 
@@ -74,23 +57,16 @@ repositories {
 }
 
 dependencies {
-    implementation name: 'euphony-0.8.0.1', ext: 'aar'
+    implementation name: 'euphony-0.8.1', ext: 'aar'
 }
 
 ```
 
-then click `sync` and you can use euphony library!!
+then click `sync` and you can use euphony library.
 
-### 1.3 Import the Euphony module in your project
+### 1.3 Import the `euphony` module in your project
 
-#### Environment
-
-> OS : Mac OS Big Sur  
-> Android Gradle Plugin Version : 4.2.1
-> Gradle Version : 6.7.1
-> Language : Java
-
-1. Download an zip file at [https://github.com/euphony-io/euphony](https://github.com/euphony-io/euphony) and unzip it in your computer
+1. Download the zip file at [https://github.com/euphony-io/euphony](https://github.com/euphony-io/euphony) and unzip it in your computer
 
 <img width="392" alt="module_001" src="https://user-images.githubusercontent.com/27720475/130185343-fcff2b7b-a164-4b44-852e-ecd650dfaabf.png">
 
@@ -103,29 +79,6 @@ then click `sync` and you can use euphony library!!
 3. Put what you downloaded before in source directory and click `Finish`
 
 <img width="392" alt="module_004" src="https://user-images.githubusercontent.com/27720475/130185365-e4ef05af-60e1-4f37-b0a4-6b87cf2b17b1.png">
-
-> ! The summary below covers some possible errors. Unfold it if you need.
->
-> <details>
->    <summary>Possible errors</summary>
-> <img width="392" alt="module_005" src="https://user-images.githubusercontent.com/27720475/130185374-b42d0860-6b2e-48a7-aa1f-a99eaf52435e.png">
->
-> If Could not get unknown property 'language' for build 'import_Euphony' of type org.gradle.invocation.DefaultGradle. error occur, please add a sentence below in setting.gradle(Project) and click 'Sync Now'
->
-> ```gradle
-> gradle.ext.language = "java"; // or kotlin
-> ```
->
-> <img width="392" alt="module_006" src="https://user-images.githubusercontent.com/27720475/130185379-8f6fb9d8-d4a5-497e-b7ec-514aeb1088a0.png">
->
-> > If you want to know more about 'Gradle', [https://www.baeldung.com/gradle-build-settings-properties](https://www.baeldung.com/gradle-build-settings-properties) will be helpful
->
-> <img width="392" alt="module_007" src="https://user-images.githubusercontent.com/27720475/130185391-02c82964-299e-484c-80e1-810254dd7070.png">
->
-> > If Caused by: groovy.lang.MissingPropertyException: Cannot get property 'signing.keyId' on extra properties extension as it does not exist error occur, please delete the sentence below in euphony/gradle.build and click 'Sync Now'apply from: file('publish.gradle')
->
-> <img width="392" alt="module_008" src="https://user-images.githubusercontent.com/27720475/130185404-16a862f0-28ee-4c0e-917c-826fe73d25bb.png">
-> </details>
 
 4. Now, we'll gonna add a dependency. In `File` > `Project Structure`, click `+` button at `Dependencies` > `app`. Then click `Module Dependency`
 
@@ -144,13 +97,9 @@ dependencies{
 
 ```
 
-> Path could be different, if you change module name at step 3
+## 2. Add `android.permission.RECORD_AUDIO` in `AndroidManifest.xml`
 
----
-
-## 2. Edit your AndroidManifest.xml
-
-Add the following line to the AndroidManifest.xml:
+Add the following line to the `AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -163,17 +112,15 @@ Its details is below.
 
 <details>
     <summary>Show details</summary>
-
-So, if you wanna use this library in the right way, you should check your permission manually in app configuration. That's because after Android 6.0 Marshmallow, Android introduced a new permissions model that lets apps request permissions from the user at runtime, rather than prior to installation.
+ if you wanna use this library in the right way, you should check your permission manually in app configuration. That's because after Android 6.0 Marshmallow, Android introduced a new permissions model that lets apps request permissions from the user at runtime, rather than prior to installation.
 
 You can read a below docs to check details.[https://developer.android.com/training/permissions/usage-notes?hl=en](https://developer.android.com/training/permissions/usage-notes?hl=en)
 
 So when you develop the android app, you should consider when app requests permission to users, and you should typing codes that requests permssions to users.
 
-Over the all, as this library's minimun sdk is 14, we must consider two types app 14<= sdk < 16 app and sdk >= 16 app.
+Over the all, as this library's minimun sdk is 21.
 
 Let's check out how can it possible.
-
 The sample code below is an example of adding permission through the UI. Please refer to it.
 
 ![https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png](https://user-images.githubusercontent.com/50264056/129441912-2058e3b3-391d-48f0-a5ff-38ee27e82f0a.png)
