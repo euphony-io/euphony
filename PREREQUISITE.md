@@ -66,7 +66,7 @@ then click `sync` and you can use euphony library.
 
 ### 1.3 Import the `euphony` module in your project
 
-1. Download an zip file at [https://github.com/euphony-io/euphony](https://github.com/euphony-io/euphony) and unzip it in your computer
+1. Download the zip file at [https://github.com/euphony-io/euphony](https://github.com/euphony-io/euphony) and unzip it in your computer
 
 <img width="392" alt="module_001" src="https://user-images.githubusercontent.com/27720475/130185343-fcff2b7b-a164-4b44-852e-ecd650dfaabf.png">
 
