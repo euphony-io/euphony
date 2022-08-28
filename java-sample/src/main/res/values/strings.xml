@@ -25,7 +25,12 @@
 
     <!-- FOR TX EUPI FRAGMENT -->
     <string name="rx_eupi_head">Main > Euphony Rx EuPI</string>
-
+    <string name="eupi_18500">EuPI 18500</string>
+    <string name="eupi_19000">EuPI 19000</string>
+    <string name="eupi_19500">EuPI 19500</string>
+    <string name="eupi_20000">EuPI 20000</string>
+    <string name="eupi_20500">EuPI 20500</string>
+    <string name="eupi_21000">EuPI 21000</string>
 
 
 </resources>
