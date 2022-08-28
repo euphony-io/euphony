@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">euphony java sample</string>
+
+    <!-- FOR MAIN FRAGMENT -->
+    <string name="java_sample_head">Main</string>
+    <string name="main_tx_button_title">Tx | Euphony speaker</string>
+    <string name="main_rx_button_title">Rx | Euphony listener</string>
+
+    <!-- FOR TX FRAGMENT -->
+    <string name="tx_head">Main > Euphony Tx Usage</string>
+    <string name="main_tx_button_desc">TX TEST FOR EUPHONY LIBRARY</string>
+    <string name="tx_communication_button_title">Communication FOR TX</string>
+    <string name="tx_communication_button_desc">Generate String Wave</string>
+    <string name="tx_eupi_button_title">EUPI FOR TX</string>
+    <string name="tx_eupi_button_desc">EuPI Generation Part</string>
+
+    <!-- FOR RX FRAGMENT -->
+    <string name="rx_head">Main > Euphony Rx Usage</string>
+    <string name="main_rx_button_desc">RX TEST FOR EUPHONY LIBRARY</string>
+    <string name="rx_communication_button_title">Communication FOR RX</string>
+    <string name="rx_communication_button_desc">Listen String Wave</string>
+    <string name="rx_eupi_button_title">EUPI FOR RX</string>
+    <string name="rx_eupi_button_desc">EuPI Listener Part</string>
+
 </resources>
