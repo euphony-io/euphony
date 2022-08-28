@@ -11,11 +11,17 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
-            android:id="@+id/action_mainFragment_to_txMainFragment"
-            app:destination="@id/txMainFragment" />
+            android:id="@+id/action_mainFragment_to_txCommunicationFragment"
+            app:destination="@id/txCommunicationFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_rxMainFragment"
-            app:destination="@id/rxMainFragment" />
+            android:id="@+id/action_mainFragment_to_txEuPIFragment"
+            app:destination="@id/txEuPIFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rxCommunicationFragment"
+            app:destination="@id/rxCommunicationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rxEuPIFragment"
+            app:destination="@id/rxEuPIFragment" />
     </fragment>
     <fragment
         android:id="@+id/txCommunicationFragment"
@@ -37,30 +43,4 @@
         android:name="co.euphony.sample.fragments.rx.RxEuPIFragment"
         android:label="rx_fragment_eupi"
         tools:layout="@layout/fragment_tx_eupi" />
-
-
-    <fragment
-        android:id="@+id/rxMainFragment"
-        android:name="co.euphony.sample.fragments.rx.RxMainFragment"
-        android:label="fragment_rx_main"
-        tools:layout="@layout/fragment_rx_main" >
-        <action
-            android:id="@+id/action_rxMainFragment_to_rxCommunicationFragment"
-            app:destination="@id/rxMainFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_rxEuPIFragment"
-            app:destination="@id/rxEuPIFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/txMainFragment"
-        android:name="co.euphony.sample.fragments.tx.TxMainFragment"
-        android:label="fragment_tx_main"
-        tools:layout="@layout/fragment_tx_main" >
-        <action
-            android:id="@+id/action_txMainFragment_to_txCommunicationFragment"
-            app:destination="@id/txMainFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_txEuPIFragment"
-            app:destination="@id/txEuPIFragment" />
-    </fragment>
 </navigation>

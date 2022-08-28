@@ -39,22 +39,39 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Initialize buttons
-        Button txFragmentBtn = v.findViewById(R.id.toTxFragmentBtn);
-        Button rxFragmentBtn = v.findViewById(R.id.toRxFragmentBtn);
+        Button txCommunicationBtn = v.findViewById(R.id.toTxCommunicationBtn);
+        Button txEuPIBtn = v.findViewById(R.id.toTxEuPIBtn);
+        Button rxCommunicationBtn = v.findViewById(R.id.toRxCommunicationBtn);
+        Button rxEuPIBtn = v.findViewById(R.id.toRxEuPIBtn);
 
-        txFragmentBtn.setOnClickListener(new View.OnClickListener() {
+        txCommunicationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_txMainFragment);
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_txCommunicationFragment);
             }
         });
 
-        rxFragmentBtn.setOnClickListener(new View.OnClickListener() {
+        txEuPIBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_rxMainFragment);
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_txEuPIFragment);
             }
         });
+
+        rxCommunicationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_rxCommunicationFragment);
+            }
+        });
+
+        rxEuPIBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_mainFragment_to_rxEuPIFragment);
+            }
+        });
+
         return v;
     }
 }
