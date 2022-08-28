@@ -19,6 +19,23 @@
 
     <!-- FOR TX EUPI FRAGMENT -->
     <string name="tx_eupi_head">Main > Euphony Tx EuPI</string>
+    <string name="tx_comm_speak_btn_title">Speak :)</string>
+    <string name="tx_comm_stop_btn_title">Stop :(</string>
+    <string-array name="modulation_array">
+        <item>FSK</item>
+    </string-array>
+    <string-array name="count_array">
+        <item>Forever</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="player_engine_array">
+        <item>ANDROID_DEFAULT_ENGINE</item>
+        <item>EUPHONY_NATIVE_ENGINE</item>
+    </string-array>
 
     <!-- FOR RX COMM FRAGMENT -->
     <string name="rx_comm_head">Main > Euphony Rx Comm</string>
@@ -31,6 +48,8 @@
     <string name="eupi_20000">EuPI 20000</string>
     <string name="eupi_20500">EuPI 20500</string>
     <string name="eupi_21000">EuPI 21000</string>
+    <string name="speak_btn_title">Speak :)</string>
+
 
 
 </resources>
