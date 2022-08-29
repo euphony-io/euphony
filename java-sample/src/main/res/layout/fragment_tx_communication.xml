@@ -34,15 +34,18 @@
             android:text="Hello World!"
             android:autofillHints="Anything What You Want"
             android:inputType="text"
+            android:padding="22dp"
             tools:ignore="LabelFor" />
         <Spinner
             android:id="@+id/count_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="16dp"/>
         <Spinner
             android:id="@+id/engine_spinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="16dp"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <Button

@@ -32,6 +32,14 @@ public class TxCommunicationFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(mTxManager != null) {
+            mTxManager.stop();
+        }
+    }
+
     public static TxCommunicationFragment newInstance(String param1, String param2) {
         TxCommunicationFragment fragment = new TxCommunicationFragment();
         return fragment;
