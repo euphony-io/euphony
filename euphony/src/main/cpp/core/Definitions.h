@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <math.h>
-#include "Wave.h"
+#include "wave/Wave.h"
 
 namespace Euphony {
     typedef std::vector<std::shared_ptr<Wave>> WaveList;
