@@ -1,1 +1,2 @@
 include ':euphony'
+include ':java-sample'

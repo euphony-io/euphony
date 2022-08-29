@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.tx.TxEuPIFragment">
+
+    <TextView
+        android:id="@+id/sample_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tx_eupi_head"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingTop="35dp"
+        android:paddingBottom="35dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sample_head">
+        <Button
+            android:id="@+id/eupi18500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eupi_18500"/>
+
+        <Button
+            android:id="@+id/eupi19000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eupi_19000"/>
+
+        <Button
+            android:id="@+id/eupi19500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eupi_19500"/>
+
+       <Button
+           android:id="@+id/eupi20000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eupi_20000"/>
+
+        <Button
+            android:id="@+id/eupi20500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/eupi_20500"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
