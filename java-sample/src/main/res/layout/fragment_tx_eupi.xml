@@ -56,12 +56,5 @@
             android:layout_height="wrap_content"
             android:text="@string/eupi_20500"/>
 
-        <Button
-            android:id="@+id/eupi21000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/eupi_21000"/>
-
-
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
