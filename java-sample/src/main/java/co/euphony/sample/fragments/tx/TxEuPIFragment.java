@@ -45,21 +45,21 @@ public class TxEuPIFragment extends Fragment {
         eupi18500Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txManager.callEuPI(18500, EuTxManager.EuPIDuration.LENGTH_LONG);
+                txManager.callEuPI(18500, EuTxManager.EuPIDuration.LENGTH_SHORT);
             }
         });
 
         eupi19000Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txManager.callEuPI(19000, EuTxManager.EuPIDuration.LENGTH_LONG);
+                txManager.callEuPI(19000, EuTxManager.EuPIDuration.LENGTH_SHORT);
             }
         });
 
         eupi19500Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txManager.callEuPI(19500, EuTxManager.EuPIDuration.LENGTH_LONG);
+                txManager.callEuPI(19500, EuTxManager.EuPIDuration.LENGTH_SHORT);
             }
         });
 

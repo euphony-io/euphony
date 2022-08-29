@@ -41,6 +41,7 @@
     <string name="rx_comm_head">Main > Euphony Rx Comm</string>
     <string name="listen_btn_title">Listen :)</string>
     <string name="stop_btn_title">Stop :)</string>
+    <string name="listen_status_text">Hello, Euphony</string>
 
     <!-- FOR TX EUPI FRAGMENT -->
     <string name="rx_eupi_head">Main > Euphony Rx EuPI</string>

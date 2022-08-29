@@ -1,11 +1,7 @@
 package co.euphony.sample.fragments.rx;
 
-import android.Manifest;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 
@@ -27,7 +23,7 @@ public class RxEuPIFragment extends Fragment {
     Integer[] mFrequencies = new Integer[] {18500, 19000, 19500, 20000, 20500};
     HashMap<Integer, EuPIRxViewMaker> mEuPICounters = new HashMap<>();
 
-    boolean isListen = false;
+    boolean isListening = false;
     Button mListenBtn = null;
 
     public RxEuPIFragment() {
@@ -95,7 +91,7 @@ public class RxEuPIFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(isListen) {
+                if(isListening) {
                     mRxManager.finish();
                     mListenBtn.setText(R.string.listen_btn_title);
                 } else {
@@ -103,7 +99,7 @@ public class RxEuPIFragment extends Fragment {
                     mListenBtn.setText(R.string.stop_btn_title);
                 }
 
-                isListen ^= true;
+                isListening ^= true;
             }
         });
 
