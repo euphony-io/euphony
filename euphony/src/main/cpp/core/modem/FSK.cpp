@@ -1,10 +1,10 @@
-#include "modem/FSK.h"
-#include "fft/FFTHelper.h"
-#include "fft/FFTProcessor.h"
-#include "Definitions.h"
-#include "wave/WaveBuilder.h"
-#include "base/Base16Exception.h"
-#include "packet/Packet.h"
+#include "FSK.h"
+#include <fft/FFTHelper.h>
+#include <fft/FFTProcessor.h>
+#include <Definitions.h>
+#include <wave/WaveBuilder.h>
+#include <base/Base16Exception.h>
+#include <packet/Packet.h>
 #include <cmath>
 
 using namespace Euphony;

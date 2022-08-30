@@ -1,4 +1,4 @@
-#include "wakeup/WakeUpFFTSensor.h"
+#include "WakeUpFFTSensor.h"
 #include <fft/FFTHelper.h>
 #include <modem/FSK.h>
 #include <fft/FFTProcessor.h>

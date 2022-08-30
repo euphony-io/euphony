@@ -1,4 +1,4 @@
-#include "fft/FFTHelper.h"
+#include "FFTHelper.h"
 #include <cmath>
 
 using namespace Euphony;

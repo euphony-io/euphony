@@ -1,7 +1,6 @@
-#include "charset/DefaultCharset.h"
-#include "charset/ASCIICharset.h"
-#include "Definitions.h"
-#include "packet/PacketBuilder.h"
+#include <charset/ASCIICharset.h>
+#include <Definitions.h>
+#include "PacketBuilder.h"
 
 using namespace Euphony;
 

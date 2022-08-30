@@ -1,7 +1,7 @@
-#include "packet/Packet.h"
-#include "packet/PacketBuilder.h"
-#include "packet/PacketErrorDetector.h"
-#include "base/BaseFactory.h"
+#include "Packet.h"
+#include "PacketBuilder.h"
+#include "PacketErrorDetector.h"
+#include <base/BaseFactory.h>
 #include <sstream>
 using namespace Euphony;
 

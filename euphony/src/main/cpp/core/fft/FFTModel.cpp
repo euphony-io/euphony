@@ -1,5 +1,5 @@
-#include "fft/FFTModel.h"
-#include "Definitions.h"
+#include "FFTModel.h"
+#include <Definitions.h>
 
 using namespace Euphony;
 

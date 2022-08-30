@@ -1,4 +1,5 @@
-#include "charset/DefaultCharset.h"
+#include "DefaultCharset.h"
+
 using namespace Euphony;
 
 HexVector DefaultCharset::encode(std::string src) {

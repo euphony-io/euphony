@@ -1,9 +1,5 @@
-//
-// Created by opener on 20. 11. 30.
-//
-
-#include "fft/FFTProcessor.h"
-#include "Definitions.h"
+#include "FFTProcessor.h"
+#include <Definitions.h>
 
 Euphony::FFTProcessor::FFTProcessor(int fft_size, int samplerate)
 : FFTModel(fft_size, samplerate)

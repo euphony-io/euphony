@@ -2,7 +2,7 @@
 // Created by designe on 20. 8. 25.
 //
 
-#include "renderer/EuPIOscillator.h"
+#include "EuPIOscillator.h"
 
 /*
  * Frequencies Methods

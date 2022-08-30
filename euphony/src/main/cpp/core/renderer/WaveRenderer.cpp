@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "renderer/WaveRenderer.h"
+#include "WaveRenderer.h"
 
 using namespace Euphony;
 

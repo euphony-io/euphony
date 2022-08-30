@@ -3,8 +3,8 @@
 //
 
 #include "Definitions.h"
-#include "wave/Wave.h"
-#include "wave/WaveBuilder.h"
+#include "Wave.h"
+#include "WaveBuilder.h"
 
 using namespace Euphony;
 

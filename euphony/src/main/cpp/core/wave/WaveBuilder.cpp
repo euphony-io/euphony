@@ -1,5 +1,5 @@
 #include <Definitions.h>
-#include "wave/WaveBuilder.h"
+#include "WaveBuilder.h"
 
 using namespace Euphony;
 

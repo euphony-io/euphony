@@ -1,4 +1,4 @@
-#include "packet/PacketErrorDetector.h"
+#include "PacketErrorDetector.h"
 #include <sstream>
 
 using namespace Euphony;

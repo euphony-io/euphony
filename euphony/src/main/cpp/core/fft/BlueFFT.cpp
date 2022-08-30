@@ -1,5 +1,5 @@
-#include "fft/BlueFFT.h"
-#include "Definitions.h"
+#include "BlueFFT.h"
+#include <Definitions.h>
 
 using namespace Euphony;
 

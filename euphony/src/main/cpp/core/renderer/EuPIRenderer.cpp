@@ -2,7 +2,7 @@
 // Created by desig on 2020-08-15.
 //
 
-#include "renderer/EuPIRenderer.h"
+#include "EuPIRenderer.h"
 
 using namespace Euphony;
 
