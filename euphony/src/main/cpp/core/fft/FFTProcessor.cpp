@@ -1,46 +1,54 @@
 #include "FFTProcessor.h"
 #include <Definitions.h>
 
-Euphony::FFTProcessor::FFTProcessor(int fft_size, int samplerate)
-: FFTModel(fft_size, samplerate)
+using namespace Euphony;
+
+FFTProcessor::FFTProcessor(int fft_size)
+: FFTModel(fft_size)
 , fftSize(fft_size)
+, config(nullptr)
+, spectrum(nullptr)
+, amplitudeSpectrum(nullptr)
+, phaseSpectrum(nullptr)
 , halfOfFFTSize(fft_size >> 1)
 {
-
     config = kiss_fftr_alloc(fft_size, 0, nullptr, nullptr);
-    spectrum = (kiss_fft_cpx*) malloc(sizeof(kiss_fft_cpx) * (int)fft_size);
+    spectrum = (kiss_fft_cpx*) malloc(sizeof(kiss_fft_cpx) * fft_size);
     amplitudeSpectrum = new float[halfOfFFTSize]();
     phaseSpectrum = new float[halfOfFFTSize]();
 }
 
-Euphony::FFTProcessor::~FFTProcessor() {
+FFTProcessor::~FFTProcessor() {
     free(config);
     free(spectrum);
-    delete amplitudeSpectrum;
-    delete phaseSpectrum;
+    delete[] amplitudeSpectrum;
+    delete[] phaseSpectrum;
 }
 
-inline float Euphony::FFTProcessor::shortToFloat(const short val) {
-    if( val < 0 )
-        return val * ( 1 / 32768.0f );
-    else
-        return val * ( 1 / 32767.0f );
+void FFTProcessor::initialize() {
+    free(config);
+    config = kiss_fftr_alloc(fftSize, 0, nullptr, nullptr);
+
+    free(spectrum);
+    spectrum = (kiss_fft_cpx*) malloc(sizeof(kiss_fft_cpx) * fftSize);
+
+    delete[] amplitudeSpectrum;
+    amplitudeSpectrum = new float[halfOfFFTSize]();
+
+    delete[] phaseSpectrum;
+    phaseSpectrum = new float[halfOfFFTSize]();
 }
 
-
-inline int Euphony::FFTProcessor::frequencyToIndex(const int freq) const {
-    return (int)(((halfOfFFTSize) + 1) * ((double)freq / (double)getSampleRate()));
-}
-
-Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(const short* src) {
+Spectrums FFTProcessor::makeSpectrum(const short* src) {
     /* TODO: should implement makeSpectrum for int16 source */
-    return {0, 0};
+    return {nullptr, nullptr};
 }
 
 
-Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(const float *src) {
+Spectrums FFTProcessor::makeSpectrum(const float *src) {
+    initialize();
 
-    int startIdx = frequencyToIndex(kStartSignalFrequency) - 1;
+    int startIdx = 0;
     int lenHalfOfNumSamples = halfOfFFTSize; // spectrum size must be half of numSamples;
 
     kiss_fftr(config, src, spectrum);
@@ -57,12 +65,8 @@ Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(const float *src) {
     return {&amplitudeSpectrum[0], &phaseSpectrum[0]};
 }
 
-Euphony::Spectrums Euphony::FFTProcessor::makeSpectrum(float *src, int numSamples) {
+Spectrums FFTProcessor::makeSpectrum(float *src, int numSamples) {
 
     return {nullptr, nullptr};
-}
-
-int Euphony::FFTProcessor::getResultSize() const {
-    return halfOfFFTSize + 1;
 }
 

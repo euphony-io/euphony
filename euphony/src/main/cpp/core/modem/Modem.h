@@ -2,9 +2,9 @@
 #define EUPHONY_MODEM_H
 
 #include <string>
-#include "Definitions.h"
-#include "packet/Packet.h"
-#include "wave/Wave.h"
+#include <Definitions.h>
+#include <packet/Packet.h>
+#include <wave/Wave.h>
 
 using std::string;
 using std::vector;

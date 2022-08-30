@@ -13,16 +13,13 @@ namespace Euphony {
 
     class BlueFFT : public FFTModel {
     public:
-        BlueFFT(int fft_size, int sample_rate);
+        BlueFFT(int fft_size);
         ~BlueFFT();
         virtual Spectrums makeSpectrum(const short* src);
         virtual Spectrums makeSpectrum(const float* src);
-        int getResultSize() const;
 
     private:
-        void initFloatSrc();
-        static float shortToFloat(const short val);
-        int frequencyToIndex(const int freq) const;
+        void initialize();
         template <typename T>
         void FFT(std::vector<T> &data, bool inv);
 

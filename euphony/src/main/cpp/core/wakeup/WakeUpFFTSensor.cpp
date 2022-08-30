@@ -8,8 +8,8 @@ using namespace Euphony;
 WakeUpFFTSensor::WakeUpFFTSensor(int sampleRate)
 : preFFTSize(32), postFFTSize(512), isStarted(false), sampleRate(sampleRate)
 {
-    preFFT = std::make_unique<FFTProcessor>(preFFTSize, sampleRate);
-    postFFT = std::make_unique<FFTProcessor>(postFFTSize, sampleRate);
+    preFFT = std::make_unique<FFTProcessor>(preFFTSize);
+    postFFT = std::make_unique<FFTProcessor>(postFFTSize);
 }
 
 

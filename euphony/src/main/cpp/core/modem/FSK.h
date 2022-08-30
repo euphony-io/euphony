@@ -1,8 +1,8 @@
 #ifndef EUPHONY_FSK_H
 #define EUPHONY_FSK_H
 
-#include "fft/FFTModel.h"
 #include "Modem.h"
+#include <fft/FFTModel.h>
 #include <string>
 #include <vector>
 

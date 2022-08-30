@@ -16,7 +16,7 @@ namespace Euphony {
 
     class FFTModel {
     public:
-        FFTModel(int fftSizeSrc, int sampleRateSrc);
+        FFTModel(int fftSizeSrc);
         virtual ~FFTModel() = default;
 
         virtual Spectrums makeSpectrum(const short *pcmSrc) = 0;
@@ -27,12 +27,9 @@ namespace Euphony {
 
         int getFFTSize() const;
         void setFFTSize(int fftSize);
-        int getSampleRate() const;
-        void setSampleRate(int sampleRate);
 
     private:
         int fftSize;
-        int sampleRate;
 
     };
 }

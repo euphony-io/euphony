@@ -20,7 +20,7 @@ public:
 
     void createFFT() {
         EXPECT_EQ(fft, nullptr);
-        fft = new FFTProcessor(kFFTSize, kSampleRate);
+        fft = new FFTProcessor(kFFTSize);
         ASSERT_NE(fft, nullptr);
     }
 

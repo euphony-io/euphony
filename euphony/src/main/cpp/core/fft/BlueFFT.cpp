@@ -3,8 +3,8 @@
 
 using namespace Euphony;
 
-BlueFFT::BlueFFT(int fft_size, int sample_rate)
-: FFTModel(fft_size, sample_rate)
+BlueFFT::BlueFFT(int fft_size)
+: FFTModel(fft_size)
 , fftSize(fft_size)
 , halfOfFFTSize(fft_size >> 1)
 {
@@ -21,18 +21,27 @@ BlueFFT::~BlueFFT() {
     std::vector<float>().swap(phaseSpectrum);
 }
 
-void BlueFFT::initFloatSrc() {
-    floatSrc.clear();
+void BlueFFT::initialize() {
     std::vector<fcpx>().swap(floatSrc);
     floatSrc.resize(fftSize);
+
+    std::vector<i16cpx>().swap(i16Src);
+    i16Src.resize(fftSize);
+
+    std::vector<float>().swap(amplitudeSpectrum);
+    amplitudeSpectrum.resize(halfOfFFTSize);
+
+    std::vector<float>().swap(phaseSpectrum);
+    phaseSpectrum.resize(halfOfFFTSize);
 }
+
 Spectrums BlueFFT::makeSpectrum(const short *src) {
     /* TODO: should implement makeSpectrum for short source */
-    return {0, 0};
+    return {nullptr, nullptr};
 }
 
 Spectrums BlueFFT::makeSpectrum(const float *src) {
-    initFloatSrc();
+    initialize();
 
     for(int i = 0; i < fftSize; i++) {
         floatSrc[i].real(src[i]);
@@ -40,7 +49,7 @@ Spectrums BlueFFT::makeSpectrum(const float *src) {
 
     FFT(floatSrc, false);
 
-    int startIdx = frequencyToIndex(kStartSignalFrequency) - 1;
+    int startIdx = 0;
     int lenHalfOfNumSamples = halfOfFFTSize;
 
     for(int i = startIdx; i <= lenHalfOfNumSamples; ++i) {
@@ -52,21 +61,6 @@ Spectrums BlueFFT::makeSpectrum(const float *src) {
     }
 
     return {&amplitudeSpectrum[0], &phaseSpectrum[0]};
-}
-
-int BlueFFT::getResultSize() const {
-    return halfOfFFTSize + 1;
-}
-
-inline float BlueFFT::shortToFloat(const short val) {
-    if( val < 0 )
-        return val * ( 1 / 32768.0f );
-    else
-        return val * ( 1 / 32767.0f );
-}
-
-inline int BlueFFT::frequencyToIndex(const int freq) const {
-    return (int)(((halfOfFFTSize) + 1) * ((double)freq / (double)getSampleRate()));
 }
 
 template <typename T>

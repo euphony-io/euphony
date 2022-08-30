@@ -8,7 +8,7 @@
 
 using namespace Euphony;
 
-ASK::ASK() : fftModel(std::make_unique<FFTProcessor>(kFFTSize, kSampleRate)) {}
+ASK::ASK() : fftModel(std::make_unique<FFTProcessor>(kFFTSize)) {}
 
 WaveList ASK::modulate(Packet *packet) {
     return this->modulate(packet->toString());

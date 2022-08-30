@@ -35,7 +35,7 @@ TEST_P(FFTHelperTestFixture, FFTHelperTest)
     auto floatWaveSourceVector = wave->getSource();
     float* floatWaveSource = &floatWaveSourceVector[0];
 
-    fft = std::make_unique<FFTProcessor>(inputFFTSize, inputSampleRate);
+    fft = std::make_unique<FFTProcessor>(inputFFTSize);
     auto result = fft->makeSpectrum(floatWaveSource);
     activeIdx = FFTHelper::getMaxIdxFromSource(result.amplitudeSpectrum, inputStandardFrequency, 16, inputFFTSize, inputSampleRate);
     EXPECT_EQ(0, activeIdx);

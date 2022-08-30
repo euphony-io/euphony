@@ -35,7 +35,7 @@ TEST_P(FFTProcessorTestFixture, FFTProcessorTest)
     int inputFrequency, inputFFTSize, inputSampleRate, inputStandardFrequency, expectedSpectrumIndex;
     std::tie(inputFrequency, inputFFTSize, inputSampleRate, inputStandardFrequency, expectedSpectrumIndex) = GetParam();
 
-    fft = std::make_unique<FFTProcessor>(inputFFTSize, inputSampleRate);
+    fft = std::make_unique<FFTProcessor>(inputFFTSize);
 
     const int startFrequency = inputFrequency;
     const int frequencyRange = (inputSampleRate / inputFFTSize / 2);

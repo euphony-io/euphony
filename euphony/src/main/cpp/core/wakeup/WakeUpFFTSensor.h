@@ -1,7 +1,3 @@
-//
-// Created by opener on 22. 7. 15..
-//
-
 #ifndef EUPHONY_WAKEUPFFTSENSOR_H
 #define EUPHONY_WAKEUPFFTSENSOR_H
 

@@ -10,7 +10,7 @@
 using namespace Euphony;
 
 
-FSK::FSK() : fftModel(std::make_unique<FFTProcessor>(kFFTSize, kSampleRate)){ }
+FSK::FSK() : fftModel(std::make_unique<FFTProcessor>(kFFTSize)){ }
 
 WaveList FSK::modulate(Packet* packet)
 {

@@ -3,9 +3,8 @@
 
 using namespace Euphony;
 
-FFTModel::FFTModel(int fftSizeSrc, int sampleRateSrc)
+FFTModel::FFTModel(int fftSizeSrc)
 : fftSize(fftSizeSrc)
-, sampleRate(sampleRateSrc)
 { }
 
 int FFTModel::getFFTSize() const {
@@ -14,14 +13,6 @@ int FFTModel::getFFTSize() const {
 
 void FFTModel::setFFTSize(int fftSizeSrc) {
     fftSize = fftSizeSrc;
-}
-
-int FFTModel::getSampleRate() const {
-    return sampleRate;
-}
-
-void FFTModel::setSampleRate(int sampleRateSrc) {
-    sampleRate = sampleRateSrc;
 }
 
 float FFTModel::makeAmplitudeSpectrum(float real, float im) const {

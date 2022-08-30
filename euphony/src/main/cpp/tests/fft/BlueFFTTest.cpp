@@ -36,7 +36,7 @@ TEST_P(BlueFFTTestFixture, BlueFFTTest)
     int inputFrequency, inputFFTSize, inputSampleRate, inputStandardFrequency, expectedSpectrumIndex;
     std::tie(inputFrequency, inputFFTSize, inputSampleRate, inputStandardFrequency, expectedSpectrumIndex) = GetParam();
 
-    fft = std::make_unique<BlueFFT>(inputFFTSize, inputSampleRate);
+    fft = std::make_unique<BlueFFT>(inputFFTSize);
 
     const int startFrequency = inputFrequency;
     const int frequencyRange = (inputSampleRate / inputFFTSize / 2);
