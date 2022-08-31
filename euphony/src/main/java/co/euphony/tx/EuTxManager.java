@@ -46,7 +46,6 @@ public class EuTxManager {
 
 	public Constants.Result callEuPI(double freq, EuPIDuration duration) {
 		setMode(EuOption.ModeType.EUPI);
-		txCore.setToneOn(true);
 		txCore.setAudioFrequency(freq);
 		Constants.Result res = txCore.tx_start();
 

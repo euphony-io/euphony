@@ -46,11 +46,10 @@ namespace Euphony {
         std::atomic<bool> mIsFirstWave{false};
         std::atomic<bool> mIsLastWave{false};
         std::atomic<bool> mIsWaveOn{false};
-        float mPhase = 0.0;
-        std::atomic<float> mAmplitude{0};
+        double mPhase = 0.0;
+        std::atomic<double> mAmplitude{1.0};
         std::atomic<double> mPhaseIncrement{0.0};
         double mFrequency = 0.0;
-        std::vector<double> mTimeArray;
         int32_t mSampleRate = kSampleRate;
 
         void updatePhaseIncrement() {

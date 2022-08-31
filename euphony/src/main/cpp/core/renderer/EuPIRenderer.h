@@ -32,7 +32,7 @@ namespace Euphony {
         static std::once_flag flag;
 
         std::unique_ptr<EuPIOscillator[]> mOscillators;
-        std::unique_ptr<float[]> mBuffer = std::make_unique<float[]>(kBufferSize);
+        std::unique_ptr<float[]> mBuffer;
         int32_t mChannelCount;
         int32_t mSampleRate;
     };

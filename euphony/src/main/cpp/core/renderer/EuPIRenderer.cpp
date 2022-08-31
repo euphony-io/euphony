@@ -10,16 +10,17 @@ std::shared_ptr<EuPIRenderer> EuPIRenderer::instance = nullptr;
 std::once_flag EuPIRenderer::flag;
 
 EuPIRenderer::EuPIRenderer(int32_t sampleRate, int32_t channelCount)
-        : mSampleRate(sampleRate),
-          mChannelCount(channelCount),
-          mOscillators(std::make_unique<EuPIOscillator[]>(channelCount)){
+        : mSampleRate(sampleRate)
+        , mChannelCount(channelCount)
+        , mOscillators(std::make_unique<EuPIOscillator[]>(channelCount))
+        , mBuffer(std::make_unique<float[]>(kBufferSize)) {
 
     constexpr float amplitude = 1.0;
 
     // Set up the oscillators
     for (int i = 0; i < mChannelCount; ++i) {
-        mOscillators[i].setFrequency(kStandardFrequency);
         mOscillators[i].setSampleRate(mSampleRate);
+        mOscillators[i].setFrequency(kStandardFrequency);
         mOscillators[i].setAmplitude(amplitude);
     }
 }
@@ -36,6 +37,7 @@ void EuPIRenderer::renderAudio(float *audioData, int32_t numFrames) {
 }
 
 void EuPIRenderer::setFrequency(double frequency) {
+    mOscillators = std::make_unique<EuPIOscillator[]>(mChannelCount);
     for(int i = 0;  i< mChannelCount; ++i) {
         mOscillators[i].setFrequency(frequency);
     }

@@ -10,6 +10,7 @@
 void Euphony::EuPIOscillator::setFrequency(double frequency) {
     mFrequency = frequency;
     mPhaseIncrement.store((kTwoPi * mFrequency) / static_cast<double>(mSampleRate));
+    mPhase = 0.0;
 }
 
 void Euphony::EuPIOscillator::setSampleRate(int32_t sampleRate) {
@@ -30,12 +31,22 @@ void Euphony::EuPIOscillator::renderAudio(float *data, int32_t numFrames) {
     }
 
     if(mIsWaveOn) {
-        if(mIsFirstWave != true) {
+        if(!mIsFirstWave) {
             /* Crossfade first */
-            for(int i = 0; i < numFrames; i++) {
+            for(int i = 0; i < numFrames; i++)
                 data[i] *= ((float)i / (float)numFrames);
-            }
             mIsFirstWave.store(true);
+        }
+    } else {
+        if(mIsFirstWave) {
+            for(int i = 0; i < numFrames; i++) {
+                data[i] *= ((float)(numFrames - i) / (float)numFrames);
+            }
+            mIsFirstWave.store(false);
+        } else {
+            for(int i = 0; i < numFrames; i++) {
+                data[i] = 0;
+            }
         }
     }
 }
