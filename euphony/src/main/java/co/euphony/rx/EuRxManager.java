@@ -11,9 +11,9 @@ import co.euphony.common.Constants;
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_DOWN;
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_PRESSED;
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_UP;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
 
 public class EuRxManager {
 
@@ -243,64 +243,18 @@ public class EuRxManager {
 			while(!Thread.currentThread().isInterrupted()) {
 				processFFT();
 
-				float[] amplitudes = {0, 0, 0, 0, 0, 0, 0};
-				int ampCenter = (int) (amplitudes.length / 2);
 				for(EuPI eupi : EuPICallList) {
-					boolean isActable = false;
-					switch(eupi.getTrigger()) {
-						case KEY_DOWN: {
-							if(eupi.getStatus() == EuPI.EuPIStatus.KEY_UP){
-								isActable = true;
-							}
-						}
-						break;
-						case KEY_UP: {
-							if(eupi.getStatus() != EuPI.EuPIStatus.KEY_UP) {
-								isActable = true;
-							}
-						}
-						break;
-						case KEY_PRESSED: {
-							isActable = true;
-						}
-						break;
-					}
+					int freqIndex = eupi.getFreqIndex();
+					final float ampLeft = getSpectrumValue(freqIndex - 2);
+					final float ampCenter = getSpectrumValue(freqIndex);
+					final float ampRight = getSpectrumValue(freqIndex + 2);
 
-					float sumAmplitudes = 0.0f;
-					int freqIndex = eupi.getFreqIndex() - ampCenter;
-					for(int i = 0; i < amplitudes.length; i++, freqIndex++){
-						amplitudes[i] = getSpectrumValue(freqIndex);
-						if(i != ampCenter)
-							sumAmplitudes += amplitudes[i];
-					}
-
-					final float ampDiff = amplitudes[ampCenter] - (sumAmplitudes / (amplitudes.length - 1));
-					if(isActable) {
-						if(eupi.compareThreshold(ampDiff)) {
-							if(eupi.getTrigger() == KEY_DOWN || eupi.getTrigger() == KEY_PRESSED) {
-								Message msg = mHandler.obtainMessage();
-								msg.what = EUPI_CALL_MODE;
-								msg.obj = eupi;
-								mHandler.sendMessage(msg);
-							}
-
-							eupi.setStatus(EuPI.EuPIStatus.KEY_DOWN);
-						} else {
-							if(eupi.getTrigger() == KEY_UP) {
-								Message msg = mHandler.obtainMessage();
-								msg.what = EUPI_CALL_MODE;
-								msg.obj = eupi;
-								mHandler.sendMessage(msg);
-							}
-
-							eupi.setStatus(EuPI.EuPIStatus.KEY_UP);
-						}
-					} else {
-						if(eupi.compareThreshold(ampDiff)) {
-							eupi.setStatus(EuPI.EuPIStatus.KEY_DOWN);
-						} else {
-							eupi.setStatus(EuPI.EuPIStatus.KEY_UP);
-						}
+					EuPI.EuPIStatus status = eupi.feedAmplitude(ampLeft, ampCenter, ampRight);
+					if(eupi.getTrigger() == status) {
+						Message msg = mHandler.obtainMessage();
+						msg.what = EUPI_CALL_MODE;
+						msg.obj = eupi;
+						mHandler.sendMessage(msg);
 					}
 				}
 			}

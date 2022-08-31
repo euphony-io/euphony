@@ -1,48 +1,68 @@
 package co.euphony.rx;
 
+import android.util.Log;
+
 import co.euphony.common.Constants;
 
 public class EuPI {
-    public enum EuPITrigger {
-        KEY_DOWN, KEY_UP, KEY_PRESSED
-    }
-
     public enum EuPIStatus {
-        KEY_DOWN, KEY_UP, KEY_PRESSED
+        KEY_DOWN, KEY_UP, KEY_PRESSED, KEY_NONE
     }
 
     private int mKey;
     private int mFreqIndex;
     private double mThreshold;
     private double mInputThreshold;
-    EuPITrigger mTrigger;
+    EuPIStatus mTrigger;
     EuPIStatus mStatus;
     EuPICallDetector mAPICallback;
+    boolean isActive = false;
 
     public EuPI(int key, EuPICallDetector callback) {
         mKey = key;
         mFreqIndex = calculateFreqIndex(key);
         mAPICallback = callback;
-        mTrigger = EuPITrigger.KEY_PRESSED;
+        mTrigger = EuPIStatus.KEY_PRESSED;
         mInputThreshold = 0;
-        setStatus(EuPIStatus.KEY_UP);
+        setStatus(EuPIStatus.KEY_NONE);
     }
 
-    public EuPI(int key, EuPITrigger trigger, EuPICallDetector callback) {
+    public EuPI(int key, EuPIStatus trigger, EuPICallDetector callback) {
         mKey = key;
         mFreqIndex = calculateFreqIndex(key);
         mAPICallback = callback;
         mTrigger = trigger;
         mInputThreshold = 0;
-        setStatus(EuPIStatus.KEY_UP);
+        setStatus(EuPIStatus.KEY_NONE);
     }
 
-    public EuPI(int key, double threshold, EuPITrigger trigger, EuPICallDetector callback) {
+    public EuPI(int key, double threshold, EuPIStatus trigger, EuPICallDetector callback) {
         mKey = key;
         mAPICallback = callback;
         mTrigger = trigger;
         mInputThreshold = threshold;
-        setStatus(EuPIStatus.KEY_UP);
+        setStatus(EuPIStatus.KEY_NONE);
+    }
+
+    public EuPIStatus feedAmplitude(float ampLeft, float ampCenter, float ampRight) {
+        final float ampDiff = ampCenter - (ampLeft + ampRight) / 2;
+        final boolean compared = compareThreshold(ampDiff);
+
+        if(!isActive && compared) {
+            setStatus(EuPIStatus.KEY_DOWN);
+            Log.d("TEST", "amp difference : " + ampDiff);
+            isActive = true;
+        } else if (isActive && compared) {
+            setStatus(EuPIStatus.KEY_PRESSED);
+            isActive = true;
+        } else if (isActive){
+            setStatus(EuPIStatus.KEY_UP);
+            isActive = false;
+        } else {
+            setStatus(EuPIStatus.KEY_NONE);
+        }
+
+        return getStatus();
     }
 
     public int getKey() {
@@ -51,11 +71,11 @@ public class EuPI {
 
     public boolean compareThreshold(float amp) { return amp >= mThreshold; }
 
-    public void setTrigger(EuPITrigger trigger) {
+    public void setTrigger(EuPIStatus trigger) {
         mTrigger = trigger;
     }
 
-    public EuPITrigger getTrigger() {
+    public EuPIStatus getTrigger() {
         return mTrigger;
     }
 
@@ -63,11 +83,13 @@ public class EuPI {
         mStatus = status;
         switch(status) {
             case KEY_UP:
+            case KEY_NONE:
             default:
-                mThreshold = (mInputThreshold == 0) ? 0.0009 : mInputThreshold;
+                mThreshold = (mInputThreshold == 0) ? 0.0007 : mInputThreshold;
                 break;
             case KEY_DOWN:
-                mThreshold = (mInputThreshold == 0) ? 0.0005 : mInputThreshold - 0.0004;
+            case KEY_PRESSED:
+                mThreshold = (mInputThreshold == 0) ? 0.0005 : mInputThreshold - 0.0002;
                 break;
         }
     }
