@@ -10,29 +10,29 @@ target_include_directories (gtest PUBLIC ${GOOGLETEST_ROOT}/include)
 
 add_executable(
         ${TEST_EUPHONY}
-        ASKTest.cpp
-        asciiCharsetTest.cpp
-        utf8CharsetTest.cpp
-        utf16CharsetTest.cpp
-        utf32CharsetTest.cpp
-        base2Test.cpp
-        base16Test.cpp
-        base32Test.cpp
-        base64Test.cpp
-        defaultCharsetTest.cpp
-        FFTHelperTest.cpp
-        FFTProcessorTest.cpp
-        BlueFFTTest.cpp
-        FSKTest.cpp
+        modem/ASKTest.cpp
+        charset/asciiCharsetTest.cpp
+        charset/utf8CharsetTest.cpp
+        charset/utf16CharsetTest.cpp
+        charset/utf32CharsetTest.cpp
+        base/base2Test.cpp
+        base/base16Test.cpp
+        base/base32Test.cpp
+        base/base64Test.cpp
+        charset/defaultCharsetTest.cpp
+        fft/FFTHelperTest.cpp
+        fft/FFTProcessorTest.cpp
+        fft/BlueFFTTest.cpp
+        modem/FSKTest.cpp
         hexVectorTest.cpp
-        packetTest.cpp
-        packetBuilderTest.cpp
-        packetErrorDetectorTest.cpp
-        packetWithFSKTest.cpp
-        waveTest.cpp
-        waveBuilderTest.cpp
-        waveRendererTest.cpp
-        wakeUpFFTSensorTest.cpp
+        packet/packetTest.cpp
+        packet/packetBuilderTest.cpp
+        packet/packetErrorDetectorTest.cpp
+        packet/packetWithFSKTest.cpp
+        wave/waveTest.cpp
+        wave/waveBuilderTest.cpp
+        renderer/waveRendererTest.cpp
+        wakeup/wakeUpFFTSensorTest.cpp
 )
 
 target_link_libraries(${TEST_EUPHONY} PUBLIC euphony gtest)

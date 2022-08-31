@@ -11,9 +11,9 @@ import co.euphony.common.Constants;
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_DOWN;
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_PRESSED;
-import static co.euphony.rx.EuPI.EuPITrigger.KEY_UP;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
 
 public class EuRxManager {
 
@@ -23,7 +23,7 @@ public class EuRxManager {
 	private RxEngineType rxEngineType = RxEngineType.EUPHONY_JAVA_ENGINE;
 
 	private Thread mListenThread = null;
-	private EuPICallRunner mEuPICallRunner = null;
+	private final ArrayList<EuPI> mEuPIList = new ArrayList<>();
 
 	public enum RxManagerStatus {
 		RUNNING, STOP
@@ -67,17 +67,15 @@ public class EuRxManager {
 				case DEFAULT:
 					mListenThread = new Thread(new RxRunner(), "RX");
 					break;
-				case EUPI: {
-					if(mEuPICallRunner != null) {
-						mListenThread = new Thread(mEuPICallRunner, "EUPI");
-						Log.d(LOG, "Euphony : EuPICallRunner's EuPI Count : " + mEuPICallRunner.getEuPICount());
-						break;
-					}
-					else {
-						Log.d(LOG, "Euphony : EuPICallRunner is null");
+				case EUPI:
+					if(mEuPIList.size() > 0) {
+						mListenThread = new Thread(new EuPICallRunner(mEuPIList), "EUPI");
+						Log.d(LOG, "Euphony : EuPICallRunner's EuPI Count : " + mEuPIList.size());
+					} else {
+						Log.e(LOG, "Euphony : There are no EuPis");
 						return false;
 					}
-				}
+					break;
 				default:
 					Log.d(LOG, "Detect must have specific frequency value");
 					return false;
@@ -117,63 +115,27 @@ public class EuRxManager {
 	}
 
 	public void setOnWaveKeyPressed(int freq, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(freq, KEY_PRESSED, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(freq, KEY_PRESSED, iEuPICallDetector));
 	}
 
 	public void setOnWaveKeyDown(int key, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(key, KEY_DOWN, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(key, KEY_DOWN, iEuPICallDetector));
 	}
 
 	public void setOnWaveKeyUp(int key, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(key, KEY_UP, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(key, KEY_UP, iEuPICallDetector));
 	}
 
 	public void setOnWaveKeyPressed(int freq, double threshold, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(freq, KEY_PRESSED, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(threshold, eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(freq, threshold, KEY_PRESSED, iEuPICallDetector));
 	}
 
 	public void setOnWaveKeyDown(int key, double threshold, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(key, KEY_DOWN, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(threshold, eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(key, threshold, KEY_DOWN, iEuPICallDetector));
 	}
 
 	public void setOnWaveKeyUp(int key, double threshold, EuPICallDetector iEuPICallDetector) {
-		EuPI eupi = new EuPI(key, KEY_UP, iEuPICallDetector);
-
-		if(mEuPICallRunner == null) {
-			mEuPICallRunner = new EuPICallRunner(threshold, eupi);
-		} else {
-			mEuPICallRunner.addEuPI(eupi);
-		}
+		mEuPIList.add(new EuPI(key, threshold, KEY_UP, iEuPICallDetector));
 	}
 
 	public RxManagerStatus getStatus() {
@@ -267,36 +229,13 @@ public class EuRxManager {
 
 	private class EuPICallRunner extends EuFreqObject implements Runnable {
 
-		private double mThreshold = 0.0009;
-		private final ArrayList<EuPI> EuPICallList = new ArrayList<>();
+		private ArrayList<EuPI> EuPICallList = null;
 
-		EuPICallRunner(EuPI eupi) {
-			addEuPI(eupi);
-			Log.d(LOG, "Added " + eupi.getKey() + "(" + eupi.getFreqIndex() + ")");
-		}
-
-		EuPICallRunner(double threshold, EuPI eupi) {
-			mThreshold = threshold;
-			addEuPI(eupi);
-			Log.d(LOG, "Added " + eupi.getKey() + "(" + eupi.getFreqIndex() + ")");
-		}
-
-		private int calculateFreqIndex(int freq) {
-			double freqRatio = ((float)freq) / (float)Constants.HALF_SAMPLERATE;
-			return (int) Math.round((freqRatio * (float) (Constants.FFT_SIZE >> 1)));
-		}
-
-		private boolean compareThreshold(float amp) {
-			return amp > mThreshold;
-		}
-
-		public void addEuPI(EuPI eupi) {
-			eupi.setFreqIndex(calculateFreqIndex(eupi.getKey()));
-			EuPICallList.add(eupi);
-		}
-
-		public int getEuPICount() {
-			return EuPICallList.size();
+		EuPICallRunner(ArrayList<EuPI> eupiList) {
+			for(EuPI eupi : eupiList) {
+				eupi.setStatus(EuPI.EuPIStatus.KEY_UP);
+			}
+			EuPICallList = eupiList;
 		}
 
 		@Override
@@ -304,65 +243,22 @@ public class EuRxManager {
 			while(!Thread.currentThread().isInterrupted()) {
 				processFFT();
 
-				float[] amp = {0, 0, 0};
 				for(EuPI eupi : EuPICallList) {
-					boolean isActable = false;
-					switch(eupi.getTrigger()) {
-						case KEY_DOWN: {
-							if(eupi.getStatus() == EuPI.EuPIStatus.KEY_UP){
-								isActable = true;
-							}
-						}
-						break;
-						case KEY_UP: {
-							if(eupi.getStatus() != EuPI.EuPIStatus.KEY_UP) {
-								isActable = true;
-							}
-						}
-						break;
-						case KEY_PRESSED: {
-							isActable = true;
-						}
-						break;
-					}
-
 					int freqIndex = eupi.getFreqIndex();
-					amp[0] = getSpectrumValue(freqIndex - 2);
-					amp[1] = getSpectrumValue(freqIndex);
-					amp[2] = getSpectrumValue(freqIndex + 2);
+					final float ampLeft = getSpectrumValue(freqIndex - 2);
+					final float ampCenter = getSpectrumValue(freqIndex);
+					final float ampRight = getSpectrumValue(freqIndex + 2);
 
-					if(isActable) {
-						if(compareThreshold((amp[1] - (amp[0] + amp[2])/2))) {
-							if(eupi.getTrigger() == KEY_DOWN || eupi.getTrigger() == KEY_PRESSED) {
-								Message msg = mHandler.obtainMessage();
-								msg.what = EUPI_CALL_MODE;
-								msg.obj = eupi;
-								mHandler.sendMessage(msg);
-							}
-
-							eupi.setStatus(EuPI.EuPIStatus.KEY_DOWN);
-						} else {
-							if(eupi.getTrigger() == KEY_UP) {
-								Message msg = mHandler.obtainMessage();
-								msg.what = EUPI_CALL_MODE;
-								msg.obj = eupi;
-								mHandler.sendMessage(msg);
-							}
-
-							eupi.setStatus(EuPI.EuPIStatus.KEY_UP);
-						}
-					} else {
-						if(compareThreshold((amp[1] - (amp[0] + amp[2])/2))) {
-							eupi.setStatus(EuPI.EuPIStatus.KEY_DOWN);
-						} else {
-							eupi.setStatus(EuPI.EuPIStatus.KEY_UP);
-						}
+					EuPI.EuPIStatus status = eupi.feedAmplitude(ampLeft, ampCenter, ampRight);
+					if(eupi.getTrigger() == status) {
+						Message msg = mHandler.obtainMessage();
+						msg.what = EUPI_CALL_MODE;
+						msg.obj = eupi;
+						mHandler.sendMessage(msg);
 					}
-
-					Log.d(LOG, eupi.getKey() + "(" + eupi.getFreqIndex() + ")" + "'s Amplitude : " + amp[2]);
 				}
 			}
-
+			Log.d(LOG, "Finished EuPICallRunner");
 			destroyFFT();
 		}
 	}
