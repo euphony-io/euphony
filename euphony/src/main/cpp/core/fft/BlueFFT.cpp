@@ -23,16 +23,16 @@ BlueFFT::~BlueFFT() {
 
 void BlueFFT::initialize() {
     std::vector<fcpx>().swap(floatSrc);
-    floatSrc.resize(fftSize);
+    floatSrc.resize(fftSize, 0);
 
     std::vector<i16cpx>().swap(i16Src);
-    i16Src.resize(fftSize);
+    i16Src.resize(fftSize, 0);
 
     std::vector<float>().swap(amplitudeSpectrum);
-    amplitudeSpectrum.resize(halfOfFFTSize);
+    amplitudeSpectrum.resize(halfOfFFTSize, 0);
 
     std::vector<float>().swap(phaseSpectrum);
-    phaseSpectrum.resize(halfOfFFTSize);
+    phaseSpectrum.resize(halfOfFFTSize, 0);
 }
 
 Spectrums BlueFFT::makeSpectrum(const short *src) {

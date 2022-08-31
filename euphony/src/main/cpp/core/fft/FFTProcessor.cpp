@@ -26,17 +26,19 @@ FFTProcessor::~FFTProcessor() {
 }
 
 void FFTProcessor::initialize() {
+    // initialize config
     free(config);
     config = kiss_fftr_alloc(fftSize, 0, nullptr, nullptr);
 
-    free(spectrum);
-    spectrum = (kiss_fft_cpx*) malloc(sizeof(kiss_fft_cpx) * fftSize);
+    // initialize spectrum
+    for(int i = 0; i < fftSize; i++)
+        spectrum[i] = {0, 0};
 
-    delete[] amplitudeSpectrum;
-    amplitudeSpectrum = new float[halfOfFFTSize]();
-
-    delete[] phaseSpectrum;
-    phaseSpectrum = new float[halfOfFFTSize]();
+    // intialize amplitude & phase spectrum
+    for(int i = 0; i < halfOfFFTSize; i++) {
+        amplitudeSpectrum[i] = 0;
+        phaseSpectrum[i] = 0;
+    }
 }
 
 Spectrums FFTProcessor::makeSpectrum(const short* src) {
