@@ -1,5 +1,7 @@
 package co.euphony.rx;
 
+import co.euphony.common.Constants;
+
 public class EuPI {
     public enum EuPITrigger {
         KEY_DOWN, KEY_UP, KEY_PRESSED
@@ -11,31 +13,43 @@ public class EuPI {
 
     private int mKey;
     private int mFreqIndex;
+    private double mThreshold;
+    private double mInputThreshold;
     EuPITrigger mTrigger;
     EuPIStatus mStatus;
     EuPICallDetector mAPICallback;
 
     public EuPI(int key, EuPICallDetector callback) {
         mKey = key;
+        mFreqIndex = calculateFreqIndex(key);
         mAPICallback = callback;
         mTrigger = EuPITrigger.KEY_PRESSED;
-        mStatus = EuPIStatus.KEY_UP;
+        mInputThreshold = 0;
+        setStatus(EuPIStatus.KEY_UP);
     }
 
     public EuPI(int key, EuPITrigger trigger, EuPICallDetector callback) {
         mKey = key;
+        mFreqIndex = calculateFreqIndex(key);
         mAPICallback = callback;
         mTrigger = trigger;
-        mStatus = EuPIStatus.KEY_UP;
+        mInputThreshold = 0;
+        setStatus(EuPIStatus.KEY_UP);
+    }
+
+    public EuPI(int key, double threshold, EuPITrigger trigger, EuPICallDetector callback) {
+        mKey = key;
+        mAPICallback = callback;
+        mTrigger = trigger;
+        mInputThreshold = threshold;
+        setStatus(EuPIStatus.KEY_UP);
     }
 
     public int getKey() {
         return mKey;
     }
 
-    public void setFreqIndex(int idx) {
-        mFreqIndex = idx;
-    }
+    public boolean compareThreshold(float amp) { return amp >= mThreshold; }
 
     public void setTrigger(EuPITrigger trigger) {
         mTrigger = trigger;
@@ -47,6 +61,15 @@ public class EuPI {
 
     public void setStatus(EuPIStatus status) {
         mStatus = status;
+        switch(status) {
+            case KEY_UP:
+            default:
+                mThreshold = (mInputThreshold == 0) ? 0.0009 : mInputThreshold;
+                break;
+            case KEY_DOWN:
+                mThreshold = (mInputThreshold == 0) ? 0.0005 : mInputThreshold - 0.0004;
+                break;
+        }
     }
 
     public EuPIStatus getStatus() {
@@ -61,4 +84,8 @@ public class EuPI {
         return mAPICallback;
     }
 
+    private int calculateFreqIndex(int freq) {
+        double freqRatio = ((float)freq) / (float) Constants.HALF_SAMPLERATE;
+        return (int) Math.round((freqRatio * (float) (Constants.FFT_SIZE >> 1)));
+    }
 }
