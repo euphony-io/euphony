@@ -1,5 +1,7 @@
 package co.euphony.common;
 
+import android.Manifest;
+
 public class Constants {
 
 	// RX & TX COMMON VARIABLES
@@ -20,6 +22,7 @@ public class Constants {
 	public static final int MIN_REF = 50;
 
 	public static final int DEFAULT_REF = 500;	// BASE Reference value
+	public static final String REQUIRED_PERMISSION = Manifest.permission.RECORD_AUDIO;
 
 	// TxRxChecker Test Tags
 	public static final String TAG_INPUT = "TxRxCheckerInput";

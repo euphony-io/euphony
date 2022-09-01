@@ -1,8 +1,16 @@
 package co.euphony.rx;
 
+
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
+
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.Process;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,10 +18,6 @@ import java.util.ArrayList;
 import co.euphony.common.Constants;
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
-
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
 
 public class EuRxManager {
 
@@ -102,6 +106,15 @@ public class EuRxManager {
 			return listenOnNative();
 	}
 
+	public boolean listen(Context context) { // Safely call listen function without audio permission.
+		int hasPermission = context.checkPermission(Constants.REQUIRED_PERMISSION, Process.myPid(), Process.myUid());
+		if (hasPermission == PERMISSION_DENIED) {
+			Log.e(LOG, "Before calling listen(), you should acquire RECORD_AUDIO permission.");
+			return false;
+		}
+		return listen();
+	}
+
 	public void finish()
 	{
 		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
@@ -156,7 +169,7 @@ public class EuRxManager {
 	}
 
 	private AcousticSensor mAcousticSensor;
-	
+
 	public AcousticSensor getAcousticSensor() {
 		return mAcousticSensor;
 	}
@@ -164,9 +177,9 @@ public class EuRxManager {
 	public void setAcousticSensor(AcousticSensor iAcousticSensor) {
 		this.mAcousticSensor = iAcousticSensor;
 	}
-	
+
 	private final Handler mHandler = new Handler(Looper.getMainLooper()){
-		public void handleMessage(Message msg){			
+		public void handleMessage(Message msg){
 			switch(msg.what){
 				case RX_MODE:
 					mAcousticSensor.notify(msg.obj + "");
@@ -176,8 +189,8 @@ public class EuRxManager {
 					eupi.getCallback().call();
 					break;
 
-			default:
-				break;
+				default:
+					break;
 			}
 		}
 	};
@@ -200,7 +213,7 @@ public class EuRxManager {
 
 	private class RxRunner extends EuFreqObject implements Runnable{
 		@Override
-		public void run() 
+		public void run()
 		{
 			while (!Thread.currentThread().isInterrupted()) {
 				processFFT();
@@ -214,7 +227,7 @@ public class EuRxManager {
 					msg.what = RX_MODE;
 					msg.obj = null;
 					if(mOption.getCodingType() == EuOption.CodingType.BASE16) {
-							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
+						msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
 					}
 					this.setCompleted(false);
 					mHandler.sendMessage(msg);
