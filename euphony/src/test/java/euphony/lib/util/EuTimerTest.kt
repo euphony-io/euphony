@@ -1,6 +1,7 @@
 package euphony.lib.util
 
 import co.euphony.util.EuTimer
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -21,6 +22,13 @@ class EuTimerTest {
     @Before
     fun setUp() {
         infiniteLoopJob.start()
+    }
+
+    @After
+    fun finishTest() {
+        if (infiniteLoopJob.isAlive) {
+            infiniteLoopJob.interrupt()
+        }
     }
 
     @Test
