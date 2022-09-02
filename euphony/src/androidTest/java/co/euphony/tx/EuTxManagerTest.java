@@ -36,7 +36,7 @@ public class EuTxManagerTest {
 
     @Before
     public void setup() {
-        txManager = new EuTxManager(ApplicationProvider.getApplicationContext());
+        txManager = new EuTxManager();
     }
 
     @Test

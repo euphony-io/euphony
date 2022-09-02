@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">euphony-java-sample</string>
+
+    <!-- FOR MAIN FRAGMENT -->
+    <string name="java_sample_head">Main</string>
+    <string name="comm_menu_title">Communication; string message</string>
+    <string name="eupi_menu_title">EuPI; remote control</string>
+    <string name="tx_communication_button_title">Communication FOR TX</string>
+    <string name="tx_communication_button_desc">Generate String Wave</string>
+    <string name="tx_eupi_button_title">EUPI FOR TX</string>
+    <string name="tx_eupi_button_desc">EuPI Generation Part</string>
+    <string name="rx_eupi_button_title">EUPI FOR RX</string>
+    <string name="rx_eupi_button_desc">EuPI Listener Part</string>
+    <string name="rx_communication_button_title">Communication FOR RX</string>
+    <string name="rx_communication_button_desc">Listen String Wave</string>
+
+    <!-- FOR TX COMMUNICATION FRAGMENT -->
+    <string name="tx_comm_head">Main > Communication for Tx</string>
+
+    <!-- FOR TX EUPI FRAGMENT -->
+    <string name="tx_eupi_head">Main > EuPI for Tx</string>
+    <string name="tx_comm_speak_btn_title">Speak :)</string>
+    <string name="tx_comm_stop_btn_title">Stop :(</string>
+    <string-array name="modulation_array">
+        <item>FSK</item>
+    </string-array>
+    <string-array name="count_array">
+        <item>Forever</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="player_engine_array">
+        <item>ANDROID_DEFAULT_ENGINE</item>
+        <item>EUPHONY_NATIVE_ENGINE</item>
+    </string-array>
+
+    <!-- FOR RX COMM FRAGMENT -->
+    <string name="rx_comm_head">Main > Communication for Rx</string>
+    <string name="listen_btn_title">Listen :)</string>
+    <string name="stop_btn_title">Stop :)</string>
+    <string name="listen_status_text">Hello, Euphony</string>
+
+    <!-- FOR TX EUPI FRAGMENT -->
+    <string name="rx_eupi_head">Main > EuPI for Rx</string>
+    <string name="eupi_18500">EuPI 18500</string>
+    <string name="eupi_19000">EuPI 19000</string>
+    <string name="eupi_19500">EuPI 19500</string>
+    <string name="eupi_20000">EuPI 20000</string>
+    <string name="eupi_20500">EuPI 20500</string>
+    <string name="speak_btn_title">Speak :)</string>
+</resources>

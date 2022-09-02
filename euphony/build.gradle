@@ -1,11 +1,12 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(32)
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 32
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -35,7 +36,7 @@ android {
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
-            version "3.10.2"
+            version "3.22.1"
         }
     }
 
@@ -45,6 +46,20 @@ android {
 
     buildFeatures {
         prefab true
+        compose true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
     }
 
     testOptions {
@@ -52,30 +67,87 @@ android {
     }
 
     gradle.buildFinished {
-        def abiArr = ['arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64']
+        def cppBuildDir = ".cxx/Debug"
         def logfile = "android_gradle_build_stdout_targets.txt"
-        def lastWordIfThereAreNoDevice = "Linking"
         def resultStr = "\n"
-        def noDevice = true
-        for (abi in abiArr) {
-            def filePath = "euphony/.cxx/cmake/debug/$abi/$logfile"
-            def lines = new File(filePath).readLines()
-            if (lines.get(lines.size() - 1).contains(lastWordIfThereAreNoDevice))
-                continue
-            noDevice = false
-            resultStr += "> $abi/$logfile\n"
-            resultStr += lines.join("\n")
+        def isUnitTestWorked = false
+        def isDevice = false
+
+        fileTree(cppBuildDir).matching {
+            include "**/$logfile"
+        }.forEach( file -> {
+            if (file.exists()) {
+                def lines = file.readLines()
+                /* Check the unit-test working */
+                if (lines.size() > 2) {
+                    def lastSentence = lines.get(lines.size() - 1)
+                    if (lastSentence.contains("**** Gtest Success ****")) {
+                        isUnitTestWorked = true
+                        isDevice = true
+                    } else if (lastSentence.contains("ninja: no work to do.")) {
+                        isUnitTestWorked = false
+                        if (!lines.get(2).contains("0"))
+                            isDevice = true
+                    } else if (lastSentence.contains("Linking")) {
+                        isUnitTestWorked = false
+                        return
+                    }
+
+                    resultStr += "> $file.path\n"
+                    resultStr += lines.join("\n")
+                }
+            }
+        })
+
+        print "\n"
+        if (!isDevice) {
+            println "THE BUILD WAS SUCCESSFUL, BUT NOT VERIFIED BY NATIVE UNIT TESTS."
+            println "FOR UNIT TESTING, PLEASE CONNECT A VIRTUAL DEVICE OR ANDROID DEVICE TO ADB"
         }
-        if (noDevice)
-            println "The build was successful, not verified by unit tests. For unit testing, connect a virtual device or Android device to adb."
-        else
-            println "Print build_stdout $resultStr"
+        else {
+            if (isUnitTestWorked) {
+                println "Print build_stdout $resultStr"
+                println "\nTHE BUILD & TESTS ARE SUCCESSFUL"
+                println "THERE ARE NO ERRORS FOR NATIVE UNIT TESTS."
+            }
+            else {
+                println "THERE ARE NO CHANGES TO THE CODE."
+                println "THERE IS NO NEED FOR NATIVE UNIT TESTS."
+            }
+        }
     }
+}
+
+if (project.hasProperty("ossrhUsername")
+        && project.hasProperty("ossrhPassword")
+        && project.hasProperty("sonatypeStagingProfileId")
+        && project.hasProperty("signing.keyId")
+        && project.hasProperty("signing.key")
+        && project.hasProperty("signing.password")
+) {
+    apply from: "publish.gradle"
 }
 
 dependencies {
     implementation 'com.google.oboe:oboe:1.6.1'
+    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0"
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-inline:4.7.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    androidTestImplementation "org.mockito:mockito-core:4.7.0"
+    androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito-inline:2.25.1'
 }

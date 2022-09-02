@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="co.euphony.sample.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_txCommunicationFragment"
+            app:destination="@id/txCommunicationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_txEuPIFragment"
+            app:destination="@id/txEuPIFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rxCommunicationFragment"
+            app:destination="@id/rxCommunicationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_rxEuPIFragment"
+            app:destination="@id/rxEuPIFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/txCommunicationFragment"
+        android:name="co.euphony.sample.fragments.tx.TxCommunicationFragment"
+        android:label="tx_fragment_communication"
+        tools:layout="@layout/fragment_tx_communication" />
+    <fragment
+        android:id="@+id/txEuPIFragment"
+        android:name="co.euphony.sample.fragments.tx.TxEuPIFragment"
+        android:label="tx_fragment_eupi"
+        tools:layout="@layout/fragment_tx_eupi" />
+    <fragment
+        android:id="@+id/rxCommunicationFragment"
+        android:name="co.euphony.sample.fragments.rx.RxCommunicationFragment"
+        android:label="rx_fragment_communication"
+        tools:layout="@layout/fragment_tx_communication" />
+    <fragment
+        android:id="@+id/rxEuPIFragment"
+        android:name="co.euphony.sample.fragments.rx.RxEuPIFragment"
+        android:label="rx_fragment_eupi"
+        tools:layout="@layout/fragment_tx_eupi" />
+</navigation>
