@@ -23,7 +23,7 @@ class EuTimer(
         timer.schedule(timeOutTask, timeout)
     }
 
-    inner class TimeOutTask(
+    private inner class TimeOutTask(
         private val timer: Timer
     ) : TimerTask() {
 
