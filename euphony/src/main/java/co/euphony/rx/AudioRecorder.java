@@ -5,12 +5,14 @@ import java.nio.ByteBuffer;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.util.Log;
 
 public class AudioRecorder {
 
 	private AudioRecord audioRecord;
 	private boolean running;
 	private boolean swtWindowing; //TEST WINDOWING
+	private final String LOG = "AudioRecoder";
 
 	/**
 	 * Constructor.
@@ -56,8 +58,13 @@ public class AudioRecorder {
 	 */
 	public void start() {
 		if (!running) {
-			audioRecord.startRecording();
-			running = true;
+			try {
+				audioRecord.startRecording();
+				running = true;
+			} catch (IllegalStateException e) {
+				running = false;
+				Log.e(LOG, "Before calling listen(), you should acquire RECORD_AUDIO permission.");
+			}
 		}
 	}
 
@@ -66,8 +73,12 @@ public class AudioRecorder {
 	 */
 	public void stop() {
 		if (running) {
-			audioRecord.stop();
-			running = false;
+			try {
+				audioRecord.stop();
+				running = false;
+			} catch (IllegalStateException e) {
+				Log.e(LOG, "Before calling listen(), you should acquire RECORD_AUDIO permission.");
+			}
 		}
 	}
 

@@ -106,17 +106,7 @@ public class EuRxManager {
 			return listenOnNative();
 	}
 
-	public boolean listen(Context context) { // Safely call listen function without audio permission.
-		int hasPermission = context.checkPermission(Constants.REQUIRED_PERMISSION, Process.myPid(), Process.myUid());
-		if (hasPermission == PERMISSION_DENIED) {
-			Log.e(LOG, "Before calling listen(), you should acquire RECORD_AUDIO permission.");
-			return false;
-		}
-		return listen();
-	}
-
-	public void finish()
-	{
+	public void finish() {
 		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
 			if (mListenThread != null) {
 				mListenThread.interrupt();
