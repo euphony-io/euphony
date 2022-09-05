@@ -1,11 +1,11 @@
 package co.euphony.rx;
 
-import java.nio.ByteBuffer;
-
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.util.Log;
+
+import java.nio.ByteBuffer;
 
 public class AudioRecorder {
 
@@ -73,12 +73,8 @@ public class AudioRecorder {
 	 */
 	public void stop() {
 		if (running) {
-			try {
 				audioRecord.stop();
 				running = false;
-			} catch (IllegalStateException e) {
-				Log.e(LOG, "Before calling listen(), you should acquire RECORD_AUDIO permission.");
-			}
 		}
 	}
 

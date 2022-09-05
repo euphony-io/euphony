@@ -1,8 +1,9 @@
 import android.Manifest.permission.RECORD_AUDIO
+import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.os.Process
+import androidx.core.content.ContextCompat
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import co.euphony.rx.EuRxManager
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -12,16 +13,14 @@ import org.junit.runner.RunWith
 class EuRxManagerTest {
 
     private val rxManager: EuRxManager = EuRxManager()
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val context : Context =  ApplicationProvider.getApplicationContext<Context>()
 
     @Test
-    public fun testListenWithContext() {
-        val permissionStatus = appContext.checkPermission(
-            RECORD_AUDIO,
-            Process.myPid(),
-            Process.myUid()
+    public fun testListen() {
+        val permissionStatus = ContextCompat.checkSelfPermission(context,
+            RECORD_AUDIO
         )
-        val result = rxManager.listen(appContext)
+        val result = rxManager.listen()
         assertEquals(permissionStatus == PERMISSION_GRANTED, result)
     }
 }

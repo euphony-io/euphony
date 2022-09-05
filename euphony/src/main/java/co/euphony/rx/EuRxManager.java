@@ -1,21 +1,17 @@
 package co.euphony.rx;
 
 
-import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
 import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
 import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.os.Process;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import co.euphony.common.Constants;
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
 
