@@ -1,5 +1,7 @@
 package co.euphony.util
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import java.util.*
 
@@ -26,13 +28,17 @@ class EuTimer(
     private inner class TimeOutTask(
         private val timer: Timer
     ) : TimerTask() {
+        private val mainHandler: Handler = Handler(Looper.getMainLooper())
 
         override fun run() {
             if (thread.isAlive) {
                 Log.e(LOG, "Your job(${Thread.currentThread().name}) is interrupted by timeout")
                 thread.interrupt()
                 timer.cancel()
-                timeOutListener.onTimeOut()
+
+                mainHandler.post {
+                    timeOutListener.onTimeOut()
+                }
             }
         }
     }
