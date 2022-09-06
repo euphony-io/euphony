@@ -1,19 +1,23 @@
 package co.euphony.rx;
 
+
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
+import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.IntRange;
+
 import java.util.ArrayList;
 
-import co.euphony.common.Constants;
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
-
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_DOWN;
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_PRESSED;
-import static co.euphony.rx.EuPI.EuPIStatus.KEY_UP;
+import co.euphony.util.EuTimeOutListener;
+import co.euphony.util.EuTimer;
 
 public class EuRxManager {
 
@@ -61,14 +65,14 @@ public class EuRxManager {
 				.build();
 	}
 
-	private boolean listenOnJava() {
-		if(getStatus() != RxManagerStatus.RUNNING) {
+	private boolean listenOnJava(long timeout, EuTimeOutListener listener) {
+		if (getStatus() != RxManagerStatus.RUNNING) {
 			switch (mOption.getMode()) {
 				case DEFAULT:
 					mListenThread = new Thread(new RxRunner(), "RX");
 					break;
 				case EUPI:
-					if(mEuPIList.size() > 0) {
+					if (mEuPIList.size() > 0) {
 						mListenThread = new Thread(new EuPICallRunner(mEuPIList), "EUPI");
 						Log.d(LOG, "Euphony : EuPICallRunner's EuPI Count : " + mEuPIList.size());
 					} else {
@@ -81,6 +85,10 @@ public class EuRxManager {
 					return false;
 			}
 			mListenThread.start();
+			if (timeout > 0) {
+				EuTimer euTimer = new EuTimer(mListenThread, listener);
+				euTimer.start(timeout);
+			}
 			return true;
 		} else {
 			return false;
@@ -96,15 +104,24 @@ public class EuRxManager {
 	}
 
 	public boolean listen() {
-		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
-			return listenOnJava();
+		return listen(0, () -> {
+		});
+	}
+
+	public boolean listen(@IntRange(from = 0) long timeout) {
+		return listen(timeout, () -> {
+		});
+	}
+
+	public boolean listen(@IntRange(from = 0) long timeout, EuTimeOutListener listener) {
+		if (rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
+			return listenOnJava(timeout, listener);
 		else
 			return listenOnNative();
 	}
 
-	public void finish()
-	{
-		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
+	public void finish() {
+		if (rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
 			if (mListenThread != null) {
 				mListenThread.interrupt();
 			}
@@ -156,7 +173,7 @@ public class EuRxManager {
 	}
 
 	private AcousticSensor mAcousticSensor;
-	
+
 	public AcousticSensor getAcousticSensor() {
 		return mAcousticSensor;
 	}
@@ -164,9 +181,9 @@ public class EuRxManager {
 	public void setAcousticSensor(AcousticSensor iAcousticSensor) {
 		this.mAcousticSensor = iAcousticSensor;
 	}
-	
+
 	private final Handler mHandler = new Handler(Looper.getMainLooper()){
-		public void handleMessage(Message msg){			
+		public void handleMessage(Message msg){
 			switch(msg.what){
 				case RX_MODE:
 					mAcousticSensor.notify(msg.obj + "");
@@ -176,8 +193,8 @@ public class EuRxManager {
 					eupi.getCallback().call();
 					break;
 
-			default:
-				break;
+				default:
+					break;
 			}
 		}
 	};
@@ -200,7 +217,7 @@ public class EuRxManager {
 
 	private class RxRunner extends EuFreqObject implements Runnable{
 		@Override
-		public void run() 
+		public void run()
 		{
 			while (!Thread.currentThread().isInterrupted()) {
 				processFFT();
@@ -214,7 +231,7 @@ public class EuRxManager {
 					msg.what = RX_MODE;
 					msg.obj = null;
 					if(mOption.getCodingType() == EuOption.CodingType.BASE16) {
-							msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
+						msg.obj = EuDataDecoder.decodeStaticHexCharSource(getReceivedData());
 					}
 					this.setCompleted(false);
 					mHandler.sendMessage(msg);
