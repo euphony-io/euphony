@@ -73,8 +73,8 @@ public class AudioRecorder {
 	 */
 	public void stop() {
 		if (running) {
-				audioRecord.stop();
-				running = false;
+			audioRecord.stop();
+			running = false;
 		}
 	}
 
