@@ -86,7 +86,10 @@ public class EuRxManager {
 			}
 			mListenThread.start();
 			if (timeout > 0) {
-				EuTimer euTimer = new EuTimer(mListenThread, listener);
+				EuTimer euTimer = new EuTimer(mListenThread, () -> {
+					listener.onTimeOut();
+					mListenThread = null;
+				});
 				euTimer.start(timeout);
 			}
 			return true;
