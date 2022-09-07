@@ -1,5 +1,6 @@
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.euphony.rx.EuRxManager
+import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -12,4 +13,13 @@ class EuRxManagerTest {
         rxManager.listen()
     }
 
+    @Test
+    fun testListenWithTimeout() {
+        val rxManager = EuRxManager()
+        rxManager.listen(1000)
+        assertEquals(EuRxManager.RxManagerStatus.RUNNING, rxManager.status)
+
+        Thread.sleep(1100)
+        assertEquals(EuRxManager.RxManagerStatus.STOP, rxManager.status)
+    }
 }

@@ -10,10 +10,15 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 
 import co.euphony.common.EuNativeConnector;
 import co.euphony.util.EuOption;
+import co.euphony.util.EuTimeOutListener;
+import co.euphony.util.EuTimer;
 
 public class EuRxManager {
 
@@ -61,14 +66,14 @@ public class EuRxManager {
 				.build();
 	}
 
-	private boolean listenOnJava() {
-		if(getStatus() != RxManagerStatus.RUNNING) {
+	private boolean listenOnJava(long timeout, @Nullable EuTimeOutListener listener) {
+		if (getStatus() != RxManagerStatus.RUNNING) {
 			switch (mOption.getMode()) {
 				case DEFAULT:
 					mListenThread = new Thread(new RxRunner(), "RX");
 					break;
 				case EUPI:
-					if(mEuPIList.size() > 0) {
+					if (mEuPIList.size() > 0) {
 						mListenThread = new Thread(new EuPICallRunner(mEuPIList), "EUPI");
 						Log.d(LOG, "Euphony : EuPICallRunner's EuPI Count : " + mEuPIList.size());
 					} else {
@@ -81,6 +86,15 @@ public class EuRxManager {
 					return false;
 			}
 			mListenThread.start();
+			if (timeout > 0) {
+				EuTimer euTimer = new EuTimer(mListenThread, () -> {
+					if (listener != null) {
+						listener.onTimeOut();
+					}
+					mListenThread = null;
+				});
+				euTimer.start(timeout);
+			}
 			return true;
 		} else {
 			return false;
@@ -96,14 +110,22 @@ public class EuRxManager {
 	}
 
 	public boolean listen() {
-		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
-			return listenOnJava();
+		return listen(0, null);
+	}
+
+	public boolean listen(@IntRange(from = 0) long timeout) {
+		return listen(timeout, null);
+	}
+
+	public boolean listen(@IntRange(from = 0) long timeout, EuTimeOutListener listener) {
+		if (rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE)
+			return listenOnJava(timeout, listener);
 		else
 			return listenOnNative();
 	}
 
 	public void finish() {
-		if(rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
+		if (rxEngineType == RxEngineType.EUPHONY_JAVA_ENGINE) {
 			if (mListenThread != null) {
 				mListenThread.interrupt();
 			}
