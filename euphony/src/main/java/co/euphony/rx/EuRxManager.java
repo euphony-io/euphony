@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.IntRange;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class EuRxManager {
 				.build();
 	}
 
-	private boolean listenOnJava(long timeout, EuTimeOutListener listener) {
+	private boolean listenOnJava(long timeout, @Nullable EuTimeOutListener listener) {
 		if (getStatus() != RxManagerStatus.RUNNING) {
 			switch (mOption.getMode()) {
 				case DEFAULT:
@@ -87,7 +88,9 @@ public class EuRxManager {
 			mListenThread.start();
 			if (timeout > 0) {
 				EuTimer euTimer = new EuTimer(mListenThread, () -> {
-					listener.onTimeOut();
+					if (listener != null) {
+						listener.onTimeOut();
+					}
 					mListenThread = null;
 				});
 				euTimer.start(timeout);
@@ -107,13 +110,11 @@ public class EuRxManager {
 	}
 
 	public boolean listen() {
-		return listen(0, () -> {
-		});
+		return listen(0, null);
 	}
 
 	public boolean listen(@IntRange(from = 0) long timeout) {
-		return listen(timeout, () -> {
-		});
+		return listen(timeout, null);
 	}
 
 	public boolean listen(@IntRange(from = 0) long timeout, EuTimeOutListener listener) {

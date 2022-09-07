@@ -7,7 +7,7 @@ import java.util.*
 
 class EuTimer(
     private val thread: Thread,
-    private val timeOutListener: EuTimeOutListener
+    private val timeOutListener: EuTimeOutListener?
 ) {
 
     companion object {
@@ -37,7 +37,7 @@ class EuTimer(
                 timer.cancel()
 
                 mainHandler.post {
-                    timeOutListener.onTimeOut()
+                    timeOutListener?.onTimeOut()
                 }
             }
         }
