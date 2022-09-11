@@ -31,6 +31,7 @@ set(EUPHONY_SRC
         core/charset/UTF16Charset.cpp
         core/charset/UTF32Charset.cpp
         core/charset/DefaultCharset.cpp
+        core/charset/CharsetAutoSelector.cpp
         core/base/Base2.cpp
         core/base/Base16.cpp
         core/base/Base32.cpp

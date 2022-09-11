@@ -15,6 +15,7 @@ add_executable(
         charset/utf8CharsetTest.cpp
         charset/utf16CharsetTest.cpp
         charset/utf32CharsetTest.cpp
+        charset/charsetAutoSelectorTest.cpp
         base/base2Test.cpp
         base/base16Test.cpp
         base/base32Test.cpp
