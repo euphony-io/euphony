@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.tx.TxCommunicationFragment">
+
+    <TextView
+        android:id="@+id/sample_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tx_comm_head"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:paddingTop="35dp"
+        android:paddingBottom="35dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sample_head">
+        <EditText
+            android:id="@+id/speak_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Hello World!"
+            android:autofillHints="Anything What You Want"
+            android:inputType="text"
+            android:padding="22dp"
+            tools:ignore="LabelFor" />
+        <Spinner
+            android:id="@+id/count_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"/>
+        <Spinner
+            android:id="@+id/engine_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/speak_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/speak_btn_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

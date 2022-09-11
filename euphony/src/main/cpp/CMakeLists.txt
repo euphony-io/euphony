@@ -24,32 +24,37 @@ target_link_libraries(
 set(EUPHONY_SRC
         arms/kiss_fft.c
         arms/kiss_fftr.c
-        core/source/AudioStreamCallback.cpp
-        core/source/ASCIICharset.cpp
-        core/source/UTF8Charset.cpp
-        core/source/UTF16Charset.cpp
-        core/source/UTF32Charset.cpp
-        core/source/Base2.cpp
-        core/source/Base16.cpp
-        core/source/Base32.cpp
-        core/source/Base64.cpp
-        core/source/Base16Exception.cpp
-        core/source/Base32Exception.cpp
-        core/source/Base64Exception.cpp
-        core/source/DefaultCharset.cpp
-        core/source/EuPIOscillator.cpp
-        core/source/EuPIRenderer.cpp
-        core/source/FFTModel.cpp
-        core/source/FFTProcessor.cpp
-        core/source/FSK.cpp
-        core/source/HexVector.cpp
-        core/source/Packet.cpp
-        core/source/PacketBuilder.cpp
-        core/source/PacketErrorDetector.cpp
-        core/source/TxEngine.cpp
-        core/source/Wave.cpp
-        core/source/WaveBuilder.cpp
-        core/source/WaveRenderer.cpp
+        core/AudioStreamCallback.cpp
+        core/charset/ASCIICharset.cpp
+        core/modem/ASK.cpp
+        core/charset/UTF8Charset.cpp
+        core/charset/UTF16Charset.cpp
+        core/charset/UTF32Charset.cpp
+        core/charset/DefaultCharset.cpp
+        core/base/Base2.cpp
+        core/base/Base16.cpp
+        core/base/Base32.cpp
+        core/base/Base64.cpp
+        core/base/Base16Exception.cpp
+        core/base/Base32Exception.cpp
+        core/base/Base64Exception.cpp
+        core/renderer/EuPIOscillator.cpp
+        core/renderer/EuPIRenderer.cpp
+        core/fft/FFTHelper.cpp
+        core/fft/FFTModel.cpp
+        core/fft/FFTProcessor.cpp
+        core/fft/BlueFFT.cpp
+        core/modem/FSK.cpp
+        core/HexVector.cpp
+        core/packet/Packet.cpp
+        core/packet/PacketBuilder.cpp
+        core/packet/PacketErrorDetector.cpp
+        core/TxEngine.cpp
+        core/RxEngine.cpp
+        core/wave/Wave.cpp
+        core/wave/WaveBuilder.cpp
+        core/renderer/WaveRenderer.cpp
+        core/wakeup/WakeUpFFTSensor.cpp
         native-connector.cpp
         )
 
@@ -61,7 +66,7 @@ set(SL_HEADERS arms/sl-headers)
 include_directories( ${EUPHONY_HDR} ${SL_HEADERS} ${DEBUG_HELPER})
 
 add_library(euphony SHARED ${EUPHONY_SRC} ${DEBUG_HELPER_SRC})
-target_compile_definitions(euphony PUBLIC FIXED_POINT=16)
+target_compile_definitions(euphony PUBLIC)
 
 find_package(
         oboe REQUIRED CONFIG
