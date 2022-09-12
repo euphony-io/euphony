@@ -14,9 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class EuTxManager (
+class EuTxManager {
     private val txCore: EuNativeConnector = EuNativeConnector.getInstance()
-){
     private var audioTrack: AudioTrack? = null
     private var playerEngineType: PlayerEngine? = null
     var modeType: ModeType? = null
@@ -149,10 +148,11 @@ class EuTxManager (
     /*
 	 * @deprecated Replaced by {@link #play()}, deprecated for naming issue
 	 */
-    @Deprecated("", ReplaceWith(
-        "play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
-        "co.euphony.tx.EuTxManager.PlayerEngine"
-    )
+    @Deprecated(
+        "", ReplaceWith(
+            "play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
+            "co.euphony.tx.EuTxManager.PlayerEngine"
+        )
     )
     fun process() {
         play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE)
@@ -161,10 +161,11 @@ class EuTxManager (
     /*
 	 * @deprecated Replaced by {@link #play(int)}, deprecated for naming issue
 	 */
-    @Deprecated("", ReplaceWith(
-        "play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
-        "co.euphony.tx.EuTxManager.PlayerEngine"
-    )
+    @Deprecated(
+        "", ReplaceWith(
+            "play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
+            "co.euphony.tx.EuTxManager.PlayerEngine"
+        )
     )
     fun process(count: Int) {
         play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE)
