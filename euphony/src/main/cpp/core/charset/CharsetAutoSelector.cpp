@@ -13,13 +13,13 @@ using namespace Euphony;
 
 HexVector CharsetAutoSelector::select(std::string src) {
 
-    HexVector asciiCharset = ASCIICharset().encode(src);
-    HexVector defaultCharset = DefaultCharset().encode(src);
-    HexVector utf8Charset = UTF8Charset().encode(src);
-    HexVector utf16Charset = UTF16Charset().encode(src);
-    HexVector utf32Charset = UTF32Charset().encode(src);
+    HexVector asciiResult = ASCIICharset().encode(src);
+    HexVector defaultResult = DefaultCharset().encode(src);
+    HexVector utf8Result = UTF8Charset().encode(src);
+    HexVector utf16Result = UTF16Charset().encode(src);
+    HexVector utf32Result = UTF32Charset().encode(src);
 
-    HexVector results[] = {defaultCharset, asciiCharset, utf8Charset, utf16Charset, utf32Charset};
+    HexVector results[] = {asciiResult, defaultResult, utf8Result, utf16Result, utf32Result};
 
     std::sort(results, results+5, [](HexVector& left, HexVector& right) {
         return left.getSize() < right.getSize();
