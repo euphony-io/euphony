@@ -59,10 +59,12 @@ TEST_P(CharsetAutoSelectorTestFixture, SelectTest) {
     HexVector utf16Result = utf16Charset->encode(source);
     HexVector utf32Result = utf32Charset->encode(source);
 
-	HexVector results[] = {asciiResult, defaultResult, utf8Result, utf16Result, utf32Result};
+    HexVector results[] = {asciiResult, defaultResult, utf8Result, utf16Result, utf32Result};
 
-    std::sort(results, results+5);
-
+    std::sort(results, results+5, [](HexVector& left, HexVector& right) {
+        return left.getSize() < right.getSize();
+    });
+    
     HexVector actualResult = results[0];
 
     EXPECT_EQ(actualResult.toString(), expectedResult);

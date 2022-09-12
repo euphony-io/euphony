@@ -19,9 +19,11 @@ HexVector CharsetAutoSelector::select(std::string src) {
     HexVector utf16Charset = UTF16Charset().encode(src);
     HexVector utf32Charset = UTF32Charset().encode(src);
 
-	HexVector results[] = {defaultCharset, asciiCharset, utf8Charset, utf16Charset, utf32Charset};
+    HexVector results[] = {defaultCharset, asciiCharset, utf8Charset, utf16Charset, utf32Charset};
 
-    std::sort(results, results+5);
+    std::sort(results, results+5, [](HexVector& left, HexVector& right) {
+        return left.getSize() < right.getSize();
+    });
     
     return results[0];
 }
