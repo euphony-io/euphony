@@ -43,7 +43,7 @@ class EuTxManager {
         val res = txCore.tx_start()
         if (duration != EuPIDuration.LENGTH_FOREVER) {
             CoroutineScope(Dispatchers.IO).launch {
-                delay(if (duration == EuPIDuration.LENGTH_SHORT) 200 else 500.toLong())
+                delay(if (duration == EuPIDuration.LENGTH_SHORT) 200L else 500L)
                 stop()
             }
         }
@@ -82,18 +82,21 @@ class EuTxManager {
         val bufferSize = outStream.size * minBufferSizeBytes
         audioTrack = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             AudioTrack.Builder()
-                .apply {
-                    setAudioFormat(AudioFormat.Builder().apply {
-                        setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
-                        setSampleRate(Constants.SAMPLERATE)
-                        setEncoding(AudioFormat.ENCODING_PCM_FLOAT)
-                    }.build())
-                    setAudioAttributes(AudioAttributes.Builder().apply {
-                        setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    }.build())
-                    setBufferSizeInBytes(bufferSize)
-                    setTransferMode(AudioTrack.MODE_STATIC)
-                }.build()
+                .setAudioFormat(
+                    AudioFormat.Builder()
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+                        .setSampleRate(Constants.SAMPLERATE)
+                        .setEncoding(AudioFormat.ENCODING_PCM_FLOAT)
+                        .build()
+                )
+                .setAudioAttributes(
+                    AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build()
+                )
+                .setBufferSizeInBytes(bufferSize)
+                .setTransferMode(AudioTrack.MODE_STATIC)
+                .build()
         } else {
             AudioTrack(
                 AudioManager.STREAM_MUSIC,
