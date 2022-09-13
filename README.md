@@ -77,6 +77,7 @@ Web version is also available now. but only transmitter version.
 - [Wave-In (for store)](https://github.com/euphony-io/wave-in-listener) : COVID-19 Check-in solution for store using a safe number based on MVVM model.
 - [Account Touch](https://github.com/euphony-io/account-touch) : Euphony Demo for sharing account.
 - [Wave Show Card](https://github.com/euphony-io/wave-show-card) : Wave Show Card helps visually impaired people listen to the show card.
+- [Order-With](https://github.com/euphony-io/order-with) : Euphony Demo for taking / making order in restaurant in distance easily.
 
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
