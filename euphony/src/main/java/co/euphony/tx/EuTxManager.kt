@@ -110,7 +110,7 @@ class EuTxManager {
 
         /* A value of -1 means infinite looping, and 0 disables looping. */
         if (loopCount <= 0) loopCount = -1
-        val result = audioTrack!!.setLoopPoints(0, outStream.size, loopCount)
+        val result = audioTrack?.setLoopPoints(0, outStream.size, loopCount)
         if (result != AudioTrack.SUCCESS) {
             Log.i("PROCESS", "failed to loop points : $result")
         }
@@ -119,14 +119,14 @@ class EuTxManager {
                 it.write(outStream, 0, outStream.size, AudioTrack.WRITE_NON_BLOCKING)
                 it.play()
             } catch (e: IllegalStateException) {
-                Log.i("PROCESS", e.message!!)
+                Log.i("PROCESS", e.message ?: "")
             }
         }
     }
 
     fun stop() {
         if (modeType == ModeType.DEFAULT && playerEngineType == PlayerEngine.ANDROID_DEFAULT_ENGINE) {
-            if (audioTrack != null) audioTrack!!.pause()
+            audioTrack?.pause()
         } else {
             txCore.tx_stop()
         }
@@ -135,7 +135,11 @@ class EuTxManager {
     /*
 	 * @deprecated Replaced by {@link #setModeType(String)}, deprecated for naming & dynamic option.
 	 */
-    @Deprecated("", ReplaceWith("modeType = type"))
+    @Deprecated("", ReplaceWith(
+        "modeType = type",
+        "co.euphony.util.EuOption.ModeType"
+        )
+    )
     fun setMode(type: ModeType?) {
         modeType = type
     }
@@ -143,7 +147,12 @@ class EuTxManager {
     /*
 	 * @deprecated Replaced by {@link #setCode(String)}, deprecated for naming & dynamic option.
 	 */
-    @Deprecated("", ReplaceWith("code = data"))
+    @Deprecated("", ReplaceWith(
+        "code = data",
+        "co.euphony.common.EuNativeConnector"
+
+        )
+    )
     fun euInitTransmit(data: String?) {
         code = data
     }
