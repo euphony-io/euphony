@@ -19,7 +19,10 @@ import co.euphony.util.EuOption;
 
 public class RxEuPIFragment extends Fragment {
 
-    EuRxManager mRxManager = new EuRxManager(EuOption.ModeType.EUPI);
+    EuRxManager mRxManager = EuRxManager.getInstance();
+    EuOption mOption = EuOption.builder()
+            .modeWith(EuOption.ModeType.EUPI)
+            .build();
     Integer[] mFrequencies = new Integer[] {18500, 19000, 19500, 20000, 20500};
     HashMap<Integer, EuPIRxViewMaker> mEuPICounters = new HashMap<>();
 
@@ -49,6 +52,7 @@ public class RxEuPIFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mRxManager.setOption(mOption);
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_rx_eupi, container, false);
         LinearLayoutCompat linearLayout = v.findViewById(R.id.frequency_view_list);

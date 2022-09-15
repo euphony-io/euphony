@@ -44,26 +44,21 @@ public class EuRxManager {
 
 	private EuOption mOption;
 
-	public EuRxManager() {
-		mOption = EuOption.builder()
+	private static class InnerInstanceClazz{
+		private static final EuRxManager instance = new EuRxManager();
+	}
+
+	public static EuRxManager getInstance(){
+		return InnerInstanceClazz.instance;
+	}
+
+	private EuRxManager(){
+		this.mOption = EuOption.builder()
 				.modeWith(EuOption.ModeType.DEFAULT)
 				.encodingWith(EuOption.CodingType.BASE16)
 				.modulationWith(EuOption.ModulationType.FSK)
 				.build();
-	}
-
-	public EuRxManager(RxEngineType engineType) {
-		rxEngineType = engineType;
-		if(rxEngineType == RxEngineType.EUPHONY_NATIVE_ENGINE)
-			nativeCore = EuNativeConnector.getInstance();
-		else
-			nativeCore = null;
-	}
-
-	public EuRxManager(EuOption.ModeType mode) {
-		mOption = EuOption.builder()
-				.modeWith(mode)
-				.build();
+		Log.d(LOG, "EuRxManager creation was successful");
 	}
 
 	private boolean listenOnJava(long timeout, @Nullable EuTimeOutListener listener) {

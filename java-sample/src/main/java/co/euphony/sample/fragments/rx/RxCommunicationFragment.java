@@ -16,7 +16,7 @@ import co.euphony.sample.R;
 
 public class RxCommunicationFragment extends Fragment {
 
-    EuRxManager mRxManager = new EuRxManager();
+    EuRxManager mRxManager = EuRxManager.getInstance();
     private TextView listenView = null;
     private Button listenBtn = null;
 
