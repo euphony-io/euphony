@@ -1,4 +1,4 @@
-package euphony.lib.receiver;
+package co.euphony.receiver;
 
 import org.junit.Test;
 
