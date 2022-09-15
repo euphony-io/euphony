@@ -38,7 +38,7 @@ mTxManager.play(-1); // generate sound infinite.
 
 **Receiver**
 ```java
-EuRxManager mRxManager = new EuRxManager();
+EuRxManager mRxManager = EuRxManager.getInstance();
 mRxManager.setAcousticSensor(new AcousticSensor() {
 @Override
     public void notify(String letters) {

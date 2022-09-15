@@ -71,13 +71,13 @@ mTxManager.play(-1)
 - Java
 
 ```java
-EuRxManager mRxManager = new EuRxManager();
+EuRxManager mRxManager = EuRxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mRxManager = EuRxManager()
+val mRxManager = EuRxManager.getInstance()
 ```
 
 2. **음파를 받아오고 처리하는 Listener를 설정**
