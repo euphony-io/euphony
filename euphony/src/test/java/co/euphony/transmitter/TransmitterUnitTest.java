@@ -1,4 +1,4 @@
-package euphony.lib.transmitter;
+package co.euphony.transmitter;
 
 import org.junit.Ignore;
 import org.junit.Test;

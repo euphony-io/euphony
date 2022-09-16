@@ -1,4 +1,4 @@
-package euphony.lib.util
+package co.euphony.util
 
 import co.euphony.util.EuTimer
 import org.junit.After

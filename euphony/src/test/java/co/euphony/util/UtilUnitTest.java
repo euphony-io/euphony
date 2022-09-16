@@ -1,4 +1,4 @@
-package euphony.lib.util;
+package co.euphony.util;
 
 import org.junit.Test;
 
