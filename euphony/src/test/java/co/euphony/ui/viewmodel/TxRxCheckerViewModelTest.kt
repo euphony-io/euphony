@@ -1,4 +1,4 @@
-package euphony.lib.ui.viewmodel
+package co.euphony.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import co.euphony.rx.AcousticSensor
