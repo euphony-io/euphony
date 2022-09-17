@@ -34,7 +34,7 @@ public:
         ASSERT_NE(utf16Charset, nullptr);
 
         EXPECT_EQ(utf32Charset, nullptr);
-        utf32Charset = new UTF16Charset();
+        utf32Charset = new UTF32Charset();
         ASSERT_NE(utf32Charset, nullptr);
     }
 
