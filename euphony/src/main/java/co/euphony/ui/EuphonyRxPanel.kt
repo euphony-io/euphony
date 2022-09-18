@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +28,6 @@ fun EuphonyRxPanelImpl(
     val isListening by viewModel.isListening.collectAsState()
     val isListenStarted by viewModel.isListenStarted.collectAsState()
     val rxCode by viewModel.rxCode.collectAsState()
-    var result by rememberSaveable { mutableStateOf("") }
 
     val textBackgroundColor =
         if (!isListening && isListenStarted) {
