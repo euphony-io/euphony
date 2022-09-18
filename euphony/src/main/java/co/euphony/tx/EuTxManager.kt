@@ -136,7 +136,7 @@ class EuTxManager {
 	 * @deprecated Replaced by {@link #setModeType(String)}, deprecated for naming & dynamic option.
 	 */
     @Deprecated("", ReplaceWith(
-        "modeType = type",
+        "setModeType(type)",
         "co.euphony.util.EuOption.ModeType"
         )
     )
@@ -148,7 +148,7 @@ class EuTxManager {
 	 * @deprecated Replaced by {@link #setCode(String)}, deprecated for naming & dynamic option.
 	 */
     @Deprecated("", ReplaceWith(
-        "code = data",
+        "setCode(data)",
         "co.euphony.common.EuNativeConnector"
 
         )
