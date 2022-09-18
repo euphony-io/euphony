@@ -16,15 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import co.euphony.common.Constants.*
 import co.euphony.tx.EuTxManager
 import co.euphony.ui.theme.LightBlue
 import co.euphony.ui.theme.LightSkyBlue
 import co.euphony.ui.viewmodel.TxPanelViewModel
 import co.euphony.ui.viewmodel.TxPanelViewModelFactory
-
 
 @Composable
 fun EuphonyTxPanel(
@@ -75,10 +76,11 @@ fun EuphonyTxPanel(
                 viewModel.onBtnClick(textData)
             },
             modifier = Modifier
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .testTag(TAG_TX_BTN),
             shape = RoundedCornerShape(bottomEnd = 8.dp, topEnd = 8.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackgroundColor),
-            elevation = null
+            elevation = null,
         ) {
             Icon(
                 imageVector = if (btnStatus.value) {
@@ -86,7 +88,11 @@ fun EuphonyTxPanel(
                 } else {
                     Icons.Default.Send
                 },
-                contentDescription = "EuphonyTxPanel button",
+                contentDescription = if (btnStatus.value) {
+                    TAG_TX_ICON_STOP
+                } else {
+                    TAG_TX_ICON_START
+                },
                 tint = iconTintColor,
             )
         }
