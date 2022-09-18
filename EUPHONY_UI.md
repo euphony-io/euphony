@@ -34,7 +34,7 @@ Euphony provides basic UI components for easy use. These work based on Jetpack C
 Write text to transmit and click button to create sound waves.
 
 
-<img src='https://github.com/designe/euphony/raw/master/assets/eutxpanel_screenshot.png' />
+<img src='https://github.com/zion830/euphony/blob/master/assets/eutxpanel_screenshot.png?raw=true' />
 
 **Options**
 
