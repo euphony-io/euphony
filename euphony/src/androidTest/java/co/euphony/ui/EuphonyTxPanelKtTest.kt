@@ -36,7 +36,7 @@ class EuphonyTxPanelKtTest {
     }
 
     @Test
-    fun startSendText() {
+    fun startSendTextAndFinishSending() {
         composeTestRule.onNodeWithText("").performTextInput("Text")
         composeTestRule.onNodeWithTag(Constants.TAG_TX_BTN).performClick()
         composeTestRule.onNodeWithContentDescription(Constants.TAG_TX_ICON_STOP).assertExists()

@@ -35,6 +35,7 @@ fun EuphonyTxPanel(
     textFieldBackgroundColor: Color = LightSkyBlue,
     buttonBackgroundColor: Color = LightBlue,
     panelHeight: Dp = 54.dp,
+    cornerRadius: Dp = 8.dp,
     iconTintColor: Color = White
 ) {
     // TODO : EuTxManager() should be changed to use singleton pattern
@@ -57,7 +58,7 @@ fun EuphonyTxPanel(
             onValueChange = {
                 textData = it
             },
-            shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+            shape = RoundedCornerShape(topStart = cornerRadius, bottomStart = cornerRadius),
             colors = TextFieldDefaults.textFieldColors(
                 textColor = textColor,
                 backgroundColor = textFieldBackgroundColor,
@@ -78,7 +79,7 @@ fun EuphonyTxPanel(
             modifier = Modifier
                 .fillMaxHeight()
                 .testTag(TAG_TX_BTN),
-            shape = RoundedCornerShape(bottomEnd = 8.dp, topEnd = 8.dp),
+            shape = RoundedCornerShape(bottomEnd = cornerRadius, topEnd = cornerRadius),
             colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackgroundColor),
             elevation = null,
         ) {

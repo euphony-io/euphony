@@ -47,4 +47,5 @@ Write text to transmit and click button to create sound waves.
 |textFieldBackgroundColor|Color|Background color of the text field. Default color is LightSkyBlue.| 
 |buttonBackgroundColor|Color|Background color of the right side button. Default color is LightBlue.| 
 |panelHeight|Dp|Height of this component.| 
+|cornerRadius|Dp|Corner radius of this component.| 
 |iconTintColor|Color|Icon color of the right side button. Default color is White.|
