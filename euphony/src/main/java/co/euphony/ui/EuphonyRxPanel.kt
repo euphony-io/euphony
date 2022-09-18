@@ -44,7 +44,7 @@ fun EuphonyRxPanelImpl(
 
     val buttonText = when(isListening) {
         true -> Constants.PROGRESS_BUTTON
-        false -> Constants.PLAY_BUTTON
+        false -> Constants.LISTEN_BUTTON
     }
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -53,7 +53,7 @@ fun EuphonyRxPanelImpl(
     ) {
         Button(
             modifier = Modifier
-                .testTag(Constants.TAG_BUTTON)
+                .testTag(Constants.LISTEN_TAG_BUTTON)
                 .width(60.dp)
                 .height(48.dp)
             ,
@@ -73,7 +73,7 @@ fun EuphonyRxPanelImpl(
             enabled = false,
             backgroundColor = textBackgroundColor,
             modifier = Modifier
-                .testTag(Constants.TAG_INPUT)
+                .testTag(Constants.LISTEN_TAG_OUTPUT)
                 .width(230.dp)
                 .height(48.dp)
         )
