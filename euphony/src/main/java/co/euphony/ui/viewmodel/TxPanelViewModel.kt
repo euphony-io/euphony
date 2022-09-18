@@ -21,15 +21,17 @@ class TxPanelViewModel(
         }
     }
 
+    fun stop() {
+        txManager.stop()
+        if (_isProcessing.value) {
+            _isProcessing.value = false
+        }
+    }
+
     private fun start(data: String) {
         txManager.code = data
         txManager.play(-1)
         _isProcessing.value = true
-    }
-
-    private fun stop() {
-        txManager.stop()
-        _isProcessing.value = false
     }
 
     override fun onCleared() {
