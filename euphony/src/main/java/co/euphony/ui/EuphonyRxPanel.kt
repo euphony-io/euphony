@@ -40,7 +40,7 @@ fun EuphonyRxPanelImpl(
             LightSkyBlue
         }
 
-    val buttonText = when(isListening) {
+    val buttonText = when (isListening) {
         true -> Constants.LISTEN_PROGRESS_BUTTON
         false -> Constants.LISTEN_BUTTON
     }
@@ -53,8 +53,7 @@ fun EuphonyRxPanelImpl(
             modifier = Modifier
                 .testTag(Constants.LISTEN_TAG_BUTTON)
                 .width(60.dp)
-                .height(48.dp)
-            ,
+                .height(48.dp),
             shape = RoundedCornerShape(
                 topStart = 14.dp,
                 bottomStart = 14.dp
@@ -115,6 +114,6 @@ internal fun ResultField(
 
 @Preview(showBackground = true)
 @Composable
-fun EuphonyRxPanelPreview(){
+fun EuphonyRxPanelPreview() {
     EuphonyRxPanel()
 }
