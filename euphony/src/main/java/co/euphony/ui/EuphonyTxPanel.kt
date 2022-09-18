@@ -1,6 +1,9 @@
 package co.euphony.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.graphics.Color.Companion.White
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,21 +25,6 @@ import co.euphony.ui.theme.LightSkyBlue
 import co.euphony.ui.viewmodel.TxPanelViewModel
 import co.euphony.ui.viewmodel.TxPanelViewModelFactory
 
-/*
- * 커스텀 되는 설정 : 색상, 아이콘, radius
- */
-@Preview
-@Composable
-fun EuphonyTxPanelPreview() {
-    Column(
-        modifier = Modifier.padding(
-            vertical = 40.dp,
-            horizontal = 16.dp
-        )
-    ) {
-        EuphonyTxPanel("Hint Text")
-    }
-}
 
 @Composable
 fun EuphonyTxPanel(
