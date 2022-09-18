@@ -43,7 +43,7 @@ fun EuphonyRxPanelImpl(
         }
 
     val buttonText = when(isListening) {
-        true -> Constants.PROGRESS_BUTTON
+        true -> Constants.LISTEN_PROGRESS_BUTTON
         false -> Constants.LISTEN_BUTTON
     }
     Row(
@@ -68,8 +68,7 @@ fun EuphonyRxPanelImpl(
             Text(text = buttonText, color = Color.White)
         }
         ResultField(
-            text = result,
-            onTextChanged = { result = it },
+            text = rxCode,
             enabled = false,
             backgroundColor = textBackgroundColor,
             modifier = Modifier
@@ -85,7 +84,6 @@ internal fun ResultField(
     modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color = LightSkyBlue,
-    onTextChanged: (String) -> Unit,
     enabled: Boolean = true,
 ) {
     TextField(
@@ -101,19 +99,18 @@ internal fun ResultField(
             unfocusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             cursorColor = Color.Black,
-            textColor = Color.White,
-            disabledTextColor = Color.White,
+            textColor = Color.Black,
         ),
         placeholder = {
             Text(
-                color = Color.White,
+                color = Color.Black,
                 text = "Text will be displayed here",
                 style = Typography.body1
             )
         },
         enabled = enabled,
         value = text,
-        onValueChange = { onTextChanged(it) },
+        onValueChange = { (it) },
         singleLine = true
     )
 }
