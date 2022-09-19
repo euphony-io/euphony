@@ -22,7 +22,7 @@ fun EuphonyRxPanel() {
 }
 
 @Composable
-fun EuphonyRxPanelImpl(
+internal fun EuphonyRxPanelImpl(
     viewModel: EuphonyRxPanelViewModel
 ) {
     val isListening by viewModel.isListening.collectAsState()
