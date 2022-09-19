@@ -133,13 +133,9 @@ class EuTxManager {
     }
 
     /*
-	 * @deprecated Replaced by {@link #setModeType(String)}, deprecated for naming & dynamic option.
-	 */
-    @Deprecated("", ReplaceWith(
-        "setModeType(type)",
-        "co.euphony.util.EuOption.ModeType"
-        )
-    )
+     * @deprecated Replaced by {@link #setModeType(String)}, deprecated for naming.
+     */
+    @Deprecated("Use the `modeType` property")
     fun setMode(type: ModeType?) {
         modeType = type
     }
