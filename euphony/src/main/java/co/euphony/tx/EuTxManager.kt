@@ -161,15 +161,10 @@ class EuTxManager {
     }
 
     /*
-	 * @deprecated Replaced by {@link #play(int)}, deprecated for naming issue
-	 */
-    @Deprecated(
-        "", ReplaceWith(
-            "play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
-            "co.euphony.tx.EuTxManager.PlayerEngine"
-        )
-    )
+     * @deprecated Replaced by {@link #play(int)}, deprecated for naming issue
+     */
+    @Deprecated("Use play(count: int) function simply", ReplaceWith("play(count)"))
     fun process(count: Int) {
-        play(count, PlayerEngine.ANDROID_DEFAULT_ENGINE)
+        play(count)
     }
 }
