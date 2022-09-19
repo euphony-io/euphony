@@ -147,12 +147,7 @@ class EuTxManager {
     /*
 	 * @deprecated Replaced by {@link #setCode(String)}, deprecated for naming & dynamic option.
 	 */
-    @Deprecated("", ReplaceWith(
-        "setCode(data)",
-        "co.euphony.common.EuNativeConnector"
-
-        )
-    )
+    @Deprecated("Use the `code` property.")
     fun euInitTransmit(data: String?) {
         code = data
     }
