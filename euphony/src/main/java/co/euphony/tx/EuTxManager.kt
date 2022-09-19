@@ -153,16 +153,11 @@ class EuTxManager {
     }
 
     /*
-	 * @deprecated Replaced by {@link #play()}, deprecated for naming issue
-	 */
-    @Deprecated(
-        "", ReplaceWith(
-            "play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE)",
-            "co.euphony.tx.EuTxManager.PlayerEngine"
-        )
-    )
+     * @deprecated Replaced by {@link #play()}, deprecated for naming issue
+     */
+    @Deprecated("Use play() function instead", ReplaceWith("play()"))
     fun process() {
-        play(1, PlayerEngine.ANDROID_DEFAULT_ENGINE)
+        play()
     }
 
     /*
