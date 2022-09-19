@@ -74,13 +74,13 @@ mTxManager.play(-1)
 - Java
 
 ```java
-EuRxManager mRxManager = new EuRxManager();
+EuRxManager mRxManager = EuRxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mRxManager = EuRxManager()
+val mRxManager = EuRxManager.getInstance()
 ```
 
 2. **Listener settings that receive and process sound waves**

@@ -21,7 +21,7 @@ import co.euphony.ui.viewmodel.TxRxCheckerViewModel
 fun TxRxChecker(
     dataLength: Int = 5
 ) {
-    val viewModel = TxRxCheckerViewModel(EuTxManager(), EuRxManager())
+    val viewModel = TxRxCheckerViewModel(EuTxManager(), EuRxManager.getInstance())
     TxRxCheckerImpl(viewModel = viewModel, dataLength = dataLength)
 }
 
