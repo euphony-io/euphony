@@ -32,16 +32,16 @@ class EuphonyRxPanelTest {
     private lateinit var viewModel: EuphonyRxPanelViewModel
 
     private val isListening = MutableStateFlow(false)
-    private val isListenStarted = MutableStateFlow(false)
     private val rxCode = MutableStateFlow("")
+    private val limitTime = MutableStateFlow(10)
 
     @Before
     fun setup() {
         Mockito.`when`(viewModel.isListening).thenReturn(isListening)
-        Mockito.`when`(viewModel.isListenStarted).thenReturn(isListenStarted)
         Mockito.`when`(viewModel.rxCode).thenReturn(rxCode)
+        Mockito.`when`(viewModel.limitTime).thenReturn(limitTime)
 
-        composeTestRule.setContent {
+        composeTestRule.setContent {    
             EuphonyRxPanelImpl(viewModel = viewModel)
         }
     }
@@ -90,11 +90,12 @@ class EuphonyRxPanelTest {
     }
 
     private fun processEuphonyRxPanel() {
-        isListenStarted.value = true
+        limitTime.value = 10
         isListening.value = true
     }
 
     private fun doneEuphonyRxPanel() {
+        limitTime.value = 0
         isListening.value = false
     }
 

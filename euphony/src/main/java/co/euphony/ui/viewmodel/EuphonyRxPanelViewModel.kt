@@ -16,20 +16,17 @@ class EuphonyRxPanelViewModel(
     private val _isListening = MutableStateFlow(false)
     val isListening: StateFlow<Boolean> = _isListening
 
-    private val _isListenStarted = MutableStateFlow(false)
-    val isListenStarted: StateFlow<Boolean> = _isListenStarted
-
     private val _rxCode = MutableStateFlow("")
     val rxCode: StateFlow<String> = _rxCode
 
-    private var limitTime = 10
+    private val _limitTime = MutableStateFlow(10)
+    val limitTime: StateFlow<Int> = _limitTime
 
     fun start() {
         if (!_isListening.value) {
             _rxCode.value = ""
             _isListening.value = true
-            _isListenStarted.value = true
-
+            setLimitTime(10)
             listen()
 
             rxManager.acousticSensor = AcousticSensor {
@@ -42,9 +39,9 @@ class EuphonyRxPanelViewModel(
     private fun listen() {
         rxManager.listen()
         viewModelScope.launch {
-            while (limitTime > 0) {
+            while (_limitTime.value > 0) {
                 delay(1000)
-                limitTime--
+                _limitTime.value--
             }
             stop()
         }
@@ -55,6 +52,11 @@ class EuphonyRxPanelViewModel(
             _isListening.value = false
             rxManager.finish()
         }
+    }
+
+
+    private fun setLimitTime(time: Int) {
+        _limitTime.value = time
     }
 
     fun isSuccess(): Boolean {

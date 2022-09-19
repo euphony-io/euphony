@@ -26,11 +26,11 @@ internal fun EuphonyRxPanelImpl(
     viewModel: EuphonyRxPanelViewModel
 ) {
     val isListening by viewModel.isListening.collectAsState()
-    val isListenStarted by viewModel.isListenStarted.collectAsState()
     val rxCode by viewModel.rxCode.collectAsState()
+    val time by viewModel.limitTime.collectAsState()
 
     val textBackgroundColor =
-        if (!isListening && isListenStarted) {
+        if (!isListening && time <= 0) {
             if (viewModel.isSuccess()) {
                 LightGreen
             } else {
