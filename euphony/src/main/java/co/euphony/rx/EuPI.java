@@ -9,14 +9,16 @@ public class EuPI {
         KEY_DOWN, KEY_UP, KEY_PRESSED, KEY_NONE
     }
 
-    private int mKey;
-    private int mFreqIndex;
-    private double mThreshold;
-    private double mInputThreshold;
+    int mKey;
+    int mFreqIndex;
+    double mThreshold;
+    double mInputThreshold;
     EuPIStatus mTrigger;
     EuPIStatus mStatus;
     EuPICallDetector mAPICallback;
     boolean isActive = false;
+    int activeThreshold = 2;
+    int activeCount = 0;
 
     public EuPI(int key, EuPICallDetector callback) {
         mKey = key;
@@ -49,20 +51,20 @@ public class EuPI {
         final boolean compared = compareThreshold(ampDiff);
 
         if(!isActive && compared) {
-            setStatus(EuPIStatus.KEY_DOWN);
-            Log.d("TEST", "amp difference : " + ampDiff);
-            isActive = true;
+            if(isActivated())
+                setStatus(EuPIStatus.KEY_DOWN);
         } else if (isActive && compared) {
             setStatus(EuPIStatus.KEY_PRESSED);
             isActive = true;
-        } else if (isActive){
+        } else if (isActive && mStatus == EuPIStatus.KEY_PRESSED){
             setStatus(EuPIStatus.KEY_UP);
             isActive = false;
         } else {
             setStatus(EuPIStatus.KEY_NONE);
+            isActive = false;
         }
 
-        return getStatus();
+        return mStatus;
     }
 
     public int getKey() {
@@ -109,5 +111,15 @@ public class EuPI {
     private int calculateFreqIndex(int freq) {
         double freqRatio = ((float)freq) / (float) Constants.HALF_SAMPLERATE;
         return (int) Math.round((freqRatio * (float) (Constants.FFT_SIZE >> 1)));
+    }
+
+    private boolean isActivated() {
+        activeCount++;
+        if(activeCount > activeThreshold) {
+            isActive = true;
+            activeCount = 0;
+            return true;
+        } else
+            return false;
     }
 }
