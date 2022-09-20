@@ -27,6 +27,13 @@ public class Constants {
 	public static final String PLAY_BUTTON = "▶";
 	public static final String PROGRESS_BUTTON = "▷";
 
+	// EuphonyRxPanel Test Tags
+	public static final String LISTEN_TAG_BUTTON = "EuphonyRxPanelButton";
+	public static final String LISTEN_TAG_OUTPUT = "EuphonyRxPanelOutput";
+	public static final String LISTEN_BUTTON = "\uD83C\uDFA7";
+	public static final String LISTEN_PROGRESS_BUTTON = "\uD83D\uDCAC";
+
+
 	/*
 	 * it is working as java porting version of Euphony::Result at euphony/src/main/cpp/core/Definitions.h
 	 */
