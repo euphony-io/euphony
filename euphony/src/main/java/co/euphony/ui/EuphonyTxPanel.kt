@@ -37,8 +37,8 @@ fun EuphonyTxPanel(
     cornerRadius: Dp = 8.dp,
     iconTintColor: Color = White
 ) {
-    // TODO : EuTxManager() should be changed to use singleton pattern
-    val viewModel: TxPanelViewModel = viewModel(factory = TxPanelViewModelFactory(EuTxManager()))
+    val viewModel: TxPanelViewModel =
+        viewModel(factory = TxPanelViewModelFactory(EuTxManager.getInstance()))
 
     val btnStatus = viewModel.isProcessing.collectAsState()
     var textData by remember { mutableStateOf("") }
