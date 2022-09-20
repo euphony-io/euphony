@@ -29,6 +29,15 @@ class EuTxManager {
             txCore.code = data
         }
 
+    companion object {
+        @JvmStatic
+        fun getInstance() = Holder.INSTANCE
+    }
+
+    private object Holder {
+        val INSTANCE = EuTxManager()
+    }
+
     enum class EuPIDuration {
         LENGTH_SHORT, LENGTH_LONG, LENGTH_FOREVER
     }
