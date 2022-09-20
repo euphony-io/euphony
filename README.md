@@ -78,6 +78,7 @@ Web version is also available now. but only transmitter version.
 - [Account Touch](https://github.com/euphony-io/account-touch) : Euphony Demo for sharing account.
 - [Wave Show Card](https://github.com/euphony-io/wave-show-card) : Wave Show Card helps visually impaired people listen to the show card.
 - [Order-With](https://github.com/euphony-io/order-with) : Euphony Demo for taking / making order in restaurant in distance easily.
+- [Wave-Cam](https://github.com/euphony-io/wave-cam) : EuPI Demo to capture and switch camera in distance.
 
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.
