@@ -20,13 +20,13 @@ API는 Java로 작성되어 있기 때문에 사용자는 Java 또는 Kotlin과 
 - Java
 
 ```java
-EuTxManager mTxManager = new EuTxManager();
+EuTxManager mTxManager = EuTxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mTxManager = EuTxManager()
+val mTxManager = EuTxManager.getInstance()
 ```
 
 2. **setCode 메소드로 전송할 문장을 입력**
@@ -71,13 +71,13 @@ mTxManager.play(-1)
 - Java
 
 ```java
-EuRxManager mRxManager = new EuRxManager();
+EuRxManager mRxManager = EuRxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mRxManager = EuRxManager()
+val mRxManager = EuRxManager.getInstance()
 ```
 
 2. **음파를 받아오고 처리하는 Listener를 설정**

@@ -9,13 +9,13 @@ class EuRxManagerTest {
 
     @Test(expected = Test.None::class) /* no exception expected */
     fun withExceptionHandlingNoErrorOccurs() {
-        val rxManager = EuRxManager()
+        val rxManager = EuRxManager.getInstance()
         rxManager.listen()
     }
 
     @Test
     fun testListenWithTimeout() {
-        val rxManager = EuRxManager()
+        val rxManager = EuRxManager.getInstance()
         rxManager.listen(1000)
         assertEquals(EuRxManager.RxManagerStatus.RUNNING, rxManager.status)
 

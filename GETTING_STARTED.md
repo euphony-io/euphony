@@ -21,13 +21,13 @@ This consists of two parts.
 - Java
 
 ```java
-EuTxManager mTxManager = new EuTxManager();
+EuTxManager mTxManager = EuTxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mTxManager = EuTxManager()
+val mTxManager = EuTxManager.getInstance()
 ```
 
 2. **Use setCode method, enter the data you want to transmit.**
@@ -74,13 +74,13 @@ mTxManager.play(-1)
 - Java
 
 ```java
-EuRxManager mRxManager = new EuRxManager();
+EuRxManager mRxManager = EuRxManager.getInstance();
 ```
 
 - Kotlin
 
 ```kotlin
-val mRxManager = EuRxManager()
+val mRxManager = EuRxManager.getInstance()
 ```
 
 2. **Listener settings that receive and process sound waves**
