@@ -1,7 +1,6 @@
 package co.euphony.ui
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,7 +52,7 @@ fun EuphonyTxPanel(
         TextField(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight(),
+                .height(panelHeight),
             value = textData,
             onValueChange = {
                 textData = it
@@ -77,7 +76,7 @@ fun EuphonyTxPanel(
                 viewModel.onBtnClick(textData)
             },
             modifier = Modifier
-                .fillMaxHeight()
+                .height(panelHeight)
                 .testTag(TAG_TX_BTN),
             shape = RoundedCornerShape(bottomEnd = cornerRadius, topEnd = cornerRadius),
             colors = ButtonDefaults.buttonColors(backgroundColor = buttonBackgroundColor),
