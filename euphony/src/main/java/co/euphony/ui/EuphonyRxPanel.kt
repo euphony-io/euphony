@@ -17,7 +17,7 @@ import co.euphony.ui.viewmodel.EuphonyRxPanelViewModel
 
 @Composable
 fun EuphonyRxPanel() {
-    val viewModel = EuphonyRxPanelViewModel(EuRxManager())
+    val viewModel = EuphonyRxPanelViewModel(EuRxManager.getInstance())
     EuphonyRxPanelImpl(viewModel = viewModel)
 }
 
