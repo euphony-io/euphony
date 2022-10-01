@@ -15,7 +15,7 @@ Euphony provides a handiness library designed to communicate with other devices(
 1) build.gradle in app module
 ```gradle
 dependencies {
-    implementation 'co.euphony.lib:euphony:0.8.1.2'
+    implementation 'co.euphony.lib:euphony:0.8.2'
 }
 ```
 
