@@ -3,7 +3,7 @@ apply plugin: 'signing'
 
 def LIB_GROUP_ID = 'co.euphony.lib'
 def LIB_ARTIFACT_ID = 'euphony'
-def LIB_VERSION = '0.8.1.2'
+def LIB_VERSION = '0.8.2'
 
 task androidSourcesJar(type: Jar) {
     archiveClassifier.set('sources')
