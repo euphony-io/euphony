@@ -36,13 +36,13 @@ There are 3 ways adding euphony to your project.
 dependencies {
 	// other dependencies
 	// ...
-	implementation 'co.euphony.lib:euphony:0.8.1.2'
+	implementation 'co.euphony.lib:euphony:0.8.2'
 }
 ```
 
 ### 1.2 Import the aar/jar file directly
 
-1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.euphony.lib/euphony/0.8.1.2/aar) follow the link and download aar file.
+1. Download `euphony.aar` : [MavenCentral euphony artifact](https://search.maven.org/artifact/co.euphony.lib/euphony/0.8.2/aar) follow the link and download aar file.
 2. Put `euphony.aar` file in `libs` folder.
 
 <img width="392" alt="aar_002_auto_x2_colored_toned" src="https://user-images.githubusercontent.com/27720475/130187177-b97b55ef-158a-4975-b0f8-b9e8bfdc5886.png">
@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    implementation name: 'euphony-0.8.1.2', ext: 'aar'
+    implementation name: 'euphony-0.8.2', ext: 'aar'
 }
 
 ```
