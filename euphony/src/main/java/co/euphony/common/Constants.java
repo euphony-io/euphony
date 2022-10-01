@@ -14,12 +14,17 @@ public class Constants {
 	public static final int START_SIGNAL_FREQ = STANDARD_FREQ - CHANNEL_INTERVAL;
 
 	public static final int BUNDLE_INTERVAL = CHANNEL_INTERVAL * CHANNEL;
-	
+
 	// RX
 	public static final int MAX_REF = 4000;
 	public static final int MIN_REF = 50;
 
-	public static final int DEFAULT_REF = 500;	// BASE Reference value
+	public static final int DEFAULT_REF = 500;    // BASE Reference value
+
+	// EuphonyTxPanel Test Tags
+	public static final String TAG_TX_BTN = "EuphonyTxPanelButton";
+	public static final String TAG_TX_ICON_STOP = "EuphonyTxPanelIcon_Stop";
+	public static final String TAG_TX_ICON_START = "EuphonyTxPanelIcon_Start";
 
 	// TxRxChecker Test Tags
 	public static final String TAG_INPUT = "TxRxCheckerInput";

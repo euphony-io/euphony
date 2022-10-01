@@ -55,6 +55,7 @@ mRxManager.listen();  //Listening Start
 Below links are detail guides.
 - [Getting Started Guide](GETTING_STARTED.md)
 - [How To Build & Unit Test Guide](HOWTOBUILD.md)
+- [Euphony Ui](EUPHONY_UI.md)
 
 ## Architecture
 <p align='center'> <img src='https://github.com/euphony-io/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
