@@ -1,17 +1,12 @@
 package co.euphony.tx;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.SmallTest;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import java.util.Arrays;
-
 import co.euphony.util.EuOption;
-
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
@@ -36,7 +31,7 @@ public class EuTxManagerTest {
 
     @Before
     public void setup() {
-        txManager = new EuTxManager();
+        txManager = EuTxManager.getInstance();
     }
 
     @Test

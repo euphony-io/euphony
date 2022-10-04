@@ -48,7 +48,7 @@ public class TxCommunicationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTxManager = new EuTxManager();
+        mTxManager = EuTxManager.getInstance();
     }
 
     @Override

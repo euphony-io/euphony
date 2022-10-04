@@ -31,7 +31,7 @@ For more detailed prerequisite, please refer to the link below.
 
 **Transmitter**
 ```java
-EuTxManager mTxManager = new EuTxManager();
+EuTxManager mTxManager = EuTxManager.getInstance();
 mTxManager.setCode("Hello, Euphony"); // To generate acoustic data "Hello, Euphony"
 mTxManager.play(-1); // generate sound infinite.
 ```
@@ -55,6 +55,7 @@ mRxManager.listen();  //Listening Start
 Below links are detail guides.
 - [Getting Started Guide](GETTING_STARTED.md)
 - [How To Build & Unit Test Guide](HOWTOBUILD.md)
+- [Euphony Ui](EUPHONY_UI.md)
 
 ## Architecture
 <p align='center'> <img src='https://github.com/euphony-io/euphony/raw/master/assets/euphony_architecture.png' alt='euphony architecture'> </p>
@@ -78,6 +79,7 @@ Web version is also available now. but only transmitter version.
 - [Account Touch](https://github.com/euphony-io/account-touch) : Euphony Demo for sharing account.
 - [Wave Show Card](https://github.com/euphony-io/wave-show-card) : Wave Show Card helps visually impaired people listen to the show card.
 - [Order-With](https://github.com/euphony-io/order-with) : Euphony Demo for taking / making order in restaurant in distance easily.
+- [Wave-PDF] (https://github.com/euphony-io/wave-pdf) : EuPI Demo to show and control PDF file.
 
 ## Contributing
 Changes and improvements are more than welcome! Feel Free to fork and open a pull request. Please make your changes in a specific branch and request to pull into `master`.

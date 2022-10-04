@@ -27,7 +27,7 @@ public class TxEuPIFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        txManager = new EuTxManager();
+        txManager = EuTxManager.getInstance();
     }
 
     @Override
