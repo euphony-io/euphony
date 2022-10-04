@@ -11,6 +11,7 @@ class EuRxManagerTest {
     fun withExceptionHandlingNoErrorOccurs() {
         val rxManager = EuRxManager.getInstance()
         rxManager.listen()
+        rxManager.finish()
     }
 
     @Test
