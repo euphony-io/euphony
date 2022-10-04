@@ -4,39 +4,33 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.euphony.common.Constants.*
+import co.euphony.common.Constants
 import co.euphony.rx.EuRxManager
-import co.euphony.tx.EuTxManager
 import co.euphony.ui.theme.*
-import co.euphony.ui.viewmodel.TxRxCheckerViewModel
+import co.euphony.ui.viewmodel.EuphonyRxPanelViewModel
 
 @Composable
-fun TxRxChecker(
-    dataLength: Int = 5
-) {
-    val viewModel = TxRxCheckerViewModel(EuTxManager.getInstance(), EuRxManager.getInstance())
-    TxRxCheckerImpl(viewModel = viewModel, dataLength = dataLength)
+fun EuphonyRxPanel() {
+    val viewModel = EuphonyRxPanelViewModel(EuRxManager.getInstance())
+    EuphonyRxPanelImpl(viewModel = viewModel)
 }
 
 @Composable
-internal fun TxRxCheckerImpl(
-    viewModel: TxRxCheckerViewModel,
-    dataLength: Int = 5
+internal fun EuphonyRxPanelImpl(
+    viewModel: EuphonyRxPanelViewModel
 ) {
-    val isProcessing by viewModel.isProcessing.collectAsState()
-    val txCode by viewModel.txCode.collectAsState()
-    var textToSend by rememberSaveable { mutableStateOf("") }
-    val charset = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+    val isListening by viewModel.isListening.collectAsState()
+    val rxCode by viewModel.rxCode.collectAsState()
+    val time by viewModel.limitTime.collectAsState()
 
     val textBackgroundColor =
-        if (!isProcessing && txCode.isNotEmpty()) {
+        if (!isListening && time <= 0) {
             if (viewModel.isSuccess()) {
                 LightGreen
             } else {
@@ -46,59 +40,55 @@ internal fun TxRxCheckerImpl(
             LightSkyBlue
         }
 
-    val buttonText = when(isProcessing) {
-        true -> PROGRESS_BUTTON
-        false -> PLAY_BUTTON
+    val buttonText = when (isListening) {
+        true -> Constants.LISTEN_PROGRESS_BUTTON
+        false -> Constants.LISTEN_BUTTON
     }
-
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomTextField(
-            text = textToSend,
-            onTextChanged = { textToSend = it },
-            enabled = false,
-            backgroundColor = textBackgroundColor,
-            modifier = Modifier
-                .testTag(TAG_INPUT)
-                .width(230.dp)
-                .height(48.dp)
-        )
         Button(
             modifier = Modifier
-                .testTag(TAG_BUTTON)
+                .testTag(Constants.LISTEN_TAG_BUTTON)
                 .width(60.dp)
-                .height(48.dp)
-            ,
+                .height(48.dp),
             shape = RoundedCornerShape(
-                topEnd = 14.dp,
-                bottomEnd = 14.dp
+                topStart = 14.dp,
+                bottomStart = 14.dp
             ),
             colors = ButtonDefaults.buttonColors(backgroundColor = LightBlue),
             onClick = {
-                textToSend = (1..dataLength).map { charset.random() }.joinToString("")
-                viewModel.start(textToSend, 1)
+                viewModel.start()
             }) {
             Text(text = buttonText, color = Color.White)
         }
+        ResultField(
+            text = rxCode,
+            enabled = false,
+            backgroundColor = textBackgroundColor,
+            modifier = Modifier
+                .testTag(Constants.LISTEN_TAG_OUTPUT)
+                .width(230.dp)
+                .height(48.dp)
+        )
     }
 }
 
 @Composable
-internal fun CustomTextField(
+internal fun ResultField(
     modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color = LightSkyBlue,
-    onTextChanged: (String) -> Unit,
     enabled: Boolean = true,
 ) {
     TextField(
         modifier = modifier.testTag(backgroundColor.toString()),
+
         shape = RoundedCornerShape(
-            topStart = 14.dp,
-            bottomStart = 14.dp
+            topEnd = 14.dp,
+            bottomEnd = 14.dp
         ),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = backgroundColor,
@@ -107,24 +97,23 @@ internal fun CustomTextField(
             disabledIndicatorColor = Color.Transparent,
             cursorColor = Color.Black,
             textColor = Color.White,
-            disabledTextColor = Color.White,
         ),
         placeholder = {
             Text(
                 color = Color.White,
-                text = "Text will be randomly generated",
+                text = "Text will be displayed here",
                 style = Typography.body1
             )
         },
         enabled = enabled,
         value = text,
-        onValueChange = { onTextChanged(it) },
+        onValueChange = { (it) },
         singleLine = true
     )
 }
 
 @Preview(showBackground = true)
 @Composable
-fun TxRxCheckerPreview() {
-    TxRxChecker()
+fun EuphonyRxPanelPreview() {
+    EuphonyRxPanel()
 }
